@@ -4,6 +4,14 @@
 \usepackage{subcaption}
 \usepackage{dirtytalk}
 \usepackage{mathtools}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
 
 %\newcommand{\virgolette}[1]{``#1''}
 
@@ -201,6 +209,11 @@ One of the most popular atlas is Harvard Oxford atlas obtained by manually label
 
 
 \subsection{CPAC, preprocessing pipeline, atlases}
+% Talk about abide preprocessed 4 different pipelines and compare some rois between my data and abide preproc data.
+
+
+
+
 In our work, data were preprocessed using CPAC (Configurable Pipeline for the Analysis of Connectomes): a configurable, open source pipeline, based on Nipype platform.
 CPAC was run on a Docker container installed on a computer assembled with:
 \begin{itemize}
@@ -577,7 +590,7 @@ y^{ComBat}_{ijf}
 \subsection{Harmonization - results}
 
 %write about NYU_2, KUL_3 that only have asd data and result in NaN values replaced by original ones.
-
+% data do not present a clear age-trend  (and FIQ?)
 Harmonization procedure was tested on the whole dataset to have a visual representation of how features were modified once the harmonization was applied
 
 To test harmonization procedure and evaluate its performances in making sites' feature uniform, we used NeuroHArmonize package on 1494 patients coming from ABIDE I and ABIDE II of which 722 controls and 772 cases,
@@ -672,6 +685,37 @@ In this work, the label classifier branch ends with a sigmoid function wich retu
 An adversarial loss is also implemented, aimed to aviod that if, for instance, the domain classifier, correctly classify one input, the computed error would be low, and it would have a low contribution during the back propagation, and leaving the weights almost unmodified after the backpropagation, and therefore leaning towards that site.
 
 \section{Results of deep learning}
+
+In our work we employed a simple deep neural network architecture illustrated in figure .. with three hidden made up of 64, 64 and 32 nodes respectively activated by a ReLU function and each layer separated from the next by a Batch-Normalization and a 0.3-Dropout layer. After the 32-node layer we used a single output layer with a single node activated by a sigmoid function, for classification.
+As loss function we used binary crossentropy and the neural network's weights were optimized via Adam optimizer with a learning rate of $10^{-4}$ and model's performancies were assessed with a 10 or 5 k-fold Cross validation, collecting the mean and std deviation of the results for each fold.
+
+The other neural network employed was the site-adversarial neural network: following a similar structure as the DNN, it can be divided into three main components: the first feature extraction branch comprising the DNN up to the 32-node layer;
+from this point the network is splitted into two branches: one categorical classificator, along the lines of the DNN consists of the last outpput layer with a sigmoiod activation function, and the other branch, the site classifier consisting of a gradient reversal layer as the first layer followed by a layer with 16 nodes, and after a batch Batch-Normalization layer, the multi-output layer with N nodes, being N the total number of sites input data belong to.
+This final layer is activated by a softmax function, and the loss function employed for site classification is the categorical crossentropy implemented using a custom function to deal with a possible low crossentropy score when by chance the site classifier, categorize one or more input data's sitelabel correctly, which would have low impact on the whole branch classifier making the adversarial strategy useless.
+
+
+We mainly tried three different kind of analysis using this DNNs: 1) classification of raw (not harmonized) data, 2) classification on the whole harmonized dataset, creating the harmonization model on all control subjects and applying the model on all ASD subjects, and 3) classification with harmonization implemented inside a K-fold cross-validation, creating the model on controls and applying it to ASD, and 4) classification using the domain adversarial neural network.
+
+Following this procedure we implement a k-fold cross validation using stratifiedKFold provided by sklearn library. Data were splitted into a train and a test dataset, therefore using train data we computed the harmonization model only on control patients and then apply the model to asd patient and both Control and ASD Test data.
+This is the best way to mantain train and test data as much separated as possible and avoid data leakage between train and test.
+
+Analysis were carried out using different selection criterias and thresholds:
+The first classification attempt was using the whole dataset from ABIDE 1 and 2, consisting of only male patients aged between 5 and 40 years old, without any further constraint on eye status at scan.
+Results 1) 2) 3)
+
+The second analysis was performed under the same constraint as above, but with an additional condition on eye status choosing to select only patient who kept eyes open throughout the entire scan time.
+
+The following analysis were carried out with the same constraint of the first two, but separately on ABIDE 1 and ABIDE 2 dataset.
+
+A further analysys concerns the feature's dimensionality reduction, that is the reduction of features from the input dataset using PCA
+For each one of the analysis above, PCA was implemented to restrain the effect of overfitting.
+
+From the initial input data consisting of 5995 features, we tried different to classify using 20, 50, 100 and 200 principal components
+
+
+
+
+
 
 
 \section{Explainable AI (XAI) with SHAP}
