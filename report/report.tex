@@ -209,22 +209,33 @@ One of the most popular atlas is Harvard Oxford atlas obtained by manually label
 
 
 \subsection{CPAC, preprocessing pipeline, atlases}
-% Talk about abide preprocessed 4 different pipelines and compare some rois between my data and abide preproc data.
 
-
-
-
-In our work, data were preprocessed using CPAC (Configurable Pipeline for the Analysis of Connectomes): a configurable, open source pipeline, based on Nipype platform.
-CPAC was run on a Docker container installed on a computer assembled with:
+ABIDE I data are available in a preprocessed format, the Neuro Bureau Preprocessing Initiative took care of data preprocessing and shared its results making them publicly available.
+Four preprocessing software and aproaches were employed each from a different group and every one publicly available \footnote{http://preprocessed-connectomes-project.org/abide/cpac.html} for download.
+They consist of data from ABIDE I preprocessed by using
 \begin{itemize}
-\item 16-core Intel i7-5960X processor
-\item 64 Gb RAM
+\item Connectome Computation System (CCS)
+\item Configurable Pipeline for the Analysis of Connectomes (CPAC)
+\item Data Preprocess Assistant for Resting-State f-MRI (DPARSF)
+\item Neuroimaging Analysis Kit (NIAK)
 \end{itemize}
-This allowed us to run 3 patients in parallel, reserving 4 cores for each partecipant and up to 12 Gb memory to each patient, necessary to save intermediate-steps outputs.
+The preprocessing steps implemented by the different softwares are similar, they differ on their foundational software (Python, MATLAB..) the algorithm implementation and their parameters and preprossessing steps' order.
+
+But since only ABIDE I dataset is avaible preprocessed, we need to repeat the preprocessing procedures in order to obtain a dataset including both ABIDE I and II preprocessed with the same pipeline
+
+In our work, we choose to preprocess data using CPAC (Configurable Pipeline for the Analysis of Connectomes): a configurable, open source pipeline, based on Nipype platform.
+CPAC was run on a Docker container installed on a computer and our hardware and software setup consisted on:
+\begin{itemize}
+\item 16-core Intel i7-5960X processor and 64 Gb RAM
+\item Ubuntu 20.04 operating System
+\item CPAC 1.8.1 installed on Docker v. ???
+\end{itemize}
+
+We were allowed to run 3 patients in parallel, reserving 4 cores for each partecipant and up to 12 Gb memory to each patient, necessary to save intermediate-steps outputs.
 
 We choose to employ CPAC because, basing on machine learning classification results, \cite{Yang2020} CPAC prove to be the most efficient preprocessing pipeline to preprocess ABIDE dataset.
 CPAC employs tools like AFNI, FSL and ANTS to perform image correction of structural MRI and rs f-MRI.
-Data were preprocessed following the same steps as the pipeline employed to create the free-access dataset ABIDE-preprocessed.
+Data were preprocessed following the same steps as the pipeline employed to create the ABIDE-preprocessed dataset.
 This pipeline includes both antomical and functional preprocessing.
 Anatomical pipeline speps consist in:
 \begin{itemize}
@@ -247,7 +258,6 @@ The Harvard-Oxford atlas consists of a subcortical and a cortical atlas, with a 
 The HO atlas employed by CPAC is provided by FSL library \footnote{https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/}, and as includes both subcortical and cortical atlases, even though there's only 111 ROIs, namely 14 subcortical and 97 corticals.
 The lacking ROI in the subcortical areas are L/R cerebral white matter, L/R cerebral cortex, L/R lateral ventricle and the brain stem \footnote{Subcortical ROIs https://neurovault.org/images/1700/ \quad Cortical ROIs https://neurovault.org/images/1705/ }.
 In this unified HO atlas (subcortical and cortical) the entire cerebral cortex area was removed because it's replaced by the finer parcellization of the cortical areas from the cortical atlas.
-
 The extra cortical ROI in this H-O atlas is present in the 83th position and it's named 3455; but there are no information abut this ROI neither on Harvard-Oxford documentation nor on CPAC's/FSL's documentation, and because it's only made of 2 voxels it was excluded for our further analysis.
 
 \begin{figure}[h]
@@ -256,6 +266,26 @@ The extra cortical ROI in this H-O atlas is present in the 83th position and it'
 \caption{Harvard-Oxford subcortical and cortical atlas}
 \label{fig:hoatlas}
 \end{figure}
+
+
+As it's possible to notice from figure \ref{fig:confrontoabidepreproc} timeseries extracted after our preprocessing pipeline do not exactly match those from ABIDE preprocessed, this is most likely due to two main reasons: the differeces in software version, and the lacking of a detailed step-by-step pipeline legend showing the value of all the sub parameters employed during the CPAC analysis pipeline.
+Abide preproccessed data were obtained using one of the first version of CPAC; nowadays, after more than 7 years, CPAC and the libraries it relies on were upgraded several times and this may have slightly affected the final outcome of the process.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.4\textwidth]{abide/timeseries51456.png}
+\caption{Comparison of 4 timeseries between ABIDE-preprocessed and our timeseries. Data show 4 randomly chosen ROIs: ROI 0, 6, 50, 108, belonging to patient 51456 from ABIDE I.
+It appears clear that the trend is the same, but there are some local differencies between the two plots due to differencies in }
+\label{fig:confrontoabidepreproc}
+\end{figure}
+
+
+
+
+
+
+
+
 
 
 
@@ -307,24 +337,48 @@ At the end of this analysis, we obtain correlation matrices like that showed as 
 A different aproach to compute a correlation coefficient is by making use of wavelet analysis.
 Wavelet is a mathematical tool for analyzing time series or images, and provides a comprehensive way for investigating the bivariate relationship between timeseries both in time (or space) and frequency domain.
 %A second type of correlation analysis was performed on timeseries by using wavelet analysis.
-To understand wavelet transformation it could be helpful to compare them with Fourier transform analysis.
-
-The FT is a mathematical transform that takes a function from time or space domain into spatial or temporal frequency domain. It's a complex function that works decomposing the function f(x) into series (ideally infinite sums) of sines and cosine of different frequencies, which are multiples (harmonics) of the fundamental frequency of the initial function.
-The discrete fourier transform, acts on a function defined on a finite domain returning a sequence of samples of the discrete fourier transform sampled at an interval equals to the reciprocal of the duration of the input sequence.
+To understand wavelet transformation it could be helpful to compare it with Fourier analysis.
+Fourier analysis allows us to expand a periodic function f(t) into series, ideally infinite sums of weighted sines and cosine with different frequencies
 \begin{equation}
-F(\omega) = \int\limits_{-\infty}^{+\infty} f(t)e^{-i \omega t} dx \longrightarrow F(k) = \sum_{n = 0}^{N-1}x_n e^{\frac{-2\pi i k n}{N}}
+f(t) = a_0 + \sum_{k = 1}^\infty (a_k cos(2\pi k t/T) + b_k sin (2\pi k t /T))
 \end{equation}
-where N in the total length of the timeseries.
+terms corresponding to the k-th frequency are called harmonics and are multiples of the fundamental frequency with k = 1.
 
-One of the main drawback of FT is the lacking of space information.
-Wavelet analysis provides for this lacking computing both frequency and spatial information from a signal.
+The Fourier Transform is a natural extension of the Fourier series to aperiodic functions defined over the real axis, which doesn't allow a discrete superposition of sines and cosines terms, but it needs to be represented by a continue superposition.
+The FT transform takes a function from time or space domain and turn it into spatial or temporal frequency domain.
+It's a complex function because sines and cosines terms can be represented by a complex exponential.
+\begin{equation}
+\tilde{F}(\omega) = \int\limits_{-\infty}^{+\infty} f(t)e^{-i \omega t} dx \longrightarrow F(k) = \sum_{n = 0}^{N-1}x_n e^{\frac{-2\pi i k n}{N}}
+\end{equation}
+To deal with discrete signal, for example a sequence $x_n$ obtained from a discrete sampling of the continuous signal x(t), it's possible to make use of the Discrete Time Fourier Transform, wich allows us to write the $\tilde F(\omega) = $
 
+On the other hand, the Discrete Fourier Transform, is useful to analyze discrete periodic signal, it acts on a function defined on a finite domain returning a sequence of samples of the discrete fourier transform sampled at an interval equals to the reciprocal of the duration of the input sequence.
+
+\begin{equation}
+\tilde{x_k} = \sum_{n=0}^{N-1} x_n \cdot e^{i 2\pi kn/N}
+\end{equation}
+where N in the total length of the timeseries an corresponds to the period of $x_n$ as well; the frequencies at which samplings are computed are $\omega_k = 2\pi k/N$
+
+One of the main drawback of FT though, is the lacking of spatial information, for example for a non stationary signal, it's possible that the signal contains a variable frequency component.
+
+A time-frequency analysis provides for this lacking computing both frequency and spatial information from a signal, allowing us to analyse non stationary signals and obtain informations both on time (or space) and frequency domain which provides information about frequencies and their spatial location by convolving the signal x(t) with a function w(t) called windowing function usually centered at zero which rapidly decays symmetrically.
+\begin{equation}
+\tilde{x}(F, T) = \int_-\infty ^\infty x(t)w(t-T) exp(-2\pi i F t) dt
+\end{equation}
+The most used functions w(t) are
+\begin{enumerate}
+\item Windowed Fourier Transform: $\psi_{ab}(x) = e^{ix/a}\phi(x-b)$
+\item wavelet transform: $\psi_{a, b}\left(t\right) = \frac{1}{\sqrt{a}}\left(\frac{t-b}{a}\right)$
+\end{enumerate}
+
+where a is a positive real number and defines the scale, while b is any real number and defines the shift parameters: it specifies the location of the wavelet in space or time.
 
 A wavelet, literally \textquotedblleft small wave \textquotedblright is a wave function limited both in space and period: begins at zero, grows and decrease in a limited time period and returns to zero. So that it's a function local in both the temporal and frequency domain.
-A wavelet is required to satisfy two properties: to have zero mean and unitary squared norm.
+
+To be defined as so, a wavelet is required to satisfy two properties: to have zero mean (it must be oscillating) and unitary squared norm.
 
 \begin{equation}\label{eq:waveletproperties}
-zero \& mean
+\int_-\infty^\infty\psi(x)dx = 0 \qquad \qquad  \int_-\infty^\infty |\psi(x)|^2 dx = 1
 \end{equation}
 
 It is defined over the space $L^2$ of Lebesgue measurable functions that are both absolutely integrable and square integrable. In this space the two properties can be satisfied. A wavelet transform is then formally a mapping from $L^2(\Re) \rightarrow L^2(\Re^2)$.
@@ -338,7 +392,8 @@ One of the most convenient for our analysis is the Morlet wavelet given by eq \r
 \psi\left(t\right) = e^{iw_0 t}e^{-t^2/2}
 \end{equation}
 
-(Inserire immagini ? )
+\includegraphics[width=.4\linewidth]{wavelet/morletwavelet}
+
 
 Two main type of analysis can be performed using wavelets: continuous wavelet transform (CWT) and discrete wavelet transform (DWT)
 
@@ -710,7 +765,12 @@ The following analysis were carried out with the same constraint of the first tw
 A further analysys concerns the feature's dimensionality reduction, that is the reduction of features from the input dataset using PCA
 For each one of the analysis above, PCA was implemented to restrain the effect of overfitting.
 
-From the initial input data consisting of 5995 features, we tried different to classify using 20, 50, 100 and 200 principal components
+From the initial input data consisting of 5995 features, we tried to classify using 20, 50, 100 and 200 principal components
+
+\subsection{results with pearson coefficients}
+
+\subsection{Results with Wavelet coefficients}
+
 
 
 
