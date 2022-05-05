@@ -1,10 +1,23 @@
 \documentclass[a4paper,11pt]{article}
 \usepackage[vmargin=1.5cm, hmargin=1.5cm]{geometry}
 \usepackage{graphicx}
+\usepackage{wrapfig}
 \usepackage{subcaption}
 \usepackage{dirtytalk}
 \usepackage{mathtools}
 \usepackage{hyperref}
+
+\usepackage{booktabs}
+\usepackage{makecell}
+
+% Packager for Spread-LaTeX
+\usepackage{booktabs, multirow} % for borders and merged ranges
+\usepackage{soul}% for underlines
+%\usepackage[table]{xcolor} % for cell colors
+\usepackage{changepage,threeparttable} % for wide tables
+
+
+
 \hypersetup{
     colorlinks,
     citecolor=black,
@@ -363,22 +376,22 @@ One of the main drawback of FT though, is the lacking of spatial information, fo
 
 A time-frequency analysis provides for this lacking computing both frequency and spatial information from a signal, allowing us to analyse non stationary signals and obtain informations both on time (or space) and frequency domain which provides information about frequencies and their spatial location by convolving the signal x(t) with a function w(t) called windowing function usually centered at zero which rapidly decays symmetrically.
 \begin{equation}
-\tilde{x}(F, T) = \int_-\infty ^\infty x(t)w(t-T) exp(-2\pi i F t) dt
+\tilde{x}(F, T) = \int_{-\infty}^{\infty} x(t)w(t-T) e^{-2\pi i F t} dt
 \end{equation}
 The most used functions w(t) are
 \begin{enumerate}
-\item Windowed Fourier Transform: $\psi_{ab}(x) = e^{ix/a}\phi(x-b)$
-\item wavelet transform: $\psi_{a, b}\left(t\right) = \frac{1}{\sqrt{a}}\left(\frac{t-b}{a}\right)$
+\item Windowed Fourier Transform: $\psi_{ab}(x) = e^{ix/a}\phi(x-b)$ where $\phi(x)$ is a window function
+\item wavelet transform: $\psi_{a, b}\left(t\right) = \frac{1}{\sqrt{a}}\left(\frac{t-b}{a}\right)$ where a is a positive real number and defines the scale, while b is any real number and defines the shift parameters: it specifies the location of the wavelet in space or time.
 \end{enumerate}
 
-where a is a positive real number and defines the scale, while b is any real number and defines the shift parameters: it specifies the location of the wavelet in space or time.
+
 
 A wavelet, literally \textquotedblleft small wave \textquotedblright is a wave function limited both in space and period: begins at zero, grows and decrease in a limited time period and returns to zero. So that it's a function local in both the temporal and frequency domain.
 
-To be defined as so, a wavelet is required to satisfy two properties: to have zero mean (it must be oscillating) and unitary squared norm.
+To be defined as so, a wavelet is required to satisfy two properties: to have zero mean (it must be oscillating) and unitary squared norm \cite{percival2013}.
 
 \begin{equation}\label{eq:waveletproperties}
-\int_-\infty^\infty\psi(x)dx = 0 \qquad \qquad  \int_-\infty^\infty |\psi(x)|^2 dx = 1
+\int_{-\infty}^{\infty}\psi(x)dx = 0 \qquad \qquad  \int_{-\infty}^{\infty} |\psi(x)|^2 dx = 1
 \end{equation}
 
 It is defined over the space $L^2$ of Lebesgue measurable functions that are both absolutely integrable and square integrable. In this space the two properties can be satisfied. A wavelet transform is then formally a mapping from $L^2(\Re) \rightarrow L^2(\Re^2)$.
@@ -386,45 +399,39 @@ It is defined over the space $L^2$ of Lebesgue measurable functions that are bot
 
 
 There are different wavelets that satisfy properties \ref{eq:waveletproperties}, such as Morlet, Meyer or Mexican hat.
-
+%Figures?
 One of the most convenient for our analysis is the Morlet wavelet given by eq \ref{eq:morletwavelet}
 \begin{equation}\label{eq:morletwavelet}
-\psi\left(t\right) = e^{iw_0 t}e^{-t^2/2}
+\psi\left(t\right) = \pi^{-1/4}e^{iw_0 t}e^{-t^2/2}
 \end{equation}
 
 \includegraphics[width=.4\linewidth]{wavelet/morletwavelet}
 
 
-Two main type of analysis can be performed using wavelets: continuous wavelet transform (CWT) and discrete wavelet transform (DWT)
+Two main type of analysis can be performed using wavelets: continuous wavelet transform (CWT) and discrete wavelet transform (DWT) and the CWT is what we employed for our analysis.
 
-Continuous wavelet transform decomposes a time series in time-frequency domain by successively convolving the timeseries with several scaled and translated version of a mother wavelets $\psi_{a, b}\left(t\right)$
+Continuous wavelet transform decomposes a time series in time-frequency domain by successively convolving the timeseries with several scaled and translated version of the mother wavelets $\psi_{a, b}\left(t\right) = \frac{1}{\sqrt{a}}\left(\frac{t-b}{a}\right)$.
+If the timeseries is described by a function f, assumed to be real, in the equation below, the convolution of f and $\psi_{a, b}\left(t\right)$ is
 
-\begin{equation}
-\psi_{a, b}\left(t\right) = \frac{1}{\sqrt{a}}\left(\frac{t-b}{a}\right)
-\end{equation}
-where a is a positive real number and defines the scale, while b is any real number and defines the shift parameters: it specifies the location of the wavelet in space or time.
-
-So the CWT given by the convolution of $\psi_{a, b}\left(t\right)$  with the function f (assumed to be real in the equation below) is
 \begin{equation}
 W_{a,b}(f) = \int_{-\infty}^{+\infty}  f(t) \cdot \psi_{a, b}^\ast \left(t\right)   dt
 \end{equation}
 
-It can be useful to visualize this as: given a and b, a wavelet is slided across the signal and for each step a coefficient is extracted by multiplying the wavelet and the signal, and this operation is repeated for different values of a and b.
+It can be useful to visualize this as: given a and b, a wavelet is slided across the signal and for each time step a coefficient is extracted by multiplying the wavelet and the signal, and this operation is repeated for different values of a and b.
 
-To computationally implement CWT, a discretized version was implemented on MATLAB tools Wavelet toolbox.
+To computationally implement CWT, a discretized version was implemented on MATLAB tools Wavelet toolbox, but it does not be confused with the Discrete wavelet transform \footnote{https://it.mathworks.com/help/wavelet/gs/continuous-and-discrete-wavelet-transforms.html}
 
 The difference between the continuous wavelet transform implemented on MATLAB and discrete wavelet transform lies in how finely stretching and shifting parameters are sampled: the CWT discretizes scale more finely than the discrete wavelet transform.
 
-In the CWT, parameters are discretised based on a fractional power of two, by setting a = $2^{1/\nu}$ and $b = \tau 2^{1/\nu}$ where $\nu$ and $\tau$ are integers. The v parameter is often referred to as the number of “voices per octave” because increasing the scale by an octave (a doubling) requires $\nu$ intermediate steps, for example from $2^{\nu/\nu} \ to \ 2^{2\nu/\nu}$ , $\nu$ steps are required.
+In the CWT, parameters are discretised based on a fractional power of two, by setting a = $2^{j/\nu}$ \cite{liu-wavelet} \cite{tenlectuerswavelets} where $\nu$, j are integers. $\nu$ is often referred to as the number of “voices per octave” because increasing the scale by an octave (namely to double the frequency) requires $\nu$ intermediate steps, for example from $f = f_0 2^{\nu/\nu} \ to \ f = f_0 2^{2\nu/\nu}$ , $\nu$ steps are required.
 The larger the value of v, the finer the discretization of the scale parameter.
-In the DWT, the scale parameter is always discretized to integer powers of 2, 2j, j=1,2,3,..., so that the number of voices per octave is always 1
+In the DWT, the scale parameter is always discretized to integer powers of 2, $2^j$, j=1,2,3,..., so that the number of voices per octave is always 1
 
 
 Using CWT it's possible to obtain singal's information on a matrix: a time-frequency plot also called scalogram by convolving the signal, using different wavelets parameters a and b from a grid.
 
-
-One problem that arise from working with a signal with a finite support, is that when a wavelet is located at the beginning of at the end of a signal it extends itself outside the boundary of our data, and the convolution requires nonexistent values beyond the boundary. The confidence value obtained is then less accurate than other obtained for central values of time/space location.
-To overcome this problem it would be possible to accept this data information loss and truncate the values beyond boundaries; while an other aproach could be artificially extend data using methods such as zero paddind which assumes that the signal is zero outside its original support, or symmetrization which extend the signal symmetrically outside the boundaries or smooth padding which recovers a signal by extrapolating values from the first derivative values or from the signal itself.
+One problem that arise from working on a timeseries which is a signal with a finite support, is that when a wavelet is located at the beginning of at the end of a signal it extends itself outside the boundary of our data, and the convolution requires nonexistent values beyond the boundary. The confidence value obtained is then less accurate than other obtained for central values of time/space location.
+To overcome this problem it would be possible to accept this data information loss and truncate the values beyond boundaries; while an other aproach could be artificially extend data using methods such as zero padding which assumes that the signal is zero outside its original support, or symmetrization which extend the signal symmetrically outside the boundaries or smooth padding which recovers a signal by extrapolating values from the first derivative values or from the signal itself.
 Symmetrization method is the one employed for the subsequent analysis.
 Areas of the scalogram affected by these edge effects are indicated as outside the Cone of influence (COI).
 
@@ -456,7 +463,7 @@ Values outside the COI (showed as a dotted white line) are shown with a lighter 
 Continuous wavelet transform can only be used to analyze one signal at a time; to analize and compare two signals an analysis called wavelet coherence has to be carried on.
 From two CWTs it's possible to compute the Cross Wavelet Transform (XWT) which allow us to examine their cross-wavelet power and relative phases.
 
-Using XWT it's possible to compute the Wavelet Coherence.
+Using XWT is then possible to compute the Wavelet Coherence.
 
 Denoting as $W^{X}(a, b)$ the continuous wavelet transform of a signal X, it's defined the \emph{wavelet power spectrum} of a signal X(n) as $W^{XX}(a, b) = W^X(a, b) \left(W^X(a, b)\right)^{\ast}$ where the $^{\ast}$ represent the conjugate transpose.
 Similarly, the cross-wavelet spectrum of two time series X(n) and Y(n) is defined as $W^{XY}(a, b) = W^X(a, b)W^Y(a, b)$ whose module $|W^{XY}(a, b)|$ represents the amount of joint power between the two time series, and it's called \emph{cross wavelet power}
@@ -512,30 +519,124 @@ The correlation coefficients matrix for each subject, were then flattened and us
 
 
 
-\section{ANN, deep learning}
+\section{Machine learning}
+%Machine learning introduction
+Machine learning is a branch of Artificial Intelligence (AI) that aims to learn from dataand gradually improve its accuracy.
+Algorithms are trained to make classifications or predictions and the bigger is the dataset to train the algorithm, the better accuracy and generalization can be achieved.
+
 Machine leraning algorithms can be divided into two macro areas: supervised and unsupervised learning.
 From a dataset, containing features, an unsupervised algorithm's goal is trying to learn the principal properties from the dataset's structure attempting to learn the probability distribution of all the features in it.
 On the other hand, in supervised learning each input data is associated with a label, specifying the class that data belongs to, so the algorithm is to learn the common features for each class trying to predict the label given the corresponding input.
-A perceptron is the simplest model of a neural network, corresponging to a single neuron which given an n-dimensional input $\textbf{x} = \left\{ x_1, x_2, ..., x_n\right\}$ gives an m-dimensional output $\textbf{y} = \left\{ y_1, y_2, ..., y_m\right\} = \sum w_{ij} x_j$
-The output is given by a function called \emph{activation function}.
-A deep neural network is a hyerarchical organization of neurons layer, connected with other neutrons.
-The input data are passed to the first input layer where each neutron produces an output using the activation function, which will be the input to the next neutron layer and so on. These middle layers are called \emph{hidden layer} and each neuron ov every layer is linked to each neuron of the previous and next layer -insert figure?-.
-each connection between two neurons is weighted, these weights are randomly set at the initial set up of the network.
-The output of each neuron i will therefore be $z_i = \sum w_{ij}x_i + b_i$ .
+
+A sub-branch of Machine Learning is Deep Learning, the main difference lies on the algorithms' structure and the learning techniques, as an instance, traditional machine learning methods consist on algorithms like Random Forest, Support Vector Machines (SVM), K-nearest neighbor (KNN) and several more models, while deep learning models include Artificial neural networks (ANN), Convolutional neural networks (CNN) and more.
+
+\subsection{Random forest}
+Random Forest classifier belongs to the category of \emph{ensemble} classifiers, it combines multiple decision tree models to create a more poverful model, so to understand a random forest we need to start understanding how a Decision Tree classifier works.
+
+A decision tree aims to learn distictive traits from input data by asking yes/no questions. Focusing on the valus of a single input feature, the classifier splits the dataset based on the value of that feature according to an if/else statement like \textquotedblleft if feature-i > a \textquotedblright.
+Considering different features, the process is then recursively repeated untill a single data point (and then a single class) is left on a so called \textquotedblleft leaf \textquotedblright.
+\begin{enumerate}
+\item Randomly select n features
+\item Split the node using the feature that provides the best split
+\end{enumerate}
+An example of a decision tree dealing with flower classification is showed in figure \ref{fig:decisiontree}
+\begin{figure}
+\centering
+\includegraphics[width=0.8\textwidth]{ml/decisiontree_example.png}
+\caption{}
+\label{fig:decisiontree}
+\end{figure}
+
+
+Usually though, continue this iterative process untill it reaches a leaf, brings to the creation of a very complex model that overfits the training data, that is, the model accurately learned the training dataset but is not able to generalize well to a test dataset.
+To prevent overfitting, one possible strategy is to early stop the iteration towards the leaf, and leave a node with more than one class.
+An other strategy, which leads to the construction of a Random Forest, is the creation of a stronger model, more prone to generalize data without overfitting.
+A Random Forest is a collection of decision trees where each tree is slightly different from the others, each tree tends to overfit, but it does so in a in a different way, so that we can reduce overfitting by averaging different results.
+So the necessary steps to build a random forest are
+
+\begin{enumerate}
+\item Randomly select n samples from the input dataset
+\item Grow a decision tree from this sample
+\item Putting all the predictions together it's possible to assign a class label by majority vote.
+\end{enumerate}
+
+This steps are implemented in the Python's package Scikit-Learn
+
+
+
+\subsection{Deep Learning: ANN}
+Deep learning is a subset of machine learning whose algorithm try to emulate the learning process of the human brain.
+This kind of algorithms are called Artificial Neural Networks (ANN) and, such as a neuronal structure, they are made of several neurons organized into layers; each layer containsa certain amount of neurons each one linked to each others.
+
+\begin{wrapfigure}{r}{0.4\textwidth}
+\centering
+\includegraphics[width=1\linewidth]{ml/perceptron_example}
+\caption{Perceptron}
+\label{fig:perceptron}
+\end{wrapfigure}
+
+The simplest model of a neural network is the \emph{perceptron} showed in figure , corresponging to a single neuron which takes as input a data, for example an n-dimensional array $\textbf{x} = \left\{ x_1, x_2, ..., x_n\right\}$ and returns an output: a real number computed by applying a function to a linear combination of all the inputs $ y = f(z) = f \left ( \sum_i w_{i} x_i + b \right )$
+This function that determines the outpu is called \emph{activation function}.
+
+
+
+\begin{wrapfigure}{r}{0.4\textwidth}
+\centering
+\includegraphics[width=1\linewidth]{ml/ann_example}
+\caption{Artificial Neural Network}
+\label{fig:ann}
+\end{wrapfigure}
+
+
+A deep neural network is a hyerarchical organization of neurons into layer, connected to each other.
+Input data are passed to the first input layer where each neutron acting like a perceptron, produces an output using the activation function which is the same for every neurons of the layer, but can differ from the activation function of other layers.
+Once collected each and every output from all the first layer neutrons, they are passed to the second layer and become the input to each neutron belonging to this layer.
+This is reiterated through all the layers up to the final output layer.
+As schematized in figure \ref{fig:ann} an artificial neural network is mainly composed of three parts: an input layer, come middle layers also  called \emph{hidden layer} and a final layer. Each neuron of a layer is linked to all the neurons of the previous and next layer.
+The connection between two neurons is weighted, according to an initial setup of the network during which weights are randomly set.
+
+When reach the end of this process, we obtain the output: a numerical value related to every single input data $\textbf{x}$.
+
+Using matrix formalism the entire input-output process can be written as
+
+$\textbf{y} = \sum_j^n w_{ij} x_j + b_i $ where $\textbf{x} \in \Re^n \ \textbf{y} \in \Re^m $ being m the output dimension given by the number of neutrons in the output layer.
+
+
+During the training process, given an input, the algorithm calculate an output (prediction) and this process is referred as  \emph{forward propagation}.
+This prediction is then compared with the actual value this output should be, and during the \emph{backpropagation} the algorithm modifies its weights in order to minimize the difference between the actual and the predicted value.
+
+The goal of a machine/deep learning algorithm is to learn from data using a train dataset, and generalize it in order to perform well on an unseen dataset called Test dataset.
+Performing well means to produce a low error on the Test dataset after minimizing the error on train dataset.
+
+
 To fully define a neural network we just need some parameters called hyperparameters, the principals of which are:
+
 \begin{itemize}
-\item number of layers
-\item number of neutron for each layer
-\item activation function for each layer
-\item number of epochs
-\item learning rate
+\item Number of layers
+\item Number of neutron for each layer
+\item Activation function for each layer
+\item Number of epochs (or iterations)
+\item Learning rate
 \end{itemize}
-When reach the end of this process, we obtain the output: a numerical value indicating which class that input belongs to.
-The goal of a machine/deep learning algorithm is to learn using a train dataset, and generalize it in order to perform well on an unseen dataset called Test dataset. Performing well means to produce a low test error on the test dataset after minimizing the error on train dataset. This theme leads to one of the most important issue in machine learning: the concept of underfitting and overfitting.
-Underfitting occurs when the model isn't able to learn the required amount of informations during train; this usually happens when the model has a small number of parameters in regard to the number needed to explain the input features. On the contrary, overfitting occurs when the model has too many parameters in regard to those required to learn the input features as a result, the model performs well on the train dataset and has low performances in the test one.
-As an example in a two-dimensional space, if we aim to fit a dataset of 9 points sampled from a quadratic curve, if we try to fit it using a 9-th grade (or more) polynomial, we find out that infinite curves are possible to perfectly fit that dataset, but when chosen one, it will not be suited to describe an other dataset sampled from the same original quadratic curve. - better if I put a figure -
-To monitor the evolution of the model's performances during train is a common practise to  split the train dataset in two parts, namely a real and actual train dataset and a smaller validation dataset used to make constant checkups on what the model is learning with the train set.
+
+
+
+
+One of the most important issue in machine learning is the concept of underfitting and overfitting.
+
+Underfitting occurs when the model isn't able to learn the required amount of informations during train; this usually happens when the model has a small number of parameters in regard to the number needed to explain the input features.
+
+On the contrary, overfitting occurs when the model has too many parameters compared to those required to learn the input features. As a result, the model performs well on the train dataset and has low performances in the Test one.
+
+As an example in a two-dimensional space, if we aim to fit a dataset consisting of some points sampled from a quadratic curve, using three different functions: a linear function, a quadratic function and a polynomial function with grade equal to the number of data points.
+As showed in figure \ref{fig:underoverfitting} the linear model is not able to describe the data's distribution while the polynomial function has too many parameters, and it is perfectly able to fit our distribution, but it would perform very poorly to describe a dataset sampled from the same quadratic distribution, furthermore, if the number of parameters (the grade of the polynomial in this case) is greater or equal to the number of data points, we obtain that an infinite number of different curves are suitable to fit our data, and finding the best one, which performs well on the test dataset is an hard task.
+We should therefore pay attention when choosing the number of parameters on a model to avoid under- or more likely over- fitting.
+
+
+To monitor the evolution of the model's performances during train is a common practise to split the train dataset into two subsets: one that will be the actual train dataset, and a smaller one, called validation dataset used to make constant checkups on how well the model is learning with the train set, by making constant test of its performances.
+
 The validation dataset is used for the fine tuning of hyperparameters and it typically consists of 10-30\% of the whole train dataset.
+When assessed the best hyperparameters combination for our model, it's possible to actually train the model using the entire Train dataset
 However, when dealing with small datasets, dividing it into Train and Test can be a non trivial issue because of the shortage of data for a proper train procedure. To work this out, a prodecure called k-fold cross validation is often employed, at the cost of increasing computational costs.
 This consists in the creation of k different partition of the main whole dataset (namely in advance of dividing it into train + test).
 From these partitions, k-1 are used as train, and the last acts as test. Moving forward each combination of partitions is used so that each different partition is used as test, and the others as train.
@@ -543,7 +644,9 @@ Then for each run k there are two subsets (a train and a test) from the original
 In practise what is usually done, is not a sequential partitioning the dataset, to avoid creating folder containing all the same label if the dataset was ordered, but randomically picking data in order to create subsets containing the same proportion between classes as the main dataset.
 %insert an image of k-fold example
 
-\subsection{Random forest ??}
+
+
+
 
 \subsection{Activation functions}
 The activation function of a layer defines the output of each neuron belonging to that layer, there are different activation function, linear or non-linear.
@@ -594,21 +697,49 @@ A comomon metric for model performances' evaluation is Accurcay: it is simply de
 \begin{equation}
 Accuracy = \frac{TP + TN}{TP+TN+FP+FN}
 \end{equation}
-Even though accuracy may seem a good parameter, it isn't the most accurate one, when we're dealing with a unbalanced test dataset, if for example, in a binary classification with A and B classes, if just 10 out of 100 samples belongs to a different class, let's say A and B, and the model predicts every data belonging to the class B, we will get a score of 90 \% accuracy, which is not a thruthful result because the model isn't making any distinction between the two classes.
+Even though accuracy may seem a good parameter, it isn't the most accurate one, when we're dealing with a unbalanced test dataset, if for example, in a binary classification with A and B classes, if just 2 out of 10 samples belongs to a different class, let's say A and B, and the model predicts every data belonging to the class B, we will get a score of 80 \% accuracy, which is not a thruthful result because the model isn't making any distinction between the two classes.
 There are then other ways for quality assessment that overcome this problem. One of this is based on the introduction of two quantities: precision and recall.
-Precision is the ratio between true positive and total positive cases (TP + FP), which is a measure of how many positive predicted cases were actually positive, while recall measures how many actual positives were correctly classified, namely it represents the true positive rate.
+Precision is the ratio between true positive and total positive cases (TP + FP), which is a measure of how many positive predicted cases were actually positive, while recall measures the percentage of actual positives that were correctly classified, or in other words it represents the true positive rate.
 \begin{equation}
-Precision = \qquad \qquad Recall =
+Precision = \frac{TP}{TP+FP} \qquad \qquad Recall = \frac{TP}{TP+FN}
 \end{equation}
 Unfortunatelly precision and recall are linked in a sense that often enhancing one decreases the other and vice-versa.
-%example at page 283
+%esempio page 283
 There's therefore a trade off between recall and precision. If we want for instance a model to score more true positive, risking to have more false positives, we can set a threshold.
-To reach less the 10\% positive missing means set the recall to 90\%, this operation is called setting the operating point.
-Often though is not always estblished at the beginning, what operating point will be the best suited for out classification goals, so what is done is study the model under all the possible thresolds at once.
-This is achieved by studying the precision-recall curve. The closer a curve lies on the upper right corner (high precision and high recall), the more correctly the model is working.
+To reach less the x\% positive missing means set the recall to (100-x)\%, this operation is called setting the operating point and it's done by setting a threshold.
+This threshold though is not always estblished at the beginning, and operating point that would be the best suited for our classification goals is not clear a priori.
+One way to summarize the information a precision-recall curve can provide us, is to compute the area under the curve, known as \textquotedblleft average precition \textquotedblright
+What is done is study the model under all the possible thresolds.
+This is achieved by studying the precision-recall curve of which is reported an example in figure \ref{fig:precisionrecall}.
+The closer a curve lies on the upper right corner (high precision and high recall), the more correctly the model is working.
+
 Besides the precision-recall curve, a similar curve is usually employed to study different thresolds' effect, it's called the receiver operating characteristics curve, usually referred as ROC curve.
-The ROC curve is build from the true positive rate (TPR, previously called recall) and the false positive rate (FPR) and shows the evolution of TPR vs FPR, and the ideal curve would be close to the top left (high tpr and low fpr). To summarize the model's performances with a single number using ROC's curve information, we use the Area under the curve AUC. The reference value for an AUC is 0.5 which is obtained when a model is just randomly predicting.
-In other words, the AUC can be explained as the probability that randomly picked point from the positive class, will have an higher score (according to the model) than a randomly picked point from the negative class.
+% Insert ROC curve computed using the random forest already implemented in my data.
+The ROC curve is build from the true positive rate (recall) and the false positive rate (FPR) and shows the evolution of TPR vs FPR.
+The ideal curve would be close to the top left (high tpr and low fpr) and the less accurate is the model, the more this curve tend to lay down to the bisector line.
+
+To summarize the model's performances with a single number using ROC's curve information, we compute the Area Under the Curve AUC.
+The reference value for an AUC is 0.5 which is obtained when a model is just randomly predicting and it corresponds to a curve laying on the bisector.
+The AUC can be explained as the probability that randomly picked point from the positive class, will have an higher score (according to the model) than a randomly picked point from the negative class so that the percentage value of AUC is an estimate of the probability that the model is able to distinguish between the two classes.
+
+An example of ROC curve is showed in figure \ref{fig:roccurve}
+
+
+\begin{figure}
+\centering
+\begin{subfigure}{0.4\textwidth}
+\includegraphics[width=1.\textwidth]{ml/precisionrecall_example.png}
+\caption{}
+\label{fig:precisionrecall}
+\end{subfigure}
+\begin{subfigure}{0.4\textwidth}
+\includegraphics[width=1.\textwidth]{ml/roccurve_example.png}
+\caption{}
+\label{fig:roccurve}
+\end{subfigure}
+\caption{}
+\label{}
+\end{figure}
 
 
 
@@ -697,7 +828,6 @@ Their values are plotted as a box along the y axis and sites are indicated along
    \caption{}
    \label{fig:feature2800}
 \end{subfigure}
-
 \caption{Features}
 \label{fig:features_raw-harmo}
 \end{figure}
@@ -741,33 +871,85 @@ An adversarial loss is also implemented, aimed to aviod that if, for instance, t
 
 \section{Results of deep learning}
 
-In our work we employed a simple deep neural network architecture illustrated in figure .. with three hidden made up of 64, 64 and 32 nodes respectively activated by a ReLU function and each layer separated from the next by a Batch-Normalization and a 0.3-Dropout layer. After the 32-node layer we used a single output layer with a single node activated by a sigmoid function, for classification.
-As loss function we used binary crossentropy and the neural network's weights were optimized via Adam optimizer with a learning rate of $10^{-4}$ and model's performancies were assessed with a 10 or 5 k-fold Cross validation, collecting the mean and std deviation of the results for each fold.
+In our work we employed a simple deep neural network architecture illustrated in figure .. with 2 hidden made up of 64, and 32 nodes respectively activated by a ReLU function and each layer separated from the next by a Batch-Normalization and a 0.3-Dropout layer. After the 32-node layer we used a single output layer with a single node activated by a sigmoid function, for classification.
+Since we are working in an underlying overfitting condition we choose this network structure after a grid search to find the minimal parameters' configuration which allows best classification scores.
+Overfitting is clear if we take a look at the learning curves in figure \ref{fig:learningcurve} which shows the training and validation AUC curves for two model: one of them (\ref{fig:auc_no3-2-1}) even if too much simplified, shows the classical trend of an overfitting state, however, it performes a bit worse than the other more complex models.
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.3\textwidth}
+   \includegraphics[width=1\linewidth]{ml/auc_no64-8-1}
+   \caption{AUC learning curve corresponding to a model with a structure 64-8-1 nodes trained on the entire not-harmonized dataset}
+   \label{fig:auc_no64-8-1}
+\end{subfigure}
+\begin{subfigure}[b]{0.3\textwidth}
+   \includegraphics[width=1\linewidth]{ml/auc_no8-8-1}
+   \caption{AUC learning curve corresponding to a model with a structure 8-8-1 nodes trained on the entire not-harmonized dataset}
+   \label{fig:auc_no8-8-1}
+\end{subfigure}
+\begin{subfigure}[b]{0.3\textwidth}
+   \includegraphics[width=1\linewidth]{ml/auc_no3-2-1}
+   \caption{AUC learning curve corresponding to a model with a structure 3-2-1 nodes trained on the entire not-harmonized dataset}
+   \label{fig:auc_no3-2-1}
+\end{subfigure}
+\caption{}
+\label{fig:learningcurve}
+\end{figure}
+
+
+
+
+In our model, as loss function we used binary crossentropy and the neural network's weights were optimized via Adam optimizer with a learning rate of $10^{-4}$ and model's performancies were assessed with a 10 or 5 k-fold Cross validation, collecting the AUC score for each fold and then computing mean and std deviation of these results.
 
 The other neural network employed was the site-adversarial neural network: following a similar structure as the DNN, it can be divided into three main components: the first feature extraction branch comprising the DNN up to the 32-node layer;
 from this point the network is splitted into two branches: one categorical classificator, along the lines of the DNN consists of the last outpput layer with a sigmoiod activation function, and the other branch, the site classifier consisting of a gradient reversal layer as the first layer followed by a layer with 16 nodes, and after a batch Batch-Normalization layer, the multi-output layer with N nodes, being N the total number of sites input data belong to.
 This final layer is activated by a softmax function, and the loss function employed for site classification is the categorical crossentropy implemented using a custom function to deal with a possible low crossentropy score when by chance the site classifier, categorize one or more input data's sitelabel correctly, which would have low impact on the whole branch classifier making the adversarial strategy useless.
 
 
-We mainly tried three different kind of analysis using this DNNs: 1) classification of raw (not harmonized) data, 2) classification on the whole harmonized dataset, creating the harmonization model on all control subjects and applying the model on all ASD subjects, and 3) classification with harmonization implemented inside a K-fold cross-validation, creating the model on controls and applying it to ASD, and 4) classification using the domain adversarial neural network.
+We mainly carried out three different kind of analysis using this DNNs, and compared them with the scores obtained from the adversarial network.
+Specifically we performed: 1) classification of raw (not harmonized) data, 2) classification on the whole harmonized dataset, creating the harmonization model on all control subjects and applying the model on all ASD subjects, and 3) classification with harmonization implemented inside a K-fold cross-validation, creating the model on controls and applying it to ASD, and 4) classification using the domain adversarial neural network.
 
 Following this procedure we implement a k-fold cross validation using stratifiedKFold provided by sklearn library. Data were splitted into a train and a test dataset, therefore using train data we computed the harmonization model only on control patients and then apply the model to asd patient and both Control and ASD Test data.
 This is the best way to mantain train and test data as much separated as possible and avoid data leakage between train and test.
 
-Analysis were carried out using different selection criterias and thresholds:
+Analysis were carried out using different selection criterias and thresholds which brought us to different datasets combination:
+
 The first classification attempt was using the whole dataset from ABIDE 1 and 2, consisting of only male patients aged between 5 and 40 years old, without any further constraint on eye status at scan.
-Results 1) 2) 3)
 
-The second analysis was performed under the same constraint as above, but with an additional condition on eye status choosing to select only patient who kept eyes open throughout the entire scan time.
+Then, with these same constraint we tried to classify separately ABIDE 1 and ABIDE 2 datasets.
 
-The following analysis were carried out with the same constraint of the first two, but separately on ABIDE 1 and ABIDE 2 dataset.
+The second analysis was performed on a dataset with the same constraint as above, but with an additional condition on eye status choosing to select only patient who kept eyes open throughout the entire scan time.
+
+The latter analysis were carried out with these same constraints, but separately on ABIDE 1 and ABIDE 2 dataset.
 
 A further analysys concerns the feature's dimensionality reduction, that is the reduction of features from the input dataset using PCA
 For each one of the analysis above, PCA was implemented to restrain the effect of overfitting.
 
 From the initial input data consisting of 5995 features, we tried to classify using 20, 50, 100 and 200 principal components
 
-\subsection{results with pearson coefficients}
+\subsection{Results with pearson coefficients}
+
+%If the table is too wide, replace \begin{table}[!htp]...\end{table} with
+%\begin{adjustwidth}{-2.5 cm}{-2.5 cm}\centering\begin{threeparttable}[!htb]...\end{threeparttable}\end{adjustwidth}
+\begin{table}[!htp]\centering
+\scriptsize
+\begin{tabular}{lccc}\toprule
+Dataset &Harmon K-fold &Harmon. upstream &No harmon. \\\cmidrule{1-4}
+AB I+II &70 $\pm$ 2 &74 $\pm$ 2 &70 $\pm$ 1 \\\cmidrule{1-4}
+AB I &70$\pm$ 3 &71 $\pm$3 &73$\pm$ 5 \\\cmidrule{1-4}
+AB 2 &63 $\pm$5 &68$\pm$ 6 &64$\pm$ 4 \\\cmidrule{1-4}
+AB I + II - EYE open &70 $\pm$4 &71$\pm$ 4 &70 $\pm$3 \\\cmidrule{1-4}
+AB I EYE open &69$\pm$ 4 &73$\pm$ 7 &71 $\pm$4 \\\cmidrule{1-4}
+AB II EYE open &69 $\pm$2 &69$\pm$ 6 &69 $\pm$3 \\\cmidrule{1-4}
+AB I + II AGE=all, EYE=all &70$\pm$ 1 &75 $\pm$1 &70 $\pm$2 \\\midrule
+\bottomrule
+\end{tabular}
+\caption{AUC score obtained from three different kind of analysis}\label{tab:aucpearson}
+\end{table}
+
+
+
+
 
 \subsection{Results with Wavelet coefficients}
 
