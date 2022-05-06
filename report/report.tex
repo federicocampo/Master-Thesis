@@ -633,54 +633,127 @@ As showed in figure \ref{fig:underoverfitting} the linear model is not able to d
 We should therefore pay attention when choosing the number of parameters on a model to avoid under- or more likely over- fitting.
 
 
+\begin{figure}
+\begin{subfigure}{0.4\textwidth}
+\includegraphics[width=\textwidth]{ml/underoverfitting}
+\caption{}
+\label{}
+\end{subfigure}
+\begin{subfigure}{0.4\textwidth}
+\includegraphics[width=\textwidth]{ml/underoverfitting_grafico}
+\caption{}
+\label{}
+\end{subfigure}
+\caption{}
+\label{fig:underoverfitting}
+\end{figure}
+
+
+
 To monitor the evolution of the model's performances during train is a common practise to split the train dataset into two subsets: one that will be the actual train dataset, and a smaller one, called validation dataset used to make constant checkups on how well the model is learning with the train set, by making constant test of its performances.
 
 The validation dataset is used for the fine tuning of hyperparameters and it typically consists of 10-30\% of the whole train dataset.
-When assessed the best hyperparameters combination for our model, it's possible to actually train the model using the entire Train dataset
-However, when dealing with small datasets, dividing it into Train and Test can be a non trivial issue because of the shortage of data for a proper train procedure. To work this out, a prodecure called k-fold cross validation is often employed, at the cost of increasing computational costs.
-This consists in the creation of k different partition of the main whole dataset (namely in advance of dividing it into train + test).
-From these partitions, k-1 are used as train, and the last acts as test. Moving forward each combination of partitions is used so that each different partition is used as test, and the others as train.
-Then for each run k there are two subsets (a train and a test) from the original dataset. This way, each fold's train set is different from the others and same goes for test dataset.
+When assessed the best hyperparameters combination for our model, it's possible to actually train the model using the entire Train dataset.
+Even if we manage to use the entire Train dataset for the training process,
+However, when dealing with small datasets, dividing it into Train and Test can be a non trivial issue because of the shortage of data for a proper train procedure.
+
+To work this out, a prodecure called k-fold cross validation can be implemented, at the cost of increasing computational costs.
+It consists in the creation of k different partition of the main whole dataset (before splitting it into train + test).
+From these partitions, k-1 are used as train, and the last is used as Test. Moving forward every combination of partitions is used so that each different partition is used as test, and the others as train.
+Then for each run k-th there are two subsets (a train and a test) from the original dataset. This way, for each iteration, the Train dataset is different, and the model is tested on a different dataset each time.
 In practise what is usually done, is not a sequential partitioning the dataset, to avoid creating folder containing all the same label if the dataset was ordered, but randomically picking data in order to create subsets containing the same proportion between classes as the main dataset.
-%insert an image of k-fold example
 
 
-
+\begin{figure}
+\includegraphics[width=0.4\linewidth]{ml/kfold_example}
+\caption{Schematic representation of a k-fold cross validation procedure}
+\label{fig:kfold}
+\end{figure}
 
 
 \subsection{Activation functions}
-The activation function of a layer defines the output of each neuron belonging to that layer, there are different activation function, linear or non-linear.
-A linear activation function outputs a value $f(x) = b+x^T W$
-The sigmoid function, or mor correctly logistic function is the following
-\begin{equation}
-f(x) = \frac{1}{1+e^{-z}}
-\end{equation}
+The activation function of a neuron, and consequently of a layer defines the output of each neuron belonging to that layer, there are different activation function, linear or non-linear.
+A linear activation function outputs a value $f(x) = w^T x + b$ where $w^T$ indicates the transpose of the weigths vector.
+In practise, however, it would not be very useful to introduce a linear activation function since we aim to introduce non-linearity in our model to tackle more complex models.
+There are several non-linear function available and, depending on what data we are working on, or on what kind of classification task we are performing, some of the most popular are
+
+
+\begin{figure}[h!]
+\centering
+\begin{subfigure}{0.3\textwidth}
+\includegraphics[width=\textwidth]{ml/relu}
+\caption{ReLU}
+\label{}
+\end{subfigure}
+\begin{subfigure}{0.3\textwidth}
+\includegraphics[width=\textwidth]{ml/sigmoid}
+\caption{Sigmoid}
+\label{}
+\end{subfigure}
+\caption{}
+\label{}
+\end{figure}
+
+
+
 
 \begin{itemize}
-\item or the ReLU functions $\phi(z) = max(0, z)$
-\item the softmax function for multiclass classification, gives the probability of the input belonging to each (mutually exclusive) class. SO the softmax can't be applied independently to each output $z_i$, since it depends on all elements of $\textbf{z}$ The probability of belonging to the i-th class over a total of M classes is
+
+\item The ReLU functions $\phi(z) = max(0, z) = \begin{cases} 0 \ for \ z<0 \\ z \ for \ z>0 \end{cases}$ which returns the maximum value between the input and zero, it essentially puts to zero all negative inputs and leaves the positives untouched.
+A modified version of the ReLU function called Leaky ReLU was introduced defined as
+$\phi_{leaky}(z) = \begin{cases} \alpha z \ for \ z<0 \\ z \ for \ z>0 \end{cases}$ where $\alpha$ is a coefficient usually $< 1$, typically of the order of $10^{-2}$
+
+
+\item The sigmoid function, or logistic function is defined as $f(x) = \frac{1}{1+e^{-x}}$ and outputs a real number between 0 and 1. For this reason is a common choice when we have to predict a probability, for example in a binary classification problem it can be interpreted as the probability that output belongs to the class 0 or 1.
+
+
+\item The softmax function for multiclass classification, gives the probability of the input belonging to each (mutually exclusive) class. The softmax can't be applied independently to each output $z_i$, since it depends on all elements of $\textbf{z}$ The probability of belonging to the i-th class over a total of M classes is
 $p(i = i|z) = \phi(z) = \frac{e^z_i}{\sum_{j = 1}^M e^{z_j}}$ being M the total number of classes
 \end{itemize}
 
 
 \subsection{loss functions}
-This predicted value is then compared with the actual label value and the loss is computed between these two values.
-Computing the loss, returns a quantity value of how much the prediction is far from the actual label.
-Then an optimization function called gradient descent is applied to backwardly modify and tuning weights in order to minimize the loss
+In order to train a network and improve its performances we need to compare the predicted (output) value with the actual value and compute some sort or error, or distance between these two values, and try to gradually minimize it.
+The function to minimize is denoted as the \emph{loss function}
+Computing the loss, returns a value of how much the prediction is far from the actual label, and then, we try to modify the network's weights to reduce this value searching for a minimum of this function.
+
 This algorithm employed by a feedforward network for weights' fine tuning is called \emph{backpropagation} (backward propagation of errors).
-The function to be minimized is the \emph{loss function} and the main technique to do so, is the likelihooh maximization
-The most common loss function is the cross-entropy loss, this function relies on the concept of entropy and is then defined as
+and the main technique to do so, is the likelihooh maximization
+
+The most common loss function is the cross-entropy loss, it relies on the concept of cross-entropy between two distributions $\hat y \ and y$ and is defined as
 $H(y, \hat y) = -\sum_i y_i \cdot log(\hat y_i)$
-Where the sum is intended over all the possible class for a classification problem. In case of multi-class classification we call this loss categorical crossentropy loss, while if we only have two classes, (we are then performing a binary classification),the loss is (if we explicit the sum for two $i = \left\{0, 1\right\}$)
+Where the sum is intended over all the possible values a variable y can assume.
+For a classification problem it correspond to the different class our data belong. In case of multi-class classification we call this function categorical crossentropy, while if we only have two classes, (we are then performing a binary classification),the loss is (if we explicit the sum for two $i = \left\{0, 1\right\}$)
 \begin{equation}
 H_p(q) = -\frac{1}{N} \sum_{i= 1}^N y_i log(p(y_i)) + (1-y_i)log(1-p(y_i))
 \end{equation}
-minimizing this function means maximizing the likelihood that for a classification with only 0 and 1 possible outcomes is
-\begin{equation}
-L = \prod_i
-\end{equation}
+
+The estimation of the minimum of this function can be seen as the maximization of the likelihood:
+Given a probabilistic model of m different parameters $\theta_1 ... \theta_m$, the likelihood is the probability of observing a value d given a set of parameters $\left\{\theta_i \right\} \ L(\theta_1, ..., \theta_m | d) = P(d|\theta_1, ...\theta_m)$.
+For a subset of observed value we can write the likelihood as $L = P(x_1, ..., x_n | \theta_1, ...\theta_m)$ that in case we are dealing with independent variables is just the product of the single probabilities $L =\prod_{i=1}^n p(x_i|\theta_1, ...\theta_m)$.
+
+
+%Here I'm calling x_i ... the labels, so maybe dovrò cambiarli in y_i quando rendo tutto consistente e y_i è la probabilità di ottenere...
+Since we are interested in maximize the likelihood, the best parameters are those that maximize the likelihood:
+$\begin{cases} \frac{\delta L}{\delta \theta_1}(\theta_1, ..., \theta_m) = 0 \\ ... \\ \frac{\delta L}{\delta \theta_1}(\theta_1, ..., \theta_m) = 0 \end{cases}$
+To compute the derivative of a product is a nontrivial task, hence it's much simpler to compute the logarithm (since the logarithm is a monotonic function, so compute the maximum of a function is the same as computing the maximum of the logarithm of that function).
+
+We obtain then $log(L) = \sum_{i=1}^m log(p_i)$.
+For a binary classification problem, where we only have two labels 0 and 1, the probability of pbserving our data under our model is given by $f(x_i)^y_i (1-f(x_i)^{i-y_i})$
+
+
+
 
 \subsection{Backpropagation}
+
+To accomplish this, even if it'd be theoretically possible to find a minimum by using an analythical way, in practise, in all the neural network applocation, the number of weigths is so big that a numerical methods must be employed, the most popular of which is the \emph{gradient descent}.
+Given a generic function $J(\textbf{w})$ where $\textbf{w}$ is a vector of weights, the minimum of this functiont corresponding to the vector $w_0$ can be found by following these simple steps:
+\begin{enumerate}
+\item Choose a random initial guess for \textbf{$w_0$} and start iterating
+%\item At iteration i+1 we have a weights vector \textbf{$w_{i+1}$} given by the formula \textbf{$w_{i+1}$} = \textbf{$w_i$} - $\gamma \nabla$ J(\textbf{$w_i$}) where the $\nabla$ indicate the gradient of the cost function with respect to \textbf{w_i} components
+\end{enumerate}
+
+
 After the computation of the loss value, the next step is the process called backpropagation, a process whereby network's weights are updated.
 Let's denote the loss function as $J(w, b) = \frac{1}{n}\sum_{i = 1}^n L(y_i, \hat y_i)$. To find rhe right variation to the weights we can use the gradient descent algorithm, so we compute the gradient of the cost function $\nabla J(w)$ so that we can compute the new weight $w = w + \Delta w$ where $\Delta w = - \eta \nabla J(w)$ which expressed in component becomes $\Delta w_j = -\eta \frac{\partial J(w)}{\partial w_j} = -\eta \cdot \sum (\phi(z^{(i)}) - y^{(i)} )x_j^{(i)}$.
 A drawback of this gradient descent algorithm is that the weiths are updated after computing a summation, namely, after the whole dataset is been seen, so that optimization moves with big leaps
