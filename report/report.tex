@@ -16,7 +16,13 @@
 %\usepackage[table]{xcolor} % for cell colors
 \usepackage{changepage,threeparttable} % for wide tables
 
+\usepackage{comment}
+%To write mathematical letters such as R, C etc..
+\usepackage{amsfonts}
 
+\usepackage{amsmath}
+%To create a list of item in the same row
+\usepackage[inline]{enumitem}
 
 \hypersetup{
     colorlinks,
@@ -286,7 +292,7 @@ Abide preproccessed data were obtained using one of the first version of CPAC; n
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=.4\textwidth]{abide/timeseries51456.png}
+\includegraphics[width=.8\textwidth]{abide/timeseries51456.png}
 \caption{Comparison of 4 timeseries between ABIDE-preprocessed and our timeseries. Data show 4 randomly chosen ROIs: ROI 0, 6, 50, 108, belonging to patient 51456 from ABIDE I.
 It appears clear that the trend is the same, but there are some local differencies between the two plots due to differencies in }
 \label{fig:confrontoabidepreproc}
@@ -525,20 +531,34 @@ Machine learning is a branch of Artificial Intelligence (AI) that aims to learn 
 Algorithms are trained to make classifications or predictions and the bigger is the dataset to train the algorithm, the better accuracy and generalization can be achieved.
 
 Machine leraning algorithms can be divided into two macro areas: supervised and unsupervised learning.
-From a dataset, containing features, an unsupervised algorithm's goal is trying to learn the principal properties from the dataset's structure attempting to learn the probability distribution of all the features in it.
-On the other hand, in supervised learning each input data is associated with a label, specifying the class that data belongs to, so the algorithm is to learn the common features for each class trying to predict the label given the corresponding input.
+From a dataset, containing features, an unsupervised algorithm's goal is trying to learn the principal properties from the dataset's structure and to extract information from data without human labour to annotate and label each data.
+
+They usually aim to learn the probability distribution of the features in our data, and to do so, they try to find a new representation of the data, often simpler than the initial one.
+Simpler can be associated with
+\begin{itemize}
+\item lower dimensionality of data namely the reduction of the space where data lie of informally a reduction of the number of features in our data
+\item sparse representation of data transform the data in a representation containing zeros in most entries, to try to aligh input data along this new  representation's axis. Usually resulting in an increasing of data dimensionality to avoid information lost deriving from setting most entries to zero
+\item Independent representaiton focus on the main sources of variance across data, trying to create statistically independent representation ofa initial data.
+\end{itemize}
+
+On the other hand, in supervised learning each input data is associated with a label, specifying the class that data belongs to, so the algorithm is to learn the common features for each class trying to predict the label given the corresponding input, or to classify them according to the right label.
 
 A sub-branch of Machine Learning is Deep Learning, the main difference lies on the algorithms' structure and the learning techniques, as an instance, traditional machine learning methods consist on algorithms like Random Forest, Support Vector Machines (SVM), K-nearest neighbor (KNN) and several more models, while deep learning models include Artificial neural networks (ANN), Convolutional neural networks (CNN) and more.
 
 \subsection{Random forest}
 Random Forest classifier belongs to the category of \emph{ensemble} classifiers, it combines multiple decision tree models to create a more poverful model, so to understand a random forest we need to start understanding how a Decision Tree classifier works.
 
-A decision tree aims to learn distictive traits from input data by asking yes/no questions. Focusing on the valus of a single input feature, the classifier splits the dataset based on the value of that feature according to an if/else statement like \textquotedblleft if feature-i > a \textquotedblright.
-Considering different features, the process is then recursively repeated untill a single data point (and then a single class) is left on a so called \textquotedblleft leaf \textquotedblright.
+A decision tree aims to learn distictive traits from input data by asking yes/no questions. Focusing on the valus of a single input feature, the classifier splits the dataset based on the value of that feature according to an if/else statement like \textquotedblleft if feature-i $\>$ a \textquotedblright.
+Doing so each branch of a decision tree consists of a question which splits the dataset into two smaller sub datasets.
+Considering different features, the process is then recursively repeated untill it reaches an end point called leaves, corresponding to the ultimate partition, containing a single data point belonging to a single class.
+The goal of this tree is construct trees so that the paartition are informative about the class labels.
+To practically construct a tree the algorithm
 \begin{enumerate}
-\item Randomly select n features
-\item Split the node using the feature that provides the best split
+\item Randomly select m of the n total features from input data
+\item Split the node by asking a question about the feature that would provide the best classes' split
+\item Iterare point (1) and (2) until a single data point is left
 \end{enumerate}
+
 An example of a decision tree dealing with flower classification is showed in figure \ref{fig:decisiontree}
 \begin{figure}
 \centering
@@ -552,7 +572,6 @@ Usually though, continue this iterative process untill it reaches a leaf, brings
 To prevent overfitting, one possible strategy is to early stop the iteration towards the leaf, and leave a node with more than one class.
 An other strategy, which leads to the construction of a Random Forest, is the creation of a stronger model, more prone to generalize data without overfitting.
 A Random Forest is a collection of decision trees where each tree is slightly different from the others, each tree tends to overfit, but it does so in a in a different way, so that we can reduce overfitting by averaging different results.
-So the necessary steps to build a random forest are
 
 \begin{enumerate}
 \item Randomly select n samples from the input dataset
@@ -560,11 +579,24 @@ So the necessary steps to build a random forest are
 \item Putting all the predictions together it's possible to assign a class label by majority vote.
 \end{enumerate}
 
-This steps are implemented in the Python's package Scikit-Learn
+%This steps are implemented in the Python's package Scikit-Learn
+
+
+Randomness within trees of a single model is introduced with three strategies:
+\begin{enumerate*}
+\item Randomly select some input data and buiding a tree with this subset of data
+\item Randomly select a different subset of features at each split
+\item A combination and implementation of both the previous strategies results in a model in which each tree has reduced predictive power, but when put all together, it results in an improved predictive power with a drastical reduction of overfitting.
+\end{enumerate*}
+
+Introducing this kind of randomness in a model results in reducing correlations between models and this brings to a reduced variance between outputs
+So the necessary steps to build a random forest are
 
 
 
 \subsection{Deep Learning: ANN}
+-Aggiungere: Dropout
+
 Deep learning is a subset of machine learning whose algorithm try to emulate the learning process of the human brain.
 This kind of algorithms are called Artificial Neural Networks (ANN) and, such as a neuronal structure, they are made of several neurons organized into layers; each layer containsa certain amount of neurons each one linked to each others.
 
@@ -622,11 +654,15 @@ To fully define a neural network we just need some parameters called hyperparame
 
 
 
-One of the most important issue in machine learning is the concept of underfitting and overfitting.
+One of the most important concept in machine learning when characterising a network is its Capacity.
+It refers to the level of complexity that a model is able to learn.
+This is strictly linked to one of the critical issue in machine leraning: the concept of underfitting and overfitting.
 
-Underfitting occurs when the model isn't able to learn the required amount of informations during train; this usually happens when the model has a small number of parameters in regard to the number needed to explain the input features.
+Underfitting occurs when the model isn't able to learn the required amount of informations during train; this usually happens for shallow network, when the model has a small number of parameters in regard to the number needed to explain the input features, having low parameters results in poor performances because the model isn't able to learn the underlying structure of a complex dataset.
 
-On the contrary, overfitting occurs when the model has too many parameters compared to those required to learn the input features. As a result, the model performs well on the train dataset and has low performances in the Test one.
+On the contrary, overfitting occurs when the model has too many parameters compared to those required to learn the input features.
+What happens then is that the model memorizes all the data it sees during train but it is not able to generalise them.
+As a result, the model performs well on the Train dataset and has low performances in an unseen dataset, called Test datset.
 
 As an example in a two-dimensional space, if we aim to fit a dataset consisting of some points sampled from a quadratic curve, using three different functions: a linear function, a quadratic function and a polynomial function with grade equal to the number of data points.
 As showed in figure \ref{fig:underoverfitting} the linear model is not able to describe the data's distribution while the polynomial function has too many parameters, and it is perfectly able to fit our distribution, but it would perform very poorly to describe a dataset sampled from the same quadratic distribution, furthermore, if the number of parameters (the grade of the polynomial in this case) is greater or equal to the number of data points, we obtain that an infinite number of different curves are suitable to fit our data, and finding the best one, which performs well on the test dataset is an hard task.
@@ -648,6 +684,25 @@ We should therefore pay attention when choosing the number of parameters on a mo
 \label{fig:underoverfitting}
 \end{figure}
 
+Some regularization procedures are often implemented to avoid overfitting, the strategy is to build a model with a capacity slightly higher than the necessary in order to perform well on the training dataset, and then, to avoid overfitting, implement some regularization techniques to achieve good generalization performances.
+
+Some of the most popular are Dropout and Batch-Normalization
+
+\begin{itemize}
+\item Dropout is a strategy which allows us to obtain the same effect of training train different model with our input data and take the average output at the end without paying high computational costs.
+It is usually applied to hidden layers' neurons and accomplish this task by randomly dropping a certain fraction of hidden neurons and their connections, during each training cycle. The percentage of neutron to drop, correspons to the probability p for a single neutron to be dropped and it is set by the user.
+A visual representation of what occurs is illustrated in figure \ref{fig:dropout}
+When discarding some neutrons in a layer, the remaining neutrons needs to rescale their weights toaccount the missing connection; doing so, every neutron cannot rely on the the input of all the preceding neurons and the network is forced to learn more robust patterns from the data.
+\item BatchNormalizzation is a regularization scheme that has been common adopted since its introduction in 2015. It is based on the observation that  a neural network works and performs better when its input are normalized, because this prevents the saturation of its neurons which occurs when because of an high input value, the neuron outputs value always close to the asymptotic end of its activation function, resulting in a biased and less accurate prediction.
+What is essentially done is then a simple scaling of each neuron's input: for a layer l with d neurons its input $\mathbf{x} = \{x_1^l, x_2^l, ..., x_d^l\}$ is scaled so that $x_i^l \rightarrow \tilde x_i^l = \frac{x_i^{l} - \mathbb{E}[x_i^l]}{\sqrt{Var(x_i^l)}} $
+
+\end{itemize}
+
+\begin{figure}
+\includegraphics[width=.5\linewidth]{ml/dropout.png}
+\caption{}
+\label{fig:dropout}
+\end{figure}
 
 
 To monitor the evolution of the model's performances during train is a common practise to split the train dataset into two subsets: one that will be the actual train dataset, and a smaller one, called validation dataset used to make constant checkups on how well the model is learning with the train set, by making constant test of its performances.
@@ -712,7 +767,10 @@ $p(i = i|z) = \phi(z) = \frac{e^z_i}{\sum_{j = 1}^M e^{z_j}}$ being M the total 
 \end{itemize}
 
 
-\subsection{loss functions}
+\subsection{Loss functions}
+
+DA RIVEDERE E SISTEMARE NOTAZIONE
+
 In order to train a network and improve its performances we need to compare the predicted (output) value with the actual value and compute some sort or error, or distance between these two values, and try to gradually minimize it.
 The function to minimize is denoted as the \emph{loss function}
 Computing the loss, returns a value of how much the prediction is far from the actual label, and then, we try to modify the network's weights to reduce this value searching for a minimum of this function.
@@ -720,49 +778,174 @@ Computing the loss, returns a value of how much the prediction is far from the a
 This algorithm employed by a feedforward network for weights' fine tuning is called \emph{backpropagation} (backward propagation of errors).
 and the main technique to do so, is the likelihooh maximization
 
-The most common loss function is the cross-entropy loss, it relies on the concept of cross-entropy between two distributions $\hat y \ and y$ and is defined as
-$H(y, \hat y) = -\sum_i y_i \cdot log(\hat y_i)$
-Where the sum is intended over all the possible values a variable y can assume.
-For a classification problem it correspond to the different class our data belong. In case of multi-class classification we call this function categorical crossentropy, while if we only have two classes, (we are then performing a binary classification),the loss is (if we explicit the sum for two $i = \left\{0, 1\right\}$)
+The most common loss function is the cross-entropy loss, it relies on the concept of cross-entropy between two distributions $\hat y \ and \ y$ and is defined as
+$H(y, \hat y) = -\sum_i^n y_i \cdot log(\hat y_i)$
+Where the sum is intended over all the n possible values a variable y can assume (all the n possible classes).
+In case of multi-class classification we call this function categorical crossentropy, while if we only have two classes, we are then performing a binary classification and the loss becomes, if we explicit the sum for two $i = \left\{0, 1\right\}$ and take the average value across all the data samples:
 \begin{equation}
-H_p(q) = -\frac{1}{N} \sum_{i= 1}^N y_i log(p(y_i)) + (1-y_i)log(1-p(y_i))
+H_p(q) = -\frac{1}{N} \sum_{j= 1}^N y_j log(\hat y_j) + (1-y_j)log(1-\hat y_j)
 \end{equation}
 
 The estimation of the minimum of this function can be seen as the maximization of the likelihood:
-Given a probabilistic model of m different parameters $\theta_1 ... \theta_m$, the likelihood is the probability of observing a value d given a set of parameters $\left\{\theta_i \right\} \ L(\theta_1, ..., \theta_m | d) = P(d|\theta_1, ...\theta_m)$.
-For a subset of observed value we can write the likelihood as $L = P(x_1, ..., x_n | \theta_1, ...\theta_m)$ that in case we are dealing with independent variables is just the product of the single probabilities $L =\prod_{i=1}^n p(x_i|\theta_1, ...\theta_m)$.
+Given a probabilistic model depending on m different parameters $\theta_1 ... \theta_m$, the likelihood is the probability of observing a value $\hat y_i$ given a set of parameters $\left\{\theta_i \right\}_1 ^m \ L(\theta_1, ..., \theta_m | y_i) = P(y_i|\theta_1, ...\theta_m)$.
+
+For a subset of observed value we can write the likelihood as $L = P(\hat y_1, ..., \hat y_n | \theta_1, ...\theta_m)$ that in case we are dealing with independent variables is just the product of the single probabilities $L =\prod_{i=1}^n p(\hat y_i|\theta_1, ...\theta_m)$.
 
 
-%Here I'm calling x_i ... the labels, so maybe dovrò cambiarli in y_i quando rendo tutto consistente e y_i è la probabilità di ottenere...
+Our goal is to perform the maximization of this function during a logistic regression:
+A logistic regression is the estimate of the best model's parameters that models the discrete probability of two events:
+
+In our practical problem the parameters to be optimized $\left\{\theta_i \right\}_1^n$ are the weights of the DNN model $\left\{w_i \right\}_1^n$ and our data is a set of N datapoints $\left\{ x_1 ... x_N\right\}$ each one associate with a label  $\left\{ y_1 ... y_N\right\}$ which can be either 0 or 1 so in short D = $\left\{ (\mathbf{x_i}, y_i)\right\}$.
+
+Given an input data $\mathbf{x_i}$  and an activation function (sigmoid for example, which we recall is of the form $\sigma(z) = \frac{1}{1+e^{-z}}$) the probability of $x_i$ to belong to the class $y_i = 1$ is given by
+
+\begin{equation}
+ P(y_i = 1 | x_i, \mathbf{w}) = \sigma(\mathbf{x_i^T w}) = \frac{1}{1+e^{-\mathbf{x_i^T w}}}
+\end{equation}
+
+which in terms of a regression can be wrote as 1 - the probability to belong to the negative class namely
+
+$P(y_i = 1) = 1 - P(y_i = 0)$
+
+Putting this all together for a set of data $D = \{ (\mathbf{x_i}, y_i)\}_1 ^N$ substituting this result in the log-likelihood function we obtain the likelihood of observing our data under our model
+
+$P(D|\mathbf{w}) = \prod_{i=1}^N \sigma(\mathbf{x_i^T w})^{y_i} (1-\sigma(\mathbf{x_i^T w}))^{1-y_i}$
+
 Since we are interested in maximize the likelihood, the best parameters are those that maximize the likelihood:
 $\begin{cases} \frac{\delta L}{\delta \theta_1}(\theta_1, ..., \theta_m) = 0 \\ ... \\ \frac{\delta L}{\delta \theta_1}(\theta_1, ..., \theta_m) = 0 \end{cases}$
 To compute the derivative of a product is a nontrivial task, hence it's much simpler to compute the logarithm (since the logarithm is a monotonic function, so compute the maximum of a function is the same as computing the maximum of the logarithm of that function).
 
-We obtain then $log(L) = \sum_{i=1}^m log(p_i)$.
-For a binary classification problem, where we only have two labels 0 and 1, the probability of pbserving our data under our model is given by $f(x_i)^y_i (1-f(x_i)^{i-y_i})$
+We obtain then $log(L) = \sum_{i=1}^m y_i log(\sigma(x_i^T \mathbf{w})) + (1-y_i)log(1-\sigma(x_i^T \mathbf{w}))$ which taken with a negative sign corresponds to the cross-entropy function.
 
 
+This result obtained for binary classification can be generalized to perform a multi-class classification called Softmax regression.
+In a multi-class classification, labels $y_i$ become binary vectors of dimension M, with all but one entry equal to zero, and the only entry equal to 1 specifies the class.
 
+In this case, given a model with parameters $\mathbf{w_k}_{k=0}^{M-1}$ the probability for an input $\mathbf{x_i}$ to belong to class m' is given by the softmax function
 
-\subsection{Backpropagation}
+$P(y_{i,m'}= 1 | \mathbf{x_i}, \{\mathbf{w_k}_{k=0}^{M-1}\} ) = \frac{e^{-\mathbf{x_i^T w_{m'}}} }{\sum_{m = 0}^{M-1} e^{-\mathbf{x_i^T w_{m}}}}$
 
-To accomplish this, even if it'd be theoretically possible to find a minimum by using an analythical way, in practise, in all the neural network applocation, the number of weigths is so big that a numerical methods must be employed, the most popular of which is the \emph{gradient descent}.
-Given a generic function $J(\textbf{w})$ where $\textbf{w}$ is a vector of weights, the minimum of this functiont corresponding to the vector $w_0$ can be found by following these simple steps:
+and the relative negative log-likelihood will be in the form:
+
+$L = -\sum_{i=1}^{n} \sum_{m= 0}^{M-1} y_{im} log(P(y_{im}=1|x_i, w_m)) + (1-y_{im})log(1-P(y_im=1|x_i, w_m))  $
+where there's a summation over the index i which indicate the i-th input data and over the index m, concerning all the possible M classes.
+
+\subsection{Gradient descent and Backpropagation}
+
+To perform the minimization of our loss function, even if it'd be theoretically possible to find a minimum by means of an analythical way, in practise, in all the neural network applocation, the number of weigths is so big that a numerical methods must be employed, the most popular of which is the \emph{gradient descent}.
+
+Let's denote the loss function as $J(w) = \frac{1}{n}\sum_{i = 1}^N E(y_i, \hat y_i)$
+Given a generic loss function $J(\textbf{w})$ where $\textbf{w}$ is a vector of weights, the minimum of this function corresponding to the vector $w_0$ can be found by following these simple steps:
+
 \begin{enumerate}
 \item Choose a random initial guess for \textbf{$w_0$} and start iterating
-%\item At iteration i+1 we have a weights vector \textbf{$w_{i+1}$} given by the formula \textbf{$w_{i+1}$} = \textbf{$w_i$} - $\gamma \nabla$ J(\textbf{$w_i$}) where the $\nabla$ indicate the gradient of the cost function with respect to \textbf{w_i} components
+\item At iteration i+1 we have a weights vector \textbf{$w_{i+1}$} given by the formula \textbf{$w_{i+1}$} = \textbf{$w_i$} - $\eta \nabla$ J(\textbf{$w_i$})
+\end{enumerate}
+
+ where the $\nabla$ indicate the gradient of the cost function with respect to \textbf{$w_i$} components, and $\eta$ is the learning rate of our gradient algorithm, it specifies how big each step will be during the descent toward the minimum of the cost function.
+
+%To find the right variation to the weights we can use the gradient descent algorithm, so we compute the gradient of the cost function $\nabla J(w)$ so that we can compute the new weight $w = w + \Delta w$ where $\Delta w = - \eta \nabla J(w)$ which expressed in component becomes $\Delta w_j = -\eta \frac{\partial J(w)}{\partial w_j} = -\eta \cdot \sum (\phi(z^{(i)}) - y^{(i)} )x_j^{(i)}$.
+
+A drawback of this gradient descent algorithm is that before upgrading the weiths we need to compute all the gradients for each data in input data namely, after the whole dataset is been seen, resulting in a huge computational cost.
+
+An optimized version of this algorithm calle dStchastic Gradient Descent (SDG) is then often used because it has some advantages such as decrease computational cost and, as the name suggests, introduce stochasticity resulting in less chance for this algorithm to get stuck in a local minimum.
+It works by approximating the gradient of the cost function calculated with all the input data, with a gradient computed using only a small subset of input data called minibach.
+
+If we have N input data, we can create subsets containing m elements, and obtain N/m subsets.
+Therefore, the gradient is computed on a mini-batch and weights are updated and this process is repeated for each mini batch.
+%mettere equatione ml_physicists p.17  (19)???
+Once the gradient was computed over all the mini batches, this is called an epoch, which is one of the hyperparameters to be set when choosing a model and a training strategy.
+
+%whose difference is that the upgrade of the weigths is sequential, for each training sample, so that the summation is not computed.
+
+Even though SGD already performs quite well, it can be further tuned introducing the concept of momentum.
+Momentum is represented by a parameters $0\le \gamma \le 1$ and it takes track of the discending direction by running an average over all the preceding encountered gradients, and helps the algorithm speeding up the descending process if in a certain direction the gradient is persistent.
+But in addition we can take into account even the steepness all over the dimension, and to do so we must introduce second order momenta in our algorithm, also called uncentered variance.
+
+To accomplish this, we would ideally need to to calculate the hessian matrix but this comes at the cost of increasing computational cost.
+Recently intriduced algorithm can accomplish this task by approximate the calculus of the second momenta.
+Doing so, we keep track of the curvature and take big leaps in steepest direction and small steps in flatter ones, allowing us to adaptively change the descending step size according to the shape of our multi-dimensional curve.
+One of the most popular among these algorithms is Adam: it accomplish this computational task by making use of two different optimization algorithms: AdaGrad and RMSProp. and adapts the learning rate taking into account both the first and the second moment, leading it to perform better and quicker in findind the minima than simple SGD with momentum algorithms.
+
+
+
+After the computation of the loss value, the next step is the process called backpropagation, through which network's weights are updated.
+Backpropagation can be summarized in 3 steps:
+
+\begin{enumerate}
+\item calculate all the activation of each neuron in a layer
+\item calculate the error of the output layer L, which for each neuron will be $\Delta_j^L =\partial E/\partial z_j^L$ being z the output of this neuron
+\item Backpropagate the error exploiting the chain rule of derivatives to compute the error of every neuron in the previous layer l $\Delta_j^l = \sum_k \frac{\partial E}{\partial z_k^{l+1}}\frac{\partial z_k^{l+1}}{\partial z_j^l}$
+\item Compute the gradient of the function E with respect to model's weights and modify them using equation ..
 \end{enumerate}
 
 
-After the computation of the loss value, the next step is the process called backpropagation, a process whereby network's weights are updated.
-Let's denote the loss function as $J(w, b) = \frac{1}{n}\sum_{i = 1}^n L(y_i, \hat y_i)$. To find rhe right variation to the weights we can use the gradient descent algorithm, so we compute the gradient of the cost function $\nabla J(w)$ so that we can compute the new weight $w = w + \Delta w$ where $\Delta w = - \eta \nabla J(w)$ which expressed in component becomes $\Delta w_j = -\eta \frac{\partial J(w)}{\partial w_j} = -\eta \cdot \sum (\phi(z^{(i)}) - y^{(i)} )x_j^{(i)}$.
-A drawback of this gradient descent algorithm is that the weiths are updated after computing a summation, namely, after the whole dataset is been seen, so that optimization moves with big leaps
-A common implementation of this gradient descent is an optimized version called stochastic gradient descend, whose difference is that the upgrade of the weigths is sequential, for each training sample, so that the summation is not computed.
-Each step of this weght updating is then $\eta (\phi(z^{(i)}) - y^{(i)} )x_j^{(i)})$.
-Even for this implementation though, there's a drowback due to the fact that the steps towards the minimum are small and are influenced by all the unavoidable fluctuations in data training (some of them results in a move downward and some upward).
-A compromize between these two opposite way of work is mini batch gradient descent, which compute a step only after computed the gradient over a small subset of the training data.
-An other important weights optimization alghoritm made from an extension of SGD is the Adam algorithm.
-It makes use of two different optimization algorithms: AdaGrad and RMSProp. It adapts the learning rate based on the first moment (the average) of the recent gradient magnitudes, and of the second moments (the uncentered variance) as well.
+
+\subsection{Dimensionality reduction: PCA}
+PCA is a method to perform dimensionality reduction, it is an unsupervised learning algorithm which aims to reduce the dimensionality of input data, preserving as much information as possible,
+It does so attempting to learn a new representation of data with lower dimensionality than the initial one and whose element have no linear correlation with each other. It performs then an orthogonal transformation of data, in order to find the direction along which data's variance is biggest.
+
+Concretely, if we consider a set of n input data vectors lying in a space $\Re^p$, we can represent them as a matrix $X \in \Re^{n \times p}$ where n is the total number of input data and p is the dimensionality of each data (the number of features in each data vector).
+
+We can suppose without losing generability that feature distribution across our data have zero mean, so that for each feature $x_i$ with i = 1, ..., p, $\mu_i = \mathbb{E}[x_i]=0$.
+
+PCA computes the covariance matrix $\Sigma \in \Re^{p \times p}$ given by $\Sigma(X) = \frac{1}{n-1} X^T \cdot X$, where each entry can be written as $\sigma_{jk} = \frac{1}{n-1}\sum_{i = 1}^n (x^{(i)}_j - \mu_j)(x^{(i)}_k - \mu_k)$, and if we are in the hypotesis of zero mean $\mu_j = \mu_k = 0$, we obtain $\sigma_{jk} = \frac{1}{n-1}\sum_{i = 1}^n (x^{(i)}_j x^{(i)}_k)$.
+
+Since the covariance of a variable with itself is its variance (Cov(a,a)=Var(a)), in the main diagonal we actually have the variances of each initial variable. And since the covariance is commutative (Cov(a,b)=Cov(b,a)), the entries of the covariance matrix are symmetric with respect to the main diagonal, which means that the upper and the lower triangular portions are equal.
+
+We are interested in finding a new representation performing a linear transformation that reduces the covariance between different features.
+
+The eigenvectors of the principal components represent the direction of the maximum variance
+and the corresponding eigenvalues, defines their magniture.
+ %The principal components of the matrix X are given by the eigenvectors of the matrix $X^T X$ so that we can write $X^T X = W \Lambda W^T$ where $\Lambda$
+
+%PCA finds a representation through a linear transformation z = $X^T W$.
+
+To find them, PCA makes use of Singular Value Decomposition (SVD): a linear algebra analysis which is basically a factorization of a n x p matrix X that (in a case X is a real matrix), to rewrite it as X = $U S W^T$ where U and V are respectively m x m  and n x n orthogonal matrices whose columns are called left- and right-singular vectors of X, and S is a  m x n diagonal matrix.
+Diagonal values of S: $S_{ii} = s_i$ are unically determined by X and are called singular values of X.
+
+According this analysis, we can rewrite
+\begin{equation}
+\begin{aligned}
+X^T X & = (U S W^T)^T(U S W^T) \\
+& = W S^T U^T U S W^T \\
+& = W S^2 W^T
+\end{aligned}
+\end{equation}
+where we used the definition of orthogonal matrix for U $U^T U$ = I.
+
+We therefore rewrite the covariance matrix $Var[X] = \Sigma$ as $\Sigma = \frac{1}{n-1}W S^2 W^T$.
+
+%Ne sei sicuro di questo?????
+Here the singular values of X: $\lambda_i$ are related to eigenvalues of the covariance matrix by the relation $\lambda_i = s_i^2/(n-1)$
+
+Using this results if we compute the new data matrix Z = $X^T$ W, its covariance matrix
+\begin{equation}
+\begin{aligned}
+Var[Z] & = \frac{1}{m-1}Z^T Z \\
+ & =\frac{1}{m-1} W^T X^T X W   \\
+ & = \frac{1}{m-1} W^T W S^2 W^T W \\
+ & = \frac{1}{m-1}S^2 .
+\end{aligned}
+\end{equation}
+This shows that when we project the data x to z using the linear transformation W, the resulting transformation has a diagonal covariance matrix which implies that the individual elements of z are mutually uncorrelated.
+
+To reduce the dimensionality of our data, we need to extract the first  $\tilde p$ eigenvalues from the covariance matrix, ordered in a descending order, and collect the corresponding projection matrix $W_{\tilde p}$ made of the corresponding vectors of the righ-singular vectors W.
+
+And the projection of our data from p-dimensional space into $\tilde p$-dimensional space is $\tilde Z = X\tilde W_p$
+
+The singular vector with the largest corresponding singular value is the first principal component, and with decreasing order, the other mutually orthogonal vectors are the next principal components.
+In figure \ref{fig:pca_example} is reported a graphic example of two PC extracted from a set of two-dimensional data, along the direction where variance is greater, there's the first principal component and the second component is in the orthogonal direction.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.5\linewidth]{ml/pca_example.png}
+\caption{}
+\label{}
+\end{figure}
+
+
+%ration lambda_i/sum lambda_i ??
 
 \subsection{How to assess network's performances}
 Once the model has been trained, it is finally applied to the test set to assess the performances of the model to an previously unseen dataset.
@@ -1006,29 +1189,68 @@ From the initial input data consisting of 5995 features, we tried to classify us
 %\begin{adjustwidth}{-2.5 cm}{-2.5 cm}\centering\begin{threeparttable}[!htb]...\end{threeparttable}\end{adjustwidth}
 \begin{table}[!htp]\centering
 \scriptsize
-\begin{tabular}{lccc}\toprule
-Dataset &Harmon K-fold &Harmon. upstream &No harmon. \\\cmidrule{1-4}
-AB I+II &70 $\pm$ 2 &74 $\pm$ 2 &70 $\pm$ 1 \\\cmidrule{1-4}
-AB I &70$\pm$ 3 &71 $\pm$3 &73$\pm$ 5 \\\cmidrule{1-4}
-AB 2 &63 $\pm$5 &68$\pm$ 6 &64$\pm$ 4 \\\cmidrule{1-4}
-AB I + II - EYE open &70 $\pm$4 &71$\pm$ 4 &70 $\pm$3 \\\cmidrule{1-4}
-AB I EYE open &69$\pm$ 4 &73$\pm$ 7 &71 $\pm$4 \\\cmidrule{1-4}
-AB II EYE open &69 $\pm$2 &69$\pm$ 6 &69 $\pm$3 \\\cmidrule{1-4}
-AB I + II AGE=all, EYE=all &70$\pm$ 1 &75 $\pm$1 &70 $\pm$2 \\\midrule
+\begin{tabular}{lrrrrr}\toprule
+Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adv 264-8 \\\midrule
+AB I+II &70 $\pm$ 2 &74 $\pm$ 2 &70 $\pm$ 1 &68 $\pm$ 1 \\
+AB I &70$\pm$ 3 &71 $\pm$3 &73$\pm$ 5 &69 $\pm$ 3 \\
+AB 2 &63 $\pm$5 &68$\pm$ 6 &64$\pm$ 4 &66 $\pm$ 4 \\
+AB I + II - EYE open &70 $\pm$4 &71$\pm$ 4 &70 $\pm$3 &70 $\pm$ 2 \\
+AB I open EYE &73$\pm$ 4 &76$\pm$ 6 &75 $\pm$3 &73 $\pm$ 5 \\
+AB II EYE open &73 $\pm$4 &71$\pm$ 4 &71$\pm$5 &67 $\pm$ 4 \\
+AB I + II AGE=all, EYE=all &70$\pm$ 1 &75 $\pm$1 &70 $\pm$2 &65 $\pm$ 1 \\
 \bottomrule
 \end{tabular}
-\caption{AUC score obtained from three different kind of analysis}\label{tab:aucpearson}
+\caption{AUC score obtained from three different kind of analysis with pearson coefficients}\label{}
 \end{table}
-
-
 
 
 
 \subsection{Results with Wavelet coefficients}
 
+\begin{table}[!htp]\centering
+\caption{Win + Wout}\label{}
+\scriptsize
+\begin{tabular}{lrrrrr}\toprule
+Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adv 264-8 \\\midrule
+AB I+II &65 2 &71 2 &66 2 &67 2 \\
+AB I &67 3 &73 2 &68 3 &68 2 \\
+AB 2 &62 4 &68 4 &63 4 &62 4 \\
+AB I + II - EYE open &65 4 &71 3 &66 3 &66 3 \\
+AB I open EYE &63 4 &72 6 &67 3 &67 4 \\
+AB II EYE open &66 2 &69 3 &67 2 &68 2 \\
+AB I + II AGE=all, EYE=all &63 2 &70 2 &65 2 &63 3 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
+\begin{table}[!htp]\centering
+\caption{Only Win}\label{}
+\scriptsize
+\begin{tabular}{lrrrrr}\toprule
+Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adv 264-8 \\\midrule
+AB I+II &65 2 &71 2 &62 2 &64 1 \\
+AB I &66 3 &73 3 &65 3 &66 2 \\
+AB 2 &62 3 &65 3 &61 4 &60 2 \\
+AB I + II - EYE open &64 4 &70 3 &66 3 &65 3 \\
+AB I open EYE &64 5 &68 5 &64 3 &64 4 \\
+AB II EYE open &66 2 &68 3 &66 4 &65 5 \\
+AB I + II AGE=all, EYE=all &66 3 &72 3 &66 3 &64 3 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-
+\begin{table}[!htp]\centering
+\begin{tabular}{lrrrrr}\toprule
+Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adv 264-8 \\\midrule
+AB I+II &67 3 &70 3 &66 3 &66 3 \\
+AB I &70 3 &72 2 &68 3 &68 3 \\
+AB 2 & & & & \\
+AB I + II - EYE open &70 1 &73 2 &71 1 &68 2 \\
+AB I open EYE &71 4 &74 3 &71 3 &68 2 \\
+\bottomrule
+\end{tabular}
+\caption{Win - Wout}\label{}
+\end{table}
 
 
 
