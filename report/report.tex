@@ -9,6 +9,8 @@
 
 \usepackage{booktabs}
 \usepackage{makecell}
+%To create unnumbered section
+\usepackage{blindtext}
 
 % Packager for Spread-LaTeX
 \usepackage{booktabs, multirow} % for borders and merged ranges
@@ -44,8 +46,8 @@
 \tableofcontents
 
 \section{Introduction: fMRI, Autism, ML}
-Autism spectrum disorder (ASD) is becoming a growing social issue, drawing more and more attention expecially during the last decades, because of the raise in number of diagnosied cases.
-ASD is a neurodevelopmental disorder and refers to a broad range of conditions manifesting as deficits in social communication and interaction, repetitive behaviours, even speech difficulties.
+Autism spectrum disorder (ASD) is becoming a growing social issue, drawing more and more attention expecially during the last decades, both for its social impact on families and society and because of the raise in number of diagnosied cases.
+ASD is a neurodevelopmental disorder and refers to a broad range of conditions manifesting as deficits in social communication and interaction, repetitive behaviours, and even speech difficulties.
 Early signs start appearing by the age of 2 or 3, but since there isn't a definitive medical test to diagnosite it, often it is discovered even after adolescence. An early diagnosis then, would provide the help and support they need, and, treating it at its early stage would hopefully lead to the regression of this condition.
 The main factors that bring to the developing of autism aren't very clear so far, and is becoming clearer that there isn't just a cause, but a concatenation and cohexistence of various of them, the most strongly suspected causes are genetic and environmental causes.
 Genetic is assiciated with a rare gene's mutation, such as a deletion, duplication or inversion, and even though most of the mutation that increase the risk of developing autism are not been traced, it has been assessed that it has a percentage of inheritability around 90\%,
@@ -115,8 +117,8 @@ while the control/asd case per site is more or less balanced for almost every si
 Patients in ABIDE dataset have ages ranging from 4 to $>$ 50 years old, but as shown in figure \ref{fig:abideages} the vast majority of participant are younger than 40, precisely $>$ 97 $\%$ of participant are under 40 y.o. so we can restrict our further analysys to patients belonging to this group.
 % HOW IS FIQ ASSESSED?? HOW IS AUTISM DIAGNOSIED (di martino et al.)????????
 Intelligence quotient, whose distribution is shown in figure \ref{fig:abidefiq}, was not provided for every participant, in fact 171 out of 2226 values were not provided, and before proceding they were replaced by the mean of all the other values.
-The lack of a common acquisition protocol is also evident from the eye status at scan feature: as showed in figure \ref{fig:abideeyesite} each site acquired scans either with open eyes or with closed, without a common method, and sometimes this information is not even specified.
-In its entirely, the whole dataset consists of more than 70\% of patient acquired with open eyes, as showed in figure \ref{fig:abideeye}.
+The lack of a common acquisition protocol is also evident from the eye status at scan feature: as shown in figure \ref{fig:abideeyesite} each site acquired scans either with open eyes or with closed, without a common method, and sometimes this information is not even specified.
+In its entirely, the whole dataset consists of more than 70\% of patient acquired with open eyes, as shown in figure \ref{fig:abideeye}.
 
 
 
@@ -316,7 +318,7 @@ The total number of combination that is possible to obtain from n timeseries is 
 \begin{equation}
 N_{comb} = \frac{n\cdot(n-1)}{2}
 \end{equation}
-So in the case of HO atlas with 110 ROIs we obtain 5995 combination each one expressed by a correlation coefficient.
+So in the case of HO atlas with 110 ROIs we obtain 5995 combination each one expressed by a correlation coefficient computed either as Pearson coefficients or resulting from same wavelet analysis.
 \subsection{Correlation and Z-Fisher transform}
 
 Pearson correlation often simply called correlation coefficient is the measure of a linear relation lying between two sets of data $x_1$ and $x_2$, it's defined as the covariance of (x1, x2) over the product of the standard deviation of the two sets and has the important properties to be scale-invariant in magnitude.
@@ -324,19 +326,25 @@ Pearson correlation often simply called correlation coefficient is the measure o
 \begin{equation}
 Corr(x, y) = r_{xy}=  \frac{Cov\left( x, y\right)}{\sigma_x \sigma_y} = \frac{E\left[ \left( x - \mu_x \right) \left( y - \mu_y \right)\right]}{\sigma_{x} \sigma_{y}}
 \end{equation}
-This correlation coefficient can assume values between -1 and +1 where the extremes correspond to exact anti-correlation or correlation respectively, so that, if a linear relation lies between the two sets, a high absolute value indicates that the two series tend to be simultaneously greater or lower than their respective means
+This correlation coefficient assumes values between -1 and +1 where the extremes correspond to exact anti-correlation or correlation respectively, so that, if a linear relation lies between the two sets, a high absolute value indicates that the two series tend to be simultaneously greater or lower than their respective means
 
 Given two series x and y, of length n correlation can be easily computed by
 \begin{equation}
 r_{xy} = \frac{\sum_{i = 1}^n \left( x_i - \mu_{x_i}\right)\left( y_i - \mu_{y_i}\right)}{\sqrt{\sum_{i = 1}^n \left( x_i -\mu_{x_i}\right)^2}\sqrt{\sum_{i = 1}^n \left( y_i -\mu_{y_i}\right)^2}}
 \end{equation}
-For each patient the Pearson correlation coefficient was computed for each timeseries' pair. Before further analysis, a common way to proceed is to transform each coefficient with Fisher z-transformation. The reason behind this is obtaining a variable which is normally distribuited even when correlation coefficients are leaning toward the extremes.
+
+For each patient the Pearson correlation coefficient was computed for each timeseries' pair. Before further analysis, a common way to proceed is to transform each coefficient with Fisher z-transformation.
+The reason behind this common operation appears clear when we are dealing with high correlate variables, when pearson correlation distribution results in an highly skewed distribution, Fisher's transform sought to transform it into a normal distribution of which the standard error is approximately constant equal to $\sigma = \/\sqrt{N-3}$ where N is the total number of points, and it does not depends on the values of correlation.
+
+With this property, Fisher's transform is important also when we want to to test some hypotesis about correlations, we can run our test with the transformed variables which are normal distribuited with a known variance.
+
+So this transformation allow us to obtaining a variable which is normally distribuited even when Pearson correlation coefficients follow a bivariate normal distribution or they are leaning toward the extremes.
 
 \begin{equation}
 z = \frac{1}{2}ln\left(\frac{1+r}{1-r}\right) = arctanh(r)
 \end{equation}
 
-At the end of this analysis, we obtain correlation matrices like that showed as an example in fig \ref{fig:corrmatrices}, referred to patient 20243 from ABIDE I dataset.
+At the end of this analysis, we obtain correlation matrices like that shown as an example in fig \ref{fig:corrmatrices}, referred to patient 20243 from ABIDE I dataset.
 \begin{figure}
 \begin{subfigure}{0.5\textwidth}
 \includegraphics[width=\textwidth]{corrmatrix.png}
@@ -456,8 +464,8 @@ Figure shows the timeserie belonging to ROI 308: left superior frontal gyrus of 
 \label{}
 \end{figure}
 
-In cwt figure, x axis corresponds to space or time points and on the y axis frequencies or periods from "a' parameter are showed.
-Values outside the COI (showed as a dotted white line) are shown with a lighter faded.
+In cwt figure, x axis corresponds to space or time points and on the y axis frequencies or periods from "a' parameter are shown.
+Values outside the COI (shown as a dotted white line) are shown with a lighter faded.
 
 
 %The transform is in the form:
@@ -559,7 +567,7 @@ To practically construct a tree the algorithm
 \item Iterare point (1) and (2) until a single data point is left
 \end{enumerate}
 
-An example of a decision tree dealing with flower classification is showed in figure \ref{fig:decisiontree}
+An example of a decision tree dealing with flower classification is shown in figure \ref{fig:decisiontree}
 \begin{figure}
 \centering
 \includegraphics[width=0.8\textwidth]{ml/decisiontree_example.png}
@@ -607,7 +615,7 @@ This kind of algorithms are called Artificial Neural Networks (ANN) and, such as
 \label{fig:perceptron}
 \end{wrapfigure}
 
-The simplest model of a neural network is the \emph{perceptron} showed in figure , corresponging to a single neuron which takes as input a data, for example an n-dimensional array $\textbf{x} = \left\{ x_1, x_2, ..., x_n\right\}$ and returns an output: a real number computed by applying a function to a linear combination of all the inputs $ y = f(z) = f \left ( \sum_i w_{i} x_i + b \right )$
+The simplest model of a neural network is the \emph{perceptron} shown in figure , corresponging to a single neuron which takes as input a data, for example an n-dimensional array $\textbf{x} = \left\{ x_1, x_2, ..., x_n\right\}$ and returns an output: a real number computed by applying a function to a linear combination of all the inputs $ y = f(z) = f \left ( \sum_i w_{i} x_i + b \right )$
 This function that determines the outpu is called \emph{activation function}.
 
 
@@ -665,7 +673,7 @@ What happens then is that the model memorizes all the data it sees during train 
 As a result, the model performs well on the Train dataset and has low performances in an unseen dataset, called Test datset.
 
 As an example in a two-dimensional space, if we aim to fit a dataset consisting of some points sampled from a quadratic curve, using three different functions: a linear function, a quadratic function and a polynomial function with grade equal to the number of data points.
-As showed in figure \ref{fig:underoverfitting} the linear model is not able to describe the data's distribution while the polynomial function has too many parameters, and it is perfectly able to fit our distribution, but it would perform very poorly to describe a dataset sampled from the same quadratic distribution, furthermore, if the number of parameters (the grade of the polynomial in this case) is greater or equal to the number of data points, we obtain that an infinite number of different curves are suitable to fit our data, and finding the best one, which performs well on the test dataset is an hard task.
+As shown in figure \ref{fig:underoverfitting} the linear model is not able to describe the data's distribution while the polynomial function has too many parameters, and it is perfectly able to fit our distribution, but it would perform very poorly to describe a dataset sampled from the same quadratic distribution, furthermore, if the number of parameters (the grade of the polynomial in this case) is greater or equal to the number of data points, we obtain that an infinite number of different curves are suitable to fit our data, and finding the best one, which performs well on the test dataset is an hard task.
 We should therefore pay attention when choosing the number of parameters on a model to avoid under- or more likely over- fitting.
 
 
@@ -934,6 +942,12 @@ To reduce the dimensionality of our data, we need to extract the first  $\tilde 
 
 And the projection of our data from p-dimensional space into $\tilde p$-dimensional space is $\tilde Z = X\tilde W_p$
 
+An important parameters to quantify \say{how well} PCA is able to explain is the \emph{variance explained ratio}, given by the ratio of an eigenvalues and the sum of all the eigenvalues.
+
+\begin{equation}
+\frac{\lambda_i}{\sum_{k = 0}^p \lambda_k}
+\end{equation}
+
 The singular vector with the largest corresponding singular value is the first principal component, and with decreasing order, the other mutually orthogonal vectors are the next principal components.
 In figure \ref{fig:pca_example} is reported a graphic example of two PC extracted from a set of two-dimensional data, along the direction where variance is greater, there's the first principal component and the second component is in the orthogonal direction.
 
@@ -943,6 +957,7 @@ In figure \ref{fig:pca_example} is reported a graphic example of two PC extracte
 \caption{}
 \label{}
 \end{figure}
+
 
 
 %ration lambda_i/sum lambda_i ??
@@ -978,7 +993,7 @@ To summarize the model's performances with a single number using ROC's curve inf
 The reference value for an AUC is 0.5 which is obtained when a model is just randomly predicting and it corresponds to a curve laying on the bisector.
 The AUC can be explained as the probability that randomly picked point from the positive class, will have an higher score (according to the model) than a randomly picked point from the negative class so that the percentage value of AUC is an estimate of the probability that the model is able to distinguish between the two classes.
 
-An example of ROC curve is showed in figure \ref{fig:roccurve}
+An example of ROC curve is shown in figure \ref{fig:roccurve}
 
 
 \begin{figure}
@@ -1001,51 +1016,111 @@ An example of ROC curve is showed in figure \ref{fig:roccurve}
 
 
 \section{Harmonization}
-\subsection{Harmonization - theory}
-The issue of collecting a large dataset from multiple sources has a positive side because it facilitate the generalization and the robustness of the model, but, as a drowback, a level out procedure is necessary to avoid the model to learn differences deriving from inomogenity of data because of multiple site differences in data acquisition procedures.
-To try to reduce multi-site and multi-scan variety, prodecures called harmonization are become necessary.
-The state-of-art procedure is called ComBat (meaning of combat?), specifically adapted for functional connectivity to mitigate scanner effects, is based on a previous method initially proposed [reference to johnson, fortin] in 2007, for gene expression studies to compute batch effect corrections.
-ComBat technique is based on the empirical Bayes method: it aims to reduce inter-site variability while preserving biological variability such as differences due to sex, age.. it assumes that the erroes introduced in the imaging features can be standardized by adjusting the mean and the variance across the batches
-Let $y_{ijf}$ be the numeric value of the feature f for the patient i acquired with the scan or from the site j, so that i = 1, 2, ..., K indexes the scanner, j = 1, 2, ..., $N_i$ indexes the total number of subjects acquired for each scanner i, and f ranges from 1 to F being F the total number of features. Besides, let's assume that this value y, can be written as
+The issue of collecting a large dataset putting together data from multiple centers allow us to work on dataset of bigger dimension and facilitates the generalization and the robustness of the model, but, as a drowback, it introduces variability in our analysis such as differences due to scanner parameters, generally known as scanner effects.
+A level out procedure becomes necessary to avoid the model to learn these differences deriving from inomogenity of data because of differences in data acquisition procedures.
+This procedure is called harmonization.
+Harmonization was tested on different datasets and proven to be an effective way to reduce scanner effects \ref{johnson-2007} \ref{fortin-2017} and on functional connectivity data showing to reduce scanner effect.
+
+
+\subsection{Harmonization - theory}\label{sec:harmonizationtheory}
+
+
+The state-of-art procedure used in genomic is called ComBat (meaning of combat?), specifically adapted for functional connectivity to mitigate scanner effects, is based on a previous method initially proposed [reference to johnson, fortin] in 2007, for gene expression studies to compute batch effect corrections, and then implemented by Fortin et al \ref{fortin-2017} .
+ComBat technique is based on the simpler Location and scale adjustment methods, but it's an improved version of it: it uses the empirical Bayes to improve the estimation of the site parameters: it aims to reduce inter-site variability while preserving biological variability such as differences due to sex, age..
+The model assumes that a feature can be modeled as a linear combination of the biological variables plus the site effect, and the erroes introduced with site effect can be modeled as both a multiplicative and an additive term and that it can be standardized by adjusting the mean and the variance across the batches.
+
+
+Let $y_{ijf}$ be the numeric value of the feature f for the patient i acquired with the scan (or equivalently, from the site) j, so that i = 1, 2, ..., K indexes the scanner, j = 1, 2, ..., $N_i$ indexes the total number of subjects acquired for each scanner i, and f ranges from 1 to F being F the total number of features. Besides, let's assume that this value y, can be written as
 \begin{equation}
 y_{ijf} = \alpha_f + x_{ij}^T \beta _f + \gamma_{if} + \delta_{if} \epsilon_{ijf}
 \end{equation}
-where $\alpha_f$ is the mean value for the feature f, $x_{ij}$ is the entry of the matrix X for the covariates of interest such as age, gender, $\beta_f$ is the vector of regression coefficients corresponding to X, the terms $\gamma_{if}$ and $\delta_{if}$ represent the additive and multiplicative terms for site-i effects related to feature f respectively, and $\epsilon_{ijf}$ is a error term which is assumed to follow a normal distribution with zero mean and variance $\sigma_f^2$. To extimate feature-dependent parameters, data are standardized feature-wise, so that every feature has similar overall mean and variance. A least square regression, is then performed to determine parameters $\hat \alpha_f, \hat \beta_f, \hat \gamma_{if}$ and subsequently, $\hat \sigma^2_f = \frac{1}{N} \sum_ij \left ( y_{ijf} - \hat \alpha_f - X \hat \beta_f - \hat \gamma_if \right )^2$
-being N the total number of patients.
-The standardized data are then calculated by \ref{eq:harmonization_std_data}
+where $\alpha_f$ is the mean value for the feature f, $x_{ij}$ is the entry of the matrix X for the covariates of interest such as age, sex, $\beta_f$ is the vector of regression coefficients corresponding to X for the feature f, the terms $\gamma_{if}$ and $\delta_{if}$ represent the additive and multiplicative terms for site-i effects related to feature f respectively, and $\epsilon_{ijf}$ is a error term which is assumed to follow a normal distribution with zero mean and variance $\sigma_f^2$.
+
+
+The location-and-scale-adjusted data $y^{\ast}_{ijf}$ are given by $y^{\ast}_{ijf} = \frac{y_{ijf} - \hat \alpha_f - X\cdot \hat \beta_f - \hat \gamma_{jf}}{\hat \delta_{jf}} + \hat \alpha_f + X \cdot hat \beta_{jf},$
+where $\hat \alpha_f , \hat \beta_f , \hat \gamma_f ,  \hat \delta_{jf}$ are estimators of the corresponding parameters, based on the model.
+
+ComBat uses empirical Bayes to improve the variance of the parameters estimate $\hat \gamma_{if} \ \hat \delta^2_{if}$.
+Specifically it is assumed that that the site-effect parameters follow the normal distribution and the inverse gamma distribution respectively
+% follow a normal distribution:
+$\gamma_{if} \sim N(Y_i, \tau^2_i)$  $\delta^2_{if} \sim \frac{\beta^{\alpha}}{\Gamma (\alpha)}(1/x)^{\alpha +1}\cdot e^{-b/x}$
+
+The process to estimate feature-dependent parameters, and to adjust data for batch effect can be summarized in 3 steps:
+
+\begin{enumerate}
+\item Data are standardized feature-wise, so that every feature has similar overall mean and variance.
+least square regression, is then performed to determine parameters $\hat \alpha_f, \hat \beta_f, \hat \gamma_{jf}$ and subsequently, $\hat \sigma^2_f = \frac{1}{n} \sum_{ji} \left ( y_{ijf} - \hat \alpha_f - X \hat \beta_f - \hat \gamma_jf \right )^2$ being n the total number of patients.
+
+
+The standardized data are then calculated by equation \ref{eq:harmonization_std_data}
 
 \begin{equation}\label{eq:harmonization_std_data}
 Z_{ijf} = \frac{y_{ijg}-\hat \alpha_f - X \hat \beta_f}{\hat \sigma_f}
 \end{equation}
 
-Is futhermore assumed that standardized data follow a normal distribution $Z_{ijf} \sim N(\gamma_{if}, \delta^2_{if}) $ and that the distribution
-of batch normal distribution follow a normal distribution: $\gamma_{if} \sim N(Y_i, \tau^2_i)$ and an inverse gamma distribution
-$\delta^2_{if} \sim \frac{\beta^{\alpha}}{\Gamma (\alpha)}(1/x)^{\alpha +1}\cdot e^{-b/x}$
 
-The hyperparameters $Y_i,  \tau^2_i, $ are then estimated using the moment methos
-Under the distribution assumption above, the empirical batched parameters for batch effect $\gamma_{if}, \delta^2_{if}$ are estimaterg leadind to the estimate of the empirical batch adjusted data: $y_{ijf}^{ComBat}$
+\item Site effect parameters estimate using parametric empirical priors: assuming that standardized data follow the normal distribution $Z_{ijf} \sim N(\gamma_{jf}, \delta^2{jf})$
+it is also assumed that that the site-effect parameters follow the normal distribution and the inverse gamma distribution respectively
+$\gamma_{jf} \sim N(\eta_j, \tau^2_j)$  $\delta^2_{jf} \sim Inverse Gamma(\lambda_j, \theta_j) =  \frac{\theta^{\lambda}}{\Gamma (\lambda)}(1/x)^{\lambda +1}\cdot e^{-\theta/x}$
+
+Where the hyperparameters $\eta_j, \tau^2_j, \lambda_j, \theta_j$ are empirically estimated from standardized data using the method of moments
+%Breve box to exmplain method of moments??
+so we obrain $\gamma_{jf} \ and \ \delta^2_{jf}$ and we use them for the third and last step
+
+\item Adjust the data: After calculated the site-effect parameters we are finaly able to adjust our initial data using the relation
+
 \begin{equation}
-y^{ComBat}_{ijf}
+y^{ComBat}_{ijf} = \frac{\hat \sigma_f}{\delta_{jf}}(Z_{ijf} - \gamma_{jf}) + \hat \alpha_f + X \hat \beta_f
 \end{equation}
+
+\end{enumerate}
+
+
+%Is futhermore assumed that standardized data follow a normal distribution $Z_{ijf} \sim N(\gamma_{if}, \delta^2_{if}) $ and
+
+%The hyperparameters $Y_i,  \tau^2_i, $ are then estimated using the moment methos
+%Under the distribution assumption above, the empirical batched parameters for batch effect $\gamma_{if}, \delta^2_{if}$ are estimaterg leadind to the estimate of the empirical batch adjusted data: $y_{ijf}^{ComBat}$
+
 %HOW it works? covariates, what is FIQ?
 
 \subsection{Harmonization - results}
 
-%write about NYU_2, KUL_3 that only have asd data and result in NaN values replaced by original ones.
 % data do not present a clear age-trend  (and FIQ?)
-Harmonization procedure was tested on the whole dataset to have a visual representation of how features were modified once the harmonization was applied
 
-To test harmonization procedure and evaluate its performances in making sites' feature uniform, we used NeuroHArmonize package on 1494 patients coming from ABIDE I and ABIDE II of which 722 controls and 772 cases,
-We splitted them into train and test groups, then, for each train dataset, using NeuroHarmonize, the harmonization model was estimated on control subjects only, so these subjects were harmonized to remove site-dependent features and the chosen covariates were the age of the subject and the full intellective quotient. The model was then applied to the case subjects belonging to train, and to both case and controls subjects of the test set.
-A random forest regressor was trained on this dataset attempting to make a binary classification of the site, for each pair of sites.
+As explained before, ComBat simultaneously models and estimates biological and non biological terms, and algebraically removes the estimated addivite and multiplicative site-effect terms.
 
-This aproach, allows train and test dataset to be still independent, because harmonization model was only trained on Train subjects and once learnt the parameters, is applied to the Test dataset.
+Harmonization procedure was tested on the whole ABIDE I + II dataset to have a visual representation of how features are modified after the harmonization is applied.
+
+To test harmonization procedure and evaluate its performances in making sites' feature uniform, we used NeuroHarmonize \footnote{https://github.com/rpomponio/neuroHarmonize} package for Pyhton, developed by Pomponio et al. \ref{pomponio-2019} which implemented and added some features to the previous NeuroComBat Python package \footnote{https://github.com/Jfortin1/ComBatHarmonization}.
+
+To use Neuroharmonize package we need to input the feature data to harmonize and the corresponding covariate information with site, age, sex, and other biological quantities we desire to take into account.
+For our data these information were provided by a csv file on ABIDE website so that for each patient are collected as much information as they could.
+A regression model is thus created with parameters estimated with the procedure explained in section \ref{sec:harmonizationtheory} and it can be applied to this input data or to other new data provided that they belong to the same sites we used to create our model.
+
+We tested harmonization procedure on 1494 male patients coming from ABIDE I and ABIDE II of which 722 controls and 772 cases, choosing as covariate to preserve the Age, and the FIQ (Full intellective quotient) to mantain important biolgical trends in the data and avoid overcorrection.
+
+%C'è davvero un biological trend?? mettere figure.
+
+The central idea is to create the model on control subjects only, to create a model without the influence of informations related to ASD patients whose feature might follow a different distribution than control patients.
+Then once created the model on control subject, it is applied to both control and ASD subjects, so that site-related information are eliminated from our data.
+
+Under this general way to proceed, we used a Random Forest Regression to test the site classification performances before and after the harmonization procedure.
+In this analysis, we split the model into a Train and Test subsets, using the Test subjects, we created a model with only controls as explained before,
+The model was then applied to the case subjects belonging to train, and to both case and controls subjects of the Test set.
+
+A random forest regressor was trained on this dataset attempting to make binary classification of the site, for each pair of sites.
+
+This aproach, allows train and test dataset to be still independent, because harmonization model was only created on Train subjects and once learnt the parameters, is applied to the Test dataset, so the data we use to train the random forest, are kept separated from the test set, so that there's no information leakage of the test data into the training data.
+\newline
+
+\textbf{Note:} As can be seen from figure \ref{fig:controlcase_site} two sites namely \texttt{NYU\_2} and \texttt{KUL\_3} provided only ASD patients, and, since we are estimating the mean and the variance for each feature across all sites, when we train a model only on control cases, and we apply it on patients belonging to new sites, we don't have information to scale and modify those data so the model would output NaN values.
+To avoid discarding these data, just for these two sites, we substituted NaN values with original unmodified data.
+\newline
 
 Figure \ref{fig:heatmap_harmonization} shows the result of classification on the dataset described above. Scores are reported in terms of AUC for the classification of each pair of sites, and sites along the x and y axes are ordered by incresging average age of patients coming from that site.
 Specifically, fig \ref{fig:heatmap_harmonization_noharmon} shows the AUC score of the model trained with the raw, not harmonized dataset, it is clear from this binary classification that almost every site is well distinguishable from the others by the value of AUC, almost uniformly near to 1.
 On the contrary, in fig \ref{fig:heatmap_harmonization_harmon} values are lower, meaning that sites are not so distinguishable anymore, however, a certain distinctive features are still present for sites presenting high difference in mean age.
 This is a consequence of choosing age as covariate, which preserves differences in age-dependent features.
-
 
 
 
@@ -1088,6 +1163,27 @@ Their values are plotted as a box along the y axis and sites are indicated along
 \label{fig:features_raw-harmo}
 \end{figure}
 
+ If we split this plot into control and ASD patients to see the effect of harmonization separately on these subsets, \ref{fig:features_control-asd_raw-harmo}
+
+ \begin{figure}
+ \centering
+ \begin{subfigure}[b]{1.\textwidth}
+    \includegraphics[width=1\linewidth]{harmonization/Feature324control-asd_raw-harmo}
+    \caption{}
+    \label{fig:feature324-control-asd}
+ \end{subfigure}
+ \begin{subfigure}[b]{1.\textwidth}
+    \includegraphics[width=1\linewidth]{harmonization/Feature2800control-asd_raw-harmo}
+    \caption{}
+    \label{fig:feature2800control-asd}
+ \end{subfigure}
+ \caption{Features}
+ \label{fig:features_control-asd_raw-harmo}
+ \end{figure}
+
+
+
+
 
 \section{Domain-adversarial NN}
 An other approch is trying to train a neural network to recognise discriminative features, making train as much site-independent as possible.
@@ -1122,14 +1218,16 @@ This layer has no parameters and don't act during forward propagation, but, duri
 So as shown in figure -insert figure- the network is forked after the feature extractor branch, on one side, he starts the label predictor branch, and on the other, there's the domain classifier branch with the gradient reversal layer at the beginning.
 The setup of this work, differs from Ganin's because we don't have a labeled Source and an unlabeled Target domain, but they are both labeled, so there's no need to keep them separated and also, in our case, the Target domain is not just made of two domains, but of as many sites our data belong to.
 
+
 In this work, the label classifier branch ends with a sigmoid function wich return only one class label $y_i \in [0, 1]$ while the domain classifier branch ends with a multi-node layer of a number equal to the total sites' number.
 An adversarial loss is also implemented, aimed to aviod that if, for instance, the domain classifier, correctly classify one input, the computed error would be low, and it would have a low contribution during the back propagation, and leaving the weights almost unmodified after the backpropagation, and therefore leaning towards that site.
 
-\section{Results of deep learning}
+\section{Deep learning: implementation and results} \label{sec:deep_learning_results}
+% Magari prendere dei risultati di come variano le performances al variare di lambda in una rete adversarial only loss.
 
 In our work we employed a simple deep neural network architecture illustrated in figure .. with 2 hidden made up of 64, and 32 nodes respectively activated by a ReLU function and each layer separated from the next by a Batch-Normalization and a 0.3-Dropout layer. After the 32-node layer we used a single output layer with a single node activated by a sigmoid function, for classification.
 Since we are working in an underlying overfitting condition we choose this network structure after a grid search to find the minimal parameters' configuration which allows best classification scores.
-Overfitting is clear if we take a look at the learning curves in figure \ref{fig:learningcurve} which shows the training and validation AUC curves for two model: one of them (\ref{fig:auc_no3-2-1}) even if too much simplified, shows the classical trend of an overfitting state, however, it performes a bit worse than the other more complex models.
+Overfitting is clear if we take a look at the learning curves in figure \ref{fig:learningcurve} which shows the training and validation AUC curves for two models: one of them (\ref{fig:auc_no3-2-1}) even if too much simplified, shows the classical trend of an overfitting state, however, it performes a bit worse than the other two more complex models.
 
 \begin{figure}
 \centering
@@ -1157,15 +1255,47 @@ Overfitting is clear if we take a look at the learning curves in figure \ref{fig
 
 In our model, as loss function we used binary crossentropy and the neural network's weights were optimized via Adam optimizer with a learning rate of $10^{-4}$ and model's performancies were assessed with a 10 or 5 k-fold Cross validation, collecting the AUC score for each fold and then computing mean and std deviation of these results.
 
-The other neural network employed was the site-adversarial neural network: following a similar structure as the DNN, it can be divided into three main components: the first feature extraction branch comprising the DNN up to the 32-node layer;
+The other neural network employed was the site-adversarial neural network:
+One way to implement a model able to predict category label without any influence of site's information is to train a model with two different losses as is done in the article \ref{Guan-2021} and combine them in order to create a loss in the form
+\begin{equation}
+L = L_1 - \lambda L_2
+\end{equation}
+Where $L_1$  is in our case the loss for the binary classification Control/ASD that we want to minimize (binary crossentropy), while $L_2$ is the loss for site classification (categorical crossentropy) we aim to maximize in order to avoid to learn any information somehow linked to site, and $\lambda $ is a parameter to set empirically, to control the contribution of the site's loss to the overall loss.
+This way, the minimum of the total loss is reached with parameters that minimize the category classification loss and maximize the site classification loss.
+
+We also tried to find something with the same underlying idea, namely minimize the error on classification, while maximizing but with a slightly different implementation
+
+
+Following a similar structure as the DNN, it can be divided into three main components: the first feature extraction branch comprising the DNN up to the 32-node layer;
 from this point the network is splitted into two branches: one categorical classificator, along the lines of the DNN consists of the last outpput layer with a sigmoiod activation function, and the other branch, the site classifier consisting of a gradient reversal layer as the first layer followed by a layer with 16 nodes, and after a batch Batch-Normalization layer, the multi-output layer with N nodes, being N the total number of sites input data belong to.
 This final layer is activated by a softmax function, and the loss function employed for site classification is the categorical crossentropy implemented using a custom function to deal with a possible low crossentropy score when by chance the site classifier, categorize one or more input data's sitelabel correctly, which would have low impact on the whole branch classifier making the adversarial strategy useless.
 
 
 We mainly carried out three different kind of analysis using this DNNs, and compared them with the scores obtained from the adversarial network.
-Specifically we performed: 1) classification of raw (not harmonized) data, 2) classification on the whole harmonized dataset, creating the harmonization model on all control subjects and applying the model on all ASD subjects, and 3) classification with harmonization implemented inside a K-fold cross-validation, creating the model on controls and applying it to ASD, and 4) classification using the domain adversarial neural network.
+Specifically we performed: 1) classification of raw (not harmonized) data, 2) classification on the whole harmonized dataset, creating the harmonization model on all control subjects and applying the model on all ASD subjects, and 3) classification with harmonization implemented inside the K-fold cross-validation, creating the model on controls and applying it to ASD, and 4) classification using the domain adversarial neural network.
+
+For each one of them we implemented a K-fold cross validation scheme and reported our results as the mean AUC and the standard deviation of the scores of each k-fold.
 
 Following this procedure we implement a k-fold cross validation using stratifiedKFold provided by sklearn library. Data were splitted into a train and a test dataset, therefore using train data we computed the harmonization model only on control patients and then apply the model to asd patient and both Control and ASD Test data.
+The whole flowchart is shown in figure \ref{fig:harmon_kfold_flowchart}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.6\linewidth]{ml/flowcharts/harmon_kfold}
+\caption{Flowchart: implementation of harmonization inside each fold}
+\label{fig:harmon_kfold_flowchart}
+\end{figure}
+
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.6\linewidth]{ml/flowcharts/harmon_upstream}
+\caption{Flowchart: implementation of harmonization upstream}
+\label{fig:harmon_upstream_flowchart}
+\end{figure}
+
+
 This is the best way to mantain train and test data as much separated as possible and avoid data leakage between train and test.
 
 Analysis were carried out using different selection criterias and thresholds which brought us to different datasets combination:
@@ -1181,7 +1311,27 @@ The latter analysis were carried out with these same constraints, but separately
 A further analysys concerns the feature's dimensionality reduction, that is the reduction of features from the input dataset using PCA
 For each one of the analysis above, PCA was implemented to restrain the effect of overfitting.
 
-From the initial input data consisting of 5995 features, we tried to classify using 20, 50, 100 and 200 principal components
+From the initial input data consisting of 5995 features, we tried to classify using n principal components
+
+The workflow of the entire analysis can be schematized in the workflow diagram \ref{fig:workflowanalysis}
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.6\linewidth]{ml/flowcharts/flowchart_analysis}
+\captionsetup{singlelinecheck = off}
+\caption[]{
+Flowchart of the analysis carried out in this work:
+\begin{enumerate}
+\item Select one type of coefficients: Pearson correlation, Wavelet coherence coefficients
+\item Select the attributes of patients to make cuts on dataset, for example use the whole ABIDE I + II dataset or just ABIDE I, limit analysis to a certain age range, sex, or eye status open or close.
+\item Use these data + labels to make classification following the three pipelines described in section \ref{sec:deep_learning_results} and the fourth analysis pipeline using the adversarial neural network
+\item For each of these branches, implement a K-Fold cross validation and return the results in terms of mean AUC and std deviation of the values across every fold.
+\end{enumerate}
+}
+\label{fig:workflowanalysis}
+\end{figure}
+
 
 \subsection{Results with pearson coefficients}
 
@@ -1203,9 +1353,20 @@ AB I + II AGE=all, EYE=all &70$\pm$ 1 &75 $\pm$1 &70 $\pm$2 &65 $\pm$ 1 \\
 \caption{AUC score obtained from three different kind of analysis with pearson coefficients}\label{}
 \end{table}
 
-
+\newpage
 
 \subsection{Results with Wavelet coefficients}
+
+Following the same path as with Pearson coefficients, we tried to run classification on Wavelet coefficients
+
+Three main analysis were carried out
+
+\begin{enumerate}
+\item In phase wavelet coefficients
+\item In phase and counter phase coefficient stacked together in a single array long twice In-phase coefficients only
+\item Coefficients resulting from the subtraction of the two: In phase - Counter phase
+\end{enumerate}
+
 
 \begin{table}[!htp]\centering
 \caption{Win + Wout}\label{}
@@ -1253,11 +1414,44 @@ AB I open EYE &71 4 &74 3 &71 3 &68 2 \\
 \end{table}
 
 
+\newpage
 
+\subsection{Result with PCA}
+
+When applying PCA to a dataset we seek to explain as much variance as possible, for this reason we start our pca analysis extracting a number of principal components that explain more then 90$\%$ of variance, then we reduced this number halving if.
+The maximum number of principal components is limited by the number of data we can use. If we have a dataset of $n\_samples$ samples, each with $n\_features$ features, the maximum number of PC is given by $N\_pc = min\{n\_samples, n\_features\}$.
+This is because in a $n-feature$-dimensional space, our points lie in a $n\_samples$-dimensional hyperplane and all the variance can be explained inside this subspace.
+In our case $n\_samples$ is always $< \ n\_features$, so the number of principal components will be limited by the number of data in the Train dataset.
+
+We choose to run PCA analysis using coefficients that gave the best classification results in the previous analysis, Pearson correlation coefficients.
+We started our analysis choosing the proper number of PC to explain $> 90\%$ of variance
+
+
+
+
+
+\newpage
 
 \section{Explainable AI (XAI) with SHAP}
+
+Machine learning is seen as a black box..
+
+
 \subsection{SHAP - theory}
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\linewidth]{shap/shap_presentation}
+\caption{}\label{fig:shap_waterfall}
+\end{figure}
+
+
 SHAP (SHapley Additive exPlanation) is a technique based on game theory wich provides a method for model explanability.
+It's a powerful tool to get rid of the \textquotedblleft black box \textquotedblright idea of a machine learning model and try to understand its deep mechanism and the reasons why a model gave a certain output, or a certain prediction related to an input sample like a vector of feature or an image for example.
+As is shown in figure \ref{fig:shap_waterfall} just as a visual example, a common machine learning model acts like a black box that returns an output value after some non-linear calculations on some input values; with an explanatory model, we are able to quantify the contribution of each feature of our input data and assess what and why are the most important features and how much they contributed to the final outcome.
+
+
 Let's say we have a coalition game: N players, and different subsets created from these players. Each subset of players S gain a payoff at the end of the game. A function $\nu$ maps every subset to its payoff. $\nu(S_i) = payoff_i$. Based on which player had more influence in the final score, we ask how to split this payoff in a fair way between each player of the subset.
 To this end we use \textbf{shapley values}: a solution concept (i.e. a formal rule to predict how a game will be played) $\phi_i(\nu)$. It represents the incremental benefit of including player i in a the subset and average over all subsets that include player i.
 They are specific for each player i and represents the marginal contribution of that player to the final score, in other words they are the difference between the group's score with player i and the group's score without player i.
@@ -1287,11 +1481,39 @@ Deep SHAP combines shap values for smaller components of a network to compute va
 
 To express the significance of a feature we plotted them using SHAP feature importance, based on the relation between feature importance and shap value: feature with high absolute shapley value are important. The importance value for a feature j is then calculated from $I_j = \frac{1}{n} \sum_{j = 1}^n \|\phi_j^{(i)}\|$
 
-\subsection{SHAP - results}
+\subsection{SHAP - Implementation and results}
 
+
+Shap is implemented as a free Python package with MIT licens, developed and mantained by Scott Lundberg.
+This package includes different classes such as TreeExplainer tuned to perform rapidly on tree and forest-like models, linearExplainer which deals with linear model and is able to compute the exact shapley values and not just an aproximation, and the algorithm we are using DeepExplainer, suitable to explain deep learning models and to compute an approximate value of shapley values.
+
+The problem with implementing an algorithm for the computation of shapley values is that we should ?? evaluate the model ?? for each possible feature permutation so that for a model with p features we should repeat this process p! times which in our case would bring to 5995! $\sim 10^{20046}$. To avoid this computation Shapley works by defining a background dataset with a subset of Train data we used to train the model, then during shapleyt computation it just fill in the missing features with features from this background.
+We then take the average of all the model outputs from this new artificial dataset
+
+To instantiate the desired class, DeepExplainer in our case, we need the trained model and a fraction of the training data as background of arbitrary size $N_{bkg}$ keeping in mind that the bigger is this background subset, the more accurate is the computing of shapley values, but the more computationally expansive this process will be, in particular it would occupy a vast amount of RAM memory and eventually run out of it; by the way, since the error on them $\sim 1/\sqrt{N_{bkg}}$, a background dataset made of 100 samples is a good compomise to have a relatively small error.
+
+Once the explainer is created on our model, we need to input as many test dataset as we want to explain, and for each one of them, the explainer will output an array of the same size of the test dataset we used, shaped $n_samples \times p_features$
+We then have to input the test dataset
+
+
+Since we are presenting our results following a k-fold cross validation scheme, we had to implement this shap process inside the CV.
+To do so and collect the final result we computed the shap values for all the test samples and we stacked them together.
+At the end of the CV, shapley values are computed for the whole dataset, and we can proceed to visualize the results
+We can visualize the contribution of each feature on pushing or pulling the predicted output from the baseline output of our model.
+
+Positive shapley values, representing positive contribution to our output are colored red and negative ones are blue.
+An example is shown in figure \ref{fig:shap_waterfall}
+
+\begin{figure}[h]
+\includegraphics[width=0.4\linewidth]{shap/waterfall_plot}
+\caption{}\label{fig:shap_waterfall}
+\end{figure}
+
+
+
+\addcontentsline{toc}{section}{APPENDIX}
 
 \appendix
-
 \section{Principles of MRI imaging}
 Nuclear magnetic resonance imaging, is a widespread imaging technique It's widely employed in radiology to obtain anatomical images or study physiological processes, taking advantage of its flexible sensitivity to different tissues
 It's based on the interaction of a nuclear spin of any tissue's molecule, with an external magnetic field $\textbf B_0$.
@@ -1419,8 +1641,23 @@ Pixel-to-pixel frequency difference in the phase-encoding direction emphasizes c
 EPI generates gradient echoes under the FID curve created by the RF flip. As the curve decays according to T2*, gradient EPI sequences willl be T2* weighted.
 Sensitivity to T2*, of course, introduces sensitivity to artifacts caused by changes in magnetic susceptibility (eg, air/tissue interfaces) and imperfect magnet shim
 
+\section{Other classification results}
 
-
+\begin{table}[!htp]\centering
+\scriptsize
+\begin{tabular}{lrrrrr}\toprule
+Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adv 264-8 \\\midrule
+AB I$\pm$II &60$\pm$1 &71$\pm$3 &63$\pm$2 &60$\pm$1 \\
+AB I &61$\pm$2 &69$\pm$3 &62$\pm$2 &61$\pm$2 \\
+AB 2 &56$\pm$3 &69$\pm$4 &60$\pm$4 &59$\pm$4 \\
+AB I $\pm$ II - EYE open &63$\pm$2 &68$\pm$3 &64$\pm$2 &63$\pm$3 \\
+AB I open EYE &63$\pm$5 &74$\pm$3 &71$\pm$4 &72$\pm$2 \\
+AB II EYE open &63$\pm$5 &70$\pm$3 &63$\pm$3 &62$\pm$3 \\
+AB I $\pm$ II AGE=all, EYE=all &65$\pm$3 &71$\pm$2 &66$\pm$2 &63$\pm$2 \\
+\bottomrule
+\end{tabular}
+\caption{Classification scores using only out-of-phase Wavelet coefficients}\label{}
+\end{table}
 
 
 \bibliographystyle{plain}
