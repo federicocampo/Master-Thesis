@@ -1,5 +1,9 @@
 \documentclass[a4paper,11pt]{article}
-\usepackage[vmargin=1.5cm, hmargin=1.5cm]{geometry}
+%\documentclass[12pt]{report}
+\usepackage[top=3cm, bottom=3cm, left=2.5cm, right=4cm]{geometry}
+\pagestyle{plain}
+\linespread{1}
+
 \usepackage{graphicx}
 \usepackage{wrapfig}
 \usepackage{subcaption}
@@ -249,7 +253,7 @@ CPAC was run on a Docker container installed on a computer and our hardware and 
 \begin{itemize}
 \item 16-core Intel i7-5960X processor and 64 Gb RAM
 \item Ubuntu 20.04 operating System
-\item CPAC 1.8.1 installed on Docker v. ???
+\item CPAC 1.8.1 installed on Docker v. 20.10.11
 \end{itemize}
 
 We were allowed to run 3 patients in parallel, reserving 4 cores for each partecipant and up to 12 Gb memory to each patient, necessary to save intermediate-steps outputs.
@@ -299,15 +303,6 @@ Abide preproccessed data were obtained using one of the first version of CPAC; n
 It appears clear that the trend is the same, but there are some local differencies between the two plots due to differencies in }
 \label{fig:confrontoabidepreproc}
 \end{figure}
-
-
-
-
-
-
-
-
-
 
 
 
@@ -529,9 +524,30 @@ Figure \ref{fig:wcoherence} represents the wavelet coherence scalogram obtained 
 
 From equation \ref{eq:wcohcoefficients} both coefficients in-phase and anti-phase matrix coefficients were computed.
 The correlation coefficients matrix for each subject, were then flattened and used as input to the neural networks.
+An example of correlation matrix created with in-phase and out-of-phase coefficients from data of patient 50267 is shown in figure \ref{fig:win_wout_50267}
 
 
 
+
+\begin{figure}
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{wavelet/win_50267.png}
+\caption{Coefficients of In-phase percentage}
+\label{}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{wavelet/wout_50267.png}
+\caption{Coefficients of Off-phase percentage}
+\label{}
+\end{subfigure}
+\caption{Correlation matrix created with Wavelet coefficients of in-phase and off-phase percentage. These come from patient 50267, ABIDE I }
+\label{fig:win_wout_50267}
+\end{figure}
+
+
+
+
+\newpage
 
 \section{Machine learning}
 %Machine learning introduction
@@ -1142,7 +1158,6 @@ This is a consequence of choosing age as covariate, which preserves differences 
 \label{fig:heatmap_harmonization}
 \end{figure}
 
-\cite{pomponio}
 To have a visual representation of how much each feature is modified in respect of its sourced site, in fig \ref{fig:features_raw-harmo} are shown two features among 5995: \emph{feature 324} and \emph{feature 2800} as a function of sites.
 For a clearer idea of what is shown, feature 324 represents the correlation between right and left inferior frontal gyrus, and feature 2800 that between left precuneous cortex and the left inferior frontal gyrus
 Their values are plotted as a box along the y axis and sites are indicated along the x-axis, it is clear how harmonization is a powerful tool to level up feature and remove site-dependent information from them.
@@ -1416,7 +1431,7 @@ AB I open EYE &71 4 &74 3 &71 3 &68 2 \\
 
 \newpage
 
-\subsection{Result with PCA}
+\subsection{Results with PCA}
 
 When applying PCA to a dataset we seek to explain as much variance as possible, for this reason we start our pca analysis extracting a number of principal components that explain more then 90$\%$ of variance, then we reduced this number halving if.
 The maximum number of principal components is limited by the number of data we can use. If we have a dataset of $n\_samples$ samples, each with $n\_features$ features, the maximum number of PC is given by $N\_pc = min\{n\_samples, n\_features\}$.
@@ -1424,7 +1439,53 @@ This is because in a $n-feature$-dimensional space, our points lie in a $n\_samp
 In our case $n\_samples$ is always $< \ n\_features$, so the number of principal components will be limited by the number of data in the Train dataset.
 
 We choose to run PCA analysis using coefficients that gave the best classification results in the previous analysis, Pearson correlation coefficients.
-We started our analysis choosing the proper number of PC to explain $> 90\%$ of variance
+We started our analysis choosing the proper number of PC to explain $> 90\%$ of variance and then gradually reduced them as reported in table \ref{tab:pca_explained}
+
+\begin{table}
+\centering
+\begin{tabular}{ |c|c c| }
+\hline
+\multicolumn{3}{|c|}{Explained variance} \\
+ \hline
+  N PC & All & AB-I eye=open \\
+  \hline
+ 800 & 93 & -- \\
+ 400 & 78 & 98 \\
+ 200 & 62 & 77 \\
+ 100 &48 & 58 \\
+ 50 & 36 & 41 \\
+ 20 & 24 & 26\\
+ \hline
+\end{tabular}
+\caption{Explained variance [\%] for different numbers of principal components, and for the two dataset used in the analysis}
+\label{tab:pca_explained}
+\end{table}
+
+
+
+
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{.45\textwidth}
+   \includegraphics[width=1\linewidth]{ml/auc_vs_pc_ab1}
+   \caption{}
+   \label{}
+\end{subfigure}
+\begin{subfigure}[b]{.45\textwidth}
+   \includegraphics[width=1\linewidth]{ml/auc_vs_pc_all}
+   \caption{}
+   \label{}
+\end{subfigure}
+\caption{}
+\label{}
+\end{figure}
+
+
+
+
+
+
 
 
 
@@ -1434,10 +1495,7 @@ We started our analysis choosing the proper number of PC to explain $> 90\%$ of 
 
 \section{Explainable AI (XAI) with SHAP}
 
-Machine learning is seen as a black box..
-
-
-\subsection{SHAP - theory}
+As methods to learn pattern from data becomes more complex, they become harder to interpret, deep learning represent an example of a technique to search for nonlinear relations between data, but introducing nonlinearity, makes an outcome difficult to interpret and it ends up considering a machine learning model as a black box without any hint of its inner precesses that occurred when a result is output. But if a model perform well, or bad on a dataset, we would like to know why and what feature influenced the most the outcome of our model.
 
 
 \begin{figure}[h]
@@ -1449,48 +1507,145 @@ Machine learning is seen as a black box..
 
 SHAP (SHapley Additive exPlanation) is a technique based on game theory wich provides a method for model explanability.
 It's a powerful tool to get rid of the \textquotedblleft black box \textquotedblright idea of a machine learning model and try to understand its deep mechanism and the reasons why a model gave a certain output, or a certain prediction related to an input sample like a vector of feature or an image for example.
-As is shown in figure \ref{fig:shap_waterfall} just as a visual example, a common machine learning model acts like a black box that returns an output value after some non-linear calculations on some input values; with an explanatory model, we are able to quantify the contribution of each feature of our input data and assess what and why are the most important features and how much they contributed to the final outcome.
+As is shown in figure \ref{fig:shap_waterfall} just as a visual example, a common machine learning model acts like a black box that returns an output value after some non-linear unknown calculations on some input values; with an explanatory model, we are able to quantify the contribution of each feature of our input data and assess what and why are the most important features and how much they contributed to the final outcome.
 
 
-Let's say we have a coalition game: N players, and different subsets created from these players. Each subset of players S gain a payoff at the end of the game. A function $\nu$ maps every subset to its payoff. $\nu(S_i) = payoff_i$. Based on which player had more influence in the final score, we ask how to split this payoff in a fair way between each player of the subset.
-To this end we use \textbf{shapley values}: a solution concept (i.e. a formal rule to predict how a game will be played) $\phi_i(\nu)$. It represents the incremental benefit of including player i in a the subset and average over all subsets that include player i.
-They are specific for each player i and represents the marginal contribution of that player to the final score, in other words they are the difference between the group's score with player i and the group's score without player i.
-To apply this concept to a machine learning model we just substitute the payout is the model prediction and each player is the value of a single feature.
-Shap value is then a weighted average of the marginal contribution of a feature (player) across all possible coalitions
 
-For each player i and a map function $\nu$ shap values are defined as:
 
-%Need to write \ symbol
+\subsection{Shapley values - Theory}
+
+Game theory is a branch of mathematic related on the study of mathematical models to  conceive social situations among competitive players \footnote{https://plato.stanford.edu/entries/game-theory/}
+It have had a great development in the XX century expecially during and after the Second world war thanks to the contribution of mathematicians like John Von Neumann, John Nash and Lloyd Shapley.
+Game theory can be mainly divided into two main classes namely cooperative and non-coperative game.
+Non-cooperative game concern competition between individual player and the main task is to find a good strategy for each player and a big contribution came from Nash with the concept of Nash equilibrium \cite{nash-1950}.
+Cooperative games concern competition between groups of player forming coalitions; one of the the main tasks is to find a way to divide the total utility among the member of a coalition in an equally way proportionally of how much they contributed to the final score.
+In 1951 Lloyd Shapley in 1951 Introduced a way to compute the exact amount of payoff for each player making use of what were named after him: Shapley values \cite{shap-1951}\cite{shap-1953}.
+Shapley introduced its values for coalition games:
+
+A coalition games involves N players, and different subsets called coalitions created from these N players.
+Each subset of players S gain a payoff at the end of the game.
+A function $\nu$ maps every subset to its payoff $\nu(S)$ = payoff(S) $\in \Re$.
+Based on which player had more influence in this final score, we ask how to split this payoff in a fair way between each player of the subset, where \textquotedblleft fair \textquotedblright is to be intended as to each, proportional to his own contribution.
+A solution for this problem comes from \textbf{shapley values} $\phi_i(\nu)$.
+They are specific for each player i $\in$ N in a coalition S $\in$ N and represents the marginal contribution of that player to the final score, where marginal contribution is defined as the difference on the score of the coalition when player i joins the coalition.
+In other words they are the difference between the coalition's score with player i and the group's score without player i $\nu (S \cup \{ i \}) - \nu(S)$.
+
+It represents the incremental benefit of including player i in a the subset and average over all subsets that include player i.
+
+
+The mathematical formulation Shapley introduced for his value is
 \begin{equation}
-\phi_i(\nu) = \frac{1}{N} \sum_{S\subseteq N\ \setminus \left \{ i \right \} }  {N- 1 \choose \left |S \right |}^{-1} \left ( \nu (S u \left\{ i \right\}) - \nu(S)\right)
+\phi_i(\nu) = \frac{1}{N} \sum_{S\subseteq N\ \setminus \{ i \} }  {N- 1 \choose |S|}^{-1} ( \nu (S \cup \{ i \} 0) - \nu(S) )
 \end{equation}
-To get the idea of how we can explain a model, we start asking: how much is a prediction driven by the fact that a feature has a certain value A, instead of its baseline value $\bar A$? the baseline value $\bar A$ is the result of
-To answer this question we introduce a coalition vector z' = $\left\{ 0, 1 \right\}^F$ : where F is the total number of features; we have then a binar vector made by zeros and ones where zero means that we withheld the corrisponding variable from our analysys, and the one that we are including it.
-To map the x' vector to the corresponding feature values vector a function $h_x(x')$ = x which returns the actual features' value for the corresponding input vector x. Thus we aim to study a simplified model g(z') which is equal to f($h_x(z')$) if z' $\approx$ x'. The most important properties of this models is called local accuracy and states that g and f must give the same result when passing all the features: g has to match f when x = $h_x(x')$.
-We attribute a contribution $\phi_i$ to each simplified vector $z_i'$
+%That can be interpreted as $\frac{1}{N} \sum \frac{\text{marginal contribution of i to the coalition}}{\text{number of coalitions excluding i of the same size os S}}$
+And they exactly represent the amount of reward for each player i.
+
+The idea behind SHAP is to use these Shapley values to exaplain every single feature's contribution in our machine learning model, treating it as a cooperative game
+
+To apply the concept of Shapley values to a machine learning model we just adapt some terms we used for game theory: the payout is the model's prediction and the players are the feature in our input data.
+For a single feature, its Shapley value is defined as the average marginal contribution of that feature's value across all possible coalitions.
+
+%To get the idea of how we can explain a model, we start asking: how much is a prediction driven by the fact that a feature has a certain value A, instead of its baseline value $\bar A$? the baseline value $\bar A$ is the result of ... ?
+Shap can be regarded as a local explainatory method, and before it several algorithms belonging to this cathegory were implemented as an attempt to create an explainatory technique for machine learning models.
+In general, local explainatory model's objective can be defined as the attempt to explain an output f(x) after a single instance x that in our case can be a vector of features.
+
+To do so and simplify the workflow, they introduce a coalition vector x' = $\left\{ 0, 1 \right\}^F$ : where F is the total number of features: z' is a vector of the same length of x, and is a binar vector made by zeros and ones where zero means that we withheld the corrisponding variable from x in our analysys, and the one that we are including it.
+
+To map the x' vector to the corresponding feature values vector a mapping function $h_x(x')$ = x is introduced to returns the actual features' value from the corresponding input vector x.
+Our goal is to find a simplified model g(x') to work with, because it's simpler to work with a binary vector x' than with the actual vector x.
+We want that this simplified model, when applied on the coalition vector x', is able to approximate our output f(x): $ g(z') \approx f(h_x(z'))$ if z' $\approx$ x'.
+The first important condition on this function g is that it has to be a linear function
 \begin{equation}
 g(z') = \phi_0 + \sum_{i = 0}^N \phi_i z_i'
 \end{equation}
-The solution to this problem exists and is unique, it's shapley values.
-To assign the importance value to a feature we need to train two different models: one with that feature included and the second one with that feature excluded and thereafter compute the difference between the two models' prediction. computing this differences for all possible subsets S$\subseteq F \setminus \left\{i\right\}$.
-We are then going to use them to explain a deep learning model with the SHAP method. There are different way of approximating the computation of SHAP values like KernelSHAP which is a model agnostic explanation method, or Deep SHAP which employs shapley values into DeepLIFT algorithm.
-DeepLIFT aims to compute the difference in output deriving with an input different from some \textquotedblleft reference \textquotedblright input chosen depending on the data we are working on.
-Let t represent the output of some inner neuron and let x1, x2, ... , $x_n$ be some preceding neurons necessary to compute t, if we label $t_0$ the reference output, we can compute the value $\Delta t = t-t_0$ and use them to define the DeepLIFT values $C_{\Delta x_i \Delta t}$ so that $\sum_i = 1 ^n C_{\Delta x_i \Delta t} = \Delta t$. For a given input neuron x with difference from reference $\Delta x$ and a target neuron t, is defined a multiplier $m_{\Delta x \Delta t} = \frac{C_{\Delta x \Delta t}}{\Delta x}$ which represents the contribution of $\Delta x$ to $\Delta t$.
-%maybe if I want I can continue explaining DeepLIFT
-Deep SHAP combines shap values for smaller components of a network to compute valuer for the whole network, it does so recursively passing Deep LIFT multipliers during backpropagation: we can indeed re-writing multiplier values in terms of shap values, for a target neuron f3 we have $m_{x_j f_3} = \frac{\phi_i(f_3, x)}{x_j - E[x_j]}$ obtaining $\phi_i(f_3, y) \approx m_{y_i, f_3}(y_i - E[y_i])$
+And several methods before SHAP were created that satisfy this condition such as LIME \cite{} or DeepLIFT \cite{} but they lacked additional properties that SHAP, proposed and implemented by Lundberg \cite{ludberg-} had:
+
+\begin{enumerate}
+\item Local accuracy:
+\begin{equation}
+g(x') =\phi_0 + \sum_i \phi_i x_i' = f(x)
+\end{equation} when x = $h_x(x')$ and not just an approximation $f(x) \approx g(x')$. Here $\phi_0$ represents the coefficient corresponding to a vector x' with all entries equal to zeros.
+\item Missingness:
+\begin{equation}
+x_i' = 0 \Longrightarrow \phi_i = 0
+\end{equation}
+\item Consistency: if we have two different functions g' and g, indicating eith $z' / i$ the setting where $z_i' = 0$, if
+\begin{equation}
+ g'(z') - g'(z' / i) \ge g(z') - g(z' / i) \Longrightarrow \phi_i(f', x) \ge \phi_i(f, x)
+\end{equation}
+\end{enumerate}
+%The most important properties of this models is called local accuracy and states that g and f must give the same result when passing all the features: g has to match f when x = $h_x(x')$.
+%We attribute a contribution $\phi_i$ to each simplified vector $z_i'$
+
+In 1975 was demostrated that the only coefficients satisfying all of these properties are Shapley values.
+For this reason employing them into some pre-existing algorithms enhanced them and made them more reliable.
+
+
+
+
+%To assign the importance value to a feature we need to train two different models: one with that feature included and the second one with that feature excluded and thereafter compute the difference between the two models' prediction.
+%
+%For each player i and a map function $\nu$ shap values are defined as:
+%We are then going to use them to explain a deep learning model with the SHAP method.
+
+To compute the Shapley value for a feature we have to evaluate the model on all the possible subsets S we can create with our data S$\subseteq F \setminus \left\{i\right\}$. That in a problem with an high number of features would result in a huge computational work. To bypass this problem, we can choose not to calculate the exact shapley value but just an approximation of it, and different algorithms implemented in SHAP proposed a solution for this problem, depending on the model we are working on: example are Tree SHAP, a fast and exact algorithm to computeSHAP values for treed and ensembles of trees, KernelSHAP which is a model agnostic explanation method, or DeepSHAP which is optimized to work faster on deep models by making use of the knowlegde of the structure of a neural network.
+
+
+The problem with implementing an algorithm for the computation of shapley values is that we should evaluate the model for each possible feature permutation so that for a model with p features we should repeat this process p! times which in our case would bring to 5995! $\sim 10^{20046}$ in our case.
+To avoid this calculus Shapley employ by defining a background dataset with a subset of Train data we used to train the model, then during shapleyt computation it just fill in the missing features with features from this background.
+We then take the average of all the model outputs from this new artificial dataset
+
+%LIME \cite{ribeiro-2016}
+% shap \cite{lundberg-2017
+%deepLIFT \cite{shrikumar-2017}
+
+
+The idea behind algorithms like KernelSHAP comes from LIME algorithm \cite{ribeiro-2016}, that avoid the computation of all the permutations by choosing a background subset from input data and evaluate the permutation only between this subset.
+So if we want to evaluate k data samples, (each one containing p features), and we choose a background dataset of size n, the algorithm will perform evaluations only n*k times following this aproach:
+
+\begin{enumerate}
+\item Input a sample x, a model f, and a background data set {x1,x2,...,xn} . We want to interpret x.
+\item Replace a subset of entries in x, by entries in xi, where xi is a data from {x1,x2,...,xN}. This way we create a synthetic or perturbating dataset from our original instance x
+\item Evaluate the function f on the perturbed dataset.
+\item Once we computed these n scores, each using a different $x_i$ from the background dataset, we fit them to compute the feature importance values for our instance x.
+%we produce n copies with each copy using a different x_i from the background dataset. The expected value of the prediction is taken over these n copies
+%3.Repeat the above for different subset of entries (dimensions), chosen according to the Shapley kernel.
+\end{enumerate}
+%Lundberg and Lee, NIPS 2017 <-- article!
+% employs shapley values into the DeepLIFT algorithm and
+
+DeepSHAP alghorithm works with them same principles of KernelSHAP, making use of a background dataset, but it is also optimized to perform better on deep models:it is in this sense, an enhanced version of the DeepLIFT algorithm because of the introduction of the background dataset and because of the use of Shapley values rather than DeepLIFT values used in this algorithm.
+
+DeepLIFT aims to compute the difference between the output of our model with our data and a reference value computed as the output of our model with some reference data.
+The choice of the reference data depends on what kind of data we are working on: images, or genomic data for example.
+for genomic the most common way to produce reference output is to shuffle some inputs, evaluate the model on them and average across all the scores.
+It is also shaped to perform on deep learning algorithm computing its DeepLIFT value during the backpropagation process.
+DeepLIFT attributes to each feature $x_i$ a value $C_{\Delta x_i, \Delta y}$ that represent the effect of that input being set to a reference value rather than its actual value.
+This reference value is chosen from the backgound dataset and represents an uninformative value for that feature
+
+%deriving from modifying our inputs from some \textquotedblleft reference input \textquotedblright, depending on the data we are working on:
+In a nutshell, let t represent the output of some inner neuron and let x1, x2, ... , $x_n$ be some preceding neurons necessary to compute t, if we label $t_0$ the reference output, we can compute the value $\Delta t = t-t_0$ and use them to define the DeepLIFT values $C_{\Delta x_i \Delta t}$ so that
+$\sum_{i = 1} ^n C_{\Delta x_i \Delta t} = \Delta t$. For a given input neuron x with difference from reference $\Delta x$ and a target neuron t, is defined a multiplier $m_{\Delta x \Delta t} = \frac{C_{\Delta x \Delta t}}{\Delta x}$ which represents the contribution of $\Delta x$ to $\Delta t$.
+
+For a more detailed explanation of how DeepLIFT works we refer to its presentation article \cite{}
+
+%showed that the per node attribution rules in DeepLIFT (Shrikumar, Greenside, and Kundaje, arXiv 2017) can be chosen to approximate Shapley values. By integrating over many backgound samples Deep estimates approximate SHAP values such that they sum up to the difference between the expected model output on the passed background samples and the current model output (f(x) - E[f(x)]).
+
+DeepSHAP combines shap values for smaller components of a network to compute values for the whole network, it does so recursively passing Deep LIFT multipliers during backpropagation: we can indeed re-writing multiplier values in terms of shap values, for a target neuron f3 we have $m_{x_j f_3} = \frac{\phi_i(f_3, x)}{x_j - E[x_j]}$ obtaining $\phi_i(f_3, y) \approx m_{y_i, f_3}(y_i - E[y_i])$
 
 To express the significance of a feature we plotted them using SHAP feature importance, based on the relation between feature importance and shap value: feature with high absolute shapley value are important. The importance value for a feature j is then calculated from $I_j = \frac{1}{n} \sum_{j = 1}^n \|\phi_j^{(i)}\|$
+
+
+Shap is implemented as a free Python package with MIT license, developed and mantained by Scott Lundberg.
+This package includes different classes such as TreeExplainer tuned to perform rapidly on tree and forest-like models, linearExplainer which deals with linear model and is able to compute the exact shapley values and not just an aproximation, and the algorithm we are using DeepExplainer, suitable to explain deep learning models and to compute an approximate value of shapley values.
+
+
 
 \subsection{SHAP - Implementation and results}
 
 
-Shap is implemented as a free Python package with MIT licens, developed and mantained by Scott Lundberg.
-This package includes different classes such as TreeExplainer tuned to perform rapidly on tree and forest-like models, linearExplainer which deals with linear model and is able to compute the exact shapley values and not just an aproximation, and the algorithm we are using DeepExplainer, suitable to explain deep learning models and to compute an approximate value of shapley values.
-
-The problem with implementing an algorithm for the computation of shapley values is that we should ?? evaluate the model ?? for each possible feature permutation so that for a model with p features we should repeat this process p! times which in our case would bring to 5995! $\sim 10^{20046}$. To avoid this computation Shapley works by defining a background dataset with a subset of Train data we used to train the model, then during shapleyt computation it just fill in the missing features with features from this background.
-We then take the average of all the model outputs from this new artificial dataset
-
 To instantiate the desired class, DeepExplainer in our case, we need the trained model and a fraction of the training data as background of arbitrary size $N_{bkg}$ keeping in mind that the bigger is this background subset, the more accurate is the computing of shapley values, but the more computationally expansive this process will be, in particular it would occupy a vast amount of RAM memory and eventually run out of it; by the way, since the error on them $\sim 1/\sqrt{N_{bkg}}$, a background dataset made of 100 samples is a good compomise to have a relatively small error.
+
 
 Once the explainer is created on our model, we need to input as many test dataset as we want to explain, and for each one of them, the explainer will output an array of the same size of the test dataset we used, shaped $n_samples \times p_features$
 We then have to input the test dataset
@@ -1508,6 +1663,58 @@ An example is shown in figure \ref{fig:shap_waterfall}
 \includegraphics[width=0.4\linewidth]{shap/waterfall_plot}
 \caption{}\label{fig:shap_waterfall}
 \end{figure}
+
+
+It is also possible to wisualize a bar plot of all the feature from the most to the least important.
+We choose to run this analysis only on Pearson correlation coefficients since they gave the best classification results and on the whole dataset consisting on ABIDE I + ABIDE II, only males and with an age range of 6-40.
+Our goal is to check if before and after the harmonization procedure, the most important features still remain the same or if they change depending on the kind of analysis we are carrying out.
+
+The plot of feature's importance can be either the module of shap values or shap values themselves (positive or negative), an example of the latter is figure \ref{fig:} but this kind of plot is not the best fsuitable or readibility in our case because of the large amount of features and the small contribution of each feature to the final outcome.
+Thus, for a better readability we prefer reporting the results in terms of absolute shapley value, where we just consider the module of the shapley values, regardless its positive or negative contribution to the output.
+
+One feature seems to be persistend in all the three pipelines: feature 1521 representing the correlation between right middle temporal gyrus and left angular gyrus.
+
+This bar plot is shown in figure \ref{fig:}
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{.45\textwidth}
+   \includegraphics[width=1\linewidth]{shap/shap_dot_no}
+   \caption{}
+   \label{}
+\end{subfigure}
+\begin{subfigure}[b]{.45\textwidth}
+   \includegraphics[width=1\linewidth]{shap/shap_bar_no}
+   \caption{}
+   \label{}
+\end{subfigure}
+\caption{Not harmonized}
+\label{}
+\end{figure}
+
+
+
+
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{.45\textwidth}
+   \includegraphics[width=1\linewidth]{shap/shap_bar_upstream}
+   \caption{upstream}
+   \label{}
+\end{subfigure}
+\begin{subfigure}[b]{.45\textwidth}
+   \includegraphics[width=1\linewidth]{shap/shap_bar_kfold}
+   \caption{kfold}
+   \label{}
+\end{subfigure}
+\caption{}
+\label{}
+\end{figure}
+
+
+
+
 
 
 
