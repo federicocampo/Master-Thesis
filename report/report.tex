@@ -1,8 +1,10 @@
 \documentclass[a4paper,11pt]{article}
 %\documentclass[12pt]{report}
-\usepackage[top=3cm, bottom=3cm, left=2.5cm, right=4cm]{geometry}
-\pagestyle{plain}
-\linespread{1}
+\usepackage[top=3cm, bottom=3cm, left=2.5cm, right=6cm]{geometry}
+%\usepackage[margin=1.5cm]{geometry}
+
+%\pagestyle{plain}
+%\linespread{1}
 
 \usepackage{graphicx}
 \usepackage{wrapfig}
@@ -51,30 +53,57 @@
 
 \section{Introduction: fMRI, Autism, ML}
 Autism spectrum disorder (ASD) is becoming a growing social issue, drawing more and more attention expecially during the last decades, both for its social impact on families and society and because of the raise in number of diagnosied cases.
-ASD is a neurodevelopmental disorder and refers to a broad range of conditions manifesting as deficits in social communication and interaction, repetitive behaviours, and even speech difficulties.
-Early signs start appearing by the age of 2 or 3, but since there isn't a definitive medical test to diagnosite it, often it is discovered even after adolescence. An early diagnosis then, would provide the help and support they need, and, treating it at its early stage would hopefully lead to the regression of this condition.
-The main factors that bring to the developing of autism aren't very clear so far, and is becoming clearer that there isn't just a cause, but a concatenation and cohexistence of various of them, the most strongly suspected causes are genetic and environmental causes.
-Genetic is assiciated with a rare gene's mutation, such as a deletion, duplication or inversion, and even though most of the mutation that increase the risk of developing autism are not been traced, it has been assessed that it has a percentage of inheritability around 90\%,
-Ambiental factors such as prenatal air pollution or certain pesticides are also suspected to be associeted with a increase of the risk to develop this disorder, even thouh the etiology is way more complex and it can't be assessed so accurately.
-Currently ASD is diagnosided by syntoms-based tests concerning behaviour assessment,
-From a neurological point of view, ASD, manifests in a reduced information processing owing to synaptic dysfunction that manifest in a reduced or altered brain activity.
-This is confiermed by several but controversal studies where both hyper functional connectivity and hypo-FC were detected in asd patients, in particularly this is age-dependent, over connectivity is usually associated to young children while under connectivity, with adolescences, and adults
 
-In the last decades, different approaches to study this problem have been carried on, trying different diagnostic tool to investigate this matter, such as magnetic resonance imaging (MRI), functional-MRI (f-MRI), or electroencephalography (EEG).
+ASD is classified as a neurodevelopmental behavioural disorder \cite{guze-1995} \cite{who-1993} and refers to a broad range of conditions manifesting as deficits in social communication and interaction such as reduced sociability or empathy, repetitive behaviours and resistance to changes, and sometimes speech difficulties.\cite{rapin-2008}
+
+%\cite{hyman-2020}
+
+Early signs start appearing by the age of 2 or 3, but the most accurate assessment procedures so far are comportamental, for a toddler, parents answer a set of questions about every-day behaviour of their children like the checklist for Autism in Toddler \cite{robins-2009} where a list of question such as \textquotedblleft When you point at something, your child watch in that direction? \textquotedblright or \textquotedblleft des your children shows interest towards other children? \textquotedblright
+
+However, since there isn't a definitive biological test, often ASD is discovered even after the adolescence always through a comportamental assessment test.
+Currently ADI-R and ADOS are considered the ‘gold standard’ tools for diagnosis of ASD \cite{ozonoff-2015} \cite{lecouteur-2008}, even though for a better assessment, medical and biological informations should be taken into account as well .
+
+It's of great importance to make an early diagnosis to provide the help and support they need, because, hopefully, treating it in its early stage, could bring to a regression of this condition.
+
+The main factors that bring to the developing of autism aren't very clear so far, and is acquiring more consensus between scientists and doctors that there isn't just a single cause, but a concatenation and cohexistence of various of them, the most strongly suspected of which are genetic and environmental, intended as environmental exposure to air pollution,
+%or certain pesticides (even though it's difficult to demonstrate a strong relation)
+during pregnancy, expecially during the first days of embrional development (day 20-24 of gestation).\cite{ratajczak-2011}, that is associated with an increased risk of develop this disorder.
+
+Genetic is assiciated with a rare gene's mutation, such as a deletion, duplication or inversion, and even though most of the mutation that increase the risk of developing autism are not been traced, it has been assessed that it has a percentage of inheritability around 90\%, resulting from studies on omozygotes twins,\cite{freitag-2007}.
+
+%Ambiental factors such as prenatal air pollution or certain pesticides are also suspected to be associeted with a increase of the risk to develop this disorder, even thouh the etiology is way more complex and it can't be assessed so accurately.
+%Currently ASD is diagnosided by syntoms-based tests concerning behaviour assessment.
+
+From a neurological point of view, ASD, usually entails a reduced information processing due to synaptic dysfunction that manifests in a reduced or altered brain activity. \cite{??}
+This is confiermed by several but controversal studies where both hyper functional connectivity and hypo-FC were detected in asd patients.
+in particularly it seems to have an age-dependent trend, for over connectivity is usually observed in young children while under connectivity in adolescences and adults.\cite{supekar-2013}
+
+In the last decades, different approaches to study this problem have been carried out, to find a relation between different brain areas involved in this hyper or hypo connectivity
+Different diagnostic tool were proposed to investigate this matter, from different perspectives and at different scales, such as magnetic resonance imaging (MRI), functional-MRI (f-MRI), or electroencephalography (EEG).
+Magnetic resonance imaging was employed to study brain with structural images of it, while EEG and f-MRI aim to study temporal signals with two different temporal resolution, since with EEG is possible to study signal in scale time comparable with the neuronal activation time timescales $\sim \mu s$, while with f-MRI we look for a signal due to the hemodynamic response following a neuronal activation (timescales $\sim s$).
 Among them, f-MRI is what is drawing more interest, and in particular resting state f-MRI was proven to be suitable for examining functional connectivity among brain regions that different highlighted to be more affected by autism rather than local brain regions.
 
 f-MRI is a diagnostic tool that investigate blood flow variations across the whole brain structure.
-The measure the blood flow is directly linked with the neuronal activity, an increase of neuronal activity leads to a boost in blood flow in that specific brain area, because of the bigger demand of oxigen and other nutrients to that brain area.
-Blood vessels also increase their size
+The measure the blood flow is directly linked with the neuronal activity, an increase of neuronal activity leads to a boost in blood flow and an increase of vessel's size within a specific brain area, because of the bigger demand of oxigen and other nutrients to the neurons in that area.
+
 The different neural connections are identified by measuring the BOLD fluctuations, (acronym for blood-oxigen-level dependent) from different areas of the brain, using the signal's difference between oxy (diamagnetic) and deoxyhemoglobin (paramagnetic).
 Oxyhemoglobin appears then brighter than deoxyhemoglobin
 The spontaneous fluctuations in the BOLD fluctuations during resting state are considered a strong indicator for the assessment of the properties of the brain system.
+
+Resting state f-MRI is an acquisition performed while the patient is in a relaxed state, and is not performing any active task, he is simply asked to stay still with eye open or closed while fixating a cross
+%either resting or, more in general in a task-negative state.
+Following this setup the brain is at rest and its activity is not perturbed by active tasks such as moving an arm or passive actions like being exposed to different visual stimuli, which are common activities for task-based functional connectivity, a different acquisition setup to investigate BOLD fluctuations between subjects in a task-stimulated state and control states.
+Resting state setup revealed to be a powerful tool to investigate the intrinsec generated brain activity and study the altered functional connectivity networks in subjects with mental disorder
+
+
 During the study of a functional connectivity pattern, different traits are involved and characterise the signal in a strong and evident way, among these: sex and age of the patient are some of the most important both for structural and functional brain properties.
 Limiting our focus just on functional data, other factor conditioning the final outcome of a f-MRI data acquisition are the FIQ (Full intellective quotient) or the eye status at scan, about this, functional connectivity with open steady eyes is different from closed eyes, and furthermore, closed eyes patient may be fallen asleep during the scan acquisition and this would heavily marking and modify the functional patterns.
 
 It appears clear that the distinction of asd patient among normal ones it's not a simple and straightforwand task.
-One of the most promising and powerful tool to tacke non-linear problems is machine learning with artificial neural network.
-ANN belong to artificial inteligence tools and make use of an alghorithm that learns from data, and modify its parameters with the aim of recognise distinctive properties from the data and make prediction or decision on new unseen data.
+One of most promising tool to take on this challenge and to deal with non-linear problems is the use of machine learning algorithm to study data extracted from fMRI such as pairwise correlations between different regions of the brain, or image of brain themselves from MRI scans to study with convolutional neural networks (CNN).
+%One of the most promising and powerful tool to tacke non-linear problems is machine learning.
+Machine learning algorithm belong to artificial inteligence tools and make use of an alghorithm that learns from data, and modify its parameters with the aim of recognising distinctive properties from the data and make prediction or decision on new unseen data.
+
 An relevant aspect that makes machine learning and artificial neural networks so popular is the ability to deal with non-linear problems introducing several non linear non-linear functions during training acting on their inputs or on the sum of them.
 A restraint of machine learning though, is that to perform well, an ANN needs to be trained on a big dataset, and the bigger the dataset, the better its performances are, expecially for deep neural networks.
 To this end, particularly in medical field, several data from different acquisition centers need to be put together, and in the last years, several multicenter medical dataset such as the Human Connectome Project, the Alzheimer’s Disease Neuroimaging Initiative (ADNI) or Autism Brain Imaging Data Exchange (ABIDE) were created.
@@ -83,13 +112,16 @@ To tacke this problem and try to uniform inter-scan variability, in this work, t
 Harmonization is a procedure that aims to remove inter-site related effects in multi-site data, while trying to preserv all other information as biological-related features.
 The second aproach, the deep learning one, tries to extract from data both disease and site information and use site information to remove the bias toward that site before making a prediction.
 
+\addcontentsline{toc}{section}{MATERIALS AND METHODS}
+
+
 \section{Dataset: ABIDE I $\&$ II}
 
 % Patient division,  patient distribution: M/F x site and C/ASD x site, distribution age, FIQ.
 % structural and functional images, ¿ acquisition parameters?
 % some patients are the same across ABIDE I and II
 
-Data we are working with belong to the ABIDE dataset (Autism Brain Images Data Exchange): a project aiming to investigate autism using resting state fMRI scans acquired from different medical centers, and putting them together to collect as many data as possible.
+Data we are going to work on belong to the ABIDE dataset (Autism Brain Images Data Exchange): a project aiming to investigate autism using resting state fMRI scans acquired from different medical centers, and putting them together to collect as many data as possible.
 
 The whole ABIDE dataset was published in two releases: ABIDE I released in August 2012 and containing 1112 patient scans, and ABIDE II released in June 2016 containing 1114 scans.
 ABIDE I includes scans collected from 17 different sites, and the 1112 patients consist of 539 patients with ASD and 573 typical control patients.
@@ -171,7 +203,7 @@ For each patient in ABIDE both structural and functional images were provided.
 
 
 \section{Image preprocessing}
-\subsection{General overview}
+\subsection{Common preprocessing steps}
 For a better undertanding of how MRI and f-MRI and signal detection work, we refer to appendix..
 (talk briefly about echo time and TR ?)
 
@@ -233,7 +265,7 @@ One of the most popular atlas is Harvard Oxford atlas obtained by manually label
 
 
 
-\subsection{CPAC, preprocessing pipeline, atlases}
+\subsection{Implementation: CPAC, preprocessing pipeline, atlases}
 
 ABIDE I data are available in a preprocessed format, the Neuro Bureau Preprocessing Initiative took care of data preprocessing and shared its results making them publicly available.
 Four preprocessing software and aproaches were employed each from a different group and every one publicly available \footnote{http://preprocessed-connectomes-project.org/abide/cpac.html} for download.
@@ -1030,7 +1062,6 @@ An example of ROC curve is shown in figure \ref{fig:roccurve}
 
 
 
-
 \section{Harmonization}
 The issue of collecting a large dataset putting together data from multiple centers allow us to work on dataset of bigger dimension and facilitates the generalization and the robustness of the model, but, as a drowback, it introduces variability in our analysis such as differences due to scanner parameters, generally known as scanner effects.
 A level out procedure becomes necessary to avoid the model to learn these differences deriving from inomogenity of data because of differences in data acquisition procedures.
@@ -1099,7 +1130,212 @@ y^{ComBat}_{ijf} = \frac{\hat \sigma_f}{\delta_{jf}}(Z_{ijf} - \gamma_{jf}) + \h
 
 %HOW it works? covariates, what is FIQ?
 
-\subsection{Harmonization - results}
+
+
+
+
+
+
+\section{Domain-adversarial NN}
+An other approch is trying to train a neural network to recognise discriminative features, making train as much site-independent as possible.
+The genral idea underlying this network comes from a reviewed and readapted version of the solution of the problem tackled in Ganin - Ustonova article
+%Insert article reference
+Their work takes place when we possess two different datased let's call them a Source and a Target dataset, containing features following two different distributions.
+Moreover, source dataset is labeled while Target is unlabeled, so their goal was to create a network able to distinguish relevant features from the labeled dataset and make them domain independent.
+We illustrate the main aspects of this problem using a shallow neural network with a single hidden layer consisting of D nodes.
+Let's suppose the network takes as input an m-dimensional features vector;
+the hidden layer is then a function $G_f : R^m \rightarrow R^D$ of the type $G_f(x; \textbf{W}, \textbf{b}) = f(W\cdot x + b)$, where $\textbf{W}$ and $\textbf{b}$ are the matrix and vector parameters to be optimized.
+Similarly the output will be a function $G_y:R^D \rightarrow [0, 1]$ of the type $G_y(G_f(x; W, b); V, c) = f'(V\cdot G_f(x) + c)$.
+Where V and c are parameters to be optimized: a vector and a scalar respectively.
+A usual train carried on only on the (labeled) Source domain, will therefore bring to the minimization of the quantity
+\begin{equation}
+\underset{W, b, V, c}{min} \left[ \frac{1}{n}\sum_1^n L_y^i(Gy(G_f(x_i)), y_i | W, b, V, c)\right]
+\end{equation}.
+To tackle the domain independence problem, an other term is added to the summation: a term coming from a domain classifier layer: $G_d:R^D \rightarrow [0, 1]$ of the type $G_d(G_f(x; W, b); u, z) = f'(V\cdot G_f(x) + c)$ that learns the vector and scalar parameters u and z, by trying to classify the domain.
+With this addition, the complete quantity to be optimized becomes
+\begin{equation}
+%complete this equation
+E(W, b, V, c, u, z) = \frac{1}{n} \sum_{i = 1}^n
+\end{equation}
+So the purpose of this kind of training is to find a saddle point by finding minimizing parameters for feature loss and maximizing those related to the site loss, namely
+\begin{equation}
+(\hat \theta_f, \hat \theta_y) = \underset{\theta_f, \theta_y}{argmin} E(\theta_f, \theta_y, \hat \theta_d) \qquad \qquad \hat \theta_d = \underset{\theta_d}{argmax} E(\hat \theta_f, \hat \theta_y, \theta_d)
+\end{equation}
+
+This could be achieved by training a network in an adversarial way, trying to minimize the category label loss and maximize site label loss.
+this is achieved by adding a domain classifier branch just after a main feature extractor branch.
+The domain classifier branch is characterized by a \emph{gradient reversal layer} at the top of it.
+This layer has no parameters and don't act during forward propagation, but, during backpropagation, it inverst all the weight from the subsequent layer before passing them to the preceding one.
+So as shown in figure -insert figure- the network is forked after the feature extractor branch, on one side, he starts the label predictor branch, and on the other, there's the domain classifier branch with the gradient reversal layer at the beginning.
+The setup of this work, differs from Ganin's because we don't have a labeled Source and an unlabeled Target domain, but they are both labeled, so there's no need to keep them separated and also, in our case, the Target domain is not just made of two domains, but of as many sites our data belong to.
+
+
+In this work, the label classifier branch ends with a sigmoid function wich return only one class label $y_i \in [0, 1]$ while the domain classifier branch ends with a multi-node layer of a number equal to the total sites' number.
+An adversarial loss is also implemented, aimed to aviod that if, for instance, the domain classifier, correctly classify one input, the computed error would be low, and it would have a low contribution during the back propagation, and leaving the weights almost unmodified after the backpropagation, and therefore leaning towards that site.
+
+
+
+
+
+\section{Explainable AI (XAI) with SHAP}
+
+As methods to learn pattern from data becomes more complex, they become harder to interpret, deep learning represent an example of a technique to search for nonlinear relations between data, but introducing nonlinearity, makes an outcome difficult to interpret and it ends up considering a machine learning model as a black box without any hint of its inner precesses that occurred when a result is output. But if a model perform well, or bad on a dataset, we would like to know why and what feature influenced the most the outcome of our model.
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\linewidth]{shap/shap_presentation}
+\caption{}\label{fig:shap_waterfall}
+\end{figure}
+
+
+SHAP (SHapley Additive exPlanation) is a technique based on game theory wich provides a method for model explanability.
+It's a powerful tool to get rid of the \textquotedblleft black box \textquotedblright idea of a machine learning model and try to understand its deep mechanism and the reasons why a model gave a certain output, or a certain prediction related to an input sample like a vector of feature or an image for example.
+As is shown in figure \ref{fig:shap_waterfall} just as a visual example, a common machine learning model acts like a black box that returns an output value after some non-linear unknown calculations on some input values; with an explanatory model, we are able to quantify the contribution of each feature of our input data and assess what and why are the most important features and how much they contributed to the final outcome.
+
+
+
+
+\subsection{Shapley values - Theory}
+
+Game theory is a branch of mathematic related on the study of mathematical models to  conceive social situations among competitive players \footnote{https://plato.stanford.edu/entries/game-theory/}
+It have had a great development in the XX century expecially during and after the Second world war thanks to the contribution of mathematicians like John Von Neumann, John Nash and Lloyd Shapley.
+Game theory can be mainly divided into two main classes namely cooperative and non-coperative game.
+Non-cooperative game concern competition between individual player and the main task is to find a good strategy for each player and a big contribution came from Nash with the concept of Nash equilibrium \cite{nash-1950}.
+Cooperative games concern competition between groups of player forming coalitions; one of the the main tasks is to find a way to divide the total utility among the member of a coalition in an equally way proportionally of how much they contributed to the final score.
+In 1951 Lloyd Shapley in 1951 Introduced a way to compute the exact amount of payoff for each player making use of what were named after him: Shapley values \cite{shap-1951}\cite{shap-1953}.
+Shapley introduced its values for coalition games:
+
+A coalition games involves N players, and different subsets called coalitions created from these N players.
+Each subset of players S gain a payoff at the end of the game.
+A function $\nu$ maps every subset to its payoff $\nu(S)$ = payoff(S) $\in \Re$.
+Based on which player had more influence in this final score, we ask how to split this payoff in a fair way between each player of the subset, where \textquotedblleft fair \textquotedblright is to be intended as to each, proportional to his own contribution.
+A solution for this problem comes from \textbf{shapley values} $\phi_i(\nu)$.
+They are specific for each player i $\in$ N in a coalition S $\in$ N and represents the marginal contribution of that player to the final score, where marginal contribution is defined as the difference on the score of the coalition when player i joins the coalition.
+In other words they are the difference between the coalition's score with player i and the group's score without player i $\nu (S \cup \{ i \}) - \nu(S)$.
+
+It represents the incremental benefit of including player i in a the subset and average over all subsets that include player i.
+
+
+The mathematical formulation Shapley introduced for his value is
+\begin{equation}
+\phi_i(\nu) = \frac{1}{N} \sum_{S\subseteq N\ \setminus \{ i \} }  {N- 1 \choose |S|}^{-1} ( \nu (S \cup \{ i \} 0) - \nu(S) )
+\end{equation}
+%That can be interpreted as $\frac{1}{N} \sum \frac{\text{marginal contribution of i to the coalition}}{\text{number of coalitions excluding i of the same size os S}}$
+And they exactly represent the amount of reward for each player i.
+
+The idea behind SHAP is to use these Shapley values to exaplain every single feature's contribution in our machine learning model, treating it as a cooperative game
+
+To apply the concept of Shapley values to a machine learning model we just adapt some terms we used for game theory: the payout is the model's prediction and the players are the feature in our input data.
+For a single feature, its Shapley value is defined as the average marginal contribution of that feature's value across all possible coalitions.
+
+%To get the idea of how we can explain a model, we start asking: how much is a prediction driven by the fact that a feature has a certain value A, instead of its baseline value $\bar A$? the baseline value $\bar A$ is the result of ... ?
+Shap can be regarded as a local explainatory method, and before it several algorithms belonging to this cathegory were implemented as an attempt to create an explainatory technique for machine learning models.
+In general, local explainatory model's objective can be defined as the attempt to explain an output f(x) after a single instance x that in our case can be a vector of features.
+
+To do so and simplify the workflow, they introduce a coalition vector x' = $\left\{ 0, 1 \right\}^F$ : where F is the total number of features: z' is a vector of the same length of x, and is a binar vector made by zeros and ones where zero means that we withheld the corrisponding variable from x in our analysys, and the one that we are including it.
+
+To map the x' vector to the corresponding feature values vector a mapping function $h_x(x')$ = x is introduced to returns the actual features' value from the corresponding input vector x.
+Our goal is to find a simplified model g(x') to work with, because it's simpler to work with a binary vector x' than with the actual vector x.
+We want that this simplified model, when applied on the coalition vector x', is able to approximate our output f(x): $ g(z') \approx f(h_x(z'))$ if z' $\approx$ x'.
+The first important condition on this function g is that it has to be a linear function
+\begin{equation}
+g(z') = \phi_0 + \sum_{i = 0}^N \phi_i z_i'
+\end{equation}
+And several methods before SHAP were created that satisfy this condition such as LIME \cite{ribeiro-2016} or DeepLIFT \cite{shrikumar-2017} but they lacked additional properties that SHAP, proposed and implemented by Lundberg \cite{ludberg-} has:
+
+\begin{enumerate}
+\item Local accuracy:
+\begin{equation}
+g(x') =\phi_0 + \sum_i \phi_i x_i' = f(x)
+\end{equation} when x = $h_x(x')$ and not just an approximation $f(x) \approx g(x')$. Here $\phi_0$ represents the coefficient corresponding to a vector x' with all entries equal to zeros.
+\item Missingness:
+\begin{equation}
+x_i' = 0 \Longrightarrow \phi_i = 0
+\end{equation}
+\item Consistency: if we have two different functions g' and g, indicating eith $z' / i$ the setting where $z_i' = 0$, if
+\begin{equation}
+ g'(z') - g'(z' / i) \ge g(z') - g(z' / i) \Longrightarrow \phi_i(f', x) \ge \phi_i(f, x)
+\end{equation}
+\end{enumerate}
+%The most important properties of this models is called local accuracy and states that g and f must give the same result when passing all the features: g has to match f when x = $h_x(x')$.
+%We attribute a contribution $\phi_i$ to each simplified vector $z_i'$
+
+In 1975 was demostrated that the only coefficients satisfying all of these properties are Shapley values, and methods which employ different coefficients usually violate local accuracy and/or consistency.
+For these reasons SHAP employs Shapley values into pre-existing algorithms and enhances them providing an unified aproach to assess feature importance for different models without any violation of the axsioms above.
+
+
+
+%To assign the importance value to a feature we need to train two different models: one with that feature included and the second one with that feature excluded and thereafter compute the difference between the two models' prediction.
+%
+%For each player i and a map function $\nu$ shap values are defined as:
+%We are then going to use them to explain a deep learning model with the SHAP method.
+
+To compute the Shapley value for a feature we have to evaluate the model on all the possible subsets S we can create with our data S$\subseteq F \setminus \left\{i\right\}$. That in a problem with an high number of features would result in a huge computational work. To bypass this problem, we can choose not to calculate the exact shapley value but just an approximation of it, depending on the model we are working on, SHAP implemented different algorithms such as Tree SHAP, a fast and exact algorithm to computeSHAP values for treed and ensembles of trees, KernelSHAP which is a model agnostic explanation method, or DeepSHAP which is optimized to work faster on deep models by making use of the knowlegde of the structure of a neural network.
+Each one of these algorithms is built upon previous algorithms like LIME or DeepLIFT
+
+LIME is a local, model-agnostic, interpretability model which resolves the problem of high computational work when a we deal with a large number of permutations: theoretically we should evaluate the model for each possible feature permutation so that for a model with p features we should repeat this process p! times which in our case would bring to 5995! $\sim 10^{20046}$.
+To avoid this calculus, LIME adopts an aproximation methods based on the introduction of a perturbed dataset: starting from a single instance, it creates different perturbed copies of it, modifying its features evaluating the model on each one, then, it weigths each one according to its distance from the original instance and calculate a linear fit to explain the predictions.
+This idea is what is implemented in KernelSHAP:
+%The idea behind algorithms like KernelSHAP comes from LIME algorithm \cite{ribeiro-2016},
+it avoids the computation of all the permutations by choosing a background subset from input data and evaluate the model only using this subset.
+So if we want to study the effect of a single feature, we ideally switch off that feature, and SHAP does so, by replacing its value by randomly picking it from the background dataset.
+By following this simplified procedure:
+
+%So if we want to evaluate k data samples, (each one containing p features), and we choose a background dataset of size n, the algorithm will perform evaluations only n*k times following this aproach:
+%To avoid this calculus Shapley employ by defining a background dataset with a subset of Train data we used to train the model, then during shapleyt computation it just fill in the missing features with features from this background.
+
+
+\begin{enumerate}
+\item Input a sample x, a model f, and a background data set {x1,x2,...,xn} . We want to interpret x.
+\item Replace a subset of entries in x, by entries in xi, where xi is a data from {x1,x2,...,xN}, This way for each data in the background dataset, it creates a synthetic data of the original instance x
+\item Evaluate the function f on the perturbed dataset.
+\item Once we computed these n scores, each using a different $x_i$ from the background dataset, we fit them to compute the feature importance values for our instance x.
+%we produce n copies with each copy using a different x_i from the background dataset. The expected value of the prediction is taken over these n copies
+%3.Repeat the above for different subset of entries (dimensions), chosen according to the Shapley kernel.
+\end{enumerate}
+
+
+
+We then take the average of all the model outputs from this new artificial dataset
+
+%LIME \cite{ribeiro-2016}
+% shap \cite{lundberg-2017
+%deepLIFT \cite{shrikumar-2017}
+
+
+%Lundberg and Lee, NIPS 2017 <-- article!
+% employs shapley values into the DeepLIFT algorithm and
+
+DeepSHAP alghorithm works with them same principles of KernelSHAP, making use of a background dataset, but it is also optimized to perform better on deep models:it is in this sense, an enhanced version of the DeepLIFT algorithm because of the introduction of the background dataset and because of the use of Shapley values rather than DeepLIFT values used in this algorithm.
+
+DeepLIFT aims to compute the difference between the output of our model with our data and a reference value computed as the output of our model with some reference data.
+The choice of the reference data depends on what kind of data we are working on: images, or genomic data for example.
+for genomic the most common way to produce reference output is to shuffle some inputs, evaluate the model on them and average across all the scores.
+It is also shaped to perform on deep learning algorithm computing its DeepLIFT value during the backpropagation process.
+DeepLIFT attributes to each feature $x_i$ a value $C_{\Delta x_i, \Delta y}$ that represent the effect of that input being set to a reference value rather than its actual value.
+This reference value is chosen from the backgound dataset and represents an uninformative value for that feature
+
+%deriving from modifying our inputs from some \textquotedblleft reference input \textquotedblright, depending on the data we are working on:
+In a nutshell, let t represent the output of some inner neuron and let x1, x2, ... , $x_n$ be some preceding neurons necessary to compute t, if we label $t_0$ the reference output, we can compute the value $\Delta t = t-t_0$ and use them to define the DeepLIFT values $C_{\Delta x_i \Delta t}$ so that
+$\sum_{i = 1} ^n C_{\Delta x_i \Delta t} = \Delta t$. For a given input neuron x with difference from reference $\Delta x$ and a target neuron t, is defined a multiplier $m_{\Delta x \Delta t} = \frac{C_{\Delta x \Delta t}}{\Delta x}$ which represents the contribution of $\Delta x$ to $\Delta t$.
+
+For a more detailed explanation of how DeepLIFT works we refer to its presentation article \cite{}
+
+%showed that the per node attribution rules in DeepLIFT (Shrikumar, Greenside, and Kundaje, arXiv 2017) can be chosen to approximate Shapley values. By integrating over many backgound samples Deep estimates approximate SHAP values such that they sum up to the difference between the expected model output on the passed background samples and the current model output (f(x) - E[f(x)]).
+
+DeepSHAP combines shap values for smaller components of a network to compute values for the whole network, it does so recursively passing Deep LIFT multipliers during backpropagation: we can indeed re-writing multiplier values in terms of shap values, for a target neuron f3 we have $m_{x_j f_3} = \frac{\phi_i(f_3, x)}{x_j - E[x_j]}$ obtaining $\phi_i(f_3, y) \approx m_{y_i, f_3}(y_i - E[y_i])$
+
+To express the significance of a feature we plotted them using SHAP feature importance, based on the relation between feature importance and shap value: feature with high absolute shapley value are important. The importance value for a feature j is then calculated from $I_j = \frac{1}{n} \sum_{j = 1}^n \|\phi_j^{(i)}\|$
+
+
+Shap is implemented as a free Python package with MIT license, developed and mantained by Scott Lundberg.
+This package includes different classes such as TreeExplainer tuned to perform rapidly on tree and forest-like models, linearExplainer which deals with linear model and is able to compute the exact shapley values and not just an aproximation, and the algorithm we are using DeepExplainer, suitable to explain deep learning models and to compute an approximate value of shapley values.
+
+\addcontentsline{toc}{section}{RESULTS}
+
+
+\section{Harmonization - results}
 
 % data do not present a clear age-trend  (and FIQ?)
 
@@ -1200,42 +1436,6 @@ Their values are plotted as a box along the y axis and sites are indicated along
 
 
 
-\section{Domain-adversarial NN}
-An other approch is trying to train a neural network to recognise discriminative features, making train as much site-independent as possible.
-The genral idea underlying this network comes from a reviewed and readapted version of the solution of the problem tackled in Ganin - Ustonova article
-%Insert article reference
-Their work takes place when we possess two different datased let's call them a Source and a Target dataset, containing features following two different distributions.
-Moreover, source dataset is labeled while Target is unlabeled, so their goal was to create a network able to distinguish relevant features from the labeled dataset and make them domain independent.
-We illustrate the main aspects of this problem using a shallow neural network with a single hidden layer consisting of D nodes.
-Let's suppose the network takes as input an m-dimensional features vector;
-the hidden layer is then a function $G_f : R^m \rightarrow R^D$ of the type $G_f(x; \textbf{W}, \textbf{b}) = f(W\cdot x + b)$, where $\textbf{W}$ and $\textbf{b}$ are the matrix and vector parameters to be optimized.
-Similarly the output will be a function $G_y:R^D \rightarrow [0, 1]$ of the type $G_y(G_f(x; W, b); V, c) = f'(V\cdot G_f(x) + c)$.
-Where V and c are parameters to be optimized: a vector and a scalar respectively.
-A usual train carried on only on the (labeled) Source domain, will therefore bring to the minimization of the quantity
-\begin{equation}
-\underset{W, b, V, c}{min} \left[ \frac{1}{n}\sum_1^n L_y^i(Gy(G_f(x_i)), y_i | W, b, V, c)\right]
-\end{equation}.
-To tackle the domain independence problem, an other term is added to the summation: a term coming from a domain classifier layer: $G_d:R^D \rightarrow [0, 1]$ of the type $G_d(G_f(x; W, b); u, z) = f'(V\cdot G_f(x) + c)$ that learns the vector and scalar parameters u and z, by trying to classify the domain.
-With this addition, the complete quantity to be optimized becomes
-\begin{equation}
-%complete this equation
-E(W, b, V, c, u, z) = \frac{1}{n} \sum_{i = 1}^n
-\end{equation}
-So the purpose of this kind of training is to find a saddle point by finding minimizing parameters for feature loss and maximizing those related to the site loss, namely
-\begin{equation}
-(\hat \theta_f, \hat \theta_y) = \underset{\theta_f, \theta_y}{argmin} E(\theta_f, \theta_y, \hat \theta_d) \qquad \qquad \hat \theta_d = \underset{\theta_d}{argmax} E(\hat \theta_f, \hat \theta_y, \theta_d)
-\end{equation}
-
-This could be achieved by training a network in an adversarial way, trying to minimize the category label loss and maximize site label loss.
-this is achieved by adding a domain classifier branch just after a main feature extractor branch.
-The domain classifier branch is characterized by a \emph{gradient reversal layer} at the top of it.
-This layer has no parameters and don't act during forward propagation, but, during backpropagation, it inverst all the weight from the subsequent layer before passing them to the preceding one.
-So as shown in figure -insert figure- the network is forked after the feature extractor branch, on one side, he starts the label predictor branch, and on the other, there's the domain classifier branch with the gradient reversal layer at the beginning.
-The setup of this work, differs from Ganin's because we don't have a labeled Source and an unlabeled Target domain, but they are both labeled, so there's no need to keep them separated and also, in our case, the Target domain is not just made of two domains, but of as many sites our data belong to.
-
-
-In this work, the label classifier branch ends with a sigmoid function wich return only one class label $y_i \in [0, 1]$ while the domain classifier branch ends with a multi-node layer of a number equal to the total sites' number.
-An adversarial loss is also implemented, aimed to aviod that if, for instance, the domain classifier, correctly classify one input, the computed error would be low, and it would have a low contribution during the back propagation, and leaving the weights almost unmodified after the backpropagation, and therefore leaning towards that site.
 
 \section{Deep learning: implementation and results} \label{sec:deep_learning_results}
 % Magari prendere dei risultati di come variano le performances al variare di lambda in una rete adversarial only loss.
@@ -1493,155 +1693,8 @@ We started our analysis choosing the proper number of PC to explain $> 90\%$ of 
 
 \newpage
 
-\section{Explainable AI (XAI) with SHAP}
 
-As methods to learn pattern from data becomes more complex, they become harder to interpret, deep learning represent an example of a technique to search for nonlinear relations between data, but introducing nonlinearity, makes an outcome difficult to interpret and it ends up considering a machine learning model as a black box without any hint of its inner precesses that occurred when a result is output. But if a model perform well, or bad on a dataset, we would like to know why and what feature influenced the most the outcome of our model.
-
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=1\linewidth]{shap/shap_presentation}
-\caption{}\label{fig:shap_waterfall}
-\end{figure}
-
-
-SHAP (SHapley Additive exPlanation) is a technique based on game theory wich provides a method for model explanability.
-It's a powerful tool to get rid of the \textquotedblleft black box \textquotedblright idea of a machine learning model and try to understand its deep mechanism and the reasons why a model gave a certain output, or a certain prediction related to an input sample like a vector of feature or an image for example.
-As is shown in figure \ref{fig:shap_waterfall} just as a visual example, a common machine learning model acts like a black box that returns an output value after some non-linear unknown calculations on some input values; with an explanatory model, we are able to quantify the contribution of each feature of our input data and assess what and why are the most important features and how much they contributed to the final outcome.
-
-
-
-
-\subsection{Shapley values - Theory}
-
-Game theory is a branch of mathematic related on the study of mathematical models to  conceive social situations among competitive players \footnote{https://plato.stanford.edu/entries/game-theory/}
-It have had a great development in the XX century expecially during and after the Second world war thanks to the contribution of mathematicians like John Von Neumann, John Nash and Lloyd Shapley.
-Game theory can be mainly divided into two main classes namely cooperative and non-coperative game.
-Non-cooperative game concern competition between individual player and the main task is to find a good strategy for each player and a big contribution came from Nash with the concept of Nash equilibrium \cite{nash-1950}.
-Cooperative games concern competition between groups of player forming coalitions; one of the the main tasks is to find a way to divide the total utility among the member of a coalition in an equally way proportionally of how much they contributed to the final score.
-In 1951 Lloyd Shapley in 1951 Introduced a way to compute the exact amount of payoff for each player making use of what were named after him: Shapley values \cite{shap-1951}\cite{shap-1953}.
-Shapley introduced its values for coalition games:
-
-A coalition games involves N players, and different subsets called coalitions created from these N players.
-Each subset of players S gain a payoff at the end of the game.
-A function $\nu$ maps every subset to its payoff $\nu(S)$ = payoff(S) $\in \Re$.
-Based on which player had more influence in this final score, we ask how to split this payoff in a fair way between each player of the subset, where \textquotedblleft fair \textquotedblright is to be intended as to each, proportional to his own contribution.
-A solution for this problem comes from \textbf{shapley values} $\phi_i(\nu)$.
-They are specific for each player i $\in$ N in a coalition S $\in$ N and represents the marginal contribution of that player to the final score, where marginal contribution is defined as the difference on the score of the coalition when player i joins the coalition.
-In other words they are the difference between the coalition's score with player i and the group's score without player i $\nu (S \cup \{ i \}) - \nu(S)$.
-
-It represents the incremental benefit of including player i in a the subset and average over all subsets that include player i.
-
-
-The mathematical formulation Shapley introduced for his value is
-\begin{equation}
-\phi_i(\nu) = \frac{1}{N} \sum_{S\subseteq N\ \setminus \{ i \} }  {N- 1 \choose |S|}^{-1} ( \nu (S \cup \{ i \} 0) - \nu(S) )
-\end{equation}
-%That can be interpreted as $\frac{1}{N} \sum \frac{\text{marginal contribution of i to the coalition}}{\text{number of coalitions excluding i of the same size os S}}$
-And they exactly represent the amount of reward for each player i.
-
-The idea behind SHAP is to use these Shapley values to exaplain every single feature's contribution in our machine learning model, treating it as a cooperative game
-
-To apply the concept of Shapley values to a machine learning model we just adapt some terms we used for game theory: the payout is the model's prediction and the players are the feature in our input data.
-For a single feature, its Shapley value is defined as the average marginal contribution of that feature's value across all possible coalitions.
-
-%To get the idea of how we can explain a model, we start asking: how much is a prediction driven by the fact that a feature has a certain value A, instead of its baseline value $\bar A$? the baseline value $\bar A$ is the result of ... ?
-Shap can be regarded as a local explainatory method, and before it several algorithms belonging to this cathegory were implemented as an attempt to create an explainatory technique for machine learning models.
-In general, local explainatory model's objective can be defined as the attempt to explain an output f(x) after a single instance x that in our case can be a vector of features.
-
-To do so and simplify the workflow, they introduce a coalition vector x' = $\left\{ 0, 1 \right\}^F$ : where F is the total number of features: z' is a vector of the same length of x, and is a binar vector made by zeros and ones where zero means that we withheld the corrisponding variable from x in our analysys, and the one that we are including it.
-
-To map the x' vector to the corresponding feature values vector a mapping function $h_x(x')$ = x is introduced to returns the actual features' value from the corresponding input vector x.
-Our goal is to find a simplified model g(x') to work with, because it's simpler to work with a binary vector x' than with the actual vector x.
-We want that this simplified model, when applied on the coalition vector x', is able to approximate our output f(x): $ g(z') \approx f(h_x(z'))$ if z' $\approx$ x'.
-The first important condition on this function g is that it has to be a linear function
-\begin{equation}
-g(z') = \phi_0 + \sum_{i = 0}^N \phi_i z_i'
-\end{equation}
-And several methods before SHAP were created that satisfy this condition such as LIME \cite{} or DeepLIFT \cite{} but they lacked additional properties that SHAP, proposed and implemented by Lundberg \cite{ludberg-} had:
-
-\begin{enumerate}
-\item Local accuracy:
-\begin{equation}
-g(x') =\phi_0 + \sum_i \phi_i x_i' = f(x)
-\end{equation} when x = $h_x(x')$ and not just an approximation $f(x) \approx g(x')$. Here $\phi_0$ represents the coefficient corresponding to a vector x' with all entries equal to zeros.
-\item Missingness:
-\begin{equation}
-x_i' = 0 \Longrightarrow \phi_i = 0
-\end{equation}
-\item Consistency: if we have two different functions g' and g, indicating eith $z' / i$ the setting where $z_i' = 0$, if
-\begin{equation}
- g'(z') - g'(z' / i) \ge g(z') - g(z' / i) \Longrightarrow \phi_i(f', x) \ge \phi_i(f, x)
-\end{equation}
-\end{enumerate}
-%The most important properties of this models is called local accuracy and states that g and f must give the same result when passing all the features: g has to match f when x = $h_x(x')$.
-%We attribute a contribution $\phi_i$ to each simplified vector $z_i'$
-
-In 1975 was demostrated that the only coefficients satisfying all of these properties are Shapley values.
-For this reason employing them into some pre-existing algorithms enhanced them and made them more reliable.
-
-
-
-
-%To assign the importance value to a feature we need to train two different models: one with that feature included and the second one with that feature excluded and thereafter compute the difference between the two models' prediction.
-%
-%For each player i and a map function $\nu$ shap values are defined as:
-%We are then going to use them to explain a deep learning model with the SHAP method.
-
-To compute the Shapley value for a feature we have to evaluate the model on all the possible subsets S we can create with our data S$\subseteq F \setminus \left\{i\right\}$. That in a problem with an high number of features would result in a huge computational work. To bypass this problem, we can choose not to calculate the exact shapley value but just an approximation of it, and different algorithms implemented in SHAP proposed a solution for this problem, depending on the model we are working on: example are Tree SHAP, a fast and exact algorithm to computeSHAP values for treed and ensembles of trees, KernelSHAP which is a model agnostic explanation method, or DeepSHAP which is optimized to work faster on deep models by making use of the knowlegde of the structure of a neural network.
-
-
-The problem with implementing an algorithm for the computation of shapley values is that we should evaluate the model for each possible feature permutation so that for a model with p features we should repeat this process p! times which in our case would bring to 5995! $\sim 10^{20046}$ in our case.
-To avoid this calculus Shapley employ by defining a background dataset with a subset of Train data we used to train the model, then during shapleyt computation it just fill in the missing features with features from this background.
-We then take the average of all the model outputs from this new artificial dataset
-
-%LIME \cite{ribeiro-2016}
-% shap \cite{lundberg-2017
-%deepLIFT \cite{shrikumar-2017}
-
-
-The idea behind algorithms like KernelSHAP comes from LIME algorithm \cite{ribeiro-2016}, that avoid the computation of all the permutations by choosing a background subset from input data and evaluate the permutation only between this subset.
-So if we want to evaluate k data samples, (each one containing p features), and we choose a background dataset of size n, the algorithm will perform evaluations only n*k times following this aproach:
-
-\begin{enumerate}
-\item Input a sample x, a model f, and a background data set {x1,x2,...,xn} . We want to interpret x.
-\item Replace a subset of entries in x, by entries in xi, where xi is a data from {x1,x2,...,xN}. This way we create a synthetic or perturbating dataset from our original instance x
-\item Evaluate the function f on the perturbed dataset.
-\item Once we computed these n scores, each using a different $x_i$ from the background dataset, we fit them to compute the feature importance values for our instance x.
-%we produce n copies with each copy using a different x_i from the background dataset. The expected value of the prediction is taken over these n copies
-%3.Repeat the above for different subset of entries (dimensions), chosen according to the Shapley kernel.
-\end{enumerate}
-%Lundberg and Lee, NIPS 2017 <-- article!
-% employs shapley values into the DeepLIFT algorithm and
-
-DeepSHAP alghorithm works with them same principles of KernelSHAP, making use of a background dataset, but it is also optimized to perform better on deep models:it is in this sense, an enhanced version of the DeepLIFT algorithm because of the introduction of the background dataset and because of the use of Shapley values rather than DeepLIFT values used in this algorithm.
-
-DeepLIFT aims to compute the difference between the output of our model with our data and a reference value computed as the output of our model with some reference data.
-The choice of the reference data depends on what kind of data we are working on: images, or genomic data for example.
-for genomic the most common way to produce reference output is to shuffle some inputs, evaluate the model on them and average across all the scores.
-It is also shaped to perform on deep learning algorithm computing its DeepLIFT value during the backpropagation process.
-DeepLIFT attributes to each feature $x_i$ a value $C_{\Delta x_i, \Delta y}$ that represent the effect of that input being set to a reference value rather than its actual value.
-This reference value is chosen from the backgound dataset and represents an uninformative value for that feature
-
-%deriving from modifying our inputs from some \textquotedblleft reference input \textquotedblright, depending on the data we are working on:
-In a nutshell, let t represent the output of some inner neuron and let x1, x2, ... , $x_n$ be some preceding neurons necessary to compute t, if we label $t_0$ the reference output, we can compute the value $\Delta t = t-t_0$ and use them to define the DeepLIFT values $C_{\Delta x_i \Delta t}$ so that
-$\sum_{i = 1} ^n C_{\Delta x_i \Delta t} = \Delta t$. For a given input neuron x with difference from reference $\Delta x$ and a target neuron t, is defined a multiplier $m_{\Delta x \Delta t} = \frac{C_{\Delta x \Delta t}}{\Delta x}$ which represents the contribution of $\Delta x$ to $\Delta t$.
-
-For a more detailed explanation of how DeepLIFT works we refer to its presentation article \cite{}
-
-%showed that the per node attribution rules in DeepLIFT (Shrikumar, Greenside, and Kundaje, arXiv 2017) can be chosen to approximate Shapley values. By integrating over many backgound samples Deep estimates approximate SHAP values such that they sum up to the difference between the expected model output on the passed background samples and the current model output (f(x) - E[f(x)]).
-
-DeepSHAP combines shap values for smaller components of a network to compute values for the whole network, it does so recursively passing Deep LIFT multipliers during backpropagation: we can indeed re-writing multiplier values in terms of shap values, for a target neuron f3 we have $m_{x_j f_3} = \frac{\phi_i(f_3, x)}{x_j - E[x_j]}$ obtaining $\phi_i(f_3, y) \approx m_{y_i, f_3}(y_i - E[y_i])$
-
-To express the significance of a feature we plotted them using SHAP feature importance, based on the relation between feature importance and shap value: feature with high absolute shapley value are important. The importance value for a feature j is then calculated from $I_j = \frac{1}{n} \sum_{j = 1}^n \|\phi_j^{(i)}\|$
-
-
-Shap is implemented as a free Python package with MIT license, developed and mantained by Scott Lundberg.
-This package includes different classes such as TreeExplainer tuned to perform rapidly on tree and forest-like models, linearExplainer which deals with linear model and is able to compute the exact shapley values and not just an aproximation, and the algorithm we are using DeepExplainer, suitable to explain deep learning models and to compute an approximate value of shapley values.
-
-
-
-\subsection{SHAP - Implementation and results}
+\section{SHAP - Implementation and results}
 
 
 To instantiate the desired class, DeepExplainer in our case, we need the trained model and a fraction of the training data as background of arbitrary size $N_{bkg}$ keeping in mind that the bigger is this background subset, the more accurate is the computing of shapley values, but the more computationally expansive this process will be, in particular it would occupy a vast amount of RAM memory and eventually run out of it; by the way, since the error on them $\sim 1/\sqrt{N_{bkg}}$, a background dataset made of 100 samples is a good compomise to have a relatively small error.
@@ -1868,7 +1921,7 @@ AB I $\pm$ II AGE=all, EYE=all &65$\pm$3 &71$\pm$2 &66$\pm$2 &63$\pm$2 \\
 
 
 \bibliographystyle{plain}
-\bibliography{biblio.bib}
+\bibliography{library.bib}
 
 
 
