@@ -7,6 +7,8 @@
 %\linespread{1}
 
 \usepackage{graphicx}
+%To create colored tables
+\usepackage[table,x11names]{xcolor}
 \usepackage{wrapfig}
 \usepackage{subcaption}
 \usepackage{dirtytalk}
@@ -31,6 +33,10 @@
 \usepackage{amsmath}
 %To create a list of item in the same row
 \usepackage[inline]{enumitem}
+
+%To create a "note" space
+\newlist{notes}{enumerate}{1}
+\setlist[notes]{label=Note: ,leftmargin=*}
 
 \hypersetup{
     colorlinks,
@@ -61,7 +67,7 @@ ASD is classified as a neurodevelopmental behavioural disorder \cite{guze-1995} 
 Early signs start appearing by the age of 2 or 3, but the most accurate assessment procedures so far are comportamental, for a toddler, parents answer a set of questions about every-day behaviour of their children like the checklist for Autism in Toddler \cite{robins-2009} where a list of question such as \textquotedblleft When you point at something, your child watch in that direction? \textquotedblright or \textquotedblleft des your children shows interest towards other children? \textquotedblright
 
 However, since there isn't a definitive biological test, often ASD is discovered even after the adolescence always through a comportamental assessment test.
-Currently ADI-R and ADOS are considered the ‘gold standard’ tools for diagnosis of ASD \cite{ozonoff-2015} \cite{lecouteur-2008}, even though for a better assessment, medical and biological informations should be taken into account as well .
+Currently ADI-R (Autism Diagnostic Interview - Revised) and ADOS (Autism Diagnostic Observation Schedule) are considered the ‘gold standard’ tools for diagnosis of ASD \cite{ozonoff-2015} \cite{lecouteur-2008}, even though for a better assessment, medical and biological informations should be taken into account as well .
 
 It's of great importance to make an early diagnosis to provide the help and support they need, because, hopefully, treating it in its early stage, could bring to a regression of this condition.
 
@@ -76,7 +82,7 @@ Genetic is assiciated with a rare gene's mutation, such as a deletion, duplicati
 
 From a neurological point of view, ASD, usually entails a reduced information processing due to synaptic dysfunction that manifests in a reduced or altered brain activity. \cite{??}
 This is confiermed by several but controversal studies where both hyper functional connectivity and hypo-FC were detected in asd patients.
-in particularly it seems to have an age-dependent trend, for over connectivity is usually observed in young children while under connectivity in adolescences and adults.\cite{supekar-2013}
+in particular it seems to have an age-dependent trend, for over connectivity is usually observed in young children while under connectivity in adolescences and adults.\cite{supekar-2013}.
 
 In the last decades, different approaches to study this problem have been carried out, to find a relation between different brain areas involved in this hyper or hypo connectivity
 Different diagnostic tool were proposed to investigate this matter, from different perspectives and at different scales, such as magnetic resonance imaging (MRI), functional-MRI (f-MRI), or electroencephalography (EEG).
@@ -90,27 +96,41 @@ The different neural connections are identified by measuring the BOLD fluctuatio
 Oxyhemoglobin appears then brighter than deoxyhemoglobin
 The spontaneous fluctuations in the BOLD fluctuations during resting state are considered a strong indicator for the assessment of the properties of the brain system.
 
-Resting state f-MRI is an acquisition performed while the patient is in a relaxed state, and is not performing any active task, he is simply asked to stay still with eye open or closed while fixating a cross
+Resting state f-MRI is an acquisition performed while the patient is in a relaxed state, and is not performing any active task, he is simply asked to stay still with eye close or open while fixating a cross.
 %either resting or, more in general in a task-negative state.
 Following this setup the brain is at rest and its activity is not perturbed by active tasks such as moving an arm or passive actions like being exposed to different visual stimuli, which are common activities for task-based functional connectivity, a different acquisition setup to investigate BOLD fluctuations between subjects in a task-stimulated state and control states.
 Resting state setup revealed to be a powerful tool to investigate the intrinsec generated brain activity and study the altered functional connectivity networks in subjects with mental disorder
 
 
-During the study of a functional connectivity pattern, different traits are involved and characterise the signal in a strong and evident way, among these: sex and age of the patient are some of the most important both for structural and functional brain properties.
-Limiting our focus just on functional data, other factor conditioning the final outcome of a f-MRI data acquisition are the FIQ (Full intellective quotient) or the eye status at scan, about this, functional connectivity with open steady eyes is different from closed eyes, and furthermore, closed eyes patient may be fallen asleep during the scan acquisition and this would heavily marking and modify the functional patterns.
+During the study of characteristic traits between control and ASD patients, different attributes are involved and characterise data in a strong and evident way, the most important of which are age, sex or FIQ (full intellective quotient).
+Age for example affects both structural and functional data, with an observed overgrown of the brain volume in toddlers and hyperconnectivity mentioned before, that are both traits that tend to decrease going in on age, and on control subjects, even though it is not well characterised, seem to show a decreasing of brain structure and functional connectivity in older ages
+\footnote{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5105352/}
+Sex is the other feature that gives characteristic traits to data, studies show that some brain area show an increased functional connectivity in females, and from a combined analysis of both age and sex it appears that in men some brain structures show more pronounced aging effect than women
+\footnote{https://pubmed.ncbi.nlm.nih.gov/9482358/}
 
-It appears clear that the distinction of asd patient among normal ones it's not a simple and straightforwand task.
-One of most promising tool to take on this challenge and to deal with non-linear problems is the use of machine learning algorithm to study data extracted from fMRI such as pairwise correlations between different regions of the brain, or image of brain themselves from MRI scans to study with convolutional neural networks (CNN).
+Other factor conditioning the final outcome of a f-MRI data acquisition are the FIQ (Full intellective quotient) or, limiting our focus just on functional data, the eye status at scan plays an important role, about this, functional connectivity with open steady eyes results to be different from closed eyes, with strong differences and higher connectivity in different brain areas between the two coohrts of subjects.
+\footnote{https://www.nature.com/articles/s41598-020-66100-y}
+and furthermore, an other aspect to be take into account regarding closed eye patients, is that during the scan acquisition, cthey may fall asleep, and this would heavily modify the functional brain activity, resulting in a modified functional connectivity pattern.
+
+It appears clear that the distinction of asd patient among normal ones it's not a simple and straightforwand task because of all these confounding factors concorring to the characterization of acquired data.
+
+To take on this challenge, one of the most promising tools that allow us to deal with complex, non-linear problems is the use of machine learning algorithm to study data extracted from fMRI such as pairwise correlations between different regions of the brain, or image of brain themselves from MRI scans to study with convolutional neural networks (CNN).
 %One of the most promising and powerful tool to tacke non-linear problems is machine learning.
-Machine learning algorithm belong to artificial inteligence tools and make use of an alghorithm that learns from data, and modify its parameters with the aim of recognising distinctive properties from the data and make prediction or decision on new unseen data.
+Machine learning algorithm belong to artificial inteligence tools and make use of an alghorithm that learns from data, and modify its parameters with the aim of recognising distinctive properties from them and makes prediction, classification, of new unseen data.
 
-An relevant aspect that makes machine learning and artificial neural networks so popular is the ability to deal with non-linear problems introducing several non linear non-linear functions during training acting on their inputs or on the sum of them.
-A restraint of machine learning though, is that to perform well, an ANN needs to be trained on a big dataset, and the bigger the dataset, the better its performances are, expecially for deep neural networks.
-To this end, particularly in medical field, several data from different acquisition centers need to be put together, and in the last years, several multicenter medical dataset such as the Human Connectome Project, the Alzheimer’s Disease Neuroimaging Initiative (ADNI) or Autism Brain Imaging Data Exchange (ABIDE) were created.
-Unfortunately, one drawback of multicenter datasets is the unavoidable bias towards the site the data belongs to, resulting from hardware and scan's procedure differences, and it wouldn't be possible to uniform them to a single common acquisition protocol.
-To tacke this problem and try to uniform inter-scan variability, in this work, two different aproaches are proposed: analytical harmonization and a deep learning aproach.
-Harmonization is a procedure that aims to remove inter-site related effects in multi-site data, while trying to preserv all other information as biological-related features.
-The second aproach, the deep learning one, tries to extract from data both disease and site information and use site information to remove the bias toward that site before making a prediction.
+A relevant aspect that makes machine learning and artificial neural networks so popular is as cited before, the ability to deal with non-linear problems, and it accomplish so by introducing several non linear functions during training, to get non-linear outputs from each input data or from a combination of them.
+
+A restraint of machine learning though, is that to perform well, algorithms need to be trained on a big dataset, because the bigger the dataset, the more it is able to generalize information and the better are its performances on new data, and this is true expecially for deep neural networks.
+
+To this end, particularly in medical field where data are not easily available from a single centre or are not in a sufficient amount to perform a large-scale analysis, several data from different acquisition centers need to be put together, and in the last years, several multicenter medical dataset such as the Human Connectome Project, the Alzheimer’s Disease Neuroimaging Initiative (ADNI) or Autism Brain Imaging Data Exchange (ABIDE) were created to try to create a large collection of data to permorm significant statistical analysis.
+Unfortunately, one drawback of multicenter datasets is the unavoidable bias towards the site the data belongs to, resulting from hardware and scan's procedure differences, and it would be a really hard request to uniform all medical center across the world to uniform to a single common acquisition protocol.
+To tacke this problem and try to uniform inter-scan variability, we need an harmonization procedure to remove site-dependent information and try to uniform data.
+In this work, two different aproaches are proposed: analytical harmonization and a deep learning aproach.
+
+Analytical harmonization is a procedure that modifies data with shifts and rescaling to remove only inter-site related effects in multi-site data, while trying to preserv all other information as biological-related features.
+The second aproach, the deep learning one, tries to make classification of Control/ASD data extracting from data both relevant information for Control/ASD classification and site-dependent information and use the latter to remove the bias toward sites before making a prediction.
+
+
 
 \addcontentsline{toc}{section}{MATERIALS AND METHODS}
 
@@ -121,17 +141,18 @@ The second aproach, the deep learning one, tries to extract from data both disea
 % structural and functional images, ¿ acquisition parameters?
 % some patients are the same across ABIDE I and II
 
-Data we are going to work on belong to the ABIDE dataset (Autism Brain Images Data Exchange): a project aiming to investigate autism using resting state fMRI scans acquired from different medical centers, and putting them together to collect as many data as possible.
+Data we are going to work on belong to the ABIDE dataset (Autism Brain Images Data Exchange): a project founded with the aim of investigate autism using MRI structural and resting state fMRI scans, to address the problem with these two different aproaches, collecting data acquired over the years from different medical centers, and putting them together in a single dataset.
 
 The whole ABIDE dataset was published in two releases: ABIDE I released in August 2012 and containing 1112 patient scans, and ABIDE II released in June 2016 containing 1114 scans.
 ABIDE I includes scans collected from 17 different sites, and the 1112 patients consist of 539 patients with ASD and 573 typical control patients.
 ABIDE II includes scans collected from 19 different sites, and the 1114 patients consist of 593 patients with ASD and 521 typical control patients.
 Not every site belonging to ABIDE II is different from those of ABIDE I, but, even though some medical centers are the same, the scanner type, or acquisition pipeline and parameters may have been changed during the time interval between the two releases, so in the following analysys, they are regarded as different acquisition sites.
+For each site autism was diagnosed either by gold standard diagnostic instruments, clinical judgment or a combination of clinical gold standard procedures.
 
-Besides scan images, ABIDE provides every information related to each patient, as age, sex, intelligence quotient (FIQ), eye status during the scan (open or closed), and every additional information provided by patients.
+In addition to scan images, ABIDE provides every information related to each patient, as age, sex, intelligence quotient (FIQ), eye status during the scan (open or closed), and every additional information provided by patients.
 
 The vast majority of patients are males as shown in the histogram \ref{fig:mf_site}, for a total amount of 1804 males and 422 females , while control/asd patient number, for each site is almost  for each site as
-while the control/asd case per site is more or less balanced for almost every site, with the exception of KKI-1 that provided two times more controls than asd patients, and KUL-3 and NYU-2 that only provided ASD cases. For a visual comparison the number of controls/asd for each site is displayed on the histogram in figure \ref{fig:controlcase_site}
+while the control/asd case per site is more or less balanced for almost every site, with the exception of KKI-1 that provided two times more controls than asd patients, and KUL-3 (Katholieke Universiteit Leuven) and NYU-2 (NYU Langone Medical Centre, Sample 2) that only provided ASD cases. For a visual comparison the number of controls/asd for each site is displayed on the histogram in figure \ref{fig:controlcase_site}
 
 \begin{figure}[h]
 \centering
@@ -150,12 +171,30 @@ while the control/asd case per site is more or less balanced for almost every si
 \end{figure}
 
 
-Patients in ABIDE dataset have ages ranging from 4 to $>$ 50 years old, but as shown in figure \ref{fig:abideages} the vast majority of participant are younger than 40, precisely $>$ 97 $\%$ of participant are under 40 y.o. so we can restrict our further analysys to patients belonging to this group.
-% HOW IS FIQ ASSESSED?? HOW IS AUTISM DIAGNOSIED (di martino et al.)????????
-Intelligence quotient, whose distribution is shown in figure \ref{fig:abidefiq}, was not provided for every participant, in fact 171 out of 2226 values were not provided, and before proceding they were replaced by the mean of all the other values.
+Patients in ABIDE dataset have ages ranging from 4 to $>$ 50 years old, but as shown in figure \ref{fig:abideages} the vast majority of participant are younger than 40, precisely $>$ 97 $\%$ of participant are under 40 y.o., also, the majority of sites provide only young patients in a restricted age range, but  as can be seen from figure \ref{fig:age_site} there are some sites that acquired patients with a wide age rande.
+
+In our analysis we can restrict to patients belonging to an age range between 4 and 50.
+
+Intelligence quotient, whose distribution is shown in figure \ref{fig:abidefiq}, was not provided for every participant, in fact 171 patients out of 2226, coming from sites UM1 and EMC1 (figure \ref{fig:fiq_site}) lack this information.
+In our further analysis, before proceding these values were replaced by the average value of all the other provided values.
 The lack of a common acquisition protocol is also evident from the eye status at scan feature: as shown in figure \ref{fig:abideeyesite} each site acquired scans either with open eyes or with closed, without a common method, and sometimes this information is not even specified.
 In its entirely, the whole dataset consists of more than 70\% of patient acquired with open eyes, as shown in figure \ref{fig:abideeye}.
 
+\begin{figure}
+\centering
+\begin{subfigure}{0.9\textwidth}
+\includegraphics[width=\textwidth]{abide/fiq_site.png}
+\caption{}
+\label{fig:abideages}
+\end{subfigure}
+\begin{subfigure}{0.9\textwidth}
+\includegraphics[width=\textwidth]{abide/abide_age_site.png}
+\caption{}
+\label{fig:abidefiq}
+\end{subfigure}
+\caption{}
+\label{}
+\end{figure}
 
 
 
@@ -170,7 +209,6 @@ In its entirely, the whole dataset consists of more than 70\% of patient acquire
 \caption{}
 \label{fig:abidefiq}
 \end{subfigure}
-
 \caption{}
 \label{}
 \end{figure}
@@ -192,10 +230,6 @@ In its entirely, the whole dataset consists of more than 70\% of patient acquire
 \caption{}
 \label{}
 \end{figure}
-
-
-For each patient in ABIDE both structural and functional images were provided.
-
 
 
 
@@ -239,8 +273,22 @@ These signals include motion and BOLD signal fluctuation from white matter or ce
 From them, the variance is computed and this value is removed from the data using multi linear regression analysis.
 
 When we need to run a group analysis, meaning analyze and compare different patient's images, one of the most relevant step is \emph{registration}: structural (T1) data are aligned over a standard coordinates system space to universally describe location of the different brain parts, to make sure that the same voxel coordinate corresponds to the same brain area for all the subjects.
-The most common spaces is Tailarch and Monreal Neurological Institute's MNI-152, obtained from linearly coregistrating 152 T1 brain scans.
-A second registration step occurs within each patient to align EPI (functional) data to the structural image of that subject.
+The most common template, provided by packages like FSL is Tailarch and Monreal Neurological Institute's MNI-152 that replaced the previous Tailarch and Tournoux template and was adopted by the International Consortium of Brain Mapping (ICBM) as the international standard; it is also called ICBM152 for this reason.
+
+To understand why MNI152 differs from the Tailarch and Tournoux we have to spend a few words about the latter. \footnote{https://doi.org/10.1038/nrn756}
+The Teilarch and Tournoux atlas was published in 1988 and introduced some innovative aspects to tackle the problem of the great variability in brain anatomy between people which limited the accuracy of statistical analysis.
+they introduced a common coordinate system to identify different brain locations, based on some anatomical landmarks, and introduced a spatial transformations to match different brains.
+They choose two anatomical areas: the anterior commissure and the posterior commissure, which are relative invariant between different brains and conjuncted them with an axis.
+An horizontal plane passing through this axis was chosen such that it was perpendicular with the interemishpere axis.
+This way they created a 3D coordinate system called the Tailarch coordinate system.
+Afterwards, to match different brains they described a set of spatial transformation, one for each different brain quadrant, to transform a brain to match another's principal anatomical structures.
+
+From this template, a first MNI template was created, called MNI305, created by manual scaling 241 brains to the Tailarch template and averaging them to obtain  new template, and then transform 305 additional scans to this new template and averaging them to create a second average and final template (MNI305).
+
+From this template, MNI152 was finally created and published in 2001, by registering 152 T1 scans to the MNI305 template and averaging them.
+
+This template is used for the structural registration of a patient's brain.
+When we work with functional images though, a second registration step occurs within each patient to align EPI (functional) data to the structural registered image of that subject.
 
 Looking at picture \ref{fig:registrationchart} we can see an example of step by step functional and structural image registration to a MNI152 template: first the functional image is registered to the structural and next, they are both registered to MNI template.
 
@@ -294,7 +342,7 @@ We choose to employ CPAC because, basing on machine learning classification resu
 CPAC employs tools like AFNI, FSL and ANTS to perform image correction of structural MRI and rs f-MRI.
 Data were preprocessed following the same steps as the pipeline employed to create the ABIDE-preprocessed dataset.
 This pipeline includes both antomical and functional preprocessing.
-Anatomical pipeline speps consist in:
+Anatomical pipeline steps consist in:
 \begin{itemize}
 \item Skull removal using AFNI's 3dSkullStrip
 \item Tissue segmentation using FSL-FAST, to separate gray matter, white matter and CSF, uging a thresholding probability map whose threshold's values were set the same as ABIDE-preprocessed pipeline values
@@ -361,7 +409,7 @@ r_{xy} = \frac{\sum_{i = 1}^n \left( x_i - \mu_{x_i}\right)\left( y_i - \mu_{y_i
 \end{equation}
 
 For each patient the Pearson correlation coefficient was computed for each timeseries' pair. Before further analysis, a common way to proceed is to transform each coefficient with Fisher z-transformation.
-The reason behind this common operation appears clear when we are dealing with high correlate variables, when pearson correlation distribution results in an highly skewed distribution, Fisher's transform sought to transform it into a normal distribution of which the standard error is approximately constant equal to $\sigma = \/\sqrt{N-3}$ where N is the total number of points, and it does not depends on the values of correlation.
+The reason behind this common operation appears clear when we are dealing with high correlate variables, when Pearson correlation distribution results in an highly skewed distribution, Fisher's transform sought to transform it into a normal distribution of which the standard error is approximately constant equal to $\sigma = \/\sqrt{N-3}$ where N is the total number of points, and it does not depends on the values of correlation.
 
 With this property, Fisher's transform is important also when we want to to test some hypotesis about correlations, we can run our test with the transformed variables which are normal distribuited with a known variance.
 
@@ -721,7 +769,7 @@ What happens then is that the model memorizes all the data it sees during train 
 As a result, the model performs well on the Train dataset and has low performances in an unseen dataset, called Test datset.
 
 As an example in a two-dimensional space, if we aim to fit a dataset consisting of some points sampled from a quadratic curve, using three different functions: a linear function, a quadratic function and a polynomial function with grade equal to the number of data points.
-As shown in figure \ref{fig:underoverfitting} the linear model is not able to describe the data's distribution while the polynomial function has too many parameters, and it is perfectly able to fit our distribution, but it would perform very poorly to describe a dataset sampled from the same quadratic distribution, furthermore, if the number of parameters (the grade of the polynomial in this case) is greater or equal to the number of data points, we obtain that an infinite number of different curves are suitable to fit our data, and finding the best one, which performs well on the test dataset is an hard task.
+As shown in figure \ref{fig:underoverfitting} the linear model is not able to describe the data distribution while the polynomial function has too many parameters, and it is perfectly able to fit our distribution, but it would perform very poorly to describe a dataset sampled from the same quadratic distribution, furthermore, if the number of parameters (the grade of the polynomial in this case) is greater or equal to the number of data points, we obtain that an infinite number of different curves are suitable to fit our data, and finding the best one, which performs well on the test dataset is an hard task.
 We should therefore pay attention when choosing the number of parameters on a model to avoid under- or more likely over- fitting.
 
 
@@ -823,55 +871,72 @@ $p(i = i|z) = \phi(z) = \frac{e^z_i}{\sum_{j = 1}^M e^{z_j}}$ being M the total 
 \end{itemize}
 
 
-\subsection{Loss functions}
+\subsection{Loss functions}\label{sec:loss_functions}
 
 DA RIVEDERE E SISTEMARE NOTAZIONE
 
 In order to train a network and improve its performances we need to compare the predicted (output) value with the actual value and compute some sort or error, or distance between these two values, and try to gradually minimize it.
-The function to minimize is denoted as the \emph{loss function}
-Computing the loss, returns a value of how much the prediction is far from the actual label, and then, we try to modify the network's weights to reduce this value searching for a minimum of this function.
 
-This algorithm employed by a feedforward network for weights' fine tuning is called \emph{backpropagation} (backward propagation of errors).
+The function to minimize is denoted as the \emph{loss function}
+Computing the loss, returns a value of how much the prediction is far from the actual label, and then, the network's weights are modified in order to reduce this value and searching for a minimum of this function.
+
+
 and the main technique to do so, is the likelihooh maximization
 
 The most common loss function is the cross-entropy loss, it relies on the concept of cross-entropy between two distributions $\hat y \ and \ y$ and is defined as
 $H(y, \hat y) = -\sum_i^n y_i \cdot log(\hat y_i)$
 Where the sum is intended over all the n possible values a variable y can assume (all the n possible classes).
-In case of multi-class classification we call this function categorical crossentropy, while if we only have two classes, we are then performing a binary classification and the loss becomes, if we explicit the sum for two $i = \left\{0, 1\right\}$ and take the average value across all the data samples:
+%In case of multi-class classification we call this function categorical crossentropy,
+If we only have two classes, we are performing a binary classification and the loss becomes, (if we explicit the sum for two $i = \left\{0, 1\right\}$ and take the average value across all the data samples) we obtain the binary crossentropy:
 \begin{equation}
 H_p(q) = -\frac{1}{N} \sum_{j= 1}^N y_j log(\hat y_j) + (1-y_j)log(1-\hat y_j)
 \end{equation}
 
 The estimation of the minimum of this function can be seen as the maximization of the likelihood:
-Given a probabilistic model depending on m different parameters $\theta_1 ... \theta_m$, the likelihood is the probability of observing a value $\hat y_i$ given a set of parameters $\left\{\theta_i \right\}_1 ^m \ L(\theta_1, ..., \theta_m | y_i) = P(y_i|\theta_1, ...\theta_m)$.
-
-For a subset of observed value we can write the likelihood as $L = P(\hat y_1, ..., \hat y_n | \theta_1, ...\theta_m)$ that in case we are dealing with independent variables is just the product of the single probabilities $L =\prod_{i=1}^n p(\hat y_i|\theta_1, ...\theta_m)$.
-
-
-Our goal is to perform the maximization of this function during a logistic regression:
-A logistic regression is the estimate of the best model's parameters that models the discrete probability of two events:
-
-In our practical problem the parameters to be optimized $\left\{\theta_i \right\}_1^n$ are the weights of the DNN model $\left\{w_i \right\}_1^n$ and our data is a set of N datapoints $\left\{ x_1 ... x_N\right\}$ each one associate with a label  $\left\{ y_1 ... y_N\right\}$ which can be either 0 or 1 so in short D = $\left\{ (\mathbf{x_i}, y_i)\right\}$.
-
-Given an input data $\mathbf{x_i}$  and an activation function (sigmoid for example, which we recall is of the form $\sigma(z) = \frac{1}{1+e^{-z}}$) the probability of $x_i$ to belong to the class $y_i = 1$ is given by
-
+Given a probabilistic model depending on m different parameters $\theta_1 ... \theta_m$, the likelihood is the probability of observing a value $\hat y_i$ given a set of parameters $\{\theta_i \}_1 ^m$
 \begin{equation}
- P(y_i = 1 | x_i, \mathbf{w}) = \sigma(\mathbf{x_i^T w}) = \frac{1}{1+e^{-\mathbf{x_i^T w}}}
+ L(\theta_1, ..., \theta_m | \hat y_i) = P(\hat y_i|\theta_1, ...\theta_m).
+\end{equation}
+For a subset of observed value we can write the likelihood as $L = P(\hat y_1, ..., \hat y_n | \theta_1, ...\theta_m)$ .
+
+This probability, if we are dealing with independent variables, can be rewritten as the product of the single probabilities, of observing each sample $\hat y_i$ given out model with parameters $\{\theta_i \}_1 ^m$:
+\begin{equation}
+L =\prod_{i=1}^n p(\hat y_i|\theta_1, ...\theta_m).
 \end{equation}
 
-which in terms of a regression can be wrote as 1 - the probability to belong to the negative class namely
+%Our goal is to perform the maximization of this function during a logistic regression:
+%A logistic regression is the estimate of the best model's parameters that models the discrete probability of two events:
 
-$P(y_i = 1) = 1 - P(y_i = 0)$
+In our practical problem if we aim to maximize this function, the parameters to be optimized $\left\{\theta_i \right\}_1^n$ are the weights of the DNN model $\left\{w_i \right\}_1^n$ and our data is a set of N datapoints $\left\{ x_1 ... x_N\right\}$ each one associate with a label  $\left\{ y_1 ... y_N\right\}$ which can be either 0 or 1 which can be indicated as D = $\left\{ (\mathbf{x_i}, y_i)\right\}$.
+
+From now on we will denote our parameters to optimize as $\mathbf{w} = w1, .., wm $
+Given an input data $\mathbf{x_i}$  and an activation function (sigmoid for example, which we recall is of the form $\sigma(z) = \frac{1}{1+e^{-z}}$) the probability of $x_i$ to belong to the class $y_i = 1$, or in other words, the probability to observ $y_i$ given an input $x_i$ is given by
+
+\begin{equation}
+ P(y_i = 1 | x_i, \mathbf{w}) = \sigma(\mathbf{x_i\cdot w}) = \frac{1}{1+e^{-\mathbf{x_i \cdot w}}}
+\end{equation}
+
+%which in terms of a regression can be wrote as 1 - the probability to belong to the negative class namely
+And since we are dealing with a binary classification, where $y_i$ can be either 0 or 1, the probability to belong to one class is 1 minus the probability to belong to the other class
+\begin{equation}
+P(y_i = 1) = 1 - P(y_i = 0)
+\end{equation}
 
 Putting this all together for a set of data $D = \{ (\mathbf{x_i}, y_i)\}_1 ^N$ substituting this result in the log-likelihood function we obtain the likelihood of observing our data under our model
+\begin{equation}
+P(D|\mathbf{w}) = \prod_{i=1}^N \sigma(\mathbf{x_i^T w})^{y_i} (1-\sigma(\mathbf{x_i^T w}))^{1-y_i}
+\end{equation}
 
-$P(D|\mathbf{w}) = \prod_{i=1}^N \sigma(\mathbf{x_i^T w})^{y_i} (1-\sigma(\mathbf{x_i^T w}))^{1-y_i}$
-
-Since we are interested in maximize the likelihood, the best parameters are those that maximize the likelihood:
+The best parameters are those that maximize the likelihood:
 $\begin{cases} \frac{\delta L}{\delta \theta_1}(\theta_1, ..., \theta_m) = 0 \\ ... \\ \frac{\delta L}{\delta \theta_1}(\theta_1, ..., \theta_m) = 0 \end{cases}$
 To compute the derivative of a product is a nontrivial task, hence it's much simpler to compute the logarithm (since the logarithm is a monotonic function, so compute the maximum of a function is the same as computing the maximum of the logarithm of that function).
 
-We obtain then $log(L) = \sum_{i=1}^m y_i log(\sigma(x_i^T \mathbf{w})) + (1-y_i)log(1-\sigma(x_i^T \mathbf{w}))$ which taken with a negative sign corresponds to the cross-entropy function.
+We obtain then
+\begin{equation}
+log(L) = \sum_{i=1}^m y_i log(\sigma(x_i^T \mathbf{w})) + (1-y_i)log(1-\sigma(x_i^T \mathbf{w}))
+\end{equation}
+
+which taken with a negative sign corresponds to the cross-entropy function.
 
 
 This result obtained for binary classification can be generalized to perform a multi-class classification called Softmax regression.
@@ -879,12 +944,16 @@ In a multi-class classification, labels $y_i$ become binary vectors of dimension
 
 In this case, given a model with parameters $\mathbf{w_k}_{k=0}^{M-1}$ the probability for an input $\mathbf{x_i}$ to belong to class m' is given by the softmax function
 
-$P(y_{i,m'}= 1 | \mathbf{x_i}, \{\mathbf{w_k}_{k=0}^{M-1}\} ) = \frac{e^{-\mathbf{x_i^T w_{m'}}} }{\sum_{m = 0}^{M-1} e^{-\mathbf{x_i^T w_{m}}}}$
-
+\begin{equation}
+P(y_{i,m'}= 1 | \mathbf{x_i}, \{\mathbf{w_k}_{k=0}^{M-1}\} ) = \frac{e^{-\mathbf{x_i^T w_{m'}}} }{\sum_{m = 0}^{M-1} e^{-\mathbf{x_i^T w_{m}}}}
+\end{equation}
 and the relative negative log-likelihood will be in the form:
 
 $L = -\sum_{i=1}^{n} \sum_{m= 0}^{M-1} y_{im} log(P(y_{im}=1|x_i, w_m)) + (1-y_{im})log(1-P(y_im=1|x_i, w_m))  $
 where there's a summation over the index i which indicate the i-th input data and over the index m, concerning all the possible M classes.
+
+
+The algorithm employed by a feedforward network for weights' fine tuning is called \emph{backpropagation} (backward propagation of errors).
 
 \subsection{Gradient descent and Backpropagation}
 
@@ -939,7 +1008,7 @@ Backpropagation can be summarized in 3 steps:
 
 \subsection{Dimensionality reduction: PCA}
 PCA is a method to perform dimensionality reduction, it is an unsupervised learning algorithm which aims to reduce the dimensionality of input data, preserving as much information as possible,
-It does so attempting to learn a new representation of data with lower dimensionality than the initial one and whose element have no linear correlation with each other. It performs then an orthogonal transformation of data, in order to find the direction along which data's variance is biggest.
+It does so attempting to learn a new representation of data with lower dimensionality than the initial one and whose element have no linear correlation with each other. It performs then an orthogonal transformation of data, in order to find the direction along which data variance is biggest.
 
 Concretely, if we consider a set of n input data vectors lying in a space $\Re^p$, we can represent them as a matrix $X \in \Re^{n \times p}$ where n is the total number of input data and p is the dimensionality of each data (the number of features in each data vector).
 
@@ -1136,9 +1205,9 @@ y^{ComBat}_{ijf} = \frac{\hat \sigma_f}{\delta_{jf}}(Z_{ijf} - \gamma_{jf}) + \h
 
 
 
-\section{Domain-adversarial NN}
+\section{Domain-adversarial NN}\label{sec:domain_adversarial_theory}
 An other approch is trying to train a neural network to recognise discriminative features, making train as much site-independent as possible.
-The genral idea underlying this network comes from a reviewed and readapted version of the solution of the problem tackled in Ganin - Ustonova article
+The general idea underlying this network comes from a reviewed and readapted version of the solution of the problem tackled in Ganin - Ustonova article
 %Insert article reference
 Their work takes place when we possess two different datased let's call them a Source and a Target dataset, containing features following two different distributions.
 Moreover, source dataset is labeled while Target is unlabeled, so their goal was to create a network able to distinguish relevant features from the labeled dataset and make them domain independent.
@@ -1219,10 +1288,15 @@ It represents the incremental benefit of including player i in a the subset and 
 
 The mathematical formulation Shapley introduced for his value is
 \begin{equation}
-\phi_i(\nu) = \frac{1}{N} \sum_{S\subseteq N\ \setminus \{ i \} }  {N- 1 \choose |S|}^{-1} ( \nu (S \cup \{ i \} 0) - \nu(S) )
+\begin{aligned}
+\phi_i(\nu)  & = \sum_{S\subseteq N\ \setminus \{ i \} }  {N- 1 \choose |S|}^{-1} [\nu (S \cup \{ i \} 0) - \nu(S)] \\
+& = \sum_{S\subseteq N\ \setminus \{ i \} }  \frac{S! (N-S-1)!}{N!} [\nu (S \cup \{ i \} 0) - \nu(S) ]
+\end{aligned}
 \end{equation}
 %That can be interpreted as $\frac{1}{N} \sum \frac{\text{marginal contribution of i to the coalition}}{\text{number of coalitions excluding i of the same size os S}}$
 And they exactly represent the amount of reward for each player i.
+
+\subsection{SHAP}
 
 The idea behind SHAP is to use these Shapley values to exaplain every single feature's contribution in our machine learning model, treating it as a cooperative game
 
@@ -1230,16 +1304,19 @@ To apply the concept of Shapley values to a machine learning model we just adapt
 For a single feature, its Shapley value is defined as the average marginal contribution of that feature's value across all possible coalitions.
 
 %To get the idea of how we can explain a model, we start asking: how much is a prediction driven by the fact that a feature has a certain value A, instead of its baseline value $\bar A$? the baseline value $\bar A$ is the result of ... ?
-Shap can be regarded as a local explainatory method, and before it several algorithms belonging to this cathegory were implemented as an attempt to create an explainatory technique for machine learning models.
+Shap can be regarded as a local explainatory method, and before it, several algorithms belonging to this cathegory were implemented as an attempt to create an explainatory technique for machine learning models.
 In general, local explainatory model's objective can be defined as the attempt to explain an output f(x) after a single instance x that in our case can be a vector of features.
+Local methods differs from global methods, because the latter provide us a global explanation of the model, across all the instances, they are able to attribute an importance to each feature to determine which contributed the most to the output of the model.
+One of the key point of SHAP is its flexibilityu, being both a local and global explainatory model.
 
-To do so and simplify the workflow, they introduce a coalition vector x' = $\left\{ 0, 1 \right\}^F$ : where F is the total number of features: z' is a vector of the same length of x, and is a binar vector made by zeros and ones where zero means that we withheld the corrisponding variable from x in our analysys, and the one that we are including it.
+Being a local model, SHAP share with other algorithms some implementation features: given a single input vector x, to simplify the workflow, they introduce a coalition vector x' = $\left\{ 0, 1 \right\}^F$ : where F is the total number of features: x' is a binary vector of the same length of x, where binary means made just by zeros and ones: zero means that in our analysis we are going to withheld the corrisponding variable from x in, and the one that we are including it.
 
 To map the x' vector to the corresponding feature values vector a mapping function $h_x(x')$ = x is introduced to returns the actual features' value from the corresponding input vector x.
 Our goal is to find a simplified model g(x') to work with, because it's simpler to work with a binary vector x' than with the actual vector x.
 We want that this simplified model, when applied on the coalition vector x', is able to approximate our output f(x): $ g(z') \approx f(h_x(z'))$ if z' $\approx$ x'.
 The first important condition on this function g is that it has to be a linear function
 \begin{equation}
+\label{eq:shap_g}
 g(z') = \phi_0 + \sum_{i = 0}^N \phi_i z_i'
 \end{equation}
 And several methods before SHAP were created that satisfy this condition such as LIME \cite{ribeiro-2016} or DeepLIFT \cite{shrikumar-2017} but they lacked additional properties that SHAP, proposed and implemented by Lundberg \cite{ludberg-} has:
@@ -1271,43 +1348,63 @@ For these reasons SHAP employs Shapley values into pre-existing algorithms and e
 %For each player i and a map function $\nu$ shap values are defined as:
 %We are then going to use them to explain a deep learning model with the SHAP method.
 
-To compute the Shapley value for a feature we have to evaluate the model on all the possible subsets S we can create with our data S$\subseteq F \setminus \left\{i\right\}$. That in a problem with an high number of features would result in a huge computational work. To bypass this problem, we can choose not to calculate the exact shapley value but just an approximation of it, depending on the model we are working on, SHAP implemented different algorithms such as Tree SHAP, a fast and exact algorithm to computeSHAP values for treed and ensembles of trees, KernelSHAP which is a model agnostic explanation method, or DeepSHAP which is optimized to work faster on deep models by making use of the knowlegde of the structure of a neural network.
+To compute the Shapley value for a feature we have to evaluate the model on all the possible subsets S we can create with our data S$\subseteq F \setminus \left\{i\right\}$. That in a problem with an high number of features would result in a huge computational work. To bypass this problem, we can choose not to calculate the exact shapley value but just an approximation of it, depending on the model we are working on, SHAP implemented different algorithms such as Tree SHAP, a fast and exact algorithm to compute SHAP values for trees and ensembles of trees, KernelSHAP which is a model agnostic explanation method, or DeepSHAP which is optimized to work faster on deep models by making use of the knowlegde of the structure of a neural network.
 Each one of these algorithms is built upon previous algorithms like LIME or DeepLIFT
 
-LIME is a local, model-agnostic, interpretability model which resolves the problem of high computational work when a we deal with a large number of permutations: theoretically we should evaluate the model for each possible feature permutation so that for a model with p features we should repeat this process p! times which in our case would bring to 5995! $\sim 10^{20046}$.
-To avoid this calculus, LIME adopts an aproximation methods based on the introduction of a perturbed dataset: starting from a single instance, it creates different perturbed copies of it, modifying its features evaluating the model on each one, then, it weigths each one according to its distance from the original instance and calculate a linear fit to explain the predictions.
-This idea is what is implemented in KernelSHAP:
+LIME is a local, model-agnostic, interpretability model, made to explain the prediction of ant classifier in faithful, but only local way, meaning that it can accurately explain a single prediction but it is not able to generalize to many.
+Since Kernel SHAP is built upon LIME algorithm, it pick up an important strategy from it, to avoid the computation of all the permutaiton
+%An innovative aspect of LIME is the strategy it employs to resolve the problem of high computational work when it deals with a large number of feature in a single data: instead of computing all the possible permutations,
+%a we deal with a large number of permutations: theoretically we should evaluate the model for each possible feature permutation so that for a model with p features we should repeat this process p! times which in our case would bring to 5995! $\sim 10^{20046}$.
+KernelSHAP adopts an aproximation methods based on the introduction of a perturbed dataset: starting from a single instance x, it randomly creates a perturbed data by randomly setting to 0 or 1 the corresponding entries on several coalition vectors x', doing so it creates a perturbed dataset made of different x' vectors.
+
+The next step is to make prediction for all of these perturbed vector.
+Since x' and x are related through the mapping function h, for each x'we can retrieve the corresponding values from x and input this vector to our model
+and then uses the pre-trained model to make predictions on this perturbed dataset.
+
+As reported before, 1 means that we are including the corresponding feature in this analysis while 0 is associated to a lack of the corresponding feature.
+Since not all the machine learning models can easily deal with lacking features, to simulate the lacking of a feature, when we have a 0 in the x' vector, the algorithm replaces the corresponding feature's value with the most uninformative value.
+This is chosen using a set of data from training called \emph{background} datset, of arbitrary size, from it, features are averaged, and the this value is replaced in our vector to simulate the absence of that feature.
+
+Using this synthetic dataset, the model is evaluated on each vector and these scores are collected, and these outputs are subsequently used to accomplish a minimization task to finally find the shapley coefficients.
+Minimization is performed in a fit, but before it, each output value is weighted according to the distance of the synthetic vector with the original space vector by using coefficients $\pi_x$ defined as
+\begin{equation}
+\pi_x = \frac{p-1}{{p \choose |z'|} \cdot |z'| (p-|z'|)}
+\end{equation}
+Where we indicated as p the total number of features in the original feature vector x anc with |z'| the number of element in that subset, and cosequently (p-|z'|) is the number of features not included in the subset.
+
+To perform a fit, the loss function to minimize is in the form $L(f, g, \pi_x) = \sum_{z\in Z} [f(h(z))-g(z')]^2\ \pi_x$
+where g(z') is the simplified function expressed in equation \ref{eq:shap_g}, given by a combination of coefficients $\phi_i$ that are the parameters of the fit.
+
+
+%it creates different perturbed copies of it, modifying its features evaluating the model on each one, then, it weigths each one according to its distance from the original instance and calculate a linear fit to explain the predictions.
+%This idea is what is implemented in KernelSHAP:
 %The idea behind algorithms like KernelSHAP comes from LIME algorithm \cite{ribeiro-2016},
-it avoids the computation of all the permutations by choosing a background subset from input data and evaluate the model only using this subset.
-So if we want to study the effect of a single feature, we ideally switch off that feature, and SHAP does so, by replacing its value by randomly picking it from the background dataset.
-By following this simplified procedure:
+%it avoids the computation of all the permutations by choosing a background subset from input data and evaluate the model only using this subset.
+%So if we want to study the effect of a single feature, we ideally switch off that feature, and SHAP does so, by replacing its value by randomly picking it from the background dataset.
+%By following this simplified procedure:
 
 %So if we want to evaluate k data samples, (each one containing p features), and we choose a background dataset of size n, the algorithm will perform evaluations only n*k times following this aproach:
 %To avoid this calculus Shapley employ by defining a background dataset with a subset of Train data we used to train the model, then during shapleyt computation it just fill in the missing features with features from this background.
 
 
+In a nutshell, the main steps of KernelSHAP algorithm are
 \begin{enumerate}
-\item Input a sample x, a model f, and a background data set {x1,x2,...,xn} . We want to interpret x.
-\item Replace a subset of entries in x, by entries in xi, where xi is a data from {x1,x2,...,xN}, This way for each data in the background dataset, it creates a synthetic data of the original instance x
-\item Evaluate the function f on the perturbed dataset.
-\item Once we computed these n scores, each using a different $x_i$ from the background dataset, we fit them to compute the feature importance values for our instance x.
-%we produce n copies with each copy using a different x_i from the background dataset. The expected value of the prediction is taken over these n copies
-%3.Repeat the above for different subset of entries (dimensions), chosen according to the Shapley kernel.
+\item Given a feature vector $\mathbf{x} = [x_1, x2, ..., x_p]$, where $x_1, .., x_p$ are the features (numbers), a model f and a background set $X_{bckg} = \{ \mathbf{x1}, ... , \mathbf{xn}\}$, we want to explain \textbf{x}
+\item replace a subset of entries of x with values from the background dataset:
+\item create n different copies of the original input fector x, all slightly different from each other because of these replacements
+\item Evaluate the model on each copy
+\item Use these outputs to fit simple model and find shapley coefficients
 \end{enumerate}
 
 
 
-We then take the average of all the model outputs from this new artificial dataset
-
 %LIME \cite{ribeiro-2016}
-% shap \cite{lundberg-2017
+% shap \cite{lundberg-2017}
 %deepLIFT \cite{shrikumar-2017}
 
+As mentioned above, KernelSHAP is a model-agnostic algorithm, in the sense that can easily used with every kind of model, but SHAP includes some model-specifics algorithms that make use of a previous general knowledge of a model's structure to optimize the explainer's performances and speed up the process. DeepSHAP, is one of these model-specific algorithms and it is what we are going to use in our analysis.
 
-%Lundberg and Lee, NIPS 2017 <-- article!
-% employs shapley values into the DeepLIFT algorithm and
-
-DeepSHAP alghorithm works with them same principles of KernelSHAP, making use of a background dataset, but it is also optimized to perform better on deep models:it is in this sense, an enhanced version of the DeepLIFT algorithm because of the introduction of the background dataset and because of the use of Shapley values rather than DeepLIFT values used in this algorithm.
+DeepSHAP alghorithm works with them same principles of KernelSHAP, making use of a background dataset to simulate missing values, but it is also optimized to perform better on deep models: it is in this sense, an enhanced version of the DeepLIFT algorithm because of the introduction of the background dataset and because of the use of Shapley values rather than DeepLIFT values.
 
 DeepLIFT aims to compute the difference between the output of our model with our data and a reference value computed as the output of our model with some reference data.
 The choice of the reference data depends on what kind of data we are working on: images, or genomic data for example.
@@ -1316,7 +1413,6 @@ It is also shaped to perform on deep learning algorithm computing its DeepLIFT v
 DeepLIFT attributes to each feature $x_i$ a value $C_{\Delta x_i, \Delta y}$ that represent the effect of that input being set to a reference value rather than its actual value.
 This reference value is chosen from the backgound dataset and represents an uninformative value for that feature
 
-%deriving from modifying our inputs from some \textquotedblleft reference input \textquotedblright, depending on the data we are working on:
 In a nutshell, let t represent the output of some inner neuron and let x1, x2, ... , $x_n$ be some preceding neurons necessary to compute t, if we label $t_0$ the reference output, we can compute the value $\Delta t = t-t_0$ and use them to define the DeepLIFT values $C_{\Delta x_i \Delta t}$ so that
 $\sum_{i = 1} ^n C_{\Delta x_i \Delta t} = \Delta t$. For a given input neuron x with difference from reference $\Delta x$ and a target neuron t, is defined a multiplier $m_{\Delta x \Delta t} = \frac{C_{\Delta x \Delta t}}{\Delta x}$ which represents the contribution of $\Delta x$ to $\Delta t$.
 
@@ -1438,11 +1534,14 @@ Their values are plotted as a box along the y axis and sites are indicated along
 
 
 \section{Deep learning: implementation and results} \label{sec:deep_learning_results}
-% Magari prendere dei risultati di come variano le performances al variare di lambda in una rete adversarial only loss.
-
-In our work we employed a simple deep neural network architecture illustrated in figure .. with 2 hidden made up of 64, and 32 nodes respectively activated by a ReLU function and each layer separated from the next by a Batch-Normalization and a 0.3-Dropout layer. After the 32-node layer we used a single output layer with a single node activated by a sigmoid function, for classification.
-Since we are working in an underlying overfitting condition we choose this network structure after a grid search to find the minimal parameters' configuration which allows best classification scores.
-Overfitting is clear if we take a look at the learning curves in figure \ref{fig:learningcurve} which shows the training and validation AUC curves for two models: one of them (\ref{fig:auc_no3-2-1}) even if too much simplified, shows the classical trend of an overfitting state, however, it performes a bit worse than the other two more complex models.
+\subsection{Model's structure}
+In this work we performed a classification task, using a shallow neural network built using keras library for Python.
+Since we are working in an unavoidable overfitting condition, we tried to build a network with as less feature as possible, but still preserving good classification performances.
+We then started the research of our newtork with a network comprising only 3 layers and we searched the minimum number of neurons to employ in each layer.
+We started with a trivial network made by just 3 neuron in the first layer, 2 nodes in the second and at last a single-output layer. Even if this was just an attempt to put a lower limit to the number of neurons, we noted that even with this configuration, the network tends to overfit our data.
+This is clear if we take a look at the learning curves in figure \ref{fig:learningcurve} which shows the training and validation AUC curves for two models: the first one of them (\ref{fig:auc_no3-2-1}) even if with the simplified structure just mentioned, shows the classical trend of an overfitting state, however, it performes a bit worse than the other two more complex models.
+We continued adding neurons to each layer and tried different configurations. With a configuration of 8-8-1 performances were slightly higher, so we set the second layer to 8 neutrons and tried changing the number of the neutrons in the first layer, performances seemed to increase as the number of neurons increased untill they reached a stable value. Different attempts and the relasted classification scores are reported in table \ref{tab:appendice..} in appendix.
+We decided to pick the configuration which gave the minimum number of neurons, beyond which performances were stable, and the addition of more neurons to create a more complex network was unjustified.
 
 \begin{figure}
 \centering
@@ -1466,33 +1565,101 @@ Overfitting is clear if we take a look at the learning curves in figure \ref{fig
 \end{figure}
 
 
+In our work we employed a the neural network schematized in figure \ref{fig:model_structure}.
+This network consisted of 2 hidden layers made up of 264, and 8 neurons respectively, both activated by a ReLU function and separated by a Batch-Normalization and a Dropout layer with a dropout chance of 30\%.
+After the 8-node layer we added a second Batch-Normalization layer, with a second dropout layer once again wich 30\% dropout.
+After them we put a single output layer with a single neuron for the classification output.
+This last layer is activated by a sigmoid function, which outputs a real number between 0 and 1.
 
 
-In our model, as loss function we used binary crossentropy and the neural network's weights were optimized via Adam optimizer with a learning rate of $10^{-4}$ and model's performancies were assessed with a 10 or 5 k-fold Cross validation, collecting the AUC score for each fold and then computing mean and std deviation of these results.
 
-The other neural network employed was the site-adversarial neural network:
-One way to implement a model able to predict category label without any influence of site's information is to train a model with two different losses as is done in the article \ref{Guan-2021} and combine them in order to create a loss in the form
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.4\textwidth]{ml/models/model_structure}
+\caption{Deep neural network - structure}
+\label{fig:model_structure}
+\end{figure}
+
+
+Since we are still working in an underlying overfitting condition we set the subsequent hyperparameters after a grid search on learning rate and number of epochs, setting a validation set of 25\% of Train data, and studying the evolution of the learning curves, of which some exaples are illustrated in figure \ref{fig:learningcurves} to find the minimal parameters' configuration which allows high classification scores.
+
+In our model, as loss function to minimize we used binary crossentropy and the neural network's weights were optimized via Adam optimizer with a learning rate of $10^{-4}$.
+Adam optimizer was chosen over Stochastic Gradient Descent optimizer since Adam reached similar performances with a lower error in respect of SGD.
+Model's classification performances were assessed with a 5 k-fold Cross validation, collecting the AUC score for each fold and then computing mean and std deviation of these results.
+
+%Adversarial model:
+
+The other neural network employed was the site-adversarial neural network: a model able to earn from data both class and site information, and avoid some sort of bias due to site, when performing class classification.
+We tried two different aproaches to this task, but later we focused only on one of them.
+The first attempt to implement a model able to predict category label without any influence of site's information is a model with two different branches, one for the output of Control/ASD prediction, and one for the output of the predicted site.
+With these two informations, a loss is created by combining two different loss functions, one for the class and the other for site: the idea is similrar to that proposed in the article \ref{Guan-2021}.
+This new loss is in the form
 \begin{equation}
 L = L_1 - \lambda L_2
 \end{equation}
 Where $L_1$  is in our case the loss for the binary classification Control/ASD that we want to minimize (binary crossentropy), while $L_2$ is the loss for site classification (categorical crossentropy) we aim to maximize in order to avoid to learn any information somehow linked to site, and $\lambda $ is a parameter to set empirically, to control the contribution of the site's loss to the overall loss.
 This way, the minimum of the total loss is reached with parameters that minimize the category classification loss and maximize the site classification loss.
+Performances of this kind of model are strictly linked to the value of the parameter $\lambda$, in a sense that if a certain value gave an optimal performance on a certain dataset, on an other dataset, for example one created with some more constraints on patients, the value for which one had the best scores needed to be changed.
+And also, since this kind of model gave slightly worse performances than simple deep model, we looked for an other strategy and carried out the analysis with this second type of model.
 
-We also tried to find something with the same underlying idea, namely minimize the error on classification, while maximizing but with a slightly different implementation
+We tried to build something with the same underlying idea, namely minimize the error on classification of asd/controls, while maximizing the loss related to the site classification.
+Our task is in fact to avoid the model to learn some site-related pattern from data and we accomplished so with a model whose inner weights are updated moving towards a minimization of the gradient for classification, and in the opposite direction for site classification, as explained in section \ref{sec:domain_adversarial_theory}.
+
+%a similar structure as the DNN,
+Following a similar structure of the model before mentioned, with a composition of the two losses, the structure of this model can be divided into three main components, two of which are exactly the same of the deep neural model explained at the beginning of this section.
+The three components that make up this model are: a first feature extraction branch comprising th input layer, the 264-nodes and the 8-node layer, between which we put a Batch-normalization and a 0.3 dropout layer, as we did in the first DNN.
+From this point on the network is splitted into two branches: one categorical classificator, similarily to the DNN consists of a last layer with a sigmoiod activation function for Control/ASD classification,
+and the other branch, the third component of this network, the site classifier consisting of a gradient reversal layer as the first layer followed by a layer with 16 nodes, and after a batch Batch-Normalization layer, the last layer: a multi-output layer with N nodes, being N the total number of sites input data belong to.
+The structure of this network is illustrated in figure \ref{fig:adv_model_structure}
 
 
-Following a similar structure as the DNN, it can be divided into three main components: the first feature extraction branch comprising the DNN up to the 32-node layer;
-from this point the network is splitted into two branches: one categorical classificator, along the lines of the DNN consists of the last outpput layer with a sigmoiod activation function, and the other branch, the site classifier consisting of a gradient reversal layer as the first layer followed by a layer with 16 nodes, and after a batch Batch-Normalization layer, the multi-output layer with N nodes, being N the total number of sites input data belong to.
-This final layer is activated by a softmax function, and the loss function employed for site classification is the categorical crossentropy implemented using a custom function to deal with a possible low crossentropy score when by chance the site classifier, categorize one or more input data's sitelabel correctly, which would have low impact on the whole branch classifier making the adversarial strategy useless.
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.6\linewidth]{ml/models/adv_model_structure}
+\caption{Deep neural network - structure}
+\label{fig:adv_model_structure}
+\end{figure}
 
 
-We mainly carried out three different kind of analysis using this DNNs, and compared them with the scores obtained from the adversarial network.
-Specifically we performed: 1) classification of raw (not harmonized) data, 2) classification on the whole harmonized dataset, creating the harmonization model on all control subjects and applying the model on all ASD subjects, and 3) classification with harmonization implemented inside the K-fold cross-validation, creating the model on controls and applying it to ASD, and 4) classification using the domain adversarial neural network.
 
-For each one of them we implemented a K-fold cross validation scheme and reported our results as the mean AUC and the standard deviation of the scores of each k-fold.
+The final layer of the site-classification branch is activated by a softmax function, and the loss function employed is the categorical crossentropy implemented using a custom function to deal with a possible low crossentropy score when by chance the site classifier, categorize one or more input data site label correctly, which would have low impact on the whole branch classifier making the adversarial strategy less effective.
 
-Following this procedure we implement a k-fold cross validation using stratifiedKFold provided by sklearn library. Data were splitted into a train and a test dataset, therefore using train data we computed the harmonization model only on control patients and then apply the model to asd patient and both Control and ASD Test data.
+Categorical crossentropy is the loss which allows to deal with multi label output as explained in \ref{sec:loss_functions}.
+\begin{notes}
+\item To work with this loss we need to encode each site numerically before before use its label into our model because functions like these can't deal with string variables such as site's names, so we have to associate each one of them with a number: site\_a = 0, site\_b = 1 and so on, but if we stop to this point and input integer numbers $\{0, ..., s\}$ where s is the total number of sites, to our model, it ends up considering sites with higher number as \textquotedblleft larger \textquotedblright than that and produces not-optimal results.
+To avoid this a common strategy is to transform these variables according to a technique called One-hot-encoding.
+This common aproach converts each value to a vector of len s, and containing all zeros but in the entry corresponding to that site, where it puts 1, so thast each site label becomes a binary vector, with just a single 1 in position corresponding to that specific site.
+\end{notes}
+
+We tested both these different adversarial models (the one with loss combination and the one with gradient reversal) and we noticed that they had more or less similar performances, but we choose to carry out the next analysis with this second model, the gradient reversal one, because, even if, like the model with loss compositions, in the gradient reversal layer, a parameter $\lambda$ controls the weights updating during the backpropagation,
+results obtained with this model are more stable in respect to the the value of this parameter.
+So changing the value of this parameter does not affect significantly the performances of this model.
+
+\subsection{Analysis workflow}
+We mainly carried out three different kind of analysis using the DNN explained before, and compared them with the scores obtained from the adversarial network.
+
+For each one of these analysis, we implemented a K-fold cross validation scheme to report our results. We determined and reported model performances as the mean AUC value and the standard deviation of the scores for each k-fold.
+Since we are not working with a huge amount of data $(< 1600)$ samples, we choose a 5-fold CV, we made this choice because with a 10 k-fold CV, the error on the mean AUC score was high, so we choose to hold a greater number of data in the Test to reduce variability among them and hence reduce the standard deviation of the model's score.
+K-fold CV was implemented using the stratifiedKFold class provided by sklearn library for Python
+
+The data we are using to perform classification are the Pearson correlation (Fisher-transformed) data, or the correlation values coming from the analysis with wavelets.
+
+
+
+In detailes the four types of analysis we carried out are:
+\begin{enumerate}
+\item Classification of asd/Controls using raw (not harmonized) data
+\item Classification using the whole harmonized dataset, creating the harmonization model on all the control subjects and applying the model on all ASD subjects, and then split this dataset into a train and test subsets for each k-fold. The flowchart to schematise this implementation is showh in figure \ref{fig:harmon_upstream_flowchart}.
+\item Classification with harmonization implemented inside the K-fold cross-validation, creating the model on controls and applying it to ASD: following this procedure data were splitted into a train and a test dataset, therefore using train data we computed the harmonization model only on control patients and then apply the model to asd patient and both Control and ASD Test data.
 The whole flowchart is shown in figure \ref{fig:harmon_kfold_flowchart}
+\item Classification using the domain adversarial neural network.
+\end{enumerate}
+
+Harmonizing data inside a k-fold is the best way to mantain Train and test data as much separated as possible and avoid data leakage between train and test.
+It is a common source of error to introduce some kind of data leakage between the Train and the Test dataset, when we harmonize on the entire dataset, the harmonization model permorms a fit using all the data, so each data is modified according to information obtained from all the other data, so in data belonging to the train dataset there's already information about the Test dataset, and this leads to a misleading increase of model's performances.
+Some articles perform a Leave One Site Out Cross validation. In our case we can't do that if we want to mantain Train and Test independent because if we compute the harmonization model only on the train dataset, we wouldn't have information to apply it to the test dataset since its data belong to a site not included in the model.
+
+
 
 \begin{figure}[h!]
 \centering
@@ -1511,23 +1678,32 @@ The whole flowchart is shown in figure \ref{fig:harmon_kfold_flowchart}
 \end{figure}
 
 
-This is the best way to mantain train and test data as much separated as possible and avoid data leakage between train and test.
 
-Analysis were carried out using different selection criterias and thresholds which brought us to different datasets combination:
-
+Analysis were carried out using different selection criterias and thresholds on the dataset which brought us to different datasets combination.
+We excluded from out analysis data coming from sites NYU\_2 and ... because as noticed in section \ref{sec:} they didn't provide control data but only ASD patients, and without them, we can't perform harmonization on this sites because we would need to create the model only on Control data.
+We left with a total number of 1501 perason correlation data and
 The first classification attempt was using the whole dataset from ABIDE 1 and 2, consisting of only male patients aged between 5 and 40 years old, without any further constraint on eye status at scan.
-
 Then, with these same constraint we tried to classify separately ABIDE 1 and ABIDE 2 datasets.
-
 The second analysis was performed on a dataset with the same constraint as above, but with an additional condition on eye status choosing to select only patient who kept eyes open throughout the entire scan time.
-
 The latter analysis were carried out with these same constraints, but separately on ABIDE 1 and ABIDE 2 dataset.
+So in whort we have 6 different analysis shown in table \ref{tab:controlasd_per_subset}
+
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.6\linewidth]{abide/controlasd_per_subdataset}
+\caption{Total number of data and control/ASD amount for each subset and thresolds}
+\label{tab:controlasd_per_subset}
+\end{figure}
+
+
+
 
 A further analysys concerns the feature's dimensionality reduction, that is the reduction of features from the input dataset using PCA
 For each one of the analysis above, PCA was implemented to restrain the effect of overfitting.
 
 From the initial input data consisting of 5995 features, we tried to classify using n principal components
-
 The workflow of the entire analysis can be schematized in the workflow diagram \ref{fig:workflowanalysis}
 
 
@@ -1548,7 +1724,7 @@ Flowchart of the analysis carried out in this work:
 \end{figure}
 
 
-\subsection{Results with pearson coefficients}
+\subsection{Results with Pearson coefficients}
 
 %If the table is too wide, replace \begin{table}[!htp]...\end{table} with
 %\begin{adjustwidth}{-2.5 cm}{-2.5 cm}\centering\begin{threeparttable}[!htb]...\end{threeparttable}\end{adjustwidth}
@@ -1565,7 +1741,7 @@ AB II EYE open &73 $\pm$4 &71$\pm$ 4 &71$\pm$5 &67 $\pm$ 4 \\
 AB I + II AGE=all, EYE=all &70$\pm$ 1 &75 $\pm$1 &70 $\pm$2 &65 $\pm$ 1 \\
 \bottomrule
 \end{tabular}
-\caption{AUC score obtained from three different kind of analysis with pearson coefficients}\label{}
+\caption{AUC score obtained from three different kind of analysis with Pearson coefficients}\label{}
 \end{table}
 
 \newpage
@@ -1722,10 +1898,11 @@ It is also possible to wisualize a bar plot of all the feature from the most to 
 We choose to run this analysis only on Pearson correlation coefficients since they gave the best classification results and on the whole dataset consisting on ABIDE I + ABIDE II, only males and with an age range of 6-40.
 Our goal is to check if before and after the harmonization procedure, the most important features still remain the same or if they change depending on the kind of analysis we are carrying out.
 
-The plot of feature's importance can be either the module of shap values or shap values themselves (positive or negative), an example of the latter is figure \ref{fig:} but this kind of plot is not the best fsuitable or readibility in our case because of the large amount of features and the small contribution of each feature to the final outcome.
-Thus, for a better readability we prefer reporting the results in terms of absolute shapley value, where we just consider the module of the shapley values, regardless its positive or negative contribution to the output.
+The plot of feature's importance can be either the module of shap values or shap values themselves (positive or negative), an example of the latter is figure \ref{fig:}: this plot shows for each instance (for each sample from the test data), the contribution of one particular feature to the final output related to that sample, and is represented as a single colored spot, the color indicated the strength of the contribution of that feature to the final outcome, and the position in respect to the vertical line, indicates the sign of that contribution: on the right we found those that gave a positive contribution (pushed the output towards values greater than the reference output), and on the left are placed those that had a negative contribution.
+This kind of plot, though, is not the best suitable for readibility in our case because of the large amount of features and the small contribution of each feature to the final outcome, in respect to other feature, or in other words there isn't a standing out feature, or group of feature that have a contribution way greater than the others, but in fact feature's importance has a quite smoothed descending trend.
+An example to visualize this trend is showed in figure \ref{fig:} and thus, for a better readability we prefer reporting the results in terms of absolute shapley value, where we just consider the module of the shapley values, regardless its positive or negative contribution to the output,
+just to visualize the absolute contribution of that feature to a all the output.
 
-One feature seems to be persistend in all the three pipelines: feature 1521 representing the correlation between right middle temporal gyrus and left angular gyrus.
 
 This bar plot is shown in figure \ref{fig:}
 
@@ -1761,11 +1938,32 @@ This bar plot is shown in figure \ref{fig:}
    \caption{kfold}
    \label{}
 \end{subfigure}
+\begin{subfigure}[b]{.45\textwidth}
+   \includegraphics[width=1\linewidth]{shap/shap_bar_adv}
+   \caption{adversarial}
+   \label{}
+\end{subfigure}
 \caption{}
 \label{}
 \end{figure}
 
 
+We can see from this bar plots of the first 20 most important features that some feature seem to be persistent through all the four pipelines; if we limit our analysis on these first twenty we find that: feature 1521, 777, 3042, 2015 and 592 appear, even if in different order of importance, in all our four analysis; features 3401, 710, 5505 appear in 3 out of 4 analysis, and features 2181, 244, 1507, 2126, 1631, 724 and 1511, appear just in two of them.
+Let's see what they represent:
+\begin{itemize}
+\item Feature 1521: correlation between right middle temporal gyrus and left angular gyrus.
+\item Feature 777:  correlation between Left middle temporal gyrus (temporooccipital part) and Right middle temporal gyrus (posterior division)
+\item Feature 3042: correlation between Right frontal temporal cortex and Left middle temporal gyrus
+\item Feature 2015: correlation between Left frontal medial cortex and right frontal medial cortex
+\item Feature 592: correlation between Right middle temporal gyrus and Left superior temporal gyrus
+\item Feature 3401: correlation between Right parahippocampal gyrus (anterior division) and Right parahippocampal gyrus (posterior division)
+\item Feature 710: correlation between Right middle temporal gyrus and Right talamus
+\item Feature 5505: correlation between Left inferior temporal gyrus (temporooccipital part) and Left planum temporale
+\item Feature 2181: correlation between Right middle temporal gyrus (posterior division) and Right subcallosal cortex
+\item Feature 244: correlation between Right inferior frontal gyrus (part triangolaris) and Right accombus
+\item Feature 1507: correlation between Left angular gyrus and Right accumbus
+\end{itemize}
+%scrivere anche le altre 3???????
 
 
 
@@ -1917,6 +2115,28 @@ AB I $\pm$ II AGE=all, EYE=all &65$\pm$3 &71$\pm$2 &66$\pm$2 &63$\pm$2 \\
 \bottomrule
 \end{tabular}
 \caption{Classification scores using only out-of-phase Wavelet coefficients}\label{}
+\end{table}
+
+
+
+\begin{table}[!htp]\centering
+\begin{tabular}{lccc}
+\toprule
+Structure &k-fold &upstream &no harmonization \\
+\midrule
+3-2-1 &60$\pm$2 &63$\pm$3 &60$\pm$4 \\
+8-8-1 &64$\pm$1 &65$\pm$4 &64$\pm$5 \\
+64-8-1 &69$\pm$1 &72$\pm$2 &68$\pm$1 \\
+64-32-8-1 &68$\pm$1 &72$\pm$2 &69$\pm$1 \\
+128-8-1 &70$\pm$2 &71$\pm$3 &69$\pm$2 \\
+128-64-1 &70$\pm$1 &72$\pm$3 &69$\pm$2 \\
+\cellcolor[HTML]{ffff00}264-8-1 &\cellcolor[HTML]{ffff00}70$\pm$2 &\cellcolor[HTML]{ffff00}73$\pm$3 &\cellcolor[HTML]{ffff00}70$\pm$2 \\
+512-8-1 &71$\pm$2 &73$\pm$2 &70$\pm$2 \\
+1024-8-1 &70$\pm$1 &74$\pm$2 &71$\pm$2 \\
+1024-32-1 &70$\pm$2 &74$\pm$2 &71$\pm$3 \\
+\bottomrule
+\end{tabular}
+\caption{Different model structures and related performances for the three main analysis we carried out during this entire work. Hilighted the structure we choose to employ through all our analysis}\label{}
 \end{table}
 
 
