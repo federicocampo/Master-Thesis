@@ -1441,14 +1441,14 @@ This package includes different classes such as TreeExplainer tuned to perform r
 
 \newpage
 
-%\addcontentsline{toc}{section}{RESULTS}
+\addcontentsline{toc}{section}{RESULTS}
 \section*{RESULTS}
 
 \section{Harmonization - results}
 
 % data do not present a clear age-trend  (and FIQ?)
 
-As explained before, ComBat simultaneously models and estimates biological and non biological terms, and algebraically removes the estimated addivite and multiplicative site-effect terms.
+As explained in section \ref{sec:harmonizationtheory}, ComBat simultaneously models and estimates biological and non biological terms, and algebraically removes the estimated addivite and multiplicative site-effect terms.
 
 Harmonization procedure was tested on the whole ABIDE I + II dataset to have a visual representation of how features are modified after the harmonization is applied.
 
@@ -1761,7 +1761,7 @@ Flowchart of the analysis carried out in this work:
 \newpage
 \subsection{Results with Pearson coefficients}
 
-With Pearson correlation coefficients normalized with Fisher transform we obtained the following AUC scores, listed in table \ref{tab:pearson_results}
+With Pearson correlation coefficients normalized with Fisher transform we obtained the following AUC scores, listed in table \ref{tab:pearson_results} with our DNN models, and we compared some of these results with a Random Forest classifies, to asses whether is convenient to use a deep model instead of a common machine learning algorithm such as Random Forest.
 
 
 %If the table is too wide, replace \begin{table}[!htp]...\end{table} with
@@ -1771,10 +1771,10 @@ With Pearson correlation coefficients normalized with Fisher transform we obtain
 \begin{tabular}{lcccc}\toprule
 Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adv 264-8 \\\midrule
 AB I+II &71$\pm$1 &74$\pm$2 &73$\pm$3 &69$\pm$2 \\
-AB I &71$\pm$3 &76$\pm$2 &72$\pm$3 &71$\pm$4 \\
+AB I &71$\pm$3 &74$\pm$2 &72$\pm$3 &71$\pm$4 \\
 AB 2 &63 $\pm$5 &68$\pm$ 6 &64$\pm$ 4 &66 $\pm$ 4 \\
-AB I $\pm$ II - EYE open &72$\pm$3 &75$\pm$4 &74$\pm$3 &71$\pm$3 \\
-AB I open EYE &73$\pm$ 1 &79$\pm$2 &75$\pm$1 &74$\pm$4 \\
+AB I $\pm$ II - EYE open &72$\pm$3 &75$\pm$4 &72$\pm$3 &71$\pm$3 \\
+AB I open EYE &73$\pm$ 1 &76$\pm$2 &72$\pm$1 &72$\pm$4 \\
 AB II EYE open &66$\pm$3 &70$\pm$6 &69$\pm$6 &68$\pm$6 \\
 \bottomrule
 \end{tabular}
@@ -1783,8 +1783,37 @@ AB II EYE open &66$\pm$3 &70$\pm$6 &69$\pm$6 &68$\pm$6 \\
 \end{table}
 
 
+Analysis with Random Forest were performed on the whole dataset: ABIDE I+II, and on the dataset which gave best classification performances: ABIDE I with open eye, following the three main pipelines of: Hamonization inside K-fold, Harmonization upstream, and Raw data (non-harmonized).
+Comparison results between a DNN model and RF results are listed on table \ref{tab:comparison_dnn_rf_pearson}
 
 
+\begin{table}[h]
+    \begin{subtable}[h]{0.45\textwidth}
+        \centering
+        \begin{tabular}{|lcc|}\toprule
+        \multicolumn{3}{|c|}{AB I + II} \\\midrule
+        &DNN &RF \\
+        K-fold &71$\pm$1 &66+2 \\
+        Upstream &74$\pm$2 &72+1 \\
+        Non-harmon &73$\pm$3 &65+1 \\
+        \bottomrule
+        \end{tabular}
+    \end{subtable}
+    %\hfill
+   \begin{subtable}[h]{0.45\textwidth}
+       \centering
+       \begin{tabular}{|lcc|}\toprule
+       \multicolumn{3}{|c|}{AB I eye = open} \\\midrule
+       &DNN &RF \\
+       K-fold &73$\pm$ 1 &70+3 \\
+       Upstream &76$\pm$2 &71+2 \\
+       Non-harmon &72$\pm$1 &68+3 \\
+       \bottomrule
+       \end{tabular}
+    \end{subtable}
+    \caption{Classification scores comparison between the DNN model and a Random Forest classifier, on Pearcon correlation coefficients, for dataset: ABIDE I + II and ABIDE I with open eyes}
+    \label{tab:comparison_dnn_rf_pearson}
+\end{table}
 
 
 \newpage
@@ -1793,7 +1822,7 @@ AB II EYE open &66$\pm$3 &70$\pm$6 &69$\pm$6 &68$\pm$6 \\
 
 Following the same path as with Pearson coefficients, we tried to run classification on Wavelet coefficients
 
-Three main analysis were carried out
+Four main analysis were carried out
 
 \begin{enumerate}
 \item In phase wavelet coefficients, reported in table \ref{tab:classification_win}
@@ -1807,16 +1836,50 @@ Three main analysis were carried out
 \scriptsize
 \begin{tabular}{lrrrrr}\toprule
 Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adv 264-8 \\\midrule
-AB I$\pm$II &65$\pm$ 2 &71$\pm$ 2 &66$\pm$ 2 &67 $\pm$2 \\
+AB I$\pm$II &65$\pm$ 2 &74$\pm$ 2 &66$\pm$ 2 &67 $\pm$2 \\
 AB I &67$\pm$ 3 &73 $\pm$2 &68$\pm$ 3 &68$\pm$ 2 \\
 AB 2 &62 $\pm$4 &68$\pm$ 4 &63$\pm$ 4 &62$\pm$ 4 \\
 AB I $\pm$ II - EYE open &65 $\pm$4 &71 $\pm$3 &66 $\pm$3 &66$\pm$ 3 \\
-AB I open EYE &63$\pm$ 4 &72$\pm$ 6 &67$\pm$ 3 &67 $\pm$4 \\
+AB I open EYE &69$\pm$ 4 &74$\pm$ 6 &67$\pm$ 3 &67 $\pm$4 \\
 AB II EYE open &66 $\pm$2 &69 $\pm$3 &67$\pm$ 2 &68 $\pm$2 \\
 \bottomrule
 \end{tabular}
 \caption{Classification scores: AUC of joined W\_in and W\_out coefficients}\label{tab:classification_win+wout}
 \end{table}
+
+These results were compared with a Random Forest classifier obtaining the following scores: (table \ref{tab:comparison_dnn_rf_win+wout})
+
+\begin{table}[h]
+    \begin{subtable}[h]{0.45\textwidth}
+        \centering
+        \begin{tabular}{|lcc|}\toprule
+        \multicolumn{3}{|c|}{ABIDE I + II} \\\midrule
+        &DNN &RF \\
+        K-fold &65$\pm$ 2 &60+2 \\
+        Upstream &74$\pm$ 2 &74+3 \\
+        Non-harmon &66$\pm$ 2 &59+3 \\
+        \bottomrule
+        \end{tabular}
+    \end{subtable}
+    %\hfill
+   \begin{subtable}[h]{0.45\textwidth}
+       \centering
+       \begin{tabular}{|lcc|}\toprule
+       \multicolumn{3}{|c|}{AB I eye = open} \\\midrule
+       &DNN &RF \\
+       K-fold &69$\pm$ 4 &62+5 \\
+       Upstream &74$\pm$ 6 &69+3 \\
+       Non-harmon &67$\pm$ 3 &61+5 \\
+       \bottomrule
+       \end{tabular}
+    \end{subtable}
+    \caption{Classification scores comparison between the DNN model and a Random Forest classifier, on Wavelet coherence coefficients W\_in and W\_out, for dataset: ABIDE I + II and ABIDE I with open eyes}
+    \label{tab:comparison_dnn_rf_win+wout}
+\end{table}
+\newpage
+
+
+
 
 \begin{table}[!htp]\centering
 \scriptsize
