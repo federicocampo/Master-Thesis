@@ -499,7 +499,7 @@ One of the most convenient for our analysis is the Morlet wavelet given by eq \r
 
 Two main type of analysis can be performed using wavelets: continuous wavelet transform (CWT) and discrete wavelet transform (DWT) and the CWT is what we employed for our analysis.
 
-Continuous wavelet transform decomposes a time series in time-frequency domain by successively convolving the timeseries with several scaled and translated version of the mother wavelets $\psi_{a, b}\left(t\right) = \frac{1}{\sqrt{a}}\left(\frac{t-b}{a}\right)$.
+Continuous wavelet transform decomposes a time series in time-frequency domain by successively convolving the timeseries with several scaled and translated version of the mother wavelets $\psi_{a, b}\left(t\right) = \frac{1}{\sqrt{a}}\psi(\frac{t-b}{a})$.
 If the timeseries is described by a function f, assumed to be real, in the equation below, the convolution of f and $\psi_{a, b}\left(t\right)$ is
 
 \begin{equation}
@@ -872,10 +872,11 @@ $p(i = i|z) = \phi(z) = \frac{e^z_i}{\sum_{j = 1}^M e^{z_j}}$ being M the total 
 
 
 \subsection{Loss functions}\label{sec:loss_functions}
-
-DA RIVEDERE E SISTEMARE NOTAZIONE
+%Ricorda: \hat y_i = sigma(x_i) che è il mio output del modello
+%Articoli da cui ho preso info: ml for physicists e dispende di baldini
 
 In order to train a network and improve its performances we need to compare the predicted (output) value with the actual value and compute some sort or error, or distance between these two values, and try to gradually minimize it.
+
 
 The function to minimize is denoted as the \emph{loss function}
 Computing the loss, returns a value of how much the prediction is far from the actual label, and then, the network's weights are modified in order to reduce this value and searching for a minimum of this function.
@@ -885,11 +886,11 @@ and the main technique to do so, is the likelihooh maximization
 
 The most common loss function is the cross-entropy loss, it relies on the concept of cross-entropy between two distributions $\hat y \ and \ y$ and is defined as
 $H(y, \hat y) = -\sum_i^n y_i \cdot log(\hat y_i)$
-Where the sum is intended over all the n possible values a variable y can assume (all the n possible classes).
+Where the sum is intended over all the n possible values a variable y can assume (all the n possible classes in a classifiction problem).
 %In case of multi-class classification we call this function categorical crossentropy,
 If we only have two classes, we are performing a binary classification and the loss becomes, (if we explicit the sum for two $i = \left\{0, 1\right\}$ and take the average value across all the data samples) we obtain the binary crossentropy:
-\begin{equation}
-H_p(q) = -\frac{1}{N} \sum_{j= 1}^N y_j log(\hat y_j) + (1-y_j)log(1-\hat y_j)
+\begin{equation}\label{eq:binary_crossentropy}
+J = -\frac{1}{N} \sum_{j= 1}^N y_j log(\hat y_j) + (1-y_j)log(1-\hat y_j)
 \end{equation}
 
 The estimation of the minimum of this function can be seen as the maximization of the likelihood:
@@ -900,7 +901,7 @@ Given a probabilistic model depending on m different parameters $\theta_1 ... \t
 For a subset of observed value we can write the likelihood as $L = P(\hat y_1, ..., \hat y_n | \theta_1, ...\theta_m)$ .
 
 This probability, if we are dealing with independent variables, can be rewritten as the product of the single probabilities, of observing each sample $\hat y_i$ given out model with parameters $\{\theta_i \}_1 ^m$:
-\begin{equation}
+\begin{equation}\label{eq:likelihood_product}
 L =\prod_{i=1}^n p(\hat y_i|\theta_1, ...\theta_m).
 \end{equation}
 
@@ -910,7 +911,8 @@ L =\prod_{i=1}^n p(\hat y_i|\theta_1, ...\theta_m).
 In our practical problem if we aim to maximize this function, the parameters to be optimized $\left\{\theta_i \right\}_1^n$ are the weights of the DNN model $\left\{w_i \right\}_1^n$ and our data is a set of N datapoints $\left\{ x_1 ... x_N\right\}$ each one associate with a label  $\left\{ y_1 ... y_N\right\}$ which can be either 0 or 1 which can be indicated as D = $\left\{ (\mathbf{x_i}, y_i)\right\}$.
 
 From now on we will denote our parameters to optimize as $\mathbf{w} = w1, .., wm $
-Given an input data $\mathbf{x_i}$  and an activation function (sigmoid for example, which we recall is of the form $\sigma(z) = \frac{1}{1+e^{-z}}$) the probability of $x_i$ to belong to the class $y_i = 1$, or in other words, the probability to observ $y_i$ given an input $x_i$ is given by
+Given an input data $\mathbf{x_i}$  and an activation function (sigmoid for example, which we recall is of the form $\sigma(z) = \frac{1}{1+e^{-z}}$) we model the probability of $x_i$ to belong to the class $y_i = 1$ as:
+%or in other words, the probability to observ $y_i$ given an input $x_i$ is given by
 
 \begin{equation}
  P(y_i = 1 | x_i, \mathbf{w}) = \sigma(\mathbf{x_i\cdot w}) = \frac{1}{1+e^{-\mathbf{x_i \cdot w}}}
@@ -922,21 +924,22 @@ And since we are dealing with a binary classification, where $y_i$ can be either
 P(y_i = 1) = 1 - P(y_i = 0)
 \end{equation}
 
-Putting this all together for a set of data $D = \{ (\mathbf{x_i}, y_i)\}_1 ^N$ substituting this result in the log-likelihood function we obtain the likelihood of observing our data under our model
+Putting this all together for a set of data $D = \{ (\mathbf{x_i}, y_i)\}_1 ^N$ substituting this result in the log-likelihood function we obtain the likelihood of my observations $\hat y_i = \sigma (x_i|w)$, from equation \ref{eq:likelihood_product} becomes
+%of observing our data under our model
 \begin{equation}
-P(D|\mathbf{w}) = \prod_{i=1}^N \sigma(\mathbf{x_i^T w})^{y_i} (1-\sigma(\mathbf{x_i^T w}))^{1-y_i}
+L = P(D|\mathbf{w}) = \prod_{i=1}^N \sigma(\mathbf{x_i w})^{y_i} (1-\sigma(\mathbf{x_i w}))^{1-y_i}
 \end{equation}
 
 The best parameters are those that maximize the likelihood:
-$\begin{cases} \frac{\delta L}{\delta \theta_1}(\theta_1, ..., \theta_m) = 0 \\ ... \\ \frac{\delta L}{\delta \theta_1}(\theta_1, ..., \theta_m) = 0 \end{cases}$
+$\begin{cases} \frac{\partial L}{\partial w_1}(w_1, ..., w_m) = 0 \\ ... \\ \frac{\partial L}{\partial w_1}(w_1, ..., w_m) = 0 \end{cases}$
 To compute the derivative of a product is a nontrivial task, hence it's much simpler to compute the logarithm (since the logarithm is a monotonic function, so compute the maximum of a function is the same as computing the maximum of the logarithm of that function).
 
 We obtain then
 \begin{equation}
-log(L) = \sum_{i=1}^m y_i log(\sigma(x_i^T \mathbf{w})) + (1-y_i)log(1-\sigma(x_i^T \mathbf{w}))
+log(L) = \sum_{i=1}^N y_i log(\sigma(x_i \mathbf{w})) + (1-y_i)log(1-\sigma(x_i \mathbf{w}))
 \end{equation}
 
-which taken with a negative sign corresponds to the cross-entropy function.
+which taken with a negative sign, and averaged over all the N data samples corresponds to the cross-entropy function in equation \ref{eq:binary_crossentropy}.
 
 
 This result obtained for binary classification can be generalized to perform a multi-class classification called Softmax regression.
@@ -945,15 +948,18 @@ In a multi-class classification, labels $y_i$ become binary vectors of dimension
 In this case, given a model with parameters $\mathbf{w_k}_{k=0}^{M-1}$ the probability for an input $\mathbf{x_i}$ to belong to class m' is given by the softmax function
 
 \begin{equation}
-P(y_{i,m'}= 1 | \mathbf{x_i}, \{\mathbf{w_k}_{k=0}^{M-1}\} ) = \frac{e^{-\mathbf{x_i^T w_{m'}}} }{\sum_{m = 0}^{M-1} e^{-\mathbf{x_i^T w_{m}}}}
+P(y_{i,m'}= 1 | \mathbf{x_i}, \{\mathbf{w_k} \}_{k=1}^M ) = \frac{e^{-\mathbf{x_i^T w_{m'}}} }{\sum_{m = 1}^{M} e^{-\mathbf{x_i^T w_{m}}}}
 \end{equation}
-and the relative negative log-likelihood will be in the form:
+and the relative negative log-likelihood called the \textbf{categorical crossentropy} will be in the form:
 
-$L = -\sum_{i=1}^{n} \sum_{m= 0}^{M-1} y_{im} log(P(y_{im}=1|x_i, w_m)) + (1-y_{im})log(1-P(y_im=1|x_i, w_m))  $
-where there's a summation over the index i which indicate the i-th input data and over the index m, concerning all the possible M classes.
+\begin{equation}
+L = -\sum_{i=1}^{n} \sum_{m= 0}^{M-1} y_{im} log(P(y_{im}=1|x_i, w_m)) + (1-y_{im})log(1-P(y_im=1|x_i, w_m))
+\end{equation}
+
+where there's a summation over the index i which indicate the i-th sample data and over the index m, concerning all the possible M classes.
 
 
-The algorithm employed by a feedforward network for weights' fine tuning is called \emph{backpropagation} (backward propagation of errors).
+%The algorithm employed by a feedforward network for weights' fine tuning is called \emph{backpropagation} (backward propagation of errors).
 
 \subsection{Gradient descent and Backpropagation}
 
@@ -1416,20 +1422,27 @@ This reference value is chosen from the backgound dataset and represents an unin
 In a nutshell, let t represent the output of some inner neuron and let x1, x2, ... , $x_n$ be some preceding neurons necessary to compute t, if we label $t_0$ the reference output, we can compute the value $\Delta t = t-t_0$ and use them to define the DeepLIFT values $C_{\Delta x_i \Delta t}$ so that
 $\sum_{i = 1} ^n C_{\Delta x_i \Delta t} = \Delta t$. For a given input neuron x with difference from reference $\Delta x$ and a target neuron t, is defined a multiplier $m_{\Delta x \Delta t} = \frac{C_{\Delta x \Delta t}}{\Delta x}$ which represents the contribution of $\Delta x$ to $\Delta t$.
 
-For a more detailed explanation of how DeepLIFT works we refer to its presentation article \cite{}
+For a more detailed explanation of how DeepLIFT works we refer to its presentation article \cite{shrikumar-2017}
 
 %showed that the per node attribution rules in DeepLIFT (Shrikumar, Greenside, and Kundaje, arXiv 2017) can be chosen to approximate Shapley values. By integrating over many backgound samples Deep estimates approximate SHAP values such that they sum up to the difference between the expected model output on the passed background samples and the current model output (f(x) - E[f(x)]).
 
 DeepSHAP combines shap values for smaller components of a network to compute values for the whole network, it does so recursively passing Deep LIFT multipliers during backpropagation: we can indeed re-writing multiplier values in terms of shap values, for a target neuron f3 we have $m_{x_j f_3} = \frac{\phi_i(f_3, x)}{x_j - E[x_j]}$ obtaining $\phi_i(f_3, y) \approx m_{y_i, f_3}(y_i - E[y_i])$
 
-To express the significance of a feature we plotted them using SHAP feature importance, based on the relation between feature importance and shap value: feature with high absolute shapley value are important. The importance value for a feature j is then calculated from $I_j = \frac{1}{n} \sum_{j = 1}^n \|\phi_j^{(i)}\|$
 
+To express the significance we can rely on the relation between feature importance in a qualitative way and shap value: feature with high absolute shapley value are important.
+The absolute importance value for a feature f is calculated as the mean of the magnitude of all the shapley value for that feature, so the mean is performed across all the samples we used to calculate these values
+\begin{equation}\label{eq:shap_magnitude}
+I_f = \frac{1}{n} \sum_{i = 1}^n \|\phi_i^{(f)}\|
+\end{equation}
 
-Shap is implemented as a free Python package with MIT license, developed and mantained by Scott Lundberg.
+Shap is implemented as a free Python package with MIT license, developed and mantained by Scott Lundberg \footnote{https://github.com/slundberg/shap}.
 This package includes different classes such as TreeExplainer tuned to perform rapidly on tree and forest-like models, linearExplainer which deals with linear model and is able to compute the exact shapley values and not just an aproximation, and the algorithm we are using DeepExplainer, suitable to explain deep learning models and to compute an approximate value of shapley values.
 
-\addcontentsline{toc}{section}{RESULTS}
 
+\newpage
+
+%\addcontentsline{toc}{section}{RESULTS}
+\section*{RESULTS}
 
 \section{Harmonization - results}
 
@@ -1439,7 +1452,7 @@ As explained before, ComBat simultaneously models and estimates biological and n
 
 Harmonization procedure was tested on the whole ABIDE I + II dataset to have a visual representation of how features are modified after the harmonization is applied.
 
-To test harmonization procedure and evaluate its performances in making sites' feature uniform, we used NeuroHarmonize \footnote{https://github.com/rpomponio/neuroHarmonize} package for Pyhton, developed by Pomponio et al. \ref{pomponio-2019} which implemented and added some features to the previous NeuroComBat Python package \footnote{https://github.com/Jfortin1/ComBatHarmonization}.
+To test harmonization procedure and evaluate its performances in making sites' feature uniform, we used NeuroHarmonize \footnote{https://github.com/rpomponio/neuroHarmonize} package for Pyhton, developed by Pomponio et al. \cite{pomponio-2019} which implemented and added some features to the previous NeuroComBat Python package \footnote{https://github.com/Jfortin1/ComBatHarmonization}.
 
 To use Neuroharmonize package we need to input the feature data to harmonize and the corresponding covariate information with site, age, sex, and other biological quantities we desire to take into account.
 For our data these information were provided by a csv file on ABIDE website so that for each patient are collected as much information as they could.
@@ -1462,7 +1475,7 @@ This aproach, allows train and test dataset to be still independent, because har
 \newline
 
 \textbf{Note:} As can be seen from figure \ref{fig:controlcase_site} two sites namely \texttt{NYU\_2} and \texttt{KUL\_3} provided only ASD patients, and, since we are estimating the mean and the variance for each feature across all sites, when we train a model only on control cases, and we apply it on patients belonging to new sites, we don't have information to scale and modify those data so the model would output NaN values.
-To avoid discarding these data, just for these two sites, we substituted NaN values with original unmodified data.
+In our analysis we excluded these sites since we can't perform a proper harmonization of them, however, just in the following figures to have a visual feedback of how harmonization works, we substituted NaN values with original unmodified data.
 \newline
 
 Figure \ref{fig:heatmap_harmonization} shows the result of classification on the dataset described above. Scores are reported in terms of AUC for the classification of each pair of sites, and sites along the x and y axes are ordered by incresging average age of patients coming from that site.
@@ -1506,7 +1519,7 @@ Their values are plotted as a box along the y axis and sites are indicated along
    \caption{}
    \label{fig:feature2800}
 \end{subfigure}
-\caption{Features}
+\caption{Pearson coefficients for features 324 and 2800 before and after harmonization}
 \label{fig:features_raw-harmo}
 \end{figure}
 
@@ -1524,15 +1537,29 @@ Their values are plotted as a box along the y axis and sites are indicated along
     \caption{}
     \label{fig:feature2800control-asd}
  \end{subfigure}
- \caption{Features}
+ \caption{Pearson coefficients features 324 and 2800 before and after harmonization, separated plot for controls and ASD}
  \label{fig:features_control-asd_raw-harmo}
  \end{figure}
 
 
 
+ \begin{figure}
+ \centering
+ \begin{subfigure}[b]{1.\textwidth}
+    \includegraphics[width=1\linewidth]{/home/federico/magistrale/Imagess/Feature324raw-harmo}
+    \caption{}
+    \label{fig:wavelet_feature324}
+ \end{subfigure}
+ \begin{subfigure}[b]{1.\textwidth}
+    \includegraphics[width=1\linewidth]{/home/federico/magistrale/Imagess/Feature2800raw-harmo}
+    \caption{}
+    \label{fig:wavelet_feature2800}
+ \end{subfigure}
+ \caption{Wavelet in phase coefficients for features 324 and 2800 before and after harmonization}
+ \label{fig:wavelet_features_raw-harmo}
+ \end{figure}
 
-
-
+\newpage
 \section{Deep learning: implementation and results} \label{sec:deep_learning_results}
 \subsection{Model's structure}
 In this work we performed a classification task, using a shallow neural network built using keras library for Python.
@@ -1634,7 +1661,7 @@ This common aproach converts each value to a vector of len s, and containing all
 We tested both these different adversarial models (the one with loss combination and the one with gradient reversal) and we noticed that they had more or less similar performances, but we choose to carry out the next analysis with this second model, the gradient reversal one, because, even if, like the model with loss compositions, in the gradient reversal layer, a parameter $\lambda$ controls the weights updating during the backpropagation,
 results obtained with this model are more stable in respect to the the value of this parameter.
 So changing the value of this parameter does not affect significantly the performances of this model.
-
+\newpage
 \subsection{Analysis workflow}
 We mainly carried out three different kind of analysis using the DNN explained before, and compared them with the scores obtained from the adversarial network.
 
@@ -1690,14 +1717,22 @@ So in whort we have 6 different analysis shown in table \ref{tab:controlasd_per_
 
 
 
-\begin{figure}[h!]
-\centering
-\includegraphics[width=0.6\linewidth]{abide/controlasd_per_subdataset}
+
+\begin{table}[!htp]\centering
+\scriptsize
+\begin{tabular}{lrrrr}\toprule
+Dataset &Tot &Controls &ASD \\\midrule
+AB I+II eye = all, sex = males, age(5, 50) &1470 &737 &733 \\
+AB I + II eye = open &1026 &514 &512 \\
+AB I &841 &426 &415 \\
+AB I eye=open &568 &281 &287 \\
+AB II &629 &311 &318 \\
+AB II eye = open &458 &233 &225 \\
+\bottomrule
+\end{tabular}
 \caption{Total number of data and control/ASD amount for each subset and thresolds}
 \label{tab:controlasd_per_subset}
-\end{figure}
-
-
+\end{table}
 
 
 A further analysys concerns the feature's dimensionality reduction, that is the reduction of features from the input dataset using PCA
@@ -1714,8 +1749,8 @@ The workflow of the entire analysis can be schematized in the workflow diagram \
 \caption[]{
 Flowchart of the analysis carried out in this work:
 \begin{enumerate}
-\item Select one type of coefficients: Pearson correlation, Wavelet coherence coefficients
-\item Select the attributes of patients to make cuts on dataset, for example use the whole ABIDE I + II dataset or just ABIDE I, limit analysis to a certain age range, sex, or eye status open or close.
+\item Select one type of coefficient: Pearson correlation, Wavelet coherence coefficients
+\item Select the desired attributes of patients in order to make cuts on dataset, for example use the whole ABIDE I + II dataset or just ABIDE I, limit analysis to a certain age range, sex, or eye status open or close.
 \item Use these data + labels to make classification following the three pipelines described in section \ref{sec:deep_learning_results} and the fourth analysis pipeline using the adversarial neural network
 \item For each of these branches, implement a K-Fold cross validation and return the results in terms of mean AUC and std deviation of the values across every fold.
 \end{enumerate}
@@ -1723,26 +1758,34 @@ Flowchart of the analysis carried out in this work:
 \label{fig:workflowanalysis}
 \end{figure}
 
-
+\newpage
 \subsection{Results with Pearson coefficients}
+
+With Pearson correlation coefficients normalized with Fisher transform we obtained the following AUC scores, listed in table \ref{tab:pearson_results}
+
 
 %If the table is too wide, replace \begin{table}[!htp]...\end{table} with
 %\begin{adjustwidth}{-2.5 cm}{-2.5 cm}\centering\begin{threeparttable}[!htb]...\end{threeparttable}\end{adjustwidth}
 \begin{table}[!htp]\centering
 \scriptsize
-\begin{tabular}{lrrrrr}\toprule
+\begin{tabular}{lcccc}\toprule
 Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adv 264-8 \\\midrule
-AB I+II &70 $\pm$ 2 &74 $\pm$ 2 &70 $\pm$ 1 &68 $\pm$ 1 \\
-AB I &70$\pm$ 3 &71 $\pm$3 &73$\pm$ 5 &69 $\pm$ 3 \\
+AB I+II &71$\pm$1 &74$\pm$2 &73$\pm$3 &69$\pm$2 \\
+AB I &71$\pm$3 &76$\pm$2 &72$\pm$3 &71$\pm$4 \\
 AB 2 &63 $\pm$5 &68$\pm$ 6 &64$\pm$ 4 &66 $\pm$ 4 \\
-AB I + II - EYE open &70 $\pm$4 &71$\pm$ 4 &70 $\pm$3 &70 $\pm$ 2 \\
-AB I open EYE &73$\pm$ 4 &76$\pm$ 6 &75 $\pm$3 &73 $\pm$ 5 \\
-AB II EYE open &73 $\pm$4 &71$\pm$ 4 &71$\pm$5 &67 $\pm$ 4 \\
-AB I + II AGE=all, EYE=all &70$\pm$ 1 &75 $\pm$1 &70 $\pm$2 &65 $\pm$ 1 \\
+AB I $\pm$ II - EYE open &72$\pm$3 &75$\pm$4 &74$\pm$3 &71$\pm$3 \\
+AB I open EYE &73$\pm$ 1 &79$\pm$2 &75$\pm$1 &74$\pm$4 \\
+AB II EYE open &66$\pm$3 &70$\pm$6 &69$\pm$6 &68$\pm$6 \\
 \bottomrule
 \end{tabular}
-\caption{AUC score obtained from three different kind of analysis with Pearson coefficients}\label{}
+\caption{AUC score obtained from three different kind of analysis with Pearson coefficients}
+\label{tab:pearson_results}
 \end{table}
+
+
+
+
+
 
 \newpage
 
@@ -1753,55 +1796,42 @@ Following the same path as with Pearson coefficients, we tried to run classifica
 Three main analysis were carried out
 
 \begin{enumerate}
-\item In phase wavelet coefficients
+\item In phase wavelet coefficients, reported in table \ref{tab:classification_win}
 \item In phase and counter phase coefficient stacked together in a single array long twice In-phase coefficients only
-\item Coefficients resulting from the subtraction of the two: In phase - Counter phase
+\item Coefficients resulting from the subtraction of the two: In phase - Counter phase: denoted as W\_in - w\_out, reported in appendix, in table \ref{tab:classification_win-wout}
+\item Counter phase wavelet coefficients, reported in appendix in table \ref{tab:classification_wout}
 \end{enumerate}
 
 
 \begin{table}[!htp]\centering
-\caption{Win + Wout}\label{}
 \scriptsize
 \begin{tabular}{lrrrrr}\toprule
 Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adv 264-8 \\\midrule
-AB I+II &65 2 &71 2 &66 2 &67 2 \\
-AB I &67 3 &73 2 &68 3 &68 2 \\
-AB 2 &62 4 &68 4 &63 4 &62 4 \\
-AB I + II - EYE open &65 4 &71 3 &66 3 &66 3 \\
-AB I open EYE &63 4 &72 6 &67 3 &67 4 \\
-AB II EYE open &66 2 &69 3 &67 2 &68 2 \\
-AB I + II AGE=all, EYE=all &63 2 &70 2 &65 2 &63 3 \\
+AB I$\pm$II &65$\pm$ 2 &71$\pm$ 2 &66$\pm$ 2 &67 $\pm$2 \\
+AB I &67$\pm$ 3 &73 $\pm$2 &68$\pm$ 3 &68$\pm$ 2 \\
+AB 2 &62 $\pm$4 &68$\pm$ 4 &63$\pm$ 4 &62$\pm$ 4 \\
+AB I $\pm$ II - EYE open &65 $\pm$4 &71 $\pm$3 &66 $\pm$3 &66$\pm$ 3 \\
+AB I open EYE &63$\pm$ 4 &72$\pm$ 6 &67$\pm$ 3 &67 $\pm$4 \\
+AB II EYE open &66 $\pm$2 &69 $\pm$3 &67$\pm$ 2 &68 $\pm$2 \\
 \bottomrule
 \end{tabular}
+\caption{Classification scores: AUC of joined W\_in and W\_out coefficients}\label{tab:classification_win+wout}
 \end{table}
 
 \begin{table}[!htp]\centering
-\caption{Only Win}\label{}
 \scriptsize
 \begin{tabular}{lrrrrr}\toprule
 Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adv 264-8 \\\midrule
-AB I+II &65 2 &71 2 &62 2 &64 1 \\
-AB I &66 3 &73 3 &65 3 &66 2 \\
-AB 2 &62 3 &65 3 &61 4 &60 2 \\
-AB I + II - EYE open &64 4 &70 3 &66 3 &65 3 \\
-AB I open EYE &64 5 &68 5 &64 3 &64 4 \\
-AB II EYE open &66 2 &68 3 &66 4 &65 5 \\
-AB I + II AGE=all, EYE=all &66 3 &72 3 &66 3 &64 3 \\
+AB I$\pm$II &65$\pm$ 2 &71$\pm$ 2 &62$\pm$ 2 &64$\pm$ 1 \\
+AB I &66$\pm$ 3 &73 $\pm$3 &65$\pm$ 3 &66$\pm$ 2 \\
+AB 2 &62 $\pm$3 &65 $\pm$3 &61 $\pm$4 &60 $\pm$2 \\
+AB I $\pm$ II - EYE open &64$\pm$ 4 &70 $\pm$3 &66$\pm$ 3 &65 $\pm$3 \\
+AB I open EYE &64 $\pm$5 &68 $\pm$5 &64 $\pm$3 &64 $\pm$4 \\
+AB II EYE open &66 $\pm$2 &68$\pm$ 3 &66$\pm$ 4 &65 $\pm$5 \\
 \bottomrule
 \end{tabular}
-\end{table}
+\caption{Classification scores: AUC, only w\_in coefficients}\label{tab:classification_win}
 
-\begin{table}[!htp]\centering
-\begin{tabular}{lrrrrr}\toprule
-Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adv 264-8 \\\midrule
-AB I+II &67 3 &70 3 &66 3 &66 3 \\
-AB I &70 3 &72 2 &68 3 &68 3 \\
-AB 2 & & & & \\
-AB I + II - EYE open &70 1 &73 2 &71 1 &68 2 \\
-AB I open EYE &71 4 &74 3 &71 3 &68 2 \\
-\bottomrule
-\end{tabular}
-\caption{Win - Wout}\label{}
 \end{table}
 
 
@@ -1819,11 +1849,11 @@ We started our analysis choosing the proper number of PC to explain $> 90\%$ of 
 
 \begin{table}
 \centering
-\begin{tabular}{ |c|c c| }
+\begin{tabular}{ |l|c c| }
 \hline
 \multicolumn{3}{|c|}{Explained variance} \\
  \hline
-  N PC & All & AB-I eye=open \\
+  N PC & All dataset [\%] & AB-I eye=open [\%] \\
   \hline
  800 & 93 & -- \\
  400 & 78 & 98 \\
@@ -1839,30 +1869,53 @@ We started our analysis choosing the proper number of PC to explain $> 90\%$ of 
 
 
 
+Results obtained from this analysis are reported in table \ref{tab:classification_pearson_pca} and shown in figure \ref{fig:classification_pearson_pca}
+
+\begin{table}[!htp]\centering
+\scriptsize
+\begin{tabular}{lrrrrrr}\toprule
+PC &Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adversarial \\\midrule
+800 &AB I+II &69$\pm$2 &73$\pm$3 &71$\pm$1 &71$\pm$2 \\
+\hline
+\multirow{2}{*}{400} &AB I+II &67$\pm$3 &73$\pm$5 &72$\pm$3 &73$\pm$3 \\
+&AB I EYE open &71$\pm$3 &72$\pm$3 &71$\pm$3 &72$\pm$4 \\
+\hline
+\multirow{2}{*}{200} &AB I+II &68$\pm$3 &74$\pm$2 &72$\pm$2 &71$\pm$2 \\
+&AB I EYE open &69$\pm$3 &73$\pm$2 &72$\pm$4 &73$\pm$3 \\
+\hline
+\multirow{2}{*}{100} &AB I+II &67 $\pm$2 &72$\pm$2 &69$\pm$1 &70$\pm$2 \\
+&AB I - EYE open &70$\pm$2 &73$\pm$2 &71$\pm$4 &72$\pm$2 \\
+\hline
+\multirow{2}{*}{50} &AB I+II &66$\pm$4 &70$\pm$6 &68$\pm$3 &69$\pm$2 \\
+&AB I - EYE open &70$\pm$4 &72$\pm$3 &69$\pm$3 &72$\pm$3 \\
+\hline
+\multirow{2}{*}{20} &AB I+II &65$\pm$5 &67$\pm$4 &64$\pm$5 &66$\pm$1 \\
+&AB I - EYE open &68$\pm$6 &71$\pm$2 &71$\pm$6 &71$\pm$3 \\
+\bottomrule
+\end{tabular}
+\caption{Classification resluts: AUC obtained during all the four analysis, with different number of Principal Components}
+\label{tab:classification_pearson_pca}
+\end{table}
+
+
+
 
 
 \begin{figure}
 \centering
-\begin{subfigure}[b]{.45\textwidth}
-   \includegraphics[width=1\linewidth]{ml/auc_vs_pc_ab1}
-   \caption{}
-   \label{}
-\end{subfigure}
-\begin{subfigure}[b]{.45\textwidth}
+\begin{subfigure}{0.4\textwidth}
    \includegraphics[width=1\linewidth]{ml/auc_vs_pc_all}
-   \caption{}
+   \caption{Classification on the entire dataset ABIDE I+II}
    \label{}
 \end{subfigure}
-\caption{}
-\label{}
+\begin{subfigure}{0.4\textwidth}
+   \includegraphics[width=1\linewidth]{ml/auc_vs_pc_ab1}
+   \caption{Classification on dataset ABIDE I - only open eyes}
+   \label{}
+\end{subfigure}
+\caption{Classification results with PCA}
+\label{fig:classification_pearson_pca}
 \end{figure}
-
-
-
-
-
-
-
 
 
 
@@ -1874,11 +1927,11 @@ We started our analysis choosing the proper number of PC to explain $> 90\%$ of 
 
 
 To instantiate the desired class, DeepExplainer in our case, we need the trained model and a fraction of the training data as background of arbitrary size $N_{bkg}$ keeping in mind that the bigger is this background subset, the more accurate is the computing of shapley values, but the more computationally expansive this process will be, in particular it would occupy a vast amount of RAM memory and eventually run out of it; by the way, since the error on them $\sim 1/\sqrt{N_{bkg}}$, a background dataset made of 100 samples is a good compomise to have a relatively small error.
+We choose though, a background size of 500 samples for the entire dataset and a size of 100 samples when working on ABIDE I only open eyes, since we have a reduced number of train data to collect background data from.
 
-
-Once the explainer is created on our model, we need to input as many test dataset as we want to explain, and for each one of them, the explainer will output an array of the same size of the test dataset we used, shaped $n_samples \times p_features$
-We then have to input the test dataset
-
+Once the explainer is created on our model, we need to input as many test dataset as we want to explain, and for each one of them, the explainer will output an array containing a shap coefficient for all the n\_features of each test data.
+Once inputed a batch of test data, we obtain a matrix of the same size of the test dataset we used, shaped n\_samples x n\_features.
+We choose to input all the test dataset for each fold to obtain a more accurate shap value for each feature.
 
 Since we are presenting our results following a k-fold cross validation scheme, we had to implement this shap process inside the CV.
 To do so and collect the final result we computed the shap values for all the test samples and we stacked them together.
@@ -1886,40 +1939,48 @@ At the end of the CV, shapley values are computed for the whole dataset, and we 
 We can visualize the contribution of each feature on pushing or pulling the predicted output from the baseline output of our model.
 
 Positive shapley values, representing positive contribution to our output are colored red and negative ones are blue.
-An example is shown in figure \ref{fig:shap_waterfall}
+An example is shown in figure \ref{fig:shap_waterfall}.
+Even if this is just an example, it is taken from further analysis to our data, and it appears clear that there is not a feature whose contribution is way greater than the others.
+Each feature makes a small contribution to the final outcome but we are seeking for feature that even if contributed poorly, are recurring through all the analysis.
+
+
+
+
 
 \begin{figure}[h]
-\includegraphics[width=0.4\linewidth]{shap/waterfall_plot}
+\centering
+\includegraphics[width=0.6\textwidth]{shap/waterfall_plot}
 \caption{}\label{fig:shap_waterfall}
 \end{figure}
 
 
-It is also possible to wisualize a bar plot of all the feature from the most to the least important.
-We choose to run this analysis only on Pearson correlation coefficients since they gave the best classification results and on the whole dataset consisting on ABIDE I + ABIDE II, only males and with an age range of 6-40.
+To visualize the total amount of \textquotedblleft contribution \textquotedblright for each feature, it is  possible to visualize a bar plot of all the feature from the most to the least important.
+Each bar represents a feature importance, computed from equation \ref{eq:shap_magnitude}.
+We choose to run this analysis only on Pearson correlation coefficients since they gave the best classification results and on the whole dataset consisting on ABIDE I + ABIDE II, only males and with an age range of 5-40.
 Our goal is to check if before and after the harmonization procedure, the most important features still remain the same or if they change depending on the kind of analysis we are carrying out.
 
-The plot of feature's importance can be either the module of shap values or shap values themselves (positive or negative), an example of the latter is figure \ref{fig:}: this plot shows for each instance (for each sample from the test data), the contribution of one particular feature to the final output related to that sample, and is represented as a single colored spot, the color indicated the strength of the contribution of that feature to the final outcome, and the position in respect to the vertical line, indicates the sign of that contribution: on the right we found those that gave a positive contribution (pushed the output towards values greater than the reference output), and on the left are placed those that had a negative contribution.
+The plot of feature's importance can be either the module of shap values or shap values themselves (positive or negative), an example of the latter is figure \ref{fig:shap_features_kfold_both}: this plot shows for each instance (for each sample from the test data), the contribution of one particular feature to the final output related to that sample, and is represented as a single colored spot, the color indicated the strength of the contribution of that feature to the final outcome, and the position in respect to the vertical line, indicates the sign of that contribution: on the right we found those that gave a positive contribution (pushed the output towards values greater than the reference output), and on the left are placed those that had a negative contribution.
 This kind of plot, though, is not the best suitable for readibility in our case because of the large amount of features and the small contribution of each feature to the final outcome, in respect to other feature, or in other words there isn't a standing out feature, or group of feature that have a contribution way greater than the others, but in fact feature's importance has a quite smoothed descending trend.
-An example to visualize this trend is showed in figure \ref{fig:} and thus, for a better readability we prefer reporting the results in terms of absolute shapley value, where we just consider the module of the shapley values, regardless its positive or negative contribution to the output,
+An example to visualize this trend is showed in figure \ref{fig:shap_abide_all} and thus, for a better readability we prefer reporting the results in terms of absolute shapley value, where we just consider the module of the shapley values, regardless its positive or negative contribution to the output,
 just to visualize the absolute contribution of that feature to a all the output.
 
 
-This bar plot is shown in figure \ref{fig:}
+This bar plot is shown in figure \ref{fig:shap_abide_all}
 
 \begin{figure}
 \centering
 \begin{subfigure}[b]{.45\textwidth}
-   \includegraphics[width=1\linewidth]{shap/shap_dot_no}
-   \caption{}
+   \includegraphics[width=1\linewidth]{shap/ab_all/shap_dot_kfold}
+   \caption{Plot of dotted shapley values: for each feature each instance (each test sample) is represented by a dot, the position indicates a positive or negative contribution to the output, while the color represents the module of that contribution}
    \label{}
 \end{subfigure}
 \begin{subfigure}[b]{.45\textwidth}
-   \includegraphics[width=1\linewidth]{shap/shap_bar_no}
-   \caption{}
+   \includegraphics[width=1\linewidth]{shap/ab_all/shap_bar_kfold}
+   \caption{Bar plot of shapley values: for each feature is represented the mean absolute value of all the shapl values computed for each instance}
    \label{}
 \end{subfigure}
-\caption{Not harmonized}
-\label{}
+\caption{Two different plots of shap values for the first 20 important features during the K-fold harmonization peocedure}
+\label{fig:shap_features_kfold_both}
 \end{figure}
 
 
@@ -1929,45 +1990,165 @@ This bar plot is shown in figure \ref{fig:}
 \begin{figure}
 \centering
 \begin{subfigure}[b]{.45\textwidth}
-   \includegraphics[width=1\linewidth]{shap/shap_bar_upstream}
+   \includegraphics[width=1\linewidth]{shap/ab_all/shap_bar_upstream}
    \caption{upstream}
    \label{}
 \end{subfigure}
 \begin{subfigure}[b]{.45\textwidth}
-   \includegraphics[width=1\linewidth]{shap/shap_bar_kfold}
-   \caption{kfold}
+   \includegraphics[width=1\linewidth]{shap/ab_all/shap_bar_no}
+   \caption{Raw data}
    \label{}
 \end{subfigure}
 \begin{subfigure}[b]{.45\textwidth}
-   \includegraphics[width=1\linewidth]{shap/shap_bar_adv}
+   \includegraphics[width=1\linewidth]{shap/ab_all/shap_bar_adv}
    \caption{adversarial}
    \label{}
 \end{subfigure}
 \caption{}
-\label{}
+\label{fig:shap_abide_all}
 \end{figure}
 
 
-We can see from this bar plots of the first 20 most important features that some feature seem to be persistent through all the four pipelines; if we limit our analysis on these first twenty we find that: feature 1521, 777, 3042, 2015 and 592 appear, even if in different order of importance, in all our four analysis; features 3401, 710, 5505 appear in 3 out of 4 analysis, and features 2181, 244, 1507, 2126, 1631, 724 and 1511, appear just in two of them.
+We can see from this bar plots of the first 20 most important features that some feature seem to be persistent through all the four pipelines; if we limit our analysis on these first twenty we find that: feature 592 and 4521 appear, even if in different order of importance, in all our four analysis; features 244 592 777 1513 1521 3042 3334 3401 appear in 3 out of 4 analysis,
+%and features 2181, 244, 1507, 2126, 1631, 724 and 1511, appear just in two of them.
 Let's see what they represent:
 \begin{itemize}
-\item Feature 1521: correlation between right middle temporal gyrus and left angular gyrus.
-\item Feature 777:  correlation between Left middle temporal gyrus (temporooccipital part) and Right middle temporal gyrus (posterior division)
-\item Feature 3042: correlation between Right frontal temporal cortex and Left middle temporal gyrus
-\item Feature 2015: correlation between Left frontal medial cortex and right frontal medial cortex
-\item Feature 592: correlation between Right middle temporal gyrus and Left superior temporal gyrus
-\item Feature 3401: correlation between Right parahippocampal gyrus (anterior division) and Right parahippocampal gyrus (posterior division)
-\item Feature 710: correlation between Right middle temporal gyrus and Right talamus
-\item Feature 5505: correlation between Left inferior temporal gyrus (temporooccipital part) and Left planum temporale
-\item Feature 2181: correlation between Right middle temporal gyrus (posterior division) and Right subcallosal cortex
-\item Feature 244: correlation between Right inferior frontal gyrus (part triangolaris) and Right accombus
-\item Feature 1507: correlation between Left angular gyrus and Right accumbus
+\item Feature 592: correlation between Right Middle Temporal Gyrus ( anterior division) and Left Superior Temporal Gyrus ( anterior division)
+\item Feature 1521: correlation between Left Angular Gyrus  and Right Middle Temporal Gyrus ( posterior division)
+
+\item Feature 244: correlation between Right Inferior Frontal Gyrus ( pars triangularis) and Right Accumbens
+\item Feature 777: correlation between Left Middle Temporal Gyrus ( temporooccipital part) and Right Middle Temporal Gyrus ( posterior division)
+\item Feature 1513: correlation between Left Angular Gyrus  and Right Temporal Pole
+\item Feature 3042: correlation between Right Frontal Orbital Cortex  and Left Middle Temporal Gyrus ( temporooccipital part)
+\item Feature 3334: correlation between Right Parahippocampal Gyrus ( posterior division) and Right Accumbens
+\item Feature 3401: correlation between Right Parahippocampal Gyrus ( posterior division) and Right Parahippocampal Gyrus ( anterior division)
 \end{itemize}
-%scrivere anche le altre 3???????
+
+
+Random forest: common to the three analysis are: 710, 1127, 1703, 748, 2735, 1400, 2811, showed in figure \ref{}
+
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{.45\textwidth}
+   \includegraphics[width=1\linewidth]{shap/ab_all/rf_feature_importance_no}
+   \caption{Non-harmonized}
+   \label{}
+\end{subfigure}
+\begin{subfigure}[b]{.45\textwidth}
+   \includegraphics[width=1\linewidth]{shap/ab_all/rf_feature_importance_upstream}
+   \caption{upstream}
+   \label{}
+\end{subfigure}
+\begin{subfigure}[b]{.45\textwidth}
+   \includegraphics[width=1\linewidth]{shap/ab_all/rf_feature_importance_kfold}
+   \caption{kfold}
+   \label{}
+\end{subfigure}
+\caption{Feature importance obtained with a Random Forest classifier: results on the entire dataset.}
+\label{fig:shap_ab1}
+\end{figure}
+
+
+
+\begin{itemize}
+\item Feature 592: correlation between Right Middle Temporal Gyrus ( anterior division) and Left Superior Temporal Gyrus ( anterior division)
+\item Feature 1521: correlation between Left Angular Gyrus  and Right Middle Temporal Gyrus ( posterior division)
+\item Feature 1513: correlation between Left Angular Gyrus  and Right Temporal Pole
+\item Feature 3334: correlation between Right Parahippocampal Gyrus ( posterior division) and Right Accumbens
+\end{itemize}
+
+Same analysis were conducted on a reduced dataset: ABIDE I with only patient with open eye during the scan session. Here in figure \ref{fig:shap_ab1} we report the results obtained from shap, related to the first twenty most relevant features.
+We can notice at a first glance that there are less feature common to all the four analysis:
+There are no common features among them that we can find across all these four analysis, if we limit our study on the first twenty.
+We have to search among the first thirty features to find something in common, which is still a good procedure since we are dealing with 5995 features and the first 40 are just the 0.7\% of them.
+
+We find that, among the first 30 features, feature 1400, 762, 748, 3042 are common to the four analysis.
+If we limit again our study to the first 20 features, we can see that are common to three different analysis these additional features: 592 3477 3868
 
 
 
 
+\begin{itemize}
+\item Feature 1400: correlation between Left Supramarginal Gyrus ( posterior division) and Right Inferior Frontal Gyrus ( pars triangularis)
+\item Feature 762: correlation between Left Middle Temporal Gyrus ( temporooccipital part) and Left Middle Frontal Gyrus
+\item Feature 748: correlation between Left Middle Temporal Gyrus ( temporooccipital part) and Right Thalamus
+\item Feature 3042: correlation between Right Frontal Orbital Cortex  and Left Middle Temporal Gyrus ( temporooccipital part)
+
+\item Feature 592: correlation between Right Middle Temporal Gyrus ( anterior division) and Left Superior Temporal Gyrus ( anterior division)
+\item Feature 3477: correlation between Left Parahippocampal Gyrus ( posterior division) and Right Precuneous Cortex
+\item Feature 3868: correlation between Right Temporal Fusiform Cortex ( posterior division) and Right Inferior Temporal Gyrus ( anterior division)
+
+\end{itemize}
+
+
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{.45\textwidth}
+   \includegraphics[width=1\linewidth]{shap/ab1_openeye/shap_bar_no}
+   \caption{Non-harmonized}
+   \label{}
+\end{subfigure}
+\begin{subfigure}[b]{.45\textwidth}
+   \includegraphics[width=1\linewidth]{shap/ab1_openeye/shap_bar_upstream}
+   \caption{upstream}
+   \label{}
+\end{subfigure}
+\begin{subfigure}[b]{.45\textwidth}
+   \includegraphics[width=1\linewidth]{shap/ab1_openeye/shap_bar_kfold}
+   \caption{kfold}
+   \label{}
+\end{subfigure}
+\begin{subfigure}[b]{.45\textwidth}
+   \includegraphics[width=1\linewidth]{shap/ab1_openeye/shap_bar_adv}
+   \caption{adversarial}
+   \label{}
+\end{subfigure}
+\caption{Shap results on the dataset that gave the best classification performances: ABIDE I only open eyes.}
+\label{fig:shap_ab1}
+\end{figure}
+
+
+
+
+With a random forest we obtain the following feature importances, searching among the first 40 features, since as we can notice from figures \ref{rf_feature_importance_ab1} there are not common features between the first twenty.
+We find that features common to the 3 pipelines are: 3042, 1417, 748, 1400, 762
+
+
+\begin{itemize}
+\item Feature 3042: correlation between Right Frontal Orbital Cortex  and Left Middle Temporal Gyrus ( temporooccipital part)
+\item Feature 1417: correlation between Left Supramarginal Gyrus ( posterior division) and Left Middle Temporal Gyrus ( temporooccipital part)
+\item Feature 748: correlation between Left Middle Temporal Gyrus ( temporooccipital part) and Right Thalamus
+\item Feature 1400: correlation between Left Supramarginal Gyrus ( posterior division) and Right Inferior Frontal Gyrus ( pars triangularis)
+\item Feature 762: correlation between Left Middle Temporal Gyrus ( temporooccipital part) and Left Middle Frontal Gyrus
+\end{itemize}
+
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{.45\textwidth}
+   \includegraphics[width=1\linewidth]{shap/ab1_openeye/rf_feature_importance_no}
+   \caption{Non-harmonized}
+   \label{}
+\end{subfigure}
+\begin{subfigure}[b]{.45\textwidth}
+   \includegraphics[width=1\linewidth]{shap/ab1_openeye/rf_feature_importance_upstream}
+   \caption{upstream}
+   \label{}
+\end{subfigure}
+\begin{subfigure}[b]{.45\textwidth}
+   \includegraphics[width=1\linewidth]{shap/ab1_openeye/rf_feature_importance_kfold}
+   \caption{kfold}
+   \label{}
+\end{subfigure}
+\caption{Feature importance obtained from a Random Forest classifier: results on ABIDE I only open eyes.}
+\label{fig:rf_feature_importance_ab1}
+\end{figure}
+
+
+
+\newpage
 
 \addcontentsline{toc}{section}{APPENDIX}
 
@@ -2016,7 +2197,7 @@ The spin echo method employes two rf pulses the first with an angle of $\pi/2$ a
 \subsection{Image acquisition and k-space}
 For imaging acquisition, both effects must be taken into account. Moreover, it is necessary to relate a signal with a spatial position.
 In order to do so, in addition to the initial static magnetic field $B_0$ there's another field with lower intensity than $B_0$ which is not uniform in intensity, it follows a spatial gradient so that the total magnetic field along $\hat z$-axis is given by the sum of this two contributes, and the signal contains space-varying frequency components according to equation \ref{eq:larmorfrequency} which can be rewritten as $\omega(z) = \gamma B(z)$ being x the spatial coordinate and with $B_z$ now given by the relation $B_z(z, t) = B_0 + z\cdot G(t)$.
-The physical process underlying signal acquisition is Faraday induction, according to which an electrical potential is related to the variation of a magnetic flox over time $fem = -\frac{d\Phi}{dt}$ being $\Phi$ the varying flux through the receiving coil.
+The physical process underlying signal acquisition is Faraday induction, according to which an electrical potential is related to the variation of a magnetic flux over time $fem = -\frac{d\Phi}{dt}$ being $\Phi$ the varying flux through the receiving coil.
 The varying flux is obtained just after the application of the rf pulse, while tipped spins are precessing and realigning to z-axis, and all this process is called free induction decay (FID). This coil detect only the signal deriving from transversal plane because the one along longitudinal axes would be saturated from the strong magnetic field of the main $B_0$ coil. Changes in acquisition sequences and rf pulses allow us to emphasise one of the three fundamental parameters $T_1, T_2, \rho$ where $\rho$ is the proton concentration inside the tissue.
 
 An image acquired with a spin echo sequence can be T1, T2 or proton density weighted
@@ -2063,6 +2244,8 @@ This effect is characterized by $T_2^{\ast}$ relaxation time so this is the tuni
 
 Three different types of tissues are present in the brain: cerebrospinal fluid (CSF), and gray and white matter.
 \subsubsection{Gradient Echo sequences}
+DA RIVEDERE QUESTA E EPI
+
 The sequence employed to acquire functional imaging is the Echo Planar Imging (EPI) which is a particular sequence from the family of gradient echo sequences.
 Gradient echo sequences differs from spin echo because they allow a faster acquisition time because they use an excitation flip angle less than 90 deg, this allows a minor time interval to make spins back to their longituginal component as they are not completely flipped on the transverse plane.
 The transverse component just created decay and dephase according to T2*. If a gradient is applied, they dephase faster, and it is then reversed to make them rephase.
@@ -2114,8 +2297,28 @@ AB II EYE open &63$\pm$5 &70$\pm$3 &63$\pm$3 &62$\pm$3 \\
 AB I $\pm$ II AGE=all, EYE=all &65$\pm$3 &71$\pm$2 &66$\pm$2 &63$\pm$2 \\
 \bottomrule
 \end{tabular}
-\caption{Classification scores using only out-of-phase Wavelet coefficients}\label{}
+\caption{Classification scores using only out-of-phase Wavelet coefficients}
+\label{tab:classification_wout}
 \end{table}
+
+
+\begin{table}[!htp]\centering
+\scriptsize
+\begin{tabular}{lrrrrr}\toprule
+Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adv 264-8 \\\midrule
+AB I$\pm$II &67$\pm$ 3 &70$\pm$ 3 &66 $\pm$3 &66 $\pm$3 \\
+AB I &70$\pm$ 3 &72 $\pm$2 &68 $\pm$3 &68$\pm$ 3 \\
+AB 2 &61$\pm$ 4 &65$\pm$ 4 &64 $\pm$5 &65 $\pm$4 \\
+AB I $\pm$ II - EYE open &70$\pm$ 1 &73$\pm$ 2 &71 $\pm$1 &68 $\pm$2 \\
+AB I open EYE &71$\pm$ 4 &74 $\pm$3 &71 $\pm$3 &68 $\pm$2 \\
+AB II EYE open &62 $\pm$4 &66 $\pm$3 &68 $\pm$3 &64$\pm$ 5 \\
+\bottomrule
+\end{tabular}
+\caption{Classifiaction scores using (W\_in - W\_out) wavelet coefficients coefficients}
+\label{tab:classification_win-wout}
+\end{table}
+
+
 
 
 
