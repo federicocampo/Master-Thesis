@@ -520,7 +520,7 @@ It is defined over the space $L^2$ of Lebesgue measurable functions that are bot
 %This kind of transformation of going in a higher dimensional space is a redundant operation
 
 %modificatoo
-There are different wavelets that satisfy properties \ref{eq:waveletproperties}, such as Haar (fig \ref{fig:wavelet_haar}), Meyer (fig \ref{fig:wavelet_meyer}), Mexican hat (fig \ref{fig:wavelet_mexicanhat})
+There are different wavelets that satisfy properties \ref{eq:waveletproperties}, such as Haar (fig \ref{fig:wavelet_haar}), Meyer (fig \ref{fig:wavelet_meyer}) \cite{Daubechies}, Mexican hat (fig \ref{fig:wavelet_mexicanhat})
 or Morlet (fig \ref{fig:wavelet_morlet}) \footnote{https://it.mathworks.com/help/wavelet/gs/introduction-to-the-wavelet-families.html}.
 
 
@@ -541,7 +541,7 @@ or Morlet (fig \ref{fig:wavelet_morlet}) \footnote{https://it.mathworks.com/help
 \caption{}
 \label{fig:wavelet_meyer}
 \end{subfigure}
-\caption{}
+\caption{Visual comparison between three different types of mother Wavelets, Haar wavelet (fig \ref{fig:wavelet_haar}) is a simple square wave function, mexican hat (fig \ref{fig:wavelet_mexicanhat}) is a Wavelet belonging to gaussian function family and represents the negative normalized second derivative of a gaussian function; and Meyer wavelet (fig \ref{fig:wavelet_meyer}) a wavelet with applications in fields like adaptive filters}
 \label{fig:different_wavelets}
 \end{figure}
 
@@ -653,9 +653,33 @@ S = S_{scale}S_{time}(W) \quad S_{time} = W\cdot c_1 ^{\frac{-t^2}{2a^2}} \quad 
 \]
 where $c_1, c_2$ are normalization constants, $\Pi$ is a boxcar (rectangle) function and 0.6 is an empirically determined factor for Morlet Wavelet \cite{torrence-1998}.
 
-An example of Wavelet coherence
+An example of Wavelet coherence scalogram is shown in figure \ref{fig:wcoherence_scalogram}. It represents the wavelet coherence computed from two timeseries (fig \ref{fig:wcoherence_timeseries})of patient 51056: ROI 57 corresponds to Right Angular Gyrus and ROI 65 to Right lateral occipital cortex.
+The color represents the magniture of the cross-power, and phase information is represented as oriented arrows, pointing towards an imaginary 360 degrees circle, where the zero phase shift is represented by an arrow pointing right and a 180 degrees, by a left arrow.
 
-To assess the level of significance of a Wavelet coherence matrix over the noise, the statistical significance level of our values has to be estimated.
+
+
+\begin{figure}
+\begin{subfigure}{0.5\textwidth}
+\includegraphics[width=\textwidth]{wavelet/timeseries_for_wcoh.png}
+\caption{}
+\label{fig:wcoherence_timeseries}
+\end{subfigure}
+\begin{subfigure}{0.5\textwidth}
+\includegraphics[width=\textwidth]{wavelet/wcoherence.png}
+\caption{}
+\label{fig:wcoherence_scalogram}
+\end{subfigure}
+\caption{}
+\label{fig:wcoherence}
+\end{figure}
+
+
+
+Our goal is to extract from this Wavelet coherence matrix, a single value, interpretable as a correlation coefficient, just like we did with Pearson coefficients.
+We can accoplish so, by extracting two types of information from this scalogram: the magnitude of the correlation and relative phase between the two signal.
+
+
+We can extract the magnitude information of each entry of the scalogram, but before doing so, we need to assess the level of significance of this coherence matrix over the noise, this way we can estimate the statistical significance level of our values, and only take the significative ones.
 
 The theoretical procedure \cite{grinsted-2004} \cite{bernas-2018} is to generate, using Monte Carlo methods, a large (1000) samples of wavelet coherence matrices using red noise timeseries.
 These red noise samples should be generated, for each time series, with the same 1-lag autoregressive coefficients (AR1 coefficient) as the two timeseries we are computing wavelet coherence on, and then, for each pair of red-noise timeseries, we should compute wavelet coherence matrix.
@@ -665,8 +689,8 @@ For each pair of noise, the corresponding wavelet coherence matrix is stacked to
 This null distribution of wavelet coherence coefficient is used to estimate the threshold to 5\% significance level for the subsequent analysis.
 We refer to the value corresponding to this 95-th percentile as $a_{95}$.
 
-Our goal is to get a correlation-like coefficient from each two timeseries, as we obtained from Pearson correlation analysis.
-We can use wavelet coherence matrix computed for each pair of timeseries, using its coefficients and their phase information to compute the time of in-phase (or in phase opposition) coherence which can be seen as the percentage of time synchronicity (or antisynchronicity) between the two timeseries. \cite{bernas-2018}
+
+As a second step we extract the relative phase information of each entry of the matrix, and combining these two informations together, we can estimate the time of in-phase (or out of phase) coherence which can be seen as the percentage of time synchronicity (or antisynchronicity) between the two timeseries. \cite{bernas-2018}
 This time of in-phase coefficient is defined as:
 
 \begin{equation} \label{eq:wcohcoefficients}
@@ -685,26 +709,7 @@ In short with this analysis, we are just considering coefficients with an high s
 
 Wavelet coherence maps were calculated using MATLAB's Wavelet Toolbox, which employs the Morlet wavelet, for the wavelet decomposition, as  mentioned before, and decomposes the frequency range using 12 subscales per octave and 9 octave.
 
-Figure \ref{fig:wcoherence} represents the wavelet coherence scalogram obtained from two ROIs of patient 51056.
-
-
-
-\begin{figure}
-\begin{subfigure}{0.5\textwidth}
-\includegraphics[width=\textwidth]{wavelet/timeseries_for_wcoh.png}
-\caption{}
-\label{fig:wcoherence1}
-\end{subfigure}
-\begin{subfigure}{0.5\textwidth}
-\includegraphics[width=\textwidth]{wavelet/wcoherence.png}
-\caption{}
-\label{fig:wcoherence2}
-\end{subfigure}
-\caption{}
-\label{fig:wcoherence}
-\end{figure}
-
-
+%Figure \ref{fig:wcoherence} represents the wavelet coherence scalogram obtained from two ROIs of patient 51056.
 
 From equation \ref{eq:wcohcoefficients} both coefficients in-phase and anti-phase matrix coefficients were computed.
 The correlation coefficients matrix for each subject, were then flattened and used as input to the neural networks.
@@ -712,8 +717,8 @@ An example of correlation matrix created with in-phase and out-of-phase coeffici
 
 
 
-
 \begin{figure}
+\centering
 \begin{subfigure}{0.45\textwidth}
 \includegraphics[width=\textwidth]{wavelet/win_corrmatrix.png}
 \caption{Coefficients of In-phase percentage}
@@ -724,7 +729,7 @@ An example of correlation matrix created with in-phase and out-of-phase coeffici
 \caption{Coefficients of Off-phase percentage}
 \label{}
 \end{subfigure}
-\caption{Correlation matrix created with Wavelet coefficients of in-phase and off-phase percentage. These come from patient 51056, ABIDE I }
+\caption{Correlation matrix created with Wavelet coefficients of in-phase and off-phase percentag. Patient 51056, ABIDE I }
 \label{fig:win_wout}
 \end{figure}
 
@@ -734,40 +739,79 @@ An example of correlation matrix created with in-phase and out-of-phase coeffici
 \newpage
 
 \section{Machine learning}
-%Machine learning introduction
-Machine learning is a branch of Artificial Intelligence (AI) that aims to learn from data and gradually improve its accuracy.
-Algorithms are trained to make classifications or predictions and the bigger is the dataset to train the algorithm, the better accuracy and generalization can be achieved.
 
-Machine leraning algorithms can be divided into two macro areas: supervised and unsupervised learning.
-From a dataset, containing features, an unsupervised algorithm's goal is trying to learn the principal properties from the dataset's structure and to extract information from data without human labour to annotate and label each data.
+%Machine learning is a branch of Artificial Intelligence (AI) that aims to learn from data and gradually improve its accuracy.
+Machine learning is a branch of Artificial Intelligence (AI) that aims to learn from data and apply this knowledge to operate on other, new, data such as making predictions or classifying them, and by training training process, gradually improve its accuracy in the task it performs.
 
-They usually aim to learn the probability distribution of the features in our data, and to do so, they try to find a new representation of the data, often simpler than the initial one.
-Simpler can be associated with
-\begin{itemize}
-\item lower dimensionality of data namely the reduction of the space where data lie of informally a reduction of the number of features in our data
-\item sparse representation of data transform the data in a representation containing zeros in most entries, to try to aligh input data along this new  representation's axis. Usually resulting in an increasing of data dimensionality to avoid information lost deriving from setting most entries to zero
-\item Independent representaiton focus on the main sources of variance across data, trying to create statistically independent representation ofa initial data.
-\end{itemize}
+Algorithms are trained to make classifications or predictions and, as a rule of thumb, the bigger and homogeneous is the dataset to train the algorithm, the better accuracy and generalization (namely perform well on different datasets) can be achieved.
 
-On the other hand, in supervised learning each input data is associated with a label, specifying the class that data belongs to, so the algorithm is to learn the common features for each class trying to predict the label given the corresponding input, or to classify them according to the right label.
+According to the analysis we aim to perform, and the type of dataset we are working on, machine leraning algorithms can be divided into two macro areas: supervised and unsupervised learning.
 
-A sub-branch of Machine Learning is Deep Learning, the main difference lies on the algorithms' structure and the learning techniques, as an instance, traditional machine learning methods consist on algorithms like Random Forest, Support Vector Machines (SVM), K-nearest neighbor (KNN) and several more models, while deep learning models include Artificial neural networks (ANN), Convolutional neural networks (CNN) and more.
+From a dataset, consisting on a collection of data, each one containing a certain number of features, an \textbf{unsupervised} algorithm goal is trying to learn the principal properties from the dataset's structure and to extract information from data without human labour to annotate and label each data.
+Analysis with unsupervised algorithms include clustering or dimensionality reduction.
+Clustering is maybe the most simple and intuitive example of an unsupervised learning: it is basically a classification process through which unlabeled data are reorganised and classified into subgoups according to some common properties or distance measures that arise from the analysis.
+In this way, data of each group, called cluster, share a certain degree of similarity in feature probability distribution.
+%A common algorithm for clustering is k-clu?
+%modificatoo
+Dimensionality reduction is another common example of unsupervised learning process: it is performed with the task of finding an different representation of the data, with a lower dimensionality, and preserving as much information as possible about data.
+This can be accomplished either by compressing data into a lower-dimensional space, or by searching the main source of variance across the data and create a representation in such a way that the dimensions of the new representation are statistically independent.
+
+
+
+%They usually aim to learn the probability distribution of the features in our data, and to do so, they search for a new representation of the data, often simpler than the initial one.
+%Simpler can be associated with
+%\begin{itemize}
+%\item lower dimensionality of data namely the reduction of the space where data lie of informally a reduction of the number of features in our data
+%\item sparse representation of data transform the data in a representation containing zeros in most entries, to try to aligh input data along this new  representation's axis. Usually resulting in an increasing of data dimensionality to avoid information lost deriving from setting most entries to zero
+%\item Independent representaiton focus on the main sources of variance across data, trying to create statistically independent representation ofa initial data.
+%\end{itemize}
+
+On the other hand, when we are dealing with supervised learning each input data is associated with a label, specifying the class which data belong to, so the algorithm is to learn the common features for each class trying to predict the label given the corresponding input, or to classify them according to the right label.
+Generally speaking, given an input data x and an associated label y, they try estimating p(y|x). These algorithms are referred as supervised because of the human labour needed to label each input data.
+
+A subset of Machine Learning is Deep Learning, the main difference lies on the algorithms' structure and the learning techniques, as an instance, traditional machine learning methods consist on algorithms like Random Forest, Support Vector Machines (SVM), K-nearest neighbor (KNN) and several more models, while deep learning models include Artificial neural networks (ANN), Convolutional neural networks (CNN) and more.
+As we will see in furter paragraphs, they have a common structure similar to a neural structrure, made by different neurons connected to each other.
+
+
+
 
 \subsection{Random forest}
-Random Forest classifier belongs to the category of \emph{ensemble} classifiers, it combines multiple decision tree models to create a more poverful model, so to understand a random forest we need to start understanding how a Decision Tree classifier works.
+Da rivedere un paio di frasi.
+Random Forest classifier belongs to the category of \emph{ensemble} classifiers, and is a common machine learning algorithm.
+It combines multiple decision tree models to reduce overfitting of data and achieve a better generazability to create a more powerful model.
+Therefore, to properly understand a random forest algorithm, we need to start understanding how a Decision Tree classifier works.
 
-A decision tree aims to learn distictive traits from input data by asking yes/no questions. Focusing on the valus of a single input feature, the classifier splits the dataset based on the value of that feature according to an if/else statement like \textquotedblleft if feature-i $\>$ a \textquotedblright.
+A decision tree aims to learn distictive traits from input data by asking yes/no questions. Focusing on the valus of a single input feature, the classifier splits the dataset based on the value of that feature according to an if/else statement like \textquotedblleft if feature\_i $>$ a \textquotedblright.
 Doing so each branch of a decision tree consists of a question which splits the dataset into two smaller sub datasets.
 Considering different features, the process is then recursively repeated untill it reaches an end point called leaves, corresponding to the ultimate partition, containing a single data point belonging to a single class.
-The goal of this tree is construct trees so that the paartition are informative about the class labels.
-To practically construct a tree the algorithm
-\begin{enumerate}
-\item Randomly select m of the n total features from input data
-\item Split the node by asking a question about the feature that would provide the best classes' split
-\item Iterare point (1) and (2) until a single data point is left
-\end{enumerate}
+The goal of this tree is to construct branches so that the partition are informative about the class labels.
+In a practical way, given a dataset X made of different data samples, each one containing n features, the algorithm construct a tree following these steps:
+Starting from the top node called root, it searches among the n features the one which allows the best split between classes and split the dataset into two subsets, each one constituting a node. This split is performed according to a pre-defined objective function we want to maximize throughout the tree construction.
+Usually these kind of functions regard some kind of impurity measures such as the difference between the impurity of a parent node and the sum of the impurity of the child.
+The lower the impurity of the child, the bigger the Information Gain.
+This splitting process is repeated for each node in order to achieve the best information gain for each split, and
+%Then repeats the previous step and split each subset in order to have the best information gain about categories for each split.
+the process is iterated and the tree is grown untill a single node is left.
+The important features according which a tree is forked at each node, can be visualized and if we plot the tree structure.
+This property is one of those which make decision trees so popular: they are easy to interpret and understand since their structure and the information of each node can be plotted to have a visual feedback of what is going on during the growing process.
+Other positive sides of decision trees are, their easy to use implementation which requires little data preparation and their rapidity since their complexity goes like $O(n_{features}n_{samples}^2log(n_{samples}))$ \cite{scikit-2011}
 
-An example of a decision tree dealing with flower classification is shown in figure \ref{fig:decisiontree}
+%decision trees are among the most popular classifiers for different reasons: theey are implemented in several packages for different languages, they are easy to use since they require little data preparation, and are simple to understand and interpret, since they can even be visualized.
+
+
+Three common impurity measures or splitting criteria are commoply used in decision trees: Gini impurity, entropy and classification error.
+%We are not focusing on these functions, a more detailed explanation can be found in \cite{raschka-2019}.
+In our work we are going to use the Gini impurity criterion, which...
+Gini Impurity is the frequency with which a randomly chosen element in the dataset is incorrectly classified if it were randomly labeled according to the class distribution in the dataset.
+%\begin{enumerate}
+%\item Starting from the top node called root, it searches among the n features the one which allows the best split between classes
+%\item Split the node by asking a question about the feature that would provide the best classes' split
+%\item Iterare point (1) and (2) until a single data point is left
+%\end{enumerate}
+
+An example of a decision tree dealing with flower classification is shown in figure \ref{fig:decisiontree}.
+We choose this figure because is easier to understand how a decision trees works with this example where each feature is labeled with an intuitive name and contains a physical quantity easily comparable with everyday life such as petal lenght expressed in centimeters.
+
 \begin{figure}
 \centering
 \includegraphics[width=0.8\textwidth]{ml/decisiontree_example.png}
@@ -775,38 +819,50 @@ An example of a decision tree dealing with flower classification is shown in fig
 \label{fig:decisiontree}
 \end{figure}
 
+Instead of looking at the whole tree, we may be interested in what feature contributed the most to the final output, to this end, a decision tree usually weigths feature with a number from 0 to 1 accordint to how much a feature contributed to the impurity decrease along the tree.
+\cite{raschka-2019} \cite{muller-2017}
 
-Usually though, continue this iterative process untill it reaches a leaf, brings to the creation of a very complex model that overfits the training data, that is, the model accurately learned the training dataset but is not able to generalize well to a test dataset.
-To prevent overfitting, one possible strategy is to early stop the iteration towards the leaf, and leave a node with more than one class.
-An other strategy, which leads to the construction of a Random Forest, is the creation of a stronger model, more prone to generalize data without overfitting.
-A Random Forest is a collection of decision trees where each tree is slightly different from the others, each tree tends to overfit, but it does so in a in a different way, so that we can reduce overfitting by averaging different results.
+Usually though, one of the main drowbacks of decision trees is that the iterating process towards the reaching of a leaf, can bring to the creation of a over-complex model that overfits the training data, that is, the model accurately learned the training dataset but is not able to generalize well to a test dataset.
+To prevent overfitting, one possible strategy is to early stop the iteration towards the leaf, and leave a node with more than a single sample left.
+An other strategy, which leads to the construction of a Random Forest, is the creation of a stronger model, more prone to generalize data reducing overfitting.
 
+\paragraph{Random Forest} \hfill
+
+A Random Forest is a collection of decision trees where each tree is slightly different from the others, each tree tends to overfit, but it does so in a different way, so that we can reduce overfitting by averaging different results.
+Random forest gets its name because of the insertion of randomness during the construction of these different trees.
+The process whereby a Random Forest is built, given an input dataset X with N different samples, there are two main steps where randomicity plays an important role: when selecting the number of samples on to which built a tree n\_trees, and when selecting the number of feature to use to grow each tree.
+In summary, a random forest, once selected the number of tree to be created:
 \begin{enumerate}
-\item Randomly select n samples from the input dataset
-\item Grow a decision tree from this sample
-\item Putting all the predictions together is possible to assign a class label by majority vote.
+\item Randomly select n$\leq$N samples from the input dataset, this operation is called bootstrap.
+\item Grow a decision tree from this bootstrap sample, but to each split, it randomly limit the number of feature available and compute the best split on this remaining subset of feature. This avoids correlations between trees resulting in better performances
+\item Repeat steps 1) and 2) n\_trees times.
+\item Once all the trees are created, if we want to make a prediction, we put together all the trees, and use each one of them to make predictions.
+The final prediction of the random forest is assessed by majoring vote: the predicted class will then be the one predicted by the majority of classifiers.
 \end{enumerate}
 
 %This steps are implemented in the Python's package Scikit-Learn
 
 
-Randomness within trees of a single model is introduced with three strategies:
-\begin{enumerate*}
-\item Randomly select some input data and buiding a tree with this subset of data
-\item Randomly select a different subset of features at each split
-\item A combination and implementation of both the previous strategies results in a model in which each tree has reduced predictive power, but when put all together, it results in an improved predictive power with a drastical reduction of overfitting.
-\end{enumerate*}
+%Randomness within trees of a single model is introduced with three strategies:
+%\begin{enumerate*}
+%\item Randomly select some input data and buiding a tree with this subset of data
+%\item Randomly select a different subset of features at each split
+%\item A combination and implementation of both the previous strategies results in a model in which each tree has reduced predictive power, but when put %all together, it results in an improved predictive power with a drastical reduction of overfitting.
+%\end{enumerate*}
 
-Introducing this kind of randomness in a model results in reducing correlations between models and this brings to a reduced variance between outputs
-So the necessary steps to build a random forest are
+Introducing this kind of randomness in a model results in a lower correlation between models and this brings to a reduced variance between outputs.
+Informations regarding features importance can be extracting from a random forest classifier by extracting them from each tree, and by averaging the impurity decrease from all the decision trees in the forest.
 
 
 
 \subsection{Deep Learning: ANN}
--Aggiungere: Dropout
 
-Deep learning is a subset of machine learning whose algorithm try to emulate the learning process of the human brain.
-This kind of algorithms are called Artificial Neural Networks (ANN) and, such as a neuronal structure, they are made of several neurons organized into layers; each layer containsa certain amount of neurons each one linked to each others.
+We discussed in the previous paragraph one of the most important machine learning algorithm, but, as mentioned before, there's a subset of machine learning algorithm with a charactristic common structure, thanks to which they get their name as Deep learning algorithm.
+The structure of algorithms belonging to this family are inspired by a brain neuronal structure, and even if in a simplified way, they try to emulate the learning process of a brain.
+These algorithms own the adjective \textquotedblleft deep \textquotedblright to their structure: they are organised in layer, each one containing several foundamental unit called neuron.
+Neurons between layers are connected to each other like synapsis transmit a signal between neurons in a biological brain.
+For this structure which reminds a neuronal brain structure,they are caller artificial neuronal networks
+%Some kind of algorithms are called Artificial Neural Networks (ANN) and, such as a neuronal structure, they are made of several neurons organized into layers; each layer contains certain amount of neurons each one linked to each others.
 
 \begin{wrapfigure}{r}{0.4\textwidth}
 \centering
@@ -815,8 +871,10 @@ This kind of algorithms are called Artificial Neural Networks (ANN) and, such as
 \label{fig:perceptron}
 \end{wrapfigure}
 
-The simplest model of a neural network is the \emph{perceptron} shown in figure , corresponging to a single neuron which takes as input a data, for example an n-dimensional array $\textbf{x} = \left\{ x_1, x_2, ..., x_n\right\}$ and returns an output: a real number computed by applying a function to a linear combination of all the inputs $ y = f(z) = f \left ( \sum_i w_{i} x_i + b \right )$
-This function that determines the outpu is called \emph{activation function}.
+The foundamental unit which constiture a neuronal network is an artificial neuron, one of the most relevant example of artificial neurons is the \emph{perceptron} shown in figure \ref{fig:perceptron}.
+
+A perceptron is the foundamental unit of a supervised deep learning algorithm: it takes as input a data, for example an n-dimensional array $\textbf{x} = \left\{ x_1, x_2, ..., x_n\right\}$ and returns an output: a real number computed by applying a function to a linear combination of all the inputs $ y = f(z) = f \left ( \sum_i w_{i} x_i + b \right )$.
+The function that determines the output is called \emph{activation function}, and can be either a simple step function, or a slightly more complex function we will briefly discuss in section \ref{sec:activation_functions}.
 
 
 
@@ -829,8 +887,8 @@ This function that determines the outpu is called \emph{activation function}.
 
 
 A deep neural network is a hyerarchical organization of neurons into layer, connected to each other.
-Input data are passed to the first input layer where each neutron acting like a perceptron, produces an output using the activation function which is the same for every neurons of the layer, but can differ from the activation function of other layers.
-Once collected each and every output from all the first layer neutrons, they are passed to the second layer and become the input to each neutron belonging to this layer.
+Input data are passed to the first input layer where each neuron acting like a perceptron, produces an output using the activation function which is set the same for every neurons of the layer, but can differ from the activation function of other layers.
+Once collected each and every output from all the first layer neurons, they are passed to the second layer and become the input to each neuron belonging to this layer.
 This is reiterated through all the layers up to the final output layer.
 As schematized in figure \ref{fig:ann} an artificial neural network is mainly composed of three parts: an input layer, come middle layers also  called \emph{hidden layer} and a final layer. Each neuron of a layer is linked to all the neurons of the previous and next layer.
 The connection between two neurons is weighted, according to an initial setup of the network during which weights are randomly set.
@@ -839,7 +897,7 @@ When reach the end of this process, we obtain the output: a numerical value rela
 
 Using matrix formalism the entire input-output process can be written as
 
-$\textbf{y} = \sum_j^n w_{ij} x_j + b_i $ where $\textbf{x} \in \Re^n \ \textbf{y} \in \Re^m $ being m the output dimension given by the number of neutrons in the output layer.
+$\textbf{y} = \sum_j^n w_{ij} x_j + b_i $ where $\textbf{x} \in \Re^n \ \textbf{y} \in \Re^m $ being m the output dimension given by the number of neurons in the output layer.
 
 
 During the training process, given an input, the algorithm calculate an output (prediction) and this process is referred as  \emph{forward propagation}.
@@ -853,7 +911,7 @@ To fully define a neural network we just need some parameters called hyperparame
 
 \begin{itemize}
 \item Number of layers
-\item Number of neutron for each layer
+\item Number of neuron for each layer
 \item Activation function for each layer
 \item Number of epochs (or iterations)
 \item Learning rate
@@ -892,17 +950,19 @@ We should therefore pay attention when choosing the number of parameters on a mo
 \label{fig:underoverfitting}
 \end{figure}
 
+\paragraph{Regularization strategies} \hfill
 Some regularization procedures are often implemented to avoid overfitting, the strategy is to build a model with a capacity slightly higher than the necessary in order to perform well on the training dataset, and then, to avoid overfitting, implement some regularization techniques to achieve good generalization performances.
 
 Some of the most popular are Dropout and Batch-Normalization
 
 \begin{itemize}
 \item Dropout is a strategy which allows us to obtain the same effect of training train different model with our input data and take the average output at the end without paying high computational costs.
-It is usually applied to hidden layers' neurons and accomplish this task by randomly dropping a certain fraction of hidden neurons and their connections, during each training cycle. The percentage of neutron to drop, correspons to the probability p for a single neutron to be dropped and it is set by the user.
-A visual representation of what occurs is illustrated in figure \ref{fig:dropout}
-When discarding some neutrons in a layer, the remaining neutrons needs to rescale their weights toaccount the missing connection; doing so, every neutron cannot rely on the the input of all the preceding neurons and the network is forced to learn more robust patterns from the data.
-\item BatchNormalizzation is a regularization scheme that has been common adopted since its introduction in 2015. It is based on the observation that  a neural network works and performs better when its input are normalized, because this prevents the saturation of its neurons which occurs when because of an high input value, the neuron outputs value always close to the asymptotic end of its activation function, resulting in a biased and less accurate prediction.
-What is essentially done is then a simple scaling of each neuron's input: for a layer l with d neurons its input $\mathbf{x} = \{x_1^l, x_2^l, ..., x_d^l\}$ is scaled so that $x_i^l \rightarrow \tilde x_i^l = \frac{x_i^{l} - \mathbb{E}[x_i^l]}{\sqrt{Var(x_i^l)}} $
+It is usually applied to hidden layers' neurons and accomplish this task by randomly dropping a certain fraction of hidden neurons and their connections, during each training cycle. The percentage of neuron to drop, correspons to the probability p for a single neuron to be dropped and it is set by the user.
+A visual representation of what occurs is illustrated in figure \ref{fig:dropout}.
+When discarding some neurons in a layer, the remaining neurons needs to rescale their weights to account the missing connection; doing so, every neuron cannot rely on the the input of all the preceding neurons and the network is forced to learn more robust patterns from the data.
+\item BatchNormalizzation is a regularization scheme that has been commonly adopted since its introduction in 2015. It is based on the observation that a neural network works and performs better when its input are normalized because this prevents the saturation of its neurons.
+A neuron can in fact saturate and settle to a certain value because of an high input, this causes the neuron outputs value to be always close to the asymptotic end of its activation function, resulting in a biased and less accurate prediction.
+What is essentially done is then a simple scaling of each neuron's input: for a layer l with d neurons its input $\mathbf{x} = \{x_1^l, x_2^l, ..., x_d^l\}$ is normalized by removing the mean value across all the input data, and divide for their variance $x_i^l \rightarrow \tilde x_i^l = \frac{x_i^{l} - \mathbb{E}[x_i^l]}{\sqrt{Var(x_i^l)}} $
 
 \end{itemize}
 
@@ -912,7 +972,7 @@ What is essentially done is then a simple scaling of each neuron's input: for a 
 \label{fig:dropout}
 \end{figure}
 
-
+\paragraph{Cross validation procedures} \hfill
 To monitor the evolution of the model's performances during train is a common practise to split the train dataset into two subsets: one that will be the actual train dataset, and a smaller one, called validation dataset used to make constant checkups on how well the model is learning with the train set, by making constant test of its performances.
 
 The validation dataset is used for the fine tuning of hyperparameters and it typically consists of 10-30\% of the whole train dataset.
@@ -1242,74 +1302,97 @@ An example of ROC curve is shown in figure \ref{fig:roccurve}
 
 
 \section{Harmonization}
-The issue of collecting a large dataset putting together data from multiple centers allow us to work on dataset of bigger dimension and facilitates the generalization and the robustness of the model, but, as a drowback, it introduces variability in our analysis such as differences due to scanner parameters, generally known as scanner effects.
+Since nw, a big percentage of neuroimaging studies have been carried out with limited data acquired from a single centre, to minimize varibility in data due to the different instrumentations employed.
+In recent years, however, there's the tendency to create shared datasets, by pooling together data acquired from different centers.
+A positive side of creating a large dataset putting together data from multiple centers is the possibility to work on dataset of bigger dimension, resulting in obtaining more statistically accurate analysis, and facilitates the generalization and the robustness of the model.
+As a drowback, however, it introduces variability in our analysis such as differences due to scanner models, acquisition parameters, generally known as scanner effects.
 A level out procedure becomes necessary to avoid the model to learn these differences deriving from inomogenity of data because of differences in data acquisition procedures.
-This procedure is called harmonization.
-Harmonization was tested on different datasets and proven to be an effective way to reduce scanner effects \ref{johnson-2007} \ref{fortin-2017} and on functional connectivity data showing to reduce scanner effect.
+This procedure is generally referred as harmonization.
+Harmonization was tested on different datasets and has proven to be an effective way to reduce scanner effects  in different kind of datasets such as genes' microarray data, diffusion tensor imaging or structural MRI. \ref{johnson-2007} \ref{fortin-2017}.
 
 
 \subsection{Harmonization - theory}\label{sec:harmonizationtheory}
 
 
-The state-of-art procedure used in genomic is called ComBat (meaning of combat?), specifically adapted for functional connectivity to mitigate scanner effects, is based on a previous method initially proposed [reference to johnson, fortin] in 2007, for gene expression studies to compute batch effect corrections, and then implemented by Fortin et al \ref{fortin-2017} .
-ComBat technique is based on the simpler Location and scale adjustment methods, but is an improved version of it: it uses the empirical Bayes to improve the estimation of the site parameters: it aims to reduce inter-site variability while preserving biological variability such as differences due to sex, age..
-The model assumes that a feature can be modeled as a linear combination of the biological variables plus the site effect, and the erroes introduced with site effect can be modeled as both a multiplicative and an additive term and that it can be standardized by adjusting the mean and the variance across the batches.
+The state-of-art procedure used in genomic is called ComBat (named after Combating Batch effects), used for structural MRI but aplicable to any kind of imaging data, is used to mitigate scanner effects.
+It is based on a previous method initially proposed in 2007, for gene expression studies to compute batch effect corrections, later implemented by Fortin et al \ref{fortin-2018} for the harmonization of cortical MRI volumes, and finally in its current improved version, developed by Pomponio et al. \cite{pomponio-2019} in 2019.
+In this paragraph we are going to explain how ComBat technique works and after that, we'll see how it was modified and improved in the latter implementation by Pomponio et al.
 
+ComBat technique is based on simpler Location and scale adjustment family methods, but it represents an improved version of them: it uses the empirical Bayes to improve the estimation of the site parameters.
+It aims to reduce inter-site variability while preserving biological variability such as differences due to sex, age, FIQ (Full intellective quotient), ICV (Intra Cranical Volume) and so on.
+The model assumes that a feature can be modeled as a linear combination of the biological variables plus the site effect, and the errors introduced with site effect can be modeled as both a multiplicative and an additive term and that it can be standardized by adjusting the mean and the variance across the batches.
 
 Let $y_{ijf}$ be the numeric value of the feature f for the patient i acquired with the scan (or equivalently, from the site) j, so that i = 1, 2, ..., K indexes the scanner, j = 1, 2, ..., $N_i$ indexes the total number of subjects acquired for each scanner i, and f ranges from 1 to F being F the total number of features. Besides, let's assume that this value y, can be written as
 \begin{equation}
 y_{ijf} = \alpha_f + x_{ij}^T \beta _f + \gamma_{if} + \delta_{if} \epsilon_{ijf}
 \end{equation}
-where $\alpha_f$ is the mean value for the feature f, $x_{ij}$ is the entry of the matrix X for the covariates of interest such as age, sex, $\beta_f$ is the vector of regression coefficients corresponding to X for the feature f, the terms $\gamma_{if}$ and $\delta_{if}$ represent the additive and multiplicative terms for site-i effects related to feature f respectively, and $\epsilon_{ijf}$ is a error term which is assumed to follow a normal distribution with zero mean and variance $\sigma_f^2$.
+where:
+\begin{itemize}
+\item $\alpha_f$ is the mean value for the feature f,
+\item $x_{ij}$ is the entry of the matrix X created with the covariates of interest such as age, sex,
+\item $\beta_f$ is the vector of regression coefficients corresponding to X for the feature f,
+\item $\gamma_{if}$ and $\delta_{if}$ represent the additive and multiplicative terms for site-i effects related to feature f respectively,
+\item $\epsilon_{ijf}$ is a error term which is assumed to follow a normal distribution with zero mean and variance $\sigma_f^2$.
+\end{itemize}
 
-
-The location-and-scale-adjusted data $y^{\ast}_{ijf}$ are given by $y^{\ast}_{ijf} = \frac{y_{ijf} - \hat \alpha_f - X\cdot \hat \beta_f - \hat \gamma_{jf}}{\hat \delta_{jf}} + \hat \alpha_f + X \cdot hat \beta_{jf},$
+The final location-and-scale-adjusted data $y^{\ast}_{ijf}$ are given by
+\begin{equation}\label{eq:harmonized_data}
+y^{\ast}_{ijf} = \frac{y_{ijf} - \hat \alpha_f - X\cdot \hat \beta_f - \hat \gamma_{jf}}{\hat \delta_{jf}} + \hat \alpha_f + X \cdot \hat \beta_{jf}
+\end{equation}
 where $\hat \alpha_f , \hat \beta_f , \hat \gamma_f ,  \hat \delta_{jf}$ are estimators of the corresponding parameters, based on the model.
 
-ComBat uses empirical Bayes to improve the variance of the parameters estimate $\hat \gamma_{if} \ \hat \delta^2_{if}$.
-Specifically it is assumed that that the site-effect parameters follow the normal distribution and the inverse gamma distribution respectively
-% follow a normal distribution:
-$\gamma_{if} \sim N(Y_i, \tau^2_i)$  $\delta^2_{if} \sim \frac{\beta^{\alpha}}{\Gamma (\alpha)}(1/x)^{\alpha +1}\cdot e^{-b/x}$
+One of the most disadvantages of using a simple location and scale batch adjustment is that it requires a large batch size for the implementation because is not robust to outliers in small sample sizes.
 
-The process to estimate feature-dependent parameters, and to adjust data for batch effect can be summarized in 3 steps:
+ComBat uses empirical Bayes to provide a more robust adjustment for the parameters $\hat \gamma_{if} \ \hat \delta^2_{if}$, making the model able to deal with small-sized dataset as well.
+
+%Specifically it is assumed that that the site-effect parameters follow the normal distribution and the inverse gamma distribution respectively
+%\begin{equation}
+%\gamma_{if} \sim N(Y_i, \tau^2_i) \qquad \delta^2_{if} \sim \frac{\beta^{\alpha}}{\Gamma (\alpha)}(1/x)^{\alpha +1}\cdot e^{-b/x}
+%\end{equation}
+
+The process ComBat employs to estimate feature-dependent parameters, and to adjust data for batch effect can be summarized in 3 steps:
 
 \begin{enumerate}
-\item Data are standardized feature-wise, so that every feature has similar overall mean and variance.
+\item \textbf{Standardization}: Data are standardized feature-wise, so that every feature has similar overall mean and variance.
 least square regression, is then performed to determine parameters $\hat \alpha_f, \hat \beta_f, \hat \gamma_{jf}$ and subsequently, $\hat \sigma^2_f = \frac{1}{n} \sum_{ji} \left ( y_{ijf} - \hat \alpha_f - X \hat \beta_f - \hat \gamma_jf \right )^2$ being n the total number of patients.
 
 
 The standardized data are then calculated by equation \ref{eq:harmonization_std_data}
 
 \begin{equation}\label{eq:harmonization_std_data}
-Z_{ijf} = \frac{y_{ijg}-\hat \alpha_f - X \hat \beta_f}{\hat \sigma_f}
+Z_{ijf} = \frac{y_{ijf}-\hat \alpha_f - X \hat \beta_f}{\hat \sigma_f}
 \end{equation}
 
 
-\item Site effect parameters estimate using parametric empirical priors: assuming that standardized data follow the normal distribution $Z_{ijf} \sim N(\gamma_{jf}, \delta^2{jf})$
-it is also assumed that that the site-effect parameters follow the normal distribution and the inverse gamma distribution respectively
-$\gamma_{jf} \sim N(\eta_j, \tau^2_j)$  $\delta^2_{jf} \sim Inverse Gamma(\lambda_j, \theta_j) =  \frac{\theta^{\lambda}}{\Gamma (\lambda)}(1/x)^{\lambda +1}\cdot e^{-\theta/x}$
+\item \textbf{Empirical Batch parameters estimate}:
+%Site effect parameters estimate using parametric empirical priors:
+We assume that standardized data follow a normal distribution $Z_{ijf} \sim N(\gamma_{jf}, \delta^2_{jf})$ and we seek for a proper estimation of parameters $\gamma_{jf}, \delta^2_{jf}$.
+it is also assumed that these site-effect parameters follow the normal distribution and the inverse gamma distribution respectively
+\[
+\gamma_{jf} \sim N(\eta_j, \tau^2_j)  \qquad \delta^2_{jf} \sim \text{Inverse Gamma}(\lambda_j, \theta_j) =  \frac{\theta^{\lambda}}{\Gamma (\lambda)}(1/x)^{\lambda +1}\cdot e^{-\theta/x}
+\]
 
-Where the hyperparameters $\eta_j, \tau^2_j, \lambda_j, \theta_j$ are empirically estimated from standardized data using the method of moments
+And these hyperparameters $\eta_j, \tau^2_j, \lambda_j, \theta_j$ are empirically estimated from standardized data  $Z_{ijf}$ by using the method of moments.
 %Breve box to exmplain method of moments??
-so we obrain $\gamma_{jf} \ and \ \delta^2_{jf}$ and we use them for the third and last step
+we then obtain improved estimation of parameters $\gamma^\ast_{jf} \ \text{and} \ \delta^\ast_{jf}$ and we use them for the third and last step, where we adjust our data using them.
 
-\item Adjust the data: After calculated the site-effect parameters we are finaly able to adjust our initial data using the relation
+\item \textbf{Adjust the data}: After calculated the site-effect parameters we are finaly able to adjust our initial data using the relation
 
 \begin{equation}
-y^{ComBat}_{ijf} = \frac{\hat \sigma_f}{\delta_{jf}}(Z_{ijf} - \gamma_{jf}) + \hat \alpha_f + X \hat \beta_f
+y^{ComBat}_{ijf} = \frac{\hat \sigma_f}{\delta^\ast_{jf}}(Z_{ijf} - \gamma^\ast_{jf}) + \hat \alpha_f + X \hat \beta_f
 \end{equation}
-
+which is just an equivalent way to write equation \ref{eq:harmonized_data}, using parameters estimated in the previous passage.
 \end{enumerate}
 
 
-%Is futhermore assumed that standardized data follow a normal distribution $Z_{ijf} \sim N(\gamma_{if}, \delta^2_{if}) $ and
-
-%The hyperparameters $Y_i,  \tau^2_i, $ are then estimated using the moment methos
-%Under the distribution assumption above, the empirical batched parameters for batch effect $\gamma_{if}, \delta^2_{if}$ are estimaterg leadind to the estimate of the empirical batch adjusted data: $y_{ijf}^{ComBat}$
-
-%HOW it works? covariates, what is FIQ?
-
-
+So far, this was the main idea behind ComBat technique, but we said before that the last implementation of this technique by Pomponio et al. \cite{pomponio-2019} is an improved version of it.
+They differn in the modelling of the biologically covariates, which in the formulas above are expressed by the terms $\hat \alpha_f + X \hat \beta_f$ which is a simple linear model.
+Pomponio substituted this linear model with a Generalized Additive Model (GAM). In this model covariates such as sex, age, FIQ, are represented by terms $x_{ij}, \ z_{ij}, \ w_{ij}$ which allow a better parametric modelling to deal with non-linear trends such as the trend of cortical thickness in relation to age.
+This way, the terms $\hat \alpha_f + X \hat \beta_f$ in equation \ref{eq:harmonized_data} are substituted by a linear combination of function F of these covariates
+\begin{equation}
+\hat \alpha_f + X \hat \beta_f \ \longrightarrow \ F_f(x_{ij}, z_{ij}, w_{if}...) = a_f + g_f(x_{ij}) + h_f(z_{ij}) + p_f(w_{ij}) + ...
+\end{equation}
+Where functions $g_f, h_f, p_f$ can be either linear or non-linear functions of our covariates, according to how we want to model these covariates, or in other words, according to wether we want to specify some kind of non-linear relationship between covariates and our data.
 
 
 
@@ -1671,7 +1754,7 @@ Since we are working in an unavoidable overfitting condition, we tried to build 
 We then started the research of our newtork with a network comprising only 3 layers and we searched the minimum number of neurons to employ in each layer.
 We started with a trivial network made by just 3 neuron in the first layer, 2 nodes in the second and at last a single-output layer. Even if this was just an attempt to put a lower limit to the number of neurons, we noted that even with this configuration, the network tends to overfit our data.
 This is clear if we take a look at the learning curves in figure \ref{fig:learningcurve} which shows the training and validation AUC curves for two models: the first one of them (\ref{fig:auc_no3-2-1}) even if with the simplified structure just mentioned, shows the classical trend of an overfitting state, however, it performes a bit worse than the other two more complex models.
-We continued adding neurons to each layer and tried different configurations. With a configuration of 8-8-1 performances were slightly higher, so we set the second layer to 8 neutrons and tried changing the number of the neutrons in the first layer, performances seemed to increase as the number of neurons increased untill they reached a stable value. Different attempts and the relasted classification scores are reported in table \ref{tab:appendice..} in appendix.
+We continued adding neurons to each layer and tried different configurations. With a configuration of 8-8-1 performances were slightly higher, so we set the second layer to 8 neurons and tried changing the number of the neurons in the first layer, performances seemed to increase as the number of neurons increased untill they reached a stable value. Different attempts and the relasted classification scores are reported in table \ref{tab:appendice..} in appendix.
 We decided to pick the configuration which gave the minimum number of neurons, beyond which performances were stable, and the addition of more neurons to create a more complex network was unjustified.
 
 \begin{figure}
