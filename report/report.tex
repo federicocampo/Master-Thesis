@@ -1,12 +1,15 @@
-\documentclass[a4paper,11pt]{article}
+\documentclass[12pt]{report}
 %\documentclass[12pt]{article}
-%\usepackage[top=3cm, bottom=3cm, left=2.5cm, right=6cm]{geometry}
-\usepackage[margin=1.5cm]{geometry}
+\usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
+\pagestyle{plain}
+\linespread{1}
 
-%\pagestyle{plain}
-%\linespread{1}
+
+%\usepackage[margin=1.5cm]{geometry}
 
 \usepackage{graphicx}
+%\usepackage{epstopdf}
+\usepackage{float}
 %To create colored tables
 \usepackage[table,x11names]{xcolor}
 \usepackage{wrapfig}
@@ -53,15 +56,53 @@
 
 \graphicspath{{/home/federico/magistrale/scriptsoutput/images/}{/home/federico/magistrale/Imagess/}}
 
+
+\urlstyle{same}
+%\hypersetup{
+%colorlinks=true,
+%linkcolor=black,
+%citecolor=blue,
+%}
+
+
+
 \begin{document}
-\maketitle
+
+\begin{titlepage}
+\begin{figure}[t]
+\centering
+\includegraphics[scale=0.55]{cherubino_pant541}
+\end{figure}
+
+\begin{center}
+	\textbf{ DEPARTMENT OF PHYSICS E. FERMI\\ Master's degree in physics\\}
+	\vspace{20mm}
+    {\LARGE{\bf Functional connectivity measures using machine learning techniques}}
+\end{center}
+
+\vspace{36mm}
+
+\begin{minipage}[t]{0.47\textwidth}
+	{\large{\bf Supervisors:\\ Prof. Alessandra Retico\\ Prof. Piernicola Oliva}}
+\end{minipage}\hfill\begin{minipage}[t]{0.47\textwidth}\raggedleft
+	{\large{\bf Candidate: \\ Federico Campo}}
+\end{minipage}
+
+\vspace{40mm}
+
+\centering{\large{\bf Academic year: 2022/2023 }}
+
+\end{titlepage}
+
+
+
 \tableofcontents
 
-\addcontentsline{toc}{section}{BACKGROUND}
-\section*{BACKGROUND}
+\addcontentsline{toc}{chapter}{BACKGROUND}
+%\chapter*{BACKGROUND}
 
 
-\section{ASD = previous Introduction}
+\chapter{ASD = previous Introduction}
 
 Autism spectrum disorder (ASD) is becoming a growing social issue, drawing more and more attention expecially during the last decades, both for its social impact on families and society and because of the raise in number of diagnosied cases.
 
@@ -133,7 +174,7 @@ In this work, two different aproaches are proposed: analytical harmonization and
 Analytical harmonization is a procedure that modifies data with shifts and rescaling to remove only inter-site related effects in multi-site data, while trying to preserv all other information as biological-related features.
 The second aproach, the deep learning one, tries to make classification of Control/ASD data extracting from data both relevant information for Control/ASD classification and site-dependent information and use the latter to remove the bias toward sites before making a prediction.
 
-\section{fMRI}
+\chapter{fMRI}
 
 Functional MRI aims to measure brain activity by detecting changes in blood linked to a neuronal activation.
 
@@ -158,7 +199,7 @@ This effect is characterized by $T_2^{\ast}$ relaxation time so this is the tuni
 
 Three different types of tissues are present in the brain: cerebrospinal fluid (CSF), and gray and white matter.
 
-\section{Machine learning}
+\chapter{Machine learning}
 
 %Machine learning is a branch of Artificial Intelligence (AI) that aims to learn from data and gradually improve its accuracy.
 Machine learning is a branch of Artificial Intelligence (AI) that aims to learn from data and apply this knowledge to operate on other, new, data such as making predictions or classifying them, and by training training process, gradually improve its accuracy in the task it performs.
@@ -195,7 +236,7 @@ As we will see in furter paragraphs, they have a common structure similar to a n
 
 
 
-\subsection{Random forest}
+\section{Random forest}
 Da rivedere un paio di frasi.
 Random Forest classifier belongs to the category of \emph{ensemble} classifiers, and is a common machine learning algorithm.
 It combines multiple decision tree models to reduce overfitting of data and achieve a better generazability to create a more powerful model.
@@ -279,7 +320,7 @@ Informations regarding features importance can be extracting from a random fores
 
 
 
-\subsection{Deep Learning: ANN}
+\section{Deep Learning: ANN}
 
 We discussed in the previous paragraph one of the most important machine learning algorithm, but, as mentioned before, there's a subset of machine learning algorithm with a charactristic common structure, thanks to which they get their name as Deep learning algorithm.
 The structure of algorithms belonging to this family are inspired by a brain neuronal structure, and even if in a simplified way, they try to emulate the learning process of a brain.
@@ -423,7 +464,7 @@ After that, we can imagine this process like the creation of k different models,
 \end{figure}
 
 
-\subsection{Activation functions}
+\section{Activation functions}
 The activation function of a neuron, and consequently of a layer defines the output of each neuron belonging to that layer, there are different activation function, linear or non-linear.
 A linear activation function outputs a value $f(x) = w^T x + b$ where $w^T$ indicates the transpose of the weigths vector.
 In practise, however, it would not be very useful to introduce a linear activation function since we aim to introduce non-linearity in our model to tackle more complex models.
@@ -465,7 +506,7 @@ $p(i = i|z) = \phi(z) = \frac{e^z_i}{\sum_{j = 1}^M e^{z_j}}$ being M the total 
 \end{itemize}
 
 
-\subsection{Loss functions}\label{sec:loss_functions}
+\section{Loss functions}\label{sec:loss_functions}
 %Ricorda: \hat y_i = sigma(x_i) che è il mio output del modello
 %Articoli da cui ho preso info: ml for physicists e dispende di baldini
 
@@ -555,7 +596,7 @@ where there's a summation over the index i which indicate the i-th sample data a
 
 %The algorithm employed by a feedforward network for weights' fine tuning is called \emph{backpropagation} (backward propagation of errors).
 
-\subsection{Gradient descent and Backpropagation}
+\section{Gradient descent and Backpropagation}
 
 To perform the minimization of our loss function, even if it'd be theoretically possible to find a minimum by means of an analythical way, in practise, in all the neural network applocation, the number of weigths is so big that a numerical methods must be employed, the most popular of which is the \emph{gradient descent}.
 
@@ -606,7 +647,7 @@ Backpropagation can be summarized in 3 steps:
 
 
 
-\subsection{Dimensionality reduction: PCA}
+\section{Dimensionality reduction: PCA}
 PCA is a method to perform dimensionality reduction, it is an unsupervised learning algorithm which aims to reduce the dimensionality of input data, preserving as much information as possible,
 It does so attempting to learn a new representation of data with lower dimensionality than the initial one and whose element have no linear correlation with each other. It performs then an orthogonal transformation of data, in order to find the direction along which data variance is biggest.
 
@@ -678,7 +719,7 @@ In figure \ref{fig:pca_example} is reported a graphic example of two PC extracte
 
 %ration lambda_i/sum lambda_i ??
 
-\subsection{How to assess network's performances}
+\section{How to assess network's performances}
 Once the model has been trained, it is finally applied to the test set to assess the performances of the model to an previously unseen dataset.
 A comomon metric for model performances' evaluation is Accurcay: it is simply defined as the ratio between the total number of correct prediction and the total number of predictions (total number of the test's data), so, using T and F for true and false, and P and N for positive and negative, accuracy is so defined
 \begin{equation}
@@ -730,7 +771,7 @@ An example of ROC curve is shown in figure \ref{fig:roccurve}
 
 
 
-\section{Explainable AI (XAI) with SHAP}
+\chapter{Explainable AI (XAI) with SHAP}
 
 As methods to learn pattern from data becomes more complex, they become harder to interpret, deep learning represent an example of a technique to search for nonlinear relations between data, but introducing nonlinearity, makes an outcome difficult to interpret and it ends up considering a machine learning model as a black box without any hint of its inner precesses that occurred when a result is output. But if a model perform well, or bad on a dataset, we would like to know why and what feature influenced the most the outcome of our model.
 
@@ -749,7 +790,7 @@ As is shown in figure \ref{fig:shap_waterfall} just as a visual example, a commo
 
 
 
-\subsection{Shapley values - Theory}
+\section{Shapley values - Theory}
 
 Game theory is a branch of mathematic related on the study of mathematical models to  conceive social situations among competitive players \footnote{https://plato.stanford.edu/entries/game-theory/}
 It have had a great development in the XX century expecially during and after the Second world war thanks to the contribution of mathematicians like John Von Neumann, John Nash and Lloyd Shapley.
@@ -780,7 +821,7 @@ The mathematical formulation Shapley introduced for his value is
 %That can be interpreted as $\frac{1}{N} \sum \frac{\text{marginal contribution of i to the coalition}}{\text{number of coalitions excluding i of the same size os S}}$
 And they exactly represent the amount of reward for each player i.
 
-\subsection{SHAP}
+\section{SHAP}
 
 The idea behind SHAP is to use these Shapley values to exaplain every single feature's contribution in our machine learning model, treating it as a cooperative game
 
@@ -921,9 +962,9 @@ This package includes different classes such as TreeExplainer tuned to perform r
 
 
 \addcontentsline{toc}{section}{MATERIALS AND METHODS}
-\section*{MATERIALS AND METHODS}
+\chapter*{MATERIALS AND METHODS}
 
-\section{Dataset: ABIDE I $\&$ II}
+\chapter{Dataset: ABIDE I $\&$ II}
 
 
 Data we are going to work on belong to the ABIDE dataset (Autism Brain Images Data Exchange): a project founded with the aim of investigate autism using MRI structural and resting state fMRI scans, to address the problem with these two different aproaches, collecting data acquired over the years from different medical centers, and putting them together in a single dataset.
@@ -1021,8 +1062,8 @@ In its entirely, the whole dataset consists of more than 70\% of patient acquire
 
 
 
-\section{Image preprocessing}
-\subsection{Common preprocessing steps}
+\chapter{Image preprocessing}
+\section{Common preprocessing steps}
 \label{sec:preprocessing_steps}
 For a better undertanding of how MRI and f-MRI and signal detection work, we refer to appendix..
 (talk briefly about echo time and TR ?)
@@ -1104,7 +1145,7 @@ One of the most popular atlas is Harvard Oxford atlas obtained by manually label
 
 
 
-\subsection{Implementation: CPAC, preprocessing pipeline, atlases}
+\section{Implementation: CPAC, preprocessing pipeline, atlases}
 
 ABIDE I data are available in a preprocessed format, the Neuro Bureau Preprocessing Initiative took care of data preprocessing and shared its results making them publicly available.
 Four preprocessing software and aproaches were employed each from a different group and every one publicly available \footnote{http://preprocessed-connectomes-project.org/abide/cpac.html} for download.
@@ -1186,14 +1227,14 @@ For this reason, in our pipeline configuration file, parameters in common betwee
 
 
 
-\section{Connectivity measures}
+\chapter{Connectivity measures}
 Once all 110 timeseries were extracted from each patient, we need to create a correlation matrix, comparing each timeseries with all the others.
 The total number of combination that is possible to obtain from n timeseries is given by
 \begin{equation}
 N_{comb} = \frac{n\cdot(n-1)}{2}
 \end{equation}
 So in the case of HO atlas with 110 ROIs we obtain 5995 combination each one expressed by a correlation coefficient computed either as Pearson coefficients or resulting from same wavelet analysis.
-\subsection{Correlation and Z-Fisher transform}
+\section{Correlation and Z-Fisher transform}
 
 Pearson correlation often simply called correlation coefficient is the measure of a linear relation lying between two sets of data $x_1$ and $x_2$, is defined as the covariance of (x1, x2) over the product of the standard deviation of the two sets and has the important properties to be scale-invariant in magnitude.
 %standard deviation of samples or of mean?
@@ -1244,7 +1285,7 @@ At the end of this analysis, we obtain correlation matrices like that shown as a
 
 
 
-\subsection{Wavelet analysis}
+\section{Wavelet analysis}
 A different aproach to compute a correlation coefficient is by making use of wavelet analysis.\cite{ferrante-2015} \cite{vandenberg-1999}
 Wavelet is a mathematical tool for analyzing time series or images, and provides a comprehensive way for investigating the bivariate relationship between timeseries both in time (or space) and frequency domain.
 %A second type of correlation analysis was performed on timeseries by using wavelet analysis.
@@ -1532,7 +1573,7 @@ An example of correlation matrix created with in-phase and out-of-phase coeffici
 \newpage
 
 
-\section{Harmonization}
+\chapter{Harmonization}
 Since nw, a big percentage of neuroimaging studies have been carried out with limited data acquired from a single centre, to minimize varibility in data due to the different instrumentations employed.
 In recent years, however, there's the tendency to create shared datasets, by pooling together data acquired from different centers.
 A positive side of creating a large dataset putting together data from multiple centers is the possibility to work on dataset of bigger dimension, resulting in obtaining more statistically accurate analysis, and facilitates the generalization and the robustness of the model.
@@ -1542,7 +1583,7 @@ This procedure is generally referred as harmonization.
 Harmonization was tested on different datasets and has proven to be an effective way to reduce scanner effects  in different kind of datasets such as genes' microarray data, diffusion tensor imaging or structural MRI. \ref{johnson-2007} \ref{fortin-2017}.
 
 
-\subsection{Harmonization - theory}\label{sec:harmonizationtheory}
+\section{Harmonization - theory}\label{sec:harmonizationtheory}
 
 
 The state-of-art procedure used in genomic is called ComBat (named after Combating Batch effects), used for structural MRI but aplicable to any kind of imaging data, is used to mitigate scanner effects.
@@ -1629,7 +1670,7 @@ Where functions $g_f, h_f, p_f$ can be either linear or non-linear functions of 
 
 
 
-\section{Domain-adversarial NN}\label{sec:domain_adversarial_theory}
+\chapter{Domain-adversarial NN}\label{sec:domain_adversarial_theory}
 An other approch is trying to train a neural network to recognise discriminative features, making train as much site-independent as possible.
 The general idea underlying this network comes from a reviewed and readapted version of the solution of the problem tackled in Ganin - Ustonova article
 %Insert article reference
@@ -1671,10 +1712,10 @@ An adversarial loss is also implemented, aimed to aviod that if, for instance, t
 
 \newpage
 
-\addcontentsline{toc}{section}{IMPLEMENTATION AND RESULTS}
-\section*{IMPLEMENTATION AND RESULTS}
+\addcontentsline{toc}{chapter}{IMPLEMENTATION AND RESULTS}
+%\chapter*{IMPLEMENTATION AND RESULTS}
 
-\section{Harmonization - results}
+\chapter{Harmonization - results}
 
 % data do not present a clear age-trend  (and FIQ?)
 
@@ -1791,8 +1832,8 @@ Their values are plotted as a box along the y axis and sites are indicated along
  \end{figure}
 
 \newpage
-\section{Deep learning: implementation and results} \label{sec:deep_learning_results}
-\subsection{Model's structure}
+\chapter{Deep learning: implementation and results} \label{sec:deep_learning_results}
+\section{Model's structure}
 In this work we performed a classification task, using a shallow neural network built using keras library for Python.
 Since we are working in an unavoidable overfitting condition, we tried to build a network with as less feature as possible, but still preserving good classification performances.
 We then started the research of our newtork with a network comprising only 3 layers and we searched the minimum number of neurons to employ in each layer.
@@ -1897,7 +1938,7 @@ So changing the value of this parameter does not affect significantly the perfor
 
 \newpage
 
-\subsection{Analysis workflow}
+\section{Analysis workflow}
 
 We mainly carried out three different kind of analysis using the DNN explained before, and compared them with the scores obtained from the adversarial network.
 
@@ -1999,7 +2040,7 @@ The workflow of the entire analysis can be schematized in the workflow diagram \
 
 
 \newpage
-\subsection{Results with Pearson coefficients}
+\section{Results with Pearson coefficients}
 
 With Pearson correlation coefficients normalized with Fisher transform we obtained the following AUC scores, listed in table \ref{tab:pearson_results} with our DNN models, and we compared some of these results with a Random Forest classifies, to asses whether is convenient to use a deep model instead of a common machine learning algorithm such as Random Forest.
 
@@ -2058,7 +2099,7 @@ Comparison results between a DNN model and RF results are listed on table \ref{t
 
 \newpage
 
-\subsection{Results with Wavelet coefficients}
+\section{Results with Wavelet coefficients}
 
 Following the same path as with Pearson coefficients, we tried to run classification on Wavelet coefficients
 
@@ -2140,7 +2181,7 @@ AB II EYE open &66 $\pm$2 &68$\pm$ 3 &66$\pm$ 4 &65 $\pm$5 \\
 
 \newpage
 
-\subsection{Results with PCA}
+\section{Results with PCA}
 
 When applying PCA to a dataset we seek to explain as much variance as possible, for this reason we start our pca analysis extracting a number of principal components that explain more then 90$\%$ of variance, then we reduced this number halving if.
 The maximum number of principal components is limited by the number of data we can use. If we have a dataset of $n\_samples$ samples, each with $n\_features$ features, the maximum number of PC is given by $N\_pc = min\{n\_samples, n\_features\}$.
@@ -2228,7 +2269,7 @@ REsults obtained with different analysis are marked with different colors: class
 \newpage
 
 
-\section{SHAP - Implementation and results}
+\chapter{SHAP - Implementation and results}
 
 
 To instantiate the desired class, DeepExplainer in our case, we need the trained model and a fraction of the training data as background of arbitrary size $N_{bkg}$ keeping in mind that the bigger is this background subset, the more accurate is the computing of shapley values, but the more computationally expansive this process will be, in particular it would occupy a vast amount of RAM memory and eventually run out of it; by the way, since the error on them $\sim 1/\sqrt{N_{bkg}}$, a background dataset made of 100 samples is a good compomise to have a relatively small error.
@@ -2245,8 +2286,8 @@ We can visualize the contribution of each feature on pushing or pulling the pred
 
 Positive shapley values, representing positive contribution to our output are colored red and negative ones are blue.
 An example is shown in figure \ref{fig:shap_waterfall}.
-Even if this is just an example, it is taken from further analysis to our data, and it appears clear that there is not a feature whose contribution is way greater than the others.
-Each feature makes a small contribution to the final outcome but we are seeking for feature that even if contributed poorly, are recurring through all the analysis.
+Even if this is just an example taken from previous analysis on our data, and it appears clear that there is not a feature whose contribution is way greater than the others.
+Each feature makes a small contribution to the final outcome, but what we are looking, is for feature that, even if contributed poorly, are recurring through all the analysis.
 
 
 
@@ -2267,11 +2308,13 @@ Our goal is to check if before and after the harmonization procedure, the most i
 
 The plot of feature's importance can be either the module of shap values or shap values themselves (positive or negative), an example of the latter is figure \ref{fig:shap_features_kfold_both}: this plot shows for each instance (for each sample from the test data), the contribution of one particular feature to the final output related to that sample, and is represented as a single colored spot, the color indicated the strength of the contribution of that feature to the final outcome, and the position in respect to the vertical line, indicates the sign of that contribution: on the right we found those that gave a positive contribution (pushed the output towards values greater than the reference output), and on the left are placed those that had a negative contribution.
 This kind of plot, though, is not the best suitable for readibility in our case because of the large amount of features and the small contribution of each feature to the final outcome, in respect to other feature, or in other words there isn't a standing out feature, or group of feature that have a contribution way greater than the others, but in fact feature's importance has a quite smoothed descending trend.
-An example to visualize this trend is showed in figure \ref{fig:shap_abide_all} and thus, for a better readability we prefer reporting the results in terms of absolute shapley value, where we just consider the module of the shapley values, regardless its positive or negative contribution to the output,
-just to visualize the absolute contribution of that feature to a all the output.
+An example to visualize this trend is showed in figure \ref{fig:shap_abide_all} and thus, for a better readability we prefer reporting the results in terms of absolute shapley value, where we just consider the module of the shapley values, regardless its positive or negative contribution to the output, just to visualize the absolute contribution of that feature to a all the output.
 
 
 This bar plot is shown in figure \ref{fig:shap_abide_all}
+
+\paragraph{Feature importance with DNN}
+
 
 \begin{figure}
 \centering
@@ -2330,6 +2373,8 @@ Let's see what they represent:
 \item Feature 3401: correlation between Right Parahippocampal Gyrus ( posterior division) and Right Parahippocampal Gyrus ( anterior division)
 \end{itemize}
 
+\paragraph{Feature importance with Random Forest}
+
 
 Random forest: common to the three analysis are: 710, 1127, 1703, 748, 2735, 1400, 2811, showed in figure \ref{}
 
@@ -2364,7 +2409,228 @@ Random forest: common to the three analysis are: 710, 1127, 1703, 748, 2735, 140
 \item Feature 3334: correlation between Right Parahippocampal Gyrus ( posterior division) and Right Accumbens
 \end{itemize}
 
-Same analysis were conducted on a reduced dataset: ABIDE I with only patient with open eye during the scan session. Here in figure \ref{fig:shap_ab1} we report the results obtained from shap, related to the first twenty most relevant features.
+
+\paragraph{Cross-analysis on feature importance}
+
+To assess what are the most relevant recurrent feature between these different types of analysis, we choose to limit our analysis to the 1\% important features among 5995, we collected the first 60 important features and we limited our analysis to only 5 procedures:
+\begin{enumerate}
+\item Classification with harmonization implemented inside k-fold using the DNN \label{proc:dnn_kfold}
+\item Classification with harmonization implemented inside k-fold using the Random Forest classifier \label{proc:rf_kfold}
+\item Classification with raw data using the DNN \label{proc:dnn_no}
+\item Classification with raw data using the Random Forest classifier \label{proc:rf_no}
+\item Classification using the adversarial neural network \label{proc:adv}
+\end{enumerate}
+
+Firstly we checked if there are common features among the first 60 important features of each method between these five classification and we couldn't find anything in common.
+If we exclude, though, from our analysis the adversarial learning classification we find that features 1513, 3058, 1067 are common between the remaining classification methods.
+They represent
+\begin{itemize}
+\item Feature 1513: correlation between Left Angular Gyrus (nan) and Right Temporal Pole (nan)
+\item Feature 3058: correlation between Right Frontal Orbital Cortex (nan) and Left Angular Gyrus (nan)
+\item Feature 1067: correlation between Right Postcentral Gyrus (nan) and Right Superior Temporal Gyrus (posterior division)
+\end{itemize}
+
+From now on, we run analysis on soubgroups of the previous pipelines and we report the number of common important features among the first 60 most relevant as a number and percentage
+
+\begin{itemize}
+\item Working only on random forest classifier, compared important features between \ref{proc:rf_kfold} and \ref{proc:rf_no} and found that 33 features out of 60 are common (55\%).
+\item With DNN we compared pipelines \ref{proc:dnn_kfold} and \ref{proc:dnn_no} finding that 22 features (37 \%) out of 60 are common.
+\item Comparing the same analysis pipeline with DNN and Random Forest we find that between \ref{proc:rf_kfold} \ref{proc:dnn_kfold} there are 13 common features (22 \%)
+\item Comparing results on raw data obtained with DNN and Random Forest we obtain 7 common features  (12\%)
+\item Comparing the adversarial results with the harmonization procedure with DNN we obtain 21 common features (35\%)
+\item Comparing the adversarial results with DNN classification of raw data we obtain 28 common features (47\%)
+\end{itemize}
+
+Since these common features are the most important we are willing to study if there's any brain areas significantly involved more than others. To this end we computed the overall histogram of the most recurrent brain areas between these common feature.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+
+\addcontentsline{toc}{section}{APPENDIX}
+
+\appendix
+\chapter{Principles of MRI imaging}
+Nuclear magnetic resonance imaging, is a widespread imaging technique is widely employed in radiology to obtain anatomical images or study physiological processes, taking advantage of its flexible sensitivity to different tissues
+is based on the interaction of a nuclear spin of any tissue's molecule, with an external magnetic field $\textbf B_0$.
+The principal molecule we are referring to is water, and subsequently, hydrogen is the dominant nucleus in MRI.
+When a nucleus undergoes an external magnetic field, the interaction would make the angular moment $\overrightarrow{\mu}$ align with the magnetic field,
+% Talk about energy levels. Review lines below.
+but, since protons have a thermal energhy associated with the temperature T, they are not static, so they start precessing around the symmetry axes given by the direction of the field $\overrightarrow{B_0}$.
+The force applied to a spinning proton under a magnetic field is given by
+\begin{equation}
+\overrightarrow{\tau} = \overrightarrow{\mu} \times \overrightarrow{B}
+\end{equation}
+The rotation frequency $\omega_0$ of the spinning proton is given by the Larmor equation
+\begin{equation}\label{eq:larmorfrequency}
+\omega_0 = \gamma B_0
+\end{equation}
+where $\gamma$ is a constant related to the proton, in wates it has a value of $\gamma = 2.7\cdot 10^8 \frac{rad\cdot s}{T}$ and $B_0$ is the external magnetic field. For a typical scanner with a magnetic field of 2-3 T, Larmor frequency assumes values of $\sim MHz$ just below radio waves.
+proton spins can assume two values: up and down in relation to the external field direction ; after a body  underwent a magnetic field, its total magnetization is given by the net difference between spins up and down
+% spin excess? p.4
+% write abou quantum energy levels
+This net magnetization causes a flux which can be detected by an external coil only if it is perturbated from its equilibrium state. This is achieved by using another external magnetic field under the form of a radiofrequency impulse, with a frequence resonting with the Larmor frequence of preprocessing. This flips the spin in a direction usually perpendicular to the original $B_0$ one, which is supposed to be along $\hat z$ axis. Thus protons will start rotating in the x-y plane, still continuing preceding around their symmetry axis.
+Doing so, they gradually lose their initial energy and tend to realign along z-axis.
+This process is called relaxation and it follows an exponential decay with a time constant $T_1$ called longitudinal relaxation (longitudinal in relation to the original $B_0 \hat z$ direction), or spin-lattice relaxation, referring to the loss of thermal energy through interaxtion with surroading lattice. The total magnetization along z-axis during time, after the rf impulse, will then regrow along z-axis following:
+\begin{equation}
+M_z(t) = M_0 (1-e^{-t/T_1})
+\end{equation}.
+An other effect to be take into account is the interaction of spin with a the local field where the external field and the neighbor's one coexist. This spin-spin interaction causes the dephasing of spin. This brings to two different relaxation velocities along z-axis and x-y plane called transversal relaxation which occurs without energy exchange, and is characterized by a time constant $T_2$. The two relaxation processes are described by Bloch equations and once integrated bring to the equation of the evolution of magnetization over time.
+\begin{equation}
+M_{x, y}(t) = M_{x,y}(0)\cdot e^{-t/T_2}
+\end{equation}
+In a real system, however, there's and additional dephasing source, coming from external field inhomogeneities.
+This effect is often taken into account by the introduction of a different decay time $T_2'$ which along with $T_2$ bring to a overall time costant given by $\frac{1}{T_2*} = \frac{1}{T_2}+\frac{1}{T_2'}$.
+Sometimes, though, this additional $T_2'$ is so small compared to $T_2$, that dominates over it, resulting in a rapid loss of information.
+This can be avoided employing a specific rf pulse sequence called spin-echo method.
+\section{spin-echo method}
+The spin echo method employes two rf pulses the first with an angle of $\pi/2$ and the second of $\pi$.
+\begin{enumerate}
+% Add a figure like on page 123
+\item The first radio-frequency pulse is applied with an angle of $\pi/2$ and this produces the spin to flip over a transversal plane and they gradually start dephasing because they undergo small field nonuniformities different from point to point, so they start fanning out, some move faster and some are delayed in relation to the average magnetization vector
+\item The second rf impulse is sent, with an angle of $\pi$ to the transversal magnetization axis y'. This ensures that all the accumulated phases flip and become negative,
+\item Late and early phases continue to accumulate delay, but now this delay pushes them towards the main magnetization vector,and the phase will therefore return zero. The elapsed time up to this moment is called \emph{Time to echo} $T_E$.
+\end{enumerate}
+\section{Image acquisition and k-space}
+For imaging acquisition, both effects must be taken into account. Moreover, it is necessary to relate a signal with a spatial position.
+In order to do so, in addition to the initial static magnetic field $B_0$ there's another field with lower intensity than $B_0$ which is not uniform in intensity, it follows a spatial gradient so that the total magnetic field along $\hat z$-axis is given by the sum of this two contributes, and the signal contains space-varying frequency components according to equation \ref{eq:larmorfrequency} which can be rewritten as $\omega(z) = \gamma B(z)$ being x the spatial coordinate and with $B_z$ now given by the relation $B_z(z, t) = B_0 + z\cdot G(t)$.
+The physical process underlying signal acquisition is Faraday induction, according to which an electrical potential is related to the variation of a magnetic flux over time $fem = -\frac{d\Phi}{dt}$ being $\Phi$ the varying flux through the receiving coil.
+The varying flux is obtained just after the application of the rf pulse, while tipped spins are precessing and realigning to z-axis, and all this process is called free induction decay (FID). This coil detect only the signal deriving from transversal plane because the one along longitudinal axes would be saturated from the strong magnetic field of the main $B_0$ coil. Changes in acquisition sequences and rf pulses allow us to emphasise one of the three fundamental parameters $T_1, T_2, \rho$ where $\rho$ is the proton concentration inside the tissue.
+
+An image acquired with a spin echo sequence can be T1, T2 or proton density weighted
+
+The acquired signal is examined by inverse Fourier transform, exploiting the differences from Larmor frequency which cause a phase displacement along z-axis $\phi_G(z, t)$
+\begin{equation}
+s(t) = \int_0^tdz\rho \ (9.14) \ pag \ 145
+\end{equation}
+
+Data are acquired under the form of a matrix called k-space.
+K-space is a coordinate system used to store spatial frequencies information before applying the inverse fourier transform.
+Low spatial frequencies, corresponding to large object across the whole real image, are encoded at the center of the matrix and high spatial frequencies corresponding to small objects and finer detailes, are encoded in the peripheries.
+
+The construction of k-space is done step by step in relation to the gradient applied time by time, producing a trajectory on the k-space.
+Each spatial line of k-space is acquired after TR, so the signal has to be recreated each time.
+Starting from k = 0, the center of k-space, after a preencoding gradient, we move toward negative position of both k-phase and k-frequency; subsequently a frequency encoding gradient (also called readout gradient) is applied and the signal is collected along the frequency encoding direction.
+The signal is then reformed and the process is repeated, from k = 0, to a new k-phase position and an other line of k-frequency is acquired.
+
+
+
+
+\section{Gradient Echo sequences}
+DA RIVEDERE QUESTA E EPI
+
+The sequence employed to acquire functional imaging is the Echo Planar Imging (EPI) which is a particular sequence from the family of gradient echo sequences.
+Gradient echo sequences differs from spin echo because they allow a faster acquisition time because they use an excitation flip angle less than 90 deg, this allows a minor time interval to make spins back to their longituginal component as they are not completely flipped on the transverse plane.
+The transverse component just created decay and dephase according to T2*. If a gradient is applied, they dephase faster, and it is then reversed to make them rephase.
+In an gradient echo sequence, the echo peak lies on T2* decay curve while in a spin echo, it lies on T2 decay curve; and thanks to whis it is susceptible to any uniformity variation among which that due to hemoglobin variation.
+Since TR are short there is some transversal magnetization left after the acquisition, in \emph{spoiled} Gradient Echo, the residual magnetization is wiped out.
+Ultra fast gradient echo start with a 180 degrees pulse, to invert longitudinal magnetization, in order to increase T1 weighting, and allk-space lines are acquired after this impulse. This first pulse is followed by minor pulses, and k-space is acquired after each echo.
+
+
+\section{EPI}
+During an EPI session, a single rf inpulse of 90 degrees is applied and the whole k-space is acquired in a single acquisition:
+as shown in figure \ref{fig:epi-gradients} after the initial RF pulse, together with the gradient for slice selection (G-Select), the acquisition of k-space information starts from the left bottom as in figure \ref{fig:epi-kspace} and each line along k-frequency corresponging to the readout gradient (G-Readout) is acquired.
+The period of the G-Readout is the echo time $T_E$, and is modulated such that is sensible to $T_2^{\ast}$ setting $T_E \approx T_2^{\ast}$.
+During the acquisition of the whole k-space each line is shifted from the other along k-phase direction by applying brief pulses of the phase encoding gradient (G-Select) called blip, creating a snake-like path during the acquisition of the k-space matrix.
+%shmitt tuner -echo planar Imaging
+
+
+\begin{figure}
+\begin{subfigure}{0.5\textwidth}
+\includegraphics[width=\textwidth]{mri/epi-gradients}
+\caption{}
+\label{fig:epi-gradients}
+\end{subfigure}
+\begin{subfigure}{0.5\textwidth}
+\includegraphics[width=\textwidth]{mri/epi-kspace}
+\caption{}
+\label{}
+\end{subfigure}
+\caption{}
+\label{fig:epi}
+\end{figure}
+
+
+Pixel-to-pixel frequency difference in the phase-encoding direction emphasizes chemical shift artifact.
+EPI generates gradient echoes under the FID curve created by the RF flip. As the curve decays according to T2*, gradient EPI sequences willl be T2* weighted.
+Sensitivity to T2*, of course, introduces sensitivity to artifacts caused by changes in magnetic susceptibility (eg, air/tissue interfaces) and imperfect magnet shim
+
+\chapter{Other classification results}
+
+\begin{table}[!htp]\centering
+\scriptsize
+\begin{tabular}{lrrrrr}\toprule
+Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adv 264-8 \\\midrule
+AB I$\pm$II &60$\pm$1 &71$\pm$3 &63$\pm$2 &60$\pm$1 \\
+AB I &61$\pm$2 &69$\pm$3 &62$\pm$2 &61$\pm$2 \\
+AB 2 &56$\pm$3 &69$\pm$4 &60$\pm$4 &59$\pm$4 \\
+AB I $\pm$ II - EYE open &63$\pm$2 &68$\pm$3 &64$\pm$2 &63$\pm$3 \\
+AB I open EYE &63$\pm$5 &74$\pm$3 &71$\pm$4 &72$\pm$2 \\
+AB II EYE open &63$\pm$5 &70$\pm$3 &63$\pm$3 &62$\pm$3 \\
+AB I $\pm$ II AGE=all, EYE=all &65$\pm$3 &71$\pm$2 &66$\pm$2 &63$\pm$2 \\
+\bottomrule
+\end{tabular}
+\caption{Classification scores using only out-of-phase Wavelet coefficients}
+\label{tab:classification_wout}
+\end{table}
+
+
+\begin{table}[!htp]\centering
+\scriptsize
+\begin{tabular}{lrrrrr}\toprule
+Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adv 264-8 \\\midrule
+AB I$\pm$II &67$\pm$ 3 &70$\pm$ 3 &66 $\pm$3 &66 $\pm$3 \\
+AB I &70$\pm$ 3 &72 $\pm$2 &68 $\pm$3 &68$\pm$ 3 \\
+AB 2 &61$\pm$ 4 &65$\pm$ 4 &64 $\pm$5 &65 $\pm$4 \\
+AB I $\pm$ II - EYE open &70$\pm$ 1 &73$\pm$ 2 &71 $\pm$1 &68 $\pm$2 \\
+AB I open EYE &71$\pm$ 4 &74 $\pm$3 &71 $\pm$3 &68 $\pm$2 \\
+AB II EYE open &62 $\pm$4 &66 $\pm$3 &68 $\pm$3 &64$\pm$ 5 \\
+\bottomrule
+\end{tabular}
+\caption{Classifiaction scores using (W\_in - W\_out) wavelet coefficients coefficients}
+\label{tab:classification_win-wout}
+\end{table}
+
+
+
+
+
+\begin{table}[!htp]\centering
+\begin{tabular}{lccc}
+\toprule
+Structure &k-fold &upstream &no harmonization \\
+\midrule
+3-2-1 &60$\pm$2 &63$\pm$3 &60$\pm$4 \\
+8-8-1 &64$\pm$1 &65$\pm$4 &64$\pm$5 \\
+64-8-1 &69$\pm$1 &72$\pm$2 &68$\pm$1 \\
+64-32-8-1 &68$\pm$1 &72$\pm$2 &69$\pm$1 \\
+128-8-1 &70$\pm$2 &71$\pm$3 &69$\pm$2 \\
+128-64-1 &70$\pm$1 &72$\pm$3 &69$\pm$2 \\
+\cellcolor[HTML]{ffff00}264-8-1 &\cellcolor[HTML]{ffff00}70$\pm$2 &\cellcolor[HTML]{ffff00}73$\pm$3 &\cellcolor[HTML]{ffff00}70$\pm$2 \\
+512-8-1 &71$\pm$2 &73$\pm$2 &70$\pm$2 \\
+1024-8-1 &70$\pm$1 &74$\pm$2 &71$\pm$2 \\
+1024-32-1 &70$\pm$2 &74$\pm$2 &71$\pm$3 \\
+\bottomrule
+\end{tabular}
+\caption{Different model structures and related performances for the three main analysis we carried out during this entire work. Hilighted the structure we choose to employ through all our analysis}\label{}
+\end{table}
+
+\section{Feature importance results on ABIDE I open eye dataset}
+
+The same tests we did to assess feature importance on ABIDE I + II dataset, we carried out on ABIDE I with only patient with open eye.
+Here in figure \ref{fig:shap_ab1} we report the results obtained from shap, related to the first twenty most relevant features.
 We can notice at a first glance that there are less feature common to all the four analysis:
 There are no common features among them that we can find across all these four analysis, if we limit our study on the first twenty.
 We have to search among the first thirty features to find something in common, which is still a good procedure since we are dealing with 5995 features and the first 40 are just the 0.7\% of them.
@@ -2453,177 +2719,6 @@ We find that features common to the 3 pipelines are: 3042, 1417, 748, 1400, 762
 \end{figure}
 
 
-
-\newpage
-
-\addcontentsline{toc}{section}{APPENDIX}
-
-\appendix
-\section{Principles of MRI imaging}
-Nuclear magnetic resonance imaging, is a widespread imaging technique is widely employed in radiology to obtain anatomical images or study physiological processes, taking advantage of its flexible sensitivity to different tissues
-is based on the interaction of a nuclear spin of any tissue's molecule, with an external magnetic field $\textbf B_0$.
-The principal molecule we are referring to is water, and subsequently, hydrogen is the dominant nucleus in MRI.
-When a nucleus undergoes an external magnetic field, the interaction would make the angular moment $\overrightarrow{\mu}$ align with the magnetic field,
-% Talk about energy levels. Review lines below.
-but, since protons have a thermal energhy associated with the temperature T, they are not static, so they start precessing around the symmetry axes given by the direction of the field $\overrightarrow{B_0}$.
-The force applied to a spinning proton under a magnetic field is given by
-\begin{equation}
-\overrightarrow{\tau} = \overrightarrow{\mu} \times \overrightarrow{B}
-\end{equation}
-The rotation frequency $\omega_0$ of the spinning proton is given by the Larmor equation
-\begin{equation}\label{eq:larmorfrequency}
-\omega_0 = \gamma B_0
-\end{equation}
-where $\gamma$ is a constant related to the proton, in wates it has a value of $\gamma = 2.7\cdot 10^8 \frac{rad\cdot s}{T}$ and $B_0$ is the external magnetic field. For a typical scanner with a magnetic field of 2-3 T, Larmor frequency assumes values of $\sim MHz$ just below radio waves.
-proton spins can assume two values: up and down in relation to the external field direction ; after a body  underwent a magnetic field, its total magnetization is given by the net difference between spins up and down
-% spin excess? p.4
-% write abou quantum energy levels
-This net magnetization causes a flux which can be detected by an external coil only if it is perturbated from its equilibrium state. This is achieved by using another external magnetic field under the form of a radiofrequency impulse, with a frequence resonting with the Larmor frequence of preprocessing. This flips the spin in a direction usually perpendicular to the original $B_0$ one, which is supposed to be along $\hat z$ axis. Thus protons will start rotating in the x-y plane, still continuing preceding around their symmetry axis.
-Doing so, they gradually lose their initial energy and tend to realign along z-axis.
-This process is called relaxation and it follows an exponential decay with a time constant $T_1$ called longitudinal relaxation (longitudinal in relation to the original $B_0 \hat z$ direction), or spin-lattice relaxation, referring to the loss of thermal energy through interaxtion with surroading lattice. The total magnetization along z-axis during time, after the rf impulse, will then regrow along z-axis following:
-\begin{equation}
-M_z(t) = M_0 (1-e^{-t/T_1})
-\end{equation}.
-An other effect to be take into account is the interaction of spin with a the local field where the external field and the neighbor's one coexist. This spin-spin interaction causes the dephasing of spin. This brings to two different relaxation velocities along z-axis and x-y plane called transversal relaxation which occurs without energy exchange, and is characterized by a time constant $T_2$. The two relaxation processes are described by Bloch equations and once integrated bring to the equation of the evolution of magnetization over time.
-\begin{equation}
-M_{x, y}(t) = M_{x,y}(0)\cdot e^{-t/T_2}
-\end{equation}
-In a real system, however, there's and additional dephasing source, coming from external field inhomogeneities.
-This effect is often taken into account by the introduction of a different decay time $T_2'$ which along with $T_2$ bring to a overall time costant given by $\frac{1}{T_2*} = \frac{1}{T_2}+\frac{1}{T_2'}$.
-Sometimes, though, this additional $T_2'$ is so small compared to $T_2$, that dominates over it, resulting in a rapid loss of information.
-This can be avoided employing a specific rf pulse sequence called spin-echo method.
-\subsection{spin-echo method}
-The spin echo method employes two rf pulses the first with an angle of $\pi/2$ and the second of $\pi$.
-\begin{enumerate}
-% Add a figure like on page 123
-\item The first radio-frequency pulse is applied with an angle of $\pi/2$ and this produces the spin to flip over a transversal plane and they gradually start dephasing because they undergo small field nonuniformities different from point to point, so they start fanning out, some move faster and some are delayed in relation to the average magnetization vector
-\item The second rf impulse is sent, with an angle of $\pi$ to the transversal magnetization axis y'. This ensures that all the accumulated phases flip and become negative,
-\item Late and early phases continue to accumulate delay, but now this delay pushes them towards the main magnetization vector,and the phase will therefore return zero. The elapsed time up to this moment is called \emph{Time to echo} $T_E$.
-\end{enumerate}
-\subsection{Image acquisition and k-space}
-For imaging acquisition, both effects must be taken into account. Moreover, it is necessary to relate a signal with a spatial position.
-In order to do so, in addition to the initial static magnetic field $B_0$ there's another field with lower intensity than $B_0$ which is not uniform in intensity, it follows a spatial gradient so that the total magnetic field along $\hat z$-axis is given by the sum of this two contributes, and the signal contains space-varying frequency components according to equation \ref{eq:larmorfrequency} which can be rewritten as $\omega(z) = \gamma B(z)$ being x the spatial coordinate and with $B_z$ now given by the relation $B_z(z, t) = B_0 + z\cdot G(t)$.
-The physical process underlying signal acquisition is Faraday induction, according to which an electrical potential is related to the variation of a magnetic flux over time $fem = -\frac{d\Phi}{dt}$ being $\Phi$ the varying flux through the receiving coil.
-The varying flux is obtained just after the application of the rf pulse, while tipped spins are precessing and realigning to z-axis, and all this process is called free induction decay (FID). This coil detect only the signal deriving from transversal plane because the one along longitudinal axes would be saturated from the strong magnetic field of the main $B_0$ coil. Changes in acquisition sequences and rf pulses allow us to emphasise one of the three fundamental parameters $T_1, T_2, \rho$ where $\rho$ is the proton concentration inside the tissue.
-
-An image acquired with a spin echo sequence can be T1, T2 or proton density weighted
-
-The acquired signal is examined by inverse Fourier transform, exploiting the differences from Larmor frequency which cause a phase displacement along z-axis $\phi_G(z, t)$
-\begin{equation}
-s(t) = \int_0^tdz\rho \ (9.14) \ pag \ 145
-\end{equation}
-
-Data are acquired under the form of a matrix called k-space.
-K-space is a coordinate system used to store spatial frequencies information before applying the inverse fourier transform.
-Low spatial frequencies, corresponding to large object across the whole real image, are encoded at the center of the matrix and high spatial frequencies corresponding to small objects and finer detailes, are encoded in the peripheries.
-
-The construction of k-space is done step by step in relation to the gradient applied time by time, producing a trajectory on the k-space.
-Each spatial line of k-space is acquired after TR, so the signal has to be recreated each time.
-Starting from k = 0, the center of k-space, after a preencoding gradient, we move toward negative position of both k-phase and k-frequency; subsequently a frequency encoding gradient (also called readout gradient) is applied and the signal is collected along the frequency encoding direction.
-The signal is then reformed and the process is repeated, from k = 0, to a new k-phase position and an other line of k-frequency is acquired.
-
-
-
-\subsection{fMRI}
-
-\subsubsection{Gradient Echo sequences}
-DA RIVEDERE QUESTA E EPI
-
-The sequence employed to acquire functional imaging is the Echo Planar Imging (EPI) which is a particular sequence from the family of gradient echo sequences.
-Gradient echo sequences differs from spin echo because they allow a faster acquisition time because they use an excitation flip angle less than 90 deg, this allows a minor time interval to make spins back to their longituginal component as they are not completely flipped on the transverse plane.
-The transverse component just created decay and dephase according to T2*. If a gradient is applied, they dephase faster, and it is then reversed to make them rephase.
-In an gradient echo sequence, the echo peak lies on T2* decay curve while in a spin echo, it lies on T2 decay curve; and thanks to whis it is susceptible to any uniformity variation among which that due to hemoglobin variation.
-Since TR are short there is some transversal magnetization left after the acquisition, in \emph{spoiled} Gradient Echo, the residual magnetization is wiped out.
-Ultra fast gradient echo start with a 180 degrees pulse, to invert longitudinal magnetization, in order to increase T1 weighting, and allk-space lines are acquired after this impulse. This first pulse is followed by minor pulses, and k-space is acquired after each echo.
-
-
-\subsubsection{EPI}
-During an EPI session, a single rf inpulse of 90 degrees is applied and the whole k-space is acquired in a single acquisition:
-as shown in figure \ref{fig:epi-gradients} after the initial RF pulse, together with the gradient for slice selection (G-Select), the acquisition of k-space information starts from the left bottom as in figure \ref{fig:epi-kspace} and each line along k-frequency corresponging to the readout gradient (G-Readout) is acquired.
-The period of the G-Readout is the echo time $T_E$, and is modulated such that is sensible to $T_2^{\ast}$ setting $T_E \approx T_2^{\ast}$.
-During the acquisition of the whole k-space each line is shifted from the other along k-phase direction by applying brief pulses of the phase encoding gradient (G-Select) called blip, creating a snake-like path during the acquisition of the k-space matrix.
-%shmitt tuner -echo planar Imaging
-
-
-\begin{figure}
-\begin{subfigure}{0.5\textwidth}
-\includegraphics[width=\textwidth]{mri/epi-gradients}
-\caption{}
-\label{fig:epi-gradients}
-\end{subfigure}
-\begin{subfigure}{0.5\textwidth}
-\includegraphics[width=\textwidth]{mri/epi-kspace}
-\caption{}
-\label{}
-\end{subfigure}
-\caption{}
-\label{fig:epi}
-\end{figure}
-
-
-Pixel-to-pixel frequency difference in the phase-encoding direction emphasizes chemical shift artifact.
-EPI generates gradient echoes under the FID curve created by the RF flip. As the curve decays according to T2*, gradient EPI sequences willl be T2* weighted.
-Sensitivity to T2*, of course, introduces sensitivity to artifacts caused by changes in magnetic susceptibility (eg, air/tissue interfaces) and imperfect magnet shim
-
-\section{Other classification results}
-
-\begin{table}[!htp]\centering
-\scriptsize
-\begin{tabular}{lrrrrr}\toprule
-Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adv 264-8 \\\midrule
-AB I$\pm$II &60$\pm$1 &71$\pm$3 &63$\pm$2 &60$\pm$1 \\
-AB I &61$\pm$2 &69$\pm$3 &62$\pm$2 &61$\pm$2 \\
-AB 2 &56$\pm$3 &69$\pm$4 &60$\pm$4 &59$\pm$4 \\
-AB I $\pm$ II - EYE open &63$\pm$2 &68$\pm$3 &64$\pm$2 &63$\pm$3 \\
-AB I open EYE &63$\pm$5 &74$\pm$3 &71$\pm$4 &72$\pm$2 \\
-AB II EYE open &63$\pm$5 &70$\pm$3 &63$\pm$3 &62$\pm$3 \\
-AB I $\pm$ II AGE=all, EYE=all &65$\pm$3 &71$\pm$2 &66$\pm$2 &63$\pm$2 \\
-\bottomrule
-\end{tabular}
-\caption{Classification scores using only out-of-phase Wavelet coefficients}
-\label{tab:classification_wout}
-\end{table}
-
-
-\begin{table}[!htp]\centering
-\scriptsize
-\begin{tabular}{lrrrrr}\toprule
-Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adv 264-8 \\\midrule
-AB I$\pm$II &67$\pm$ 3 &70$\pm$ 3 &66 $\pm$3 &66 $\pm$3 \\
-AB I &70$\pm$ 3 &72 $\pm$2 &68 $\pm$3 &68$\pm$ 3 \\
-AB 2 &61$\pm$ 4 &65$\pm$ 4 &64 $\pm$5 &65 $\pm$4 \\
-AB I $\pm$ II - EYE open &70$\pm$ 1 &73$\pm$ 2 &71 $\pm$1 &68 $\pm$2 \\
-AB I open EYE &71$\pm$ 4 &74 $\pm$3 &71 $\pm$3 &68 $\pm$2 \\
-AB II EYE open &62 $\pm$4 &66 $\pm$3 &68 $\pm$3 &64$\pm$ 5 \\
-\bottomrule
-\end{tabular}
-\caption{Classifiaction scores using (W\_in - W\_out) wavelet coefficients coefficients}
-\label{tab:classification_win-wout}
-\end{table}
-
-
-
-
-
-\begin{table}[!htp]\centering
-\begin{tabular}{lccc}
-\toprule
-Structure &k-fold &upstream &no harmonization \\
-\midrule
-3-2-1 &60$\pm$2 &63$\pm$3 &60$\pm$4 \\
-8-8-1 &64$\pm$1 &65$\pm$4 &64$\pm$5 \\
-64-8-1 &69$\pm$1 &72$\pm$2 &68$\pm$1 \\
-64-32-8-1 &68$\pm$1 &72$\pm$2 &69$\pm$1 \\
-128-8-1 &70$\pm$2 &71$\pm$3 &69$\pm$2 \\
-128-64-1 &70$\pm$1 &72$\pm$3 &69$\pm$2 \\
-\cellcolor[HTML]{ffff00}264-8-1 &\cellcolor[HTML]{ffff00}70$\pm$2 &\cellcolor[HTML]{ffff00}73$\pm$3 &\cellcolor[HTML]{ffff00}70$\pm$2 \\
-512-8-1 &71$\pm$2 &73$\pm$2 &70$\pm$2 \\
-1024-8-1 &70$\pm$1 &74$\pm$2 &71$\pm$2 \\
-1024-32-1 &70$\pm$2 &74$\pm$2 &71$\pm$3 \\
-\bottomrule
-\end{tabular}
-\caption{Different model structures and related performances for the three main analysis we carried out during this entire work. Hilighted the structure we choose to employ through all our analysis}\label{}
-\end{table}
 
 
 \bibliographystyle{plain}
