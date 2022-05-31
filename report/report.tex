@@ -81,28 +81,63 @@
 \end{center}
 
 \vspace{36mm}
-
 \begin{minipage}[t]{0.47\textwidth}
 	{\large{\bf Supervisors:\\ Prof. Alessandra Retico\\ Prof. Piernicola Oliva}}
 \end{minipage}\hfill\begin{minipage}[t]{0.47\textwidth}\raggedleft
 	{\large{\bf Candidate: \\ Federico Campo}}
 \end{minipage}
-
-\vspace{40mm}
-
+\vspace{50mm}
 \centering{\large{\bf Academic year: 2022/2023 }}
-
 \end{titlepage}
 
 
-
 \tableofcontents
+
+\chapter*{Abstract}
+In this work we are focusing on brain functional connectivity data to study the difference between patients with Autism Spectrum Disorder (ASDs) and healthy patients (referred as Controls). To accomplish so, we are going to employ machine learning and deep learning models.
+Our base data are Magnetic Resonance scans provided by the ABIDE dataset consisting on structrural and functional scans of approximately 2200 patients collected from different medical centers.
+Among these patient's scan, an half belong to normal patients and the other half to people with diagnosed Autism.
+Starting from these data the workflow of this thesis can be summarised in the following steps:
+
+\begin{itemize}
+\item MRI and fMRI data preprocessing and normalization to a common template, and extraction of temporal series of different brain areas for each patient from the fMRI scans.
+\item Creation of a connectivity map for each patient. This connectivity matrix is created computing a correlation coefficient for every pair of timeseries of a single patient. Correlation coefficients were computed using two different aproaches: a linear correlation of the two timeseries known as Pearson correlation, and a correlation based on time-frequency analysis of a timeseries pairs by means of Wavelet Transform.
+\item Implementation of an harmonization procedure to correct for potential biases and distinctive traits of data, linked to a certain acquisition scan procedures employed in a medical centre which can differ between different centres.
+\item Study and classification of connectivity matrices with deep learning methods. The two different connectivity matrices described above are compared to asses which one is able to yield the best separability between Controls and ASDs.
+Classification of raw data and harmonized data implemented with different procedures are compared, and in addition an harmonization implemented inside a deep learning model through an adversarial learning technique was tested.
+\item Deep learning model is compared to a Random Forest classifier, a standard machine learning model, to determine if a deep model brings a benefit or is excessive for this kind of analysis.
+\item After we determined the correct harmonization procedure, we implemented an interpretation method called SHAP to explain which features contributed the most to the final outcome of machine learning classification, and from them we determined the most relevant brain areas that allow a discerning between controls and ASDs
+\end{itemize}
+
+\paragraph{Chapter overview} \hfill
+
+\textbf{Background:} In this background chapter we are going to explain some useful theory that lays the groundwork to all the thesis work.
+In chapter \ref{chap:autism} we outline the main problems associated with this disorder, from the biological development to the social isseues it generates. We briefly review some studies carried on so far to study this challenging issue.
+Chapter \ref{chap:fmri} provides an overview of the physical and biological principles underlying fMRI diagnostic tool. This is the means through which data we are going to employ are collected.
+Chapter \ref{chap:machine_learning} provides a sufficiently detailed explaination of machine learning and deep learning models diving into the mathematical formulation of important comcepts to properly get the idea of the structure of a machine learning models, the learning procedure, and the important metrics for a proper evalutation of model's performances. Ultimately, we describe a common way to reduce data dimensionality keeping as much information as possible and reducing the number of uninformative or reduntant features from data.
+Chapter \ref{chap:shap-theory} describes the theory behind an important strategy to inspect a deep model and understand the processes that brought it to a certain output given some input data.
+
+\textbf{MATERIALS \& METHODS:} This section describes the instruments we used to run the analysis: dataset, preprocessing steps, and data preparation employed to obtain correlation matrix.
+Chapter \ref{chap:dataset} describes and analyse ABIDE dataset: a collection of more than 2000 scans of healthy and ASD patients, collected from different medical centers.
+Chapter \ref{chap:image_preprocessing} provides an overviwe of the most important preprocessing steps to normalize and align all these scan to a common template to run meaningful statistical analysis and to exctract brain timeseries form different brain areas aligned to a common coordinate system. We describe CPAC: the software employed to this image preprocessing and how we used it to conduct our processing.
+Chapter \ref{chap:connectivity_coefficients} describes the two methods we used to calculate connectivity coefficients and create a functional connectivity matrix for each patient. We describe the computation of correlation using Pearson correlation, and illustrate the formalism of Wavelet Transform for time-frequancy analysis and the process to extract a correlation coefficient from time-frequency data of two timeseries.
+Chapter \ref{chap:harmonization_theory} describes the regression model upon which harmonization procedure is based. This is the analytical method to remove inter-site variability from our data and avoid biases towards the acquisition source.
+Chapter \ref{chap:adversarial} describes the structure and the general idea beyond a domain adversarial neural network: a deep neural network that aims
+to make Control/ASD classification following a procedure that makes data site-independent to classify following a procedure that makes the classification Control/ASD output sites-independent.
+
+\textbf{Implementation \& RESULTS:} In this last section, the results obtained applying methods to our materials are presented. We illustrate the results of harmonization applied to our data and classification result of Pearson-based correlation coefficients and Wavelet-based coefficients and in the end we study the most relevant feature from our data, that played an important role in discrimination of Control/ASD.
+Chapter \ref{chap:harmonization_results} Presents the results of the analytical harmonization to our data to have a visual understanding of how this process affects a feature distribution.
+Chapter \ref{chap:results} shows all the classification results obtained with a deep neural network on harmonized and non-harmonized (raw) data and the results of the domain adversarial neural network and compares them with results obtained using a simpler Random Forest classifier. Results of data dimensionality reduction are presented as well to assess if this is a meaningful procedure to reduce dimensionality on this dataset.
+At the end, chapter \ref{chap:shap_results} shows the implementation of a feature importance assessment procedure and the results obtained with machine learning in the previous chater. We show what feature contributed the most to the outcome of a prediction, and then to the discrimination of healthy and ASD patients, and subsequently we study what brain areas are mainly involved in this discernment.
+
+
+\textbf{Appendix:} In appendix we present the basic physical principles of MRI imaging, a useful but not essential theory to understand the work carried out in this thesis.
 
 \addcontentsline{toc}{chapter}{BACKGROUND}
 %\chapter*{BACKGROUND}
 
 
-\chapter{ASD = previous Introduction}
+\chapter{ASD = previous Introduction}\label{chap:autism}
 
 Autism spectrum disorder (ASD) is becoming a growing social issue, drawing more and more attention expecially during the last decades, both for its social impact on families and society and because of the raise in number of diagnosied cases.
 
@@ -174,8 +209,8 @@ In this work, two different aproaches are proposed: analytical harmonization and
 Analytical harmonization is a procedure that modifies data with shifts and rescaling to remove only inter-site related effects in multi-site data, while trying to preserv all other information as biological-related features.
 The second aproach, the deep learning one, tries to make classification of Control/ASD data extracting from data both relevant information for Control/ASD classification and site-dependent information and use the latter to remove the bias toward sites before making a prediction.
 
-\chapter{fMRI}
-
+\chapter{fMRI}\label{chap:fmri}
+AMPLIARE
 Functional MRI aims to measure brain activity by detecting changes in blood linked to a neuronal activation.
 
 This kind of analysis is referred as blood-oxygen-level dependent (BOLD) imaging.
@@ -961,7 +996,7 @@ This package includes different classes such as TreeExplainer tuned to perform r
 
 
 
-\addcontentsline{toc}{section}{MATERIALS AND METHODS}
+\addcontentsline{toc}{chapter}{MATERIALS AND METHODS}
 \chapter*{MATERIALS AND METHODS}
 
 \chapter{Dataset: ABIDE I $\&$ II}
@@ -1755,25 +1790,60 @@ On the contrary, in fig \ref{fig:heatmap_harmonization_harmon} values are lower,
 This is a consequence of choosing age as covariate, which preserves differences in age-dependent features.
 
 
-
+% HEATMAPS
 \begin{figure}
 \centering
 \begin{subfigure}[b]{0.8\textwidth}
-   \includegraphics[width=1\linewidth]{/home/federico/magistrale/Imagess/matrix}
+   \includegraphics[width=1\linewidth]{/home/federico/magistrale/Imagess/harmonization/pearson/matrix}
    \caption{Heatmap with AUC score of a binary classification site vs site with raw data}
    \label{fig:heatmap_harmonization_harmon}
 \end{subfigure}
 
 \begin{subfigure}[b]{0.8\textwidth}
-   \includegraphics[width=1\linewidth]{/home/federico/magistrale/Imagess/harmon_matrix}
-   \caption{Heatmap with AUC score of a binary classification site vs site with raw data}
+   \includegraphics[width=1\linewidth]{/home/federico/magistrale/Imagess/harmonization/pearson/harmon_matrix}
+   \caption{Heatmap with AUC score of a binary classification site vs site with harmonized data}
    \label{fig:heatmap_harmonization_noharmon}
 \end{subfigure}
 
-\caption{Comparison of two heatmaps with AUC score of binary classification site vs site with raw (fig \ref{fig:heatmap_harmonization_harmon}) and harmonized data (fig \ref{fig:heatmap_harmonization_noharmon}) classified using a Random Forest Classifier
+\caption{Comparison of two heatmaps with AUC score of binary classification site vs site with \textbf{Pearson}-based correlation coefficients of raw (fig \ref{fig:heatmap_harmonization_harmon}) and harmonized data (fig \ref{fig:heatmap_harmonization_noharmon}) classified using a Random Forest Classifier
 }
 \label{fig:heatmap_harmonization}
 \end{figure}
+
+
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.70\textwidth}
+   \includegraphics[width=1\linewidth]{/home/federico/magistrale/Imagess/harmonization/wavelets/matrix}
+   \caption{Heatmap with AUC score of a binary classification site vs site with raw data}
+   \label{fig:heatmap_harmonization_harmon_w}
+\end{subfigure}
+
+\begin{subfigure}[b]{0.70\textwidth}
+   \includegraphics[width=1\linewidth]{/home/federico/magistrale/Imagess/harmonization/wavelets/harmon_matrix}
+   \caption{Heatmap with AUC score of a binary classification site vs site with harmonized data}
+   \label{fig:heatmap_harmonization_noharmon_w}
+\end{subfigure}
+
+\caption{Comparison of two heatmaps with AUC score of binary classification site vs site of \textbf{Wavelet}-based correlation coefficients of raw (fig \ref{fig:heatmap_harmonization_harmon_w}) and harmonized data (fig \ref{fig:heatmap_harmonization_noharmon_w}) classified using a Random Forest Classifier
+}
+\label{fig:heatmap_harmonization_w}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 To have a visual representation of how much each feature is modified in respect of its sourced site, in fig \ref{fig:features_raw-harmo} are shown two features among 5995: \emph{feature 324} and \emph{feature 2800} as a function of sites.
 For a clearer idea of what is shown, feature 324 represents the correlation between right and left inferior frontal gyrus, and feature 2800 that between left precuneous cortex and the left inferior frontal gyrus
@@ -1782,12 +1852,12 @@ Their values are plotted as a box along the y axis and sites are indicated along
 \begin{figure}
 \centering
 \begin{subfigure}[b]{1.\textwidth}
-   \includegraphics[width=1\linewidth]{/home/federico/magistrale/Imagess/Feature324raw-harmo}
+   \includegraphics[width=1\linewidth]{/home/federico/magistrale/Imagess/harmonization/pearson/Feature324raw-harmo}
    \caption{Feature 324 }
    \label{fig:feature324}
 \end{subfigure}
 \begin{subfigure}[b]{1.\textwidth}
-   \includegraphics[width=1\linewidth]{/home/federico/magistrale/Imagess/Feature2800raw-harmo}
+   \includegraphics[width=1\linewidth]{/home/federico/magistrale/Imagess/harmonization/pearson/Feature2800raw-harmo}
    \caption{}
    \label{fig:feature2800}
 \end{subfigure}
@@ -1795,17 +1865,37 @@ Their values are plotted as a box along the y axis and sites are indicated along
 \label{fig:features_raw-harmo}
 \end{figure}
 
+
+
+ \begin{figure}
+ \centering
+ \begin{subfigure}[b]{1.\textwidth}
+    \includegraphics[width=1\linewidth]{/home/federico/magistrale/Imagess/harmonization/wavelets/Feature324raw-harmo}
+    \caption{}
+    \label{fig:wavelet_feature324}
+ \end{subfigure}
+ \begin{subfigure}[b]{1.\textwidth}
+    \includegraphics[width=1\linewidth]{/home/federico/magistrale/Imagess/harmonization/wavelets/Feature2800raw-harmo}
+    \caption{}
+    \label{fig:wavelet_feature2800}
+ \end{subfigure}
+ \caption{Wavelet-based connectivity coefficients of in-phase percentage, for features 324 (fig \ref{fig:wavelet_feature324}) and 2800 (fig \ref{fig:wavelet_feature2800}) before and after harmonization}
+ \label{fig:wavelet_features_raw-harmo}
+ \end{figure}
+
+
+
  If we split this plot into control and ASD patients to see the effect of harmonization separately on these subsets, \ref{fig:features_control-asd_raw-harmo}
 
  \begin{figure}
  \centering
  \begin{subfigure}[b]{1.\textwidth}
-    \includegraphics[width=1\linewidth]{harmonization/Feature324control-asd_raw-harmo}
+    \includegraphics[width=1\linewidth]{harmonization/pearson/Feature324control-asd_raw-harmo}
     \caption{}
     \label{fig:feature324-control-asd}
  \end{subfigure}
  \begin{subfigure}[b]{1.\textwidth}
-    \includegraphics[width=1\linewidth]{harmonization/Feature2800control-asd_raw-harmo}
+    \includegraphics[width=1\linewidth]{harmonization/pearson/Feature2800control-asd_raw-harmo}
     \caption{}
     \label{fig:feature2800control-asd}
  \end{subfigure}
@@ -1815,21 +1905,27 @@ Their values are plotted as a box along the y axis and sites are indicated along
 
 
 
- \begin{figure}
- \centering
- \begin{subfigure}[b]{1.\textwidth}
-    \includegraphics[width=1\linewidth]{/home/federico/magistrale/Imagess/Feature324raw-harmo}
-    \caption{}
-    \label{fig:wavelet_feature324}
- \end{subfigure}
- \begin{subfigure}[b]{1.\textwidth}
-    \includegraphics[width=1\linewidth]{/home/federico/magistrale/Imagess/Feature2800raw-harmo}
-    \caption{}
-    \label{fig:wavelet_feature2800}
- \end{subfigure}
- \caption{Wavelet-based connectivity coefficients of in-phase percentage, for features 324 (fig \ref{fig:wavelet_feature324}) and 2800 (fig \ref{fig:wavelet_feature2800}) before and after harmonization}
- \label{fig:wavelet_features_raw-harmo}
- \end{figure}
+
+\subsection{Comments on harmonization}
+
+Figure \ref{fig:heatmap_harmonization_w} shows a binary classification procedure with a random forest, for site discrimination of Wavelet-based coefficients. It appears clear that with Wavelet coefficients there is not the same result as with Pearson coefficients (figure \ref{fig:heatmap_harmonization}), in fact with Wavelets sites still remain distinguishable after harmonization. This may be due to the loss of some information linked to the site througout all the process of extracting a correlation coefficient starting from a time-frequency analysis of two timeseries, so that the particular trend of a feature we see for example in figure \ref{fig:wavelet_features_raw} is just a casual trend
+Nevertheless, if we plot the mean value of a feature computed with Wavelet-based correlation across sites (figure \ref{wavelet_features_raw}) we note that there is a certain trend related to sites, but it is possible that this trend shows just for this choice of feature and that for others is less evident.
+
+
+
+Both for Wavelet-based coefficients in figure \ref{fig:wavelet_features_raw} and for Pearson-based coefficients in figure \ref{fig:features_raw-harmo} we can notice a certain messy trend of features of raw data in respect to site (plots on the left side), which is not due to the presence of an unbalanced Controls/ASD number of patients per site, because from figure \ref{fig:features_control-asd_raw-harmo} we observe as well, a messy trend both for Controls and ASDs.
+We can therefore conclude that in our data there's some kind of bias linked to the acquisition site.
+After harmonization procedure both Pearson-based coefficients and Wavelet-based coefficients assume a more regular trend (plots on the right side of figures  \ref{fig:wavelet_features_raw} and \ref{fig:features_raw-harmo})
+This is a visual confirm that harmonization effectively removes site-related, but if for Pearson coefficients this is enough to remove inter-site variability, for Wavelet coefficients this difference remain the same
+
+%This bias is more evident with Pearson-based correlation coefficients (fig \ref{fig:wavelet_features_raw}) than with Wavelet-based coefficients (fig \ref{fig:features_raw-harmo}) that appear to assume a more uniform trend.
+
+%
+
+
+
+
+
 
 \newpage
 \chapter{Deep learning: implementation and results} \label{sec:deep_learning_results}
