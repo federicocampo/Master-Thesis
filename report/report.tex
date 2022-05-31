@@ -2376,7 +2376,7 @@ Let's see what they represent:
 \paragraph{Feature importance with Random Forest}
 
 
-Random forest: common to the three analysis are: 710, 1127, 1703, 748, 2735, 1400, 2811, showed in figure \ref{}
+Random forest: common to the three analysis are: 592, 1521, 1513, 3334 shown in figure \ref{fig:shap_ab1}
 
 
 \begin{figure}
@@ -2412,7 +2412,11 @@ Random forest: common to the three analysis are: 710, 1127, 1703, 748, 2735, 140
 
 \paragraph{Cross-analysis on feature importance}
 
-To assess what are the most relevant recurrent feature between these different types of analysis, we choose to limit our analysis to the 1\% important features among 5995, we collected the first 60 important features and we limited our analysis to only 5 procedures:
+Since we want to exclude from our analysis the procedure of upstream harmonization because it creates a bias in classification results, from now on, when we refers to harmonized data, we are referring to data with harmonization procedure implemented inside kfold.
+
+To assess what are the most relevant recurrent feature between these different types of analysis, we choose to limit our analysis to the 1\% important features among 5995, we collected the first 60 important features and we limited our analysis to only 5 classification procedures.
+
+
 \begin{enumerate}
 \item Classification with harmonization implemented inside k-fold using the DNN \label{proc:dnn_kfold}
 \item Classification with harmonization implemented inside k-fold using the Random Forest classifier \label{proc:rf_kfold}
@@ -2421,27 +2425,78 @@ To assess what are the most relevant recurrent feature between these different t
 \item Classification using the adversarial neural network \label{proc:adv}
 \end{enumerate}
 
-Firstly we checked if there are common features among the first 60 important features of each method between these five classification and we couldn't find anything in common.
+
+
+Firstly we checked if there are common features among the first 60 important features of each method between these five classification.
+But we did not find anything in common.
 If we exclude, though, from our analysis the adversarial learning classification we find that features 1513, 3058, 1067 are common between the remaining classification methods.
-They represent
+They represent:
 \begin{itemize}
 \item Feature 1513: correlation between Left Angular Gyrus (nan) and Right Temporal Pole (nan)
 \item Feature 3058: correlation between Right Frontal Orbital Cortex (nan) and Left Angular Gyrus (nan)
 \item Feature 1067: correlation between Right Postcentral Gyrus (nan) and Right Superior Temporal Gyrus (posterior division)
 \end{itemize}
 
-From now on, we run analysis on soubgroups of the previous pipelines and we report the number of common important features among the first 60 most relevant as a number and percentage
+
+Since each feature is representative of a correlation between two brain areas, and each brain areas is involved in more than 100 features, we asked if there are some brain areas which are particularly discriminative and recurrent between the first 60 features of these classification pipelines.
+We plotted an histogram to represent the number of occurrences for each brain areas among the first 60 features for each classification procedure, and then we looked for common features between two classification procedure at a time and we created an histogram to number how many times a certain brain areas is involved in these common features throughout all the pairs of classification methods we are focusing on.
+%in the first 60 important features for each classification pipeline described above.
+
+Let's give a look at the histograms of the most recurrent brain areas between all the 60 important features for each classification procedure: figure \ref{fig:histograms_60}
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{1\columnwidth}
+   \includegraphics[width = 1\columnwidth, height = 6cm]{shap/ab_all/important_areas_features_no}
+   \caption{Important areas from Raw data classified with DNN}
+   \label{}
+\end{subfigure}
+
+\begin{subfigure}[b]{1\columnwidth}
+   \includegraphics[width = 1\columnwidth, height = 6cm]{shap/ab_all/important_areas_features_adv}
+   \caption{Important areas from Raw data classified with Adversarial network}
+   \label{}
+\end{subfigure}
+
+\begin{subfigure}[b]{1\columnwidth}
+   \includegraphics[width = 1\columnwidth, height = 6cm]{shap/ab_all/important_areas_features_kfold}
+   \caption{Important areas from harmonized data classified with DNN}
+   \label{}
+\end{subfigure}
+\end{figure}
+\begin{figure}\ContinuedFloat
+%\medskip
+\begin{subfigure}[b]{1\columnwidth}
+   \includegraphics[width = 1\columnwidth, height = 6cm]{shap/ab_all/important_areas_features_rf_kfold}
+   \caption{Important areas from harmonized data classified with Random Forest}
+   \label{}
+\end{subfigure}
+
+\begin{subfigure}[b]{1\columnwidth}
+   \includegraphics[width = 1\columnwidth, height = 6cm]{shap/ab_all/important_areas_features_rf_no}
+   \caption{Important areas from Raw data classified with Random Forest}
+   \label{}
+\end{subfigure}
+\caption{Histograms of important brain areas extracted from the first 60 important features of different classification procedures}
+\label{fig:histograms_60}
+\end{figure}
+
+
+
+
+
+Now, we run analysis on subgroups of the previous classification methods and we report the number of common important features among the first 60 most relevant as a number and percentage.
 
 \begin{itemize}
-\item Working only on random forest classifier, compared important features between \ref{proc:rf_kfold} and \ref{proc:rf_no} and found that 33 features out of 60 are common (55\%).
-\item With DNN we compared pipelines \ref{proc:dnn_kfold} and \ref{proc:dnn_no} finding that 22 features (37 \%) out of 60 are common.
-\item Comparing the same analysis pipeline with DNN and Random Forest we find that between \ref{proc:rf_kfold} \ref{proc:dnn_kfold} there are 13 common features (22 \%)
-\item Comparing results on raw data obtained with DNN and Random Forest we obtain 7 common features  (12\%)
-\item Comparing the adversarial results with the harmonization procedure with DNN we obtain 21 common features (35\%)
-\item Comparing the adversarial results with DNN classification of raw data we obtain 28 common features (47\%)
+\item Focusing on random forest classifier, we compared important features between \ref{proc:rf_kfold} and \ref{proc:rf_no} and found that 33 features out of 60 are common (55\%).
+\item Focusing on DNN we compared pipelines \ref{proc:dnn_kfold} and \ref{proc:dnn_no} finding that 22 features (37 \%) out of 60 are common.
+\item Comparing the same analysis pipeline with DNN and Random Forest we find that with harmonized data: procedure \ref{proc:rf_kfold} and \ref{proc:dnn_kfold} there are 13 common features (22 \%)
+\item Comparing results on raw data obtained with DNN \ref{proc:dnn_no} and Random Forest \ref{proc:rf_no} we obtain 7 common features  (12\%)
+\item Comparing the adversarial results \ref{proc:adv} with the harmonized data with DNN \ref{proc:dnn_kfold} we obtain 21 common features (35\%)
+\item Comparing the adversarial results \ref{proc:adv} with DNN classification of raw data \ref{proc:dnn_no} we obtain 28 common features (47\%)
 \end{itemize}
 
-Since these common features are the most important we are willing to study if there's any brain areas significantly involved more than others. To this end we computed the overall histogram of the most recurrent brain areas between these common feature.
+Since these common features are the most important we are willing to study if there's any brain areas significantly involved more than others. To this end, as mentioned above, we computed in figure \ref{fig:histogram_important_areas} the overall histogram of the most recurrent brain areas between these common feature.
 
 
 
@@ -2450,7 +2505,7 @@ Since these common features are the most important we are willing to study if th
 \begin{figure}
 \centering
   \includegraphics[angle = 270, origin = c, width=0.8\linewidth]{shap/ab_all/histogram_important_areas}
-\caption{Histogram of the most important brain areas throughout all the analysis }
+\caption{Histogram of the most important brain areas throughout all the analysis}
 \label{fig:histogram_important_areas}
 \end{figure}
 
@@ -2463,9 +2518,11 @@ Since these common features are the most important we are willing to study if th
 
 
 
+
+
 \newpage
 
-\addcontentsline{toc}{section}{APPENDIX}
+\addcontentsline{toc}{chapter}{APPENDIX}
 
 \appendix
 \chapter{Principles of MRI imaging}
