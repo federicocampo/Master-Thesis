@@ -1,4 +1,4 @@
-\documentclass[12pt]{report}
+\documentclass[11pt]{report}
 %\documentclass[12pt]{article}
 \usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
 \pagestyle{plain}
@@ -8,6 +8,7 @@
 %\usepackage[margin=1.5cm]{geometry}
 
 \usepackage{graphicx}
+\usepackage[font=small,font = sl, labelfont=bf]{caption}
 %\usepackage{epstopdf}
 \usepackage{float}
 %To create colored tables
@@ -75,7 +76,7 @@
 \end{figure}
 
 \begin{center}
-	\textbf{ DEPARTMENT OF PHYSICS E. FERMI\\ Master's degree in physics\\}
+	\textbf{University of Pisa \\ Department of Physics E. FERMI\\ Master's degree in physics\\}
 	\vspace{20mm}
     {\LARGE{\bf Functional connectivity measures using machine learning techniques}}
 \end{center}
@@ -86,15 +87,19 @@
 \end{minipage}\hfill\begin{minipage}[t]{0.47\textwidth}\raggedleft
 	{\large{\bf Candidate: \\ Federico Campo}}
 \end{minipage}
-\vspace{50mm}
-\centering{\large{\bf Academic year: 2022/2023 }}
+
+\vspace{60mm}
+\hrulefill
+\\\centering{\large{\bf Academic year: 2022/2023 }}
+
 \end{titlepage}
 
 
 \tableofcontents
 
 \chapter*{Abstract}
-In this work we are focusing on brain functional connectivity data to study the difference between patients with Autism Spectrum Disorder (ASDs) and healthy patients (referred as Controls). To accomplish so, we are going to employ machine learning and deep learning models.
+Autism is a neurodevelopmental disorder manifesting from the early ages and involving behavioral and cognitive impairments. So far, no univocal biomarker have been detected to identify this disorder, and the most accurate diagnostic tool remains a behavioural and attitudinal test.
+In this work we are focusing on brain functional connectivity data to study the difference between patients with Autism Spectrum Disorder (ASDs) and healthy patients (referred as Controls). To tackle this challenge, we are going to employ machine learning and deep learning models.
 Our base data are Magnetic Resonance scans provided by the ABIDE dataset consisting on structrural and functional scans of approximately 2200 patients collected from different medical centers.
 Among these patient's scan, an half belong to normal patients and the other half to people with diagnosed Autism.
 Starting from these data the workflow of this thesis can be summarised in the following steps:
@@ -141,28 +146,34 @@ At the end, chapter \ref{chap:shap_results} shows the implementation of a featur
 
 Autism spectrum disorder (ASD) is becoming a growing social issue, drawing more and more attention expecially during the last decades, both for its social impact on families and society and because of the raise in number of diagnosied cases.
 
-ASD is classified as a neurodevelopmental behavioural disorder \cite{guze-1995} \cite{who-1993} and refers to a broad range of conditions manifesting as deficits in social communication and interaction such as reduced sociability or empathy, repetitive behaviours and resistance to changes, and sometimes speech difficulties.\cite{rapin-2008}
+ASD is classified as a neurodevelopmental behavioural disorder \cite{guze-1995} \cite{who-1993} and refers to a broad range of conditions manifesting as deficits in social communication and interaction such as reduced sociability or empathy, repetitive behaviours, resistance to changes, and sometimes even speech difficulties.\cite{rapin-2008}
 
 %\cite{hyman-2020}
 
-Early signs start appearing by the age of 2 or 3, but the most accurate assessment procedures so far are comportamental, for a toddler, parents answer a set of questions about every-day behaviour of their children like the checklist for Autism in Toddler \cite{robins-2009} where a list of question such as \textquotedblleft When you point at something, your child watch in that direction? \textquotedblright or \textquotedblleft des your children shows interest towards other children? \textquotedblright
+Early signs start appearing by the age of 2 - 3, but the most accurate assessment procedures so far are comportamental: for a toddler, parents answer a set of questions about every-day behaviour of their children like the checklist for Autism in Toddler \cite{robins-2009} consisfing on a list of question such as \textquotedblleft When you point at something, does your child watch in that direction? \textquotedblright or \textquotedblleft does your children show interest towards other children? \textquotedblright
 
 However, since there isn't a definitive biological test, often ASD is discovered even after the adolescence always through a comportamental assessment test.
-Currently ADI-R (Autism Diagnostic Interview - Revised) and ADOS (Autism Diagnostic Observation Schedule) are considered the ‘gold standard’ tools for diagnosis of ASD \cite{ozonoff-2015} \cite{lecouteur-2008}, even though for a better assessment, medical and biological informations should be taken into account as well .
+Currently ADI-R (Autism Diagnostic Interview - Revised) and ADOS (Autism Diagnostic Observation Schedule) are considered the ‘gold standard’ tools for diagnosis of ASD \cite{ozonoff-2015} \cite{lecouteur-2008}.
+Nevertheless, besides these behavioural test, to achieve a more accurate diagnosis, medical and biological informations should be taken into account as well .
 
-is of great importance to make an early diagnosis to provide the help and support they need, because, hopefully, treating it in its early stage, could bring to a regression of this condition.
+Of great importance would be to make an early diagnosis, in order to provide in time the help and support they need. Hopefully, treating children whose this disorder is still it in its early stage, could bring to a regression of this condition.
 
-The main factors that bring to the developing of autism aren't very clear so far, and is acquiring more consensus between scientists and doctors that there isn't just a single cause, but a concatenation and cohexistence of various of them, the most strongly suspected of which are genetic and environmental, intended as environmental exposure to air pollution,
+The main factors that bring to the developing of autism aren't very clear so far, and is acquiring more consensus between neuroscientists and doctors that there isn't just a single cause, but a concatenation and cohexistence of various triggereing factors.
+Among them, the most strongly suspected are identified to be genetic and environmental, intended as environmental exposure to air pollution,
 %or certain pesticides (even though is difficult to demonstrate a strong relation)
-during pregnancy, expecially during the first days of embrional development (day 20-24 of gestation).\cite{ratajczak-2011}, that is associated with an increased risk of develop this disorder.
+Regarding to the environmental causes, it is suspected that during pregnancy, expecially during the first days of embrional development (day 20-24 of gestation).\cite{ratajczak-2011}, exposition of the mother to air pollution is linked to an increased risk for her child to develop this disorder.
 
-Genetic is assiciated with a rare gene's mutation, such as a deletion, duplication or inversion, and even though most of the mutation that increase the risk of developing autism are not been traced, it has been assessed that it has a percentage of inheritability around 90\%, resulting from studies on omozygotes twins,\cite{freitag-2007}.
+Genetic origin of this disorder is assiciated with a rare gene's mutation, such as a deletion, duplication or inversion, and even though most of the mutation that increase the risk of developing autism are not been traced, it has been assessed that it has a percentage of inheritability around 90\%, resulting from studies on omozygotes twins \cite{freitag-2007}.
 
 %Ambiental factors such as prenatal air pollution or certain pesticides are also suspected to be associeted with a increase of the risk to develop this disorder, even thouh the etiology is way more complex and it can't be assessed so accurately.
 %Currently ASD is diagnosided by syntoms-based tests concerning behaviour assessment.
+From a neurological point of view, ASD can affect a brain both in its structure and in its functionality.
 
-From a neurological point of view, ASD, usually entails a reduced information processing due to synaptic dysfunction that manifests in a reduced or altered brain activity. \cite{??}
-This is confiermed by several but controversal studies where both hyper functional connectivity and hypo-FC were detected in asd patients.
+It has been studied how it alters the structure and the symmetry of the two emispheres \cite{postema2019}
+
+
+and regarding its impaired functionality, studies pointed out a reduced information processing due to synaptic dysfunction that manifests in a reduced or altered brain activity. \cite{spera-2019}.
+Altered brain activity is found by different but controversal studies because both hyper functional connectivity and hypo-FC were detected in asd patients.
 in particular it seems to have an age-dependent trend, for over connectivity is usually observed in young children while under connectivity in adolescences and adults.\cite{supekar-2013}.
 
 In the last decades, different approaches to study this problem have been carried out, to find a relation between different brain areas involved in this hyper or hypo connectivity
@@ -276,6 +287,8 @@ Da rivedere un paio di frasi.
 Random Forest classifier belongs to the category of \emph{ensemble} classifiers, and is a common machine learning algorithm.
 It combines multiple decision tree models to reduce overfitting of data and achieve a better generazability to create a more powerful model.
 Therefore, to properly understand a random forest algorithm, we need to start understanding how a Decision Tree classifier works.
+
+\paragraph{Tree classifiers} \hfill
 
 A decision tree aims to learn distictive traits from input data by asking yes/no questions. Focusing on the valus of a single input feature, the classifier splits the dataset based on the value of that feature according to an if/else statement like \textquotedblleft if feature\_i $>$ a \textquotedblright.
 Doing so each branch of a decision tree consists of a question which splits the dataset into two smaller sub datasets.
@@ -1835,16 +1848,6 @@ This is a consequence of choosing age as covariate, which preserves differences 
 
 
 
-
-
-
-
-
-
-
-
-
-
 To have a visual representation of how much each feature is modified in respect of its sourced site, in fig \ref{fig:features_raw-harmo} are shown two features among 5995: \emph{feature 324} and \emph{feature 2800} as a function of sites.
 For a clearer idea of what is shown, feature 324 represents the correlation between right and left inferior frontal gyrus, and feature 2800 that between left precuneous cortex and the left inferior frontal gyrus
 Their values are plotted as a box along the y axis and sites are indicated along the x-axis, it is clear how harmonization is a powerful tool to level up feature and remove site-dependent information from them.
@@ -1891,15 +1894,15 @@ Their values are plotted as a box along the y axis and sites are indicated along
  \centering
  \begin{subfigure}[b]{1.\textwidth}
     \includegraphics[width=1\linewidth]{harmonization/pearson/Feature324control-asd_raw-harmo}
-    \caption{}
+    \caption{Feature 324 of Pearson correlation coefficients}
     \label{fig:feature324-control-asd}
  \end{subfigure}
  \begin{subfigure}[b]{1.\textwidth}
-    \includegraphics[width=1\linewidth]{harmonization/pearson/Feature2800control-asd_raw-harmo}
-    \caption{}
-    \label{fig:feature2800control-asd}
+    \includegraphics[width=1\linewidth]{harmonization/wavelets/Feature324control-asd_raw-harmo}
+    \caption{Feature 324 of Wavelet-based correlation coefficients}
+    \label{fig:feature324-control-asd_w}
  \end{subfigure}
- \caption{Pearson-correlation coefficients features 324 and 2800 before and after harmonization, separated plot for controls and ASD}
+ \caption{Pearson-correlation and Wavelet coefficients for features 324 before and after harmonization with a separated plot for controls and ASD}
  \label{fig:features_control-asd_raw-harmo}
  \end{figure}
 
@@ -1908,10 +1911,14 @@ Their values are plotted as a box along the y axis and sites are indicated along
 
 \subsection{Comments on harmonization}
 
-Figure \ref{fig:heatmap_harmonization_w} shows a binary classification procedure with a random forest, for site discrimination of Wavelet-based coefficients. It appears clear that with Wavelet coefficients there is not the same result as with Pearson coefficients (figure \ref{fig:heatmap_harmonization}), in fact with Wavelets sites still remain distinguishable after harmonization. This may be due to the loss of some information linked to the site througout all the process of extracting a correlation coefficient starting from a time-frequency analysis of two timeseries, so that the particular trend of a feature we see for example in figure \ref{fig:wavelet_features_raw} is just a casual trend
-Nevertheless, if we plot the mean value of a feature computed with Wavelet-based correlation across sites (figure \ref{wavelet_features_raw}) we note that there is a certain trend related to sites, but it is possible that this trend shows just for this choice of feature and that for others is less evident.
+Figure \ref{fig:heatmap_harmonization_w} shows a binary classification procedure with a random forest, for site discrimination of Wavelet-based coefficients. It appears clear that with Wavelet coefficients there is not the same outcome as with Pearson coefficients (figure \ref{fig:heatmap_harmonization}), in fact with Wavelets sites still remain distinguishable after harmonization.
 
+%This may be due to the loss of some information linked to the site througout all the process of extracting a correlation coefficient starting from a time-frequency analysis of two timeseries.
+%Accordind to this hypotesis, if we lost site information, the particular trend of a feature we see for example in figure \ref{fig:wavelet_features_raw} is just a casual trend and taking into account all of the features, there is not a specific bias connected to a site.
+%This way, during procedure of harmonization, we are creating a bias towards each site and for this reason after harmonization, sites remain distinguishable, or actually, they become even more recognisable
+Nevertheless, if we plot the mean value of a feature computed with Wavelet-based correlation across sites (figure \ref{wavelet_features_raw}) we note that there is a certain trend related to sites, but it is possible either that we obtain this trend just for this choice of feature or that even if the mean values of these features underwent a level out procedure, they still remain recognisable because of the values they assume which is not in the same range for all the sites and this can help the classificator recognising sites differences.
 
+\hfill
 
 Both for Wavelet-based coefficients in figure \ref{fig:wavelet_features_raw} and for Pearson-based coefficients in figure \ref{fig:features_raw-harmo} we can notice a certain messy trend of features of raw data in respect to site (plots on the left side), which is not due to the presence of an unbalanced Controls/ASD number of patients per site, because from figure \ref{fig:features_control-asd_raw-harmo} we observe as well, a messy trend both for Controls and ASDs.
 We can therefore conclude that in our data there's some kind of bias linked to the acquisition site.
@@ -2150,13 +2157,13 @@ Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adv 264-8 \\\midrule
 AB I+II &71$\pm$1 &74$\pm$2 &73$\pm$3 &69$\pm$2 \\
 AB I &71$\pm$3 &74$\pm$2 &72$\pm$3 &71$\pm$4 \\
 AB 2 &63 $\pm$5 &68$\pm$ 6 &64$\pm$ 4 &66 $\pm$ 4 \\
-AB I $\pm$ II - EYE open &72$\pm$3 &75$\pm$4 &72$\pm$3 &71$\pm$3 \\
+AB I + II - EYE open &72$\pm$3 &75$\pm$4 &72$\pm$3 &71$\pm$3 \\
 AB I open EYE &73$\pm$ 1 &76$\pm$2 &72$\pm$1 &72$\pm$4 \\
 AB II EYE open &66$\pm$3 &70$\pm$6 &69$\pm$6 &68$\pm$6 \\
 \bottomrule
 \end{tabular}
 \caption{AUC score obtained from three different kind of analysis with Pearson coefficients}
-\label{tab:pearson_results}
+\label{tab:classification_pearson}
 \end{table}
 
 
@@ -2278,6 +2285,8 @@ AB II EYE open &66 $\pm$2 &68$\pm$ 3 &66$\pm$ 4 &65 $\pm$5 \\
 \newpage
 
 \section{Results with PCA}
+% come ho calcolato le pca? solo sul training set
+%non avrebbe senso calcolare la PCA solo sui controlli perchè pca cerca la direzione di massima varianza, dove i davi variano maggiornente, e quidni dove si ha una migliore distinguibilità bewteen controls and asds. NOn avrebbe senso farla solo sui controlli.
 
 When applying PCA to a dataset we seek to explain as much variance as possible, for this reason we start our pca analysis extracting a number of principal components that explain more then 90$\%$ of variance, then we reduced this number halving if.
 The maximum number of principal components is limited by the number of data we can use. If we have a dataset of $n\_samples$ samples, each with $n\_features$ features, the maximum number of PC is given by $N\_pc = min\{n\_samples, n\_features\}$.
@@ -2358,6 +2367,33 @@ REsults obtained with different analysis are marked with different colors: class
 }
 \label{fig:classification_pearson_pca}
 \end{figure}
+
+\section{Discussion on classification results}
+From results reported on section \ref{sec:pearson_results} and \ref{sec:wavelet_results} it is quite evident that average results obtained with pearson correlation coefficients are systematically higher than wavelet-based correlation coefficients.
+We can therefore assume that working with Wavelet-based correlation coefficient obtained through processes described in section \ref{sec:wavelet_theory} does not bring any advantages to this kind of analysis.
+A possible reason for this outcome could be the loss of information during the extraction of these coefficients because of the introduction of redundancy and randomness into this analysis. Starting from two timeseries Wavelet transform compute a 2D matrix for each timeseries and uses them to calculate the cross-power spectrum as explained in the dedicated section.
+Doing so we create a redundant representation of timeseries data moving from one dimension to two-dimensional data.
+We furthermore compare the cross-power spectrum obtained from the wavelet transform of each timeseries, with a red-noise cross-power spectrum to assess the significativity of our data.
+In the end we shrink again our dimensions to reduce to a single data point representing a correlation.
+
+Since differences of traits between controls and ASDs are not very strong, this process can cause the loss of this weak information, which does not happen with a more direct and linear correlation calculus like Pearson coefficients.
+
+This lower scores if found both on Wavelet coefficients of in-phase and counter-phase time percentage, and not even the combination of this two in a double-sized array, or with a coefficient made by the difference between these two coefficients brings any benefits, as an evidence that this procedure is not the most suitable to our classification goals.
+
+Let's focus for a moment just on table \ref{tab:classification_pearson} to discuss the benefits of reducing the dataset size making cuts on covariates to run analysis on a more homogeneous dataset.
+We can state that the eye status of patients during the scan has a non-negligible impact on the outcome of classification since limiting the dataset only on subjects with open eyes systematically improves classicication scores of more than 1 \% for every dataset (ABIDE I+II, ABIDE I only, ABIDE II only).
+As introduced on chapter \ref{} there can be differences in brain functional areas between patients with open eyes and patients with eyes closed due to activation of different cortex and gyri areas or because during the scan, some patients may be fallen asleep, and this heavily modify the functional connectivity matrix.
+For this reason, removing these source of variability could bring to a cleaner distinction of relevant pattern between Controls data and ASDs.
+
+An other common trend that stands out from all the analysis is the systematic scores' improvement with the method of upstream harmonization explained on section \ref{sec:} and sketched on flowchart in figure \ref{fig:harmon_upstream_flowchart}.
+We can state that this is a confirm that this procedure is the wrong way to proceed and that some good results on other similar studies (\cite{ingalhalikar-2021}) may be due to a similar data leakage as we have in this procedure.
+We have data leakage when information outside the training set is used to create and train models. This additional information allows the model to know something additional about the data that otherwise it would have not known.
+This leads to an improvement of model's prediction and an overestimation of performances.
+In this case we have data leakage when we harmonize the entire dataset before splitting it into Train and Test.
+With this way to proceed, when we use Train data, they already contain informations about Test data because they have been created using covariates, features and other informations belonging to the whole dataset.
+
+This same alertness is to be applied when extracting PCA because it is possible to make the mistake of computing Princial components on the whole dataset, before its separation into Train and Test sets.
+For this reason we implemented PCA
 
 
 
@@ -2578,8 +2614,22 @@ Let's give a look at the histograms of the most recurrent brain areas between al
 \end{figure}
 
 
+Since these features are the most important among all the 5 analysis, we are willing to visualize (fig \ref{fig:important_areas_features_all}) the overall histogram putting together results obtained from each analysis.
+
+study if there's any brain areas significantly involved more than others. To this end, as mentioned above, we computed in figure \ref{fig:important_areas_features_all} the overall histogram of the most recurrent brain areas between these common feature.
+
+\begin{figure}[h]
+\centering
+  \includegraphics[angle = 270, origin = c, width=0.8\linewidth]{shap/ab_all/important_areas_features_all}
+\caption{Histogram of the most important brain areas putting together results obtained from all the five analysis listed above.}
+\label{fig:important_areas_features_all}
+\end{figure}
 
 
+
+
+
+\hfill
 
 Now, we run analysis on subgroups of the previous classification methods and we report the number of common important features among the first 60 most relevant as a number and percentage.
 
@@ -2591,23 +2641,6 @@ Now, we run analysis on subgroups of the previous classification methods and we 
 \item Comparing the adversarial results \ref{proc:adv} with the harmonized data with DNN \ref{proc:dnn_kfold} we obtain 21 common features (35\%)
 \item Comparing the adversarial results \ref{proc:adv} with DNN classification of raw data \ref{proc:dnn_no} we obtain 28 common features (47\%)
 \end{itemize}
-
-Since these common features are the most important we are willing to study if there's any brain areas significantly involved more than others. To this end, as mentioned above, we computed in figure \ref{fig:histogram_important_areas} the overall histogram of the most recurrent brain areas between these common feature.
-
-
-
-
-
-\begin{figure}
-\centering
-  \includegraphics[angle = 270, origin = c, width=0.8\linewidth]{shap/ab_all/histogram_important_areas}
-\caption{Histogram of the most important brain areas throughout all the analysis}
-\label{fig:histogram_important_areas}
-\end{figure}
-
-
-
-
 
 
 
