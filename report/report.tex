@@ -1,4 +1,4 @@
-\documentclass[11pt]{report}
+\documentclass[10pt]{report}
 %\documentclass[12pt]{article}
 \usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
 \pagestyle{plain}
@@ -90,7 +90,7 @@
 
 \vspace{60mm}
 \hrulefill
-\\\centering{\large{\bf Academic year: 2022/2023 }}
+\\\centering{\large{\bf Academic year: 2021/2022}}
 
 \end{titlepage}
 
@@ -823,53 +823,60 @@ An example of ROC curve is shown in figure \ref{fig:roccurve}
 
 As methods to learn pattern from data becomes more complex, they become harder to interpret, deep learning represent an example of a technique to search for nonlinear relations between data, but introducing nonlinearity, makes an outcome difficult to interpret and it ends up considering a machine learning model as a black box without any hint of its inner precesses that occurred when a result is output. But if a model perform well, or bad on a dataset, we would like to know why and what feature influenced the most the outcome of our model.
 
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=1\linewidth]{shap/shap_presentation}
-\caption{}\label{fig:shap_waterfall}
-\end{figure}
+One state-of-art explainability algorithm is built making use of important concepts from game theory, for this reason in the following section we are going to explain some useful theory underlying explainatory models.
 
 
-SHAP (SHapley Additive exPlanation) is a technique based on game theory wich provides a method for model explanability.
-is a powerful tool to get rid of the \textquotedblleft black box \textquotedblright idea of a machine learning model and try to understand its deep mechanism and the reasons why a model gave a certain output, or a certain prediction related to an input sample like a vector of feature or an image for example.
-As is shown in figure \ref{fig:shap_waterfall} just as a visual example, a common machine learning model acts like a black box that returns an output value after some non-linear unknown calculations on some input values; with an explanatory model, we are able to quantify the contribution of each feature of our input data and assess what and why are the most important features and how much they contributed to the final outcome.
+\section{Shapley values}
+%Versione definitiva
+Game theory is a branch of mathematic related on the study of mathematical models to  conceive social situations among competitive players \cite{ross-2021}
 
-
-
-
-\section{Shapley values - Theory}
-
-Game theory is a branch of mathematic related on the study of mathematical models to  conceive social situations among competitive players \footnote{https://plato.stanford.edu/entries/game-theory/}
 It have had a great development in the XX century expecially during and after the Second world war thanks to the contribution of mathematicians like John Von Neumann, John Nash and Lloyd Shapley.
-Game theory can be mainly divided into two main classes namely cooperative and non-coperative game.
-Non-cooperative game concern competition between individual player and the main task is to find a good strategy for each player and a big contribution came from Nash with the concept of Nash equilibrium \cite{nash-1950}.
-Cooperative games concern competition between groups of player forming coalitions; one of the the main tasks is to find a way to divide the total utility among the member of a coalition in an equally way proportionally of how much they contributed to the final score.
-In 1951 Lloyd Shapley in 1951 Introduced a way to compute the exact amount of payoff for each player making use of what were named after him: Shapley values \cite{shap-1951}\cite{shap-1953}.
-Shapley introduced its values for coalition games:
+Game theory mainly focuses on two main research areas: cooperative and non-coperative game.
+Non-cooperative game concern competition between individual player who don't cooperate each other and can't form coalitions. The main task on non-cooperative games can be summarised as the search for a good strategy for each player. Each player's objective is in fact the maximization of his own utility function.
+A big contribution to the development of this theory came from von Neumann, or John Nash with the concept of Nash equilibrium \cite{nash-1950}.
 
-A coalition games involves N players, and different subsets called coalitions created from these N players.
+On the other hand, cooperative games concern competition between groups of player forming coalitions, each coalition plays as a single participant and earns a payoff; one of the the main tasks related to cooperative games is to find a way to divide the total utility among the member of a coalition in an equally way proportionally of how much they contributed to the final score.
+In 1951 Lloyd Shapley in 1951 Introduced a way to compute the exact amount of payoff for each player making use of what were named after him: Shapley values \cite{shap-1951}\cite{shap-1953}.
+Shapley introduced its values in the field of coalition games, therefore to properly understand his work, we need to briefly illustrate what a coalition game consists of.
+
+A \textbf{coalition game} involves N players, and different subsets called coalitions created from these N players.
 Each subset of players S gain a payoff at the end of the game.
 A function $\nu$ maps every subset to its payoff $\nu(S)$ = payoff(S) $\in \Re$.
-Based on which player had more influence in this final score, we ask how to split this payoff in a fair way between each player of the subset, where \textquotedblleft fair \textquotedblright is to be intended as to each, proportional to his own contribution.
+On the basis of which player had more influence in this final score, we ask how to split this payoff in a fair way between each player of the subset, where \textquotedblleft fair \textquotedblright is to be intended as to each, proportional to his own contribution.
 A solution for this problem comes from \textbf{shapley values} $\phi_i(\nu)$.
-They are specific for each player i $\in$ N in a coalition S $\in$ N and represents the marginal contribution of that player to the final score, where marginal contribution is defined as the difference on the score of the coalition when player i joins the coalition.
-In other words they are the difference between the coalition's score with player i and the group's score without player i $\nu (S \cup \{ i \}) - \nu(S)$.
+They are specific for each player i $\in$ N in a coalition S $\subseteq$ N and the idea behind them is the marginal contribution of that player to the final score, where marginal contribution is defined as the difference on the score of the coalition when player i joins the coalition.
+In other words they are the difference between the coalition's score with player i and the coalition's score without him $\text{marginal contribution = }\nu (S \cup \{ i \}) - \nu(S)$. \cite{algaba-2021}
 
-It represents the incremental benefit of including player i in a the subset and average over all subsets that include player i.
-
+Shapley defined his coefficients (Shapley values) for a player i as a weighted average of marginal contribution values, over all the possible subsets that include player i.
 
 The mathematical formulation Shapley introduced for his value is
 \begin{equation}
 \begin{aligned}
-\phi_i(\nu)  & = \sum_{S\subseteq N\ \setminus \{ i \} }  {N- 1 \choose |S|}^{-1} [\nu (S \cup \{ i \} 0) - \nu(S)] \\
-& = \sum_{S\subseteq N\ \setminus \{ i \} }  \frac{S! (N-S-1)!}{N!} [\nu (S \cup \{ i \} 0) - \nu(S) ]
+\phi_i(\nu)  & = \frac{1}{N }\sum_{S\subseteq N\ \setminus \{ i \} }  {N- 1 \choose |S|}^{-1} [\nu (S \cup \{ i \}) - \nu(S)] \\
+& = \sum_{S\subseteq N\ \setminus \{ i \} }  \frac{S! (N-1-S)!}{N!} [\nu (S \cup \{ i \}) - \nu(S) ]
 \end{aligned}
 \end{equation}
 %That can be interpreted as $\frac{1}{N} \sum \frac{\text{marginal contribution of i to the coalition}}{\text{number of coalitions excluding i of the same size os S}}$
 And they exactly represent the amount of reward for each player i.
 
-\section{SHAP}
+\section{SHAP}\label{sec:shap}
+
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\linewidth]{shap/shap_presentation}
+\caption{}\label{fig:shap_waterfall_example}
+\end{figure}
+
+
+SHAP (SHapley Additive exPlanation) is a technique based on game theory wich provides a method for model explanability.
+is a powerful tool to get rid of the \textquotedblleft black box \textquotedblright idea of a machine learning model and try to understand its deep mechanism and the reasons why a model gave a certain output, or a certain prediction related to an input sample like a vector of feature or an image for example.
+As is shown in figure \ref{fig:shap_waterfall_example} just as a visual example, a common machine learning model acts like a black box that returns an output value after some non-linear unknown calculations on some input values; with an explanatory model, we are able to quantify the contribution of each feature of our input data and assess what and why are the most important features and how much they contributed to the final outcome.
+
+
+
+
 
 The idea behind SHAP is to use these Shapley values to exaplain every single feature's contribution in our machine learning model, treating it as a cooperative game
 
@@ -1767,9 +1774,9 @@ An adversarial loss is also implemented, aimed to aviod that if, for instance, t
 
 % data do not present a clear age-trend  (and FIQ?)
 
-As explained in section \ref{sec:harmonizationtheory}, ComBat simultaneously models and estimates biological and non biological terms, and algebraically removes the estimated addivite and multiplicative site-effect terms.
+As described in section \ref{sec:harmonizationtheory}, ComBat-based harmonization procedure simultaneously models and estimates biological and non biological terms, from data and algebraically removes the estimated addivite and multiplicative site-effect terms.
 
-Harmonization procedure was tested on the whole ABIDE I + II dataset to have a visual representation of how features are modified after the harmonization is applied.
+Harmonization procedure was tested on the whole ABIDE I + II dataset to have a visual representation of how features are modified after being processed with harmonization pipeline.
 
 To test harmonization procedure and evaluate its performances in making sites' feature uniform, we used NeuroHarmonize \footnote{https://github.com/rpomponio/neuroHarmonize} package for Pyhton, developed by Pomponio et al. \cite{pomponio-2019} which implemented and added some features to the previous NeuroComBat Python package \footnote{https://github.com/Jfortin1/ComBatHarmonization}.
 
@@ -1802,6 +1809,8 @@ Specifically, fig \ref{fig:heatmap_harmonization_noharmon} shows the AUC score o
 On the contrary, in fig \ref{fig:heatmap_harmonization_harmon} values are lower, meaning that sites are not so distinguishable anymore, however, a certain distinctive features are still present for sites presenting high difference in mean age.
 This is a consequence of choosing age as covariate, which preserves differences in age-dependent features.
 
+
+%C'è da dire che anche dopo l'armonizzazione, il sito SU_2 rimane distinguibile, anche se dalle feature sembra essere stato allineato con gli altri. Quindi stessa storia potrebbe essere avvenuta per i wavelet.
 
 % HEATMAPS
 \begin{figure}
@@ -1909,7 +1918,7 @@ Their values are plotted as a box along the y axis and sites are indicated along
 
 
 
-\subsection{Comments on harmonization}
+\section{Comments on harmonization}
 
 Figure \ref{fig:heatmap_harmonization_w} shows a binary classification procedure with a random forest, for site discrimination of Wavelet-based coefficients. It appears clear that with Wavelet coefficients there is not the same outcome as with Pearson coefficients (figure \ref{fig:heatmap_harmonization}), in fact with Wavelets sites still remain distinguishable after harmonization.
 
@@ -2296,8 +2305,10 @@ For a better understanding of this concept, we can imagine a dataset made of onl
 If we want to explain the maximum variance we need to find a new axis, the first principal component, but through two points passes just one straight line so we can at most limit our analysis to the plane passing through that line.
 
 In our case $n\_samples$ is always $< \ n\_features$, so the number of principal components will be limited by the number of data in the Train dataset.
+We use just the train dataset to calculate principal components because this is the correct way to proceed to avoid data leakage between Train and Test dataset.
 
-We choose to run PCA analysis using coefficients that gave the best classification results in the previous analysis, Pearson correlation coefficients.
+We choose to run PCA analysis using coefficients that gave the best classification results in the previous analysis namely Pearson correlation coefficients. And to not weigth down this table, we limited our dataset choice to the whole ABIDE I + II dataset and to ABIDE I only open eye, because on it we obtained a bit higher classification results.
+
 We started our analysis choosing the proper number of PC to explain $> 90\%$ of variance and then gradually reduced them as reported in table \ref{tab:pca_explained}
 
 \begin{table}
@@ -2389,7 +2400,7 @@ This lower scores is found both on Wavelet coefficients of in-phase and counter-
 \paragraph{Effects of a more regular dataset}
 Let's focus for a moment just on table \ref{tab:classification_pearson} (even if what follows also applies to Wavelet results) to discuss the benefits of reducing the dataset size making cuts on covariates to run analysis on a more homogeneous dataset.
 We can state that the eye status of patients during the scan has a non-negligible impact on the outcome of classification since limiting the dataset only on subjects with open eyes systematically improves classification scores of more than 1 \% for every dataset (ABIDE I+II, ABIDE I only, ABIDE II only).
-As introduced on chapter \ref{} there can be differences in brain functional areas between patients with open eyes and patients with eyes closed due to activation of different cortex and gyri areas or because during the scan, some patients may be fallen asleep, and this heavily modify the functional connectivity matrix.
+As introduced in chapter \ref{chap:autism} there can be differences in brain functional areas between patients with open eyes and patients with eyes closed due to activation of different cortex and gyri areas or because during the scan, some patients may be fallen asleep, and this heavily modify the functional connectivity matrix.
 For this reason, removing these source of variability could bring to a cleaner distinction of relevant patterns between Controls data and ASDs.
 We can also notice that results on the dataset made by ABIDE I + II are mostly driven to the data belonging to ABIDE I than those belonging to ABIDE II, and this is true whether we restrict our analysis on open eyes oatients only or we do not.
 In fact, putting together the two dataset does not lead to a great improvement of scores than limiting just on ABIDE I.
@@ -2428,7 +2439,7 @@ DA SCRIVERE MEGLIO; L'idea è giusta?
 Looking at tables \ref{tab:classification_pearson} we notice that the adversarial model perform slightly worse working on Pearson correlation coefficients while for wavelet coefficients (tables \ref{tab:classification_win} and \ref{tab:classification_win+wout}) we obtain values greater or equal than results obtained with a simple dnn.
 %scrivere che quando faccio l'harmonization non uso nessuna covariata specificandola come non lineare perchè non ci sono ragioni per farlo
 An possible reason, in light of the results obtained with harmonization of wavelet coefficients which is not able to make sites-related feature unrecognisable, is that when computing wavelet coefficients, linear site-dependent relationship is lost and maybe a non linear relation is created.
-Same thing does not happen with pearson coefficients where linear relations remain. harmonization is able to remove linear relations on pearon but not on wavelets, and a classifier is more likely to get these non-linear relations with site and perform better on wavelets.
+Same thing does not happen with pearson coefficients where linear relations remain. harmonization is able to remove linear relations on pearson but not on wavelets, and a classifier is more likely to get these non-linear relations with site and perform better on wavelets.
 
 
 
@@ -2451,64 +2462,77 @@ What arises from this analysis, is that PCA represent an important strategy to t
 
 \chapter{SHAP - Implementation and results}
 
+In this chapter we are going to give a look at how we implemented a feature explainatory model using the SHAP algorithm described in section \ref{sec:shap}.
 
-To instantiate the desired class, DeepExplainer in our case, we need the trained model and a fraction of the training data as background of arbitrary size $N_{bkg}$ keeping in mind that the bigger is this background subset, the more accurate is the computing of shapley values, but the more computationally expansive this process will be, in particular it would occupy a vast amount of RAM memory and eventually run out of it; by the way, since the error on them $\sim 1/\sqrt{N_{bkg}}$, a background dataset made of 100 samples is a good compomise to have a relatively small error.
-We choose though, a background size of 500 samples for the entire dataset and a size of 100 samples when working on ABIDE I only open eyes, since we have a reduced number of train data to collect background data from.
+We choose to run this analysis only on Pearson correlation coefficients since they gave the best classification results, and we use the whole dataset consisting of ABIDE I + ABIDE II patients with the same characteristics as we choose for classification: only males and with an age range of 5-40.
+In addition we put in appendix some results obtained on the dataset ABIDE I only open eye.
+
+METTO QUESTO IN UNA LISTA NUMERATA?
+What we are looking in this section is for the most important features computed on the entire test dataset and even if for each test data they contributed poorly, there is a certain gerarchy of importance between them.
+Subsequently, we ask if these most important features are the same across the different pipelines we followed or if each pipeline makes prediction using different subsets of relevant features more specifically we want to check if before and after the harmonization procedure, the most important features still remain the same or if they change depending on the kind of analysis we are carrying out.
+We compared important features extracted from DNNs with those important for a Random Forest classifier to evaluate if there are feature that stand out regardless the algorithm used to compute them since we used SHAP to explain feature from the DNN and the feature\_importance class  provided by scikit learn to assess feature in a random forest classifier.
+Afterwards, we select 5 analysis to focus on, because we regard at them as the most significative to count ho many features are common in these analysis between the first 60 most important features.
+At the end we come back to the biological meaning of the most important feature to assess whether they are linked to some particular brain areas which caused an altered functional connectivity between heathy and ASDs patients.
+
+
+
+
+To instantiate the desired class, DeepExplainer in our case, we need the trained deep model and a fraction of the training data to use as background. We can choose as many background data as we want keeping in mind that the bigger is this background subset $N_{bkg}$, the more accurate is the computing of shapley values, but the more computationally expansive this process will be, in particular it would occupy a vast amount of RAM memory and eventually run out of it;
+However, since the error we make in shap values linked to this choice is $\sim 1/\sqrt{N_{bkg}}$, a background dataset made of 100 samples is already a good compomise to have a relatively small error.
+We choose though, a background size of 500 samples for the entire dataset and a size of 100 samples when working on ABIDE I only open eyes, since we had a reduced number of train data to collect background data from.
 
 Once the explainer is created on our model, we need to input as many test dataset as we want to explain, and for each one of them, the explainer will output an array containing a shap coefficient for all the n\_features of each test data.
 Once inputed a batch of test data, we obtain a matrix of the same size of the test dataset we used, shaped n\_samples x n\_features.
-We choose to input all the test dataset for each fold to obtain a more accurate shap value for each feature.
+We choose to input all the test dataset for each fold to obtain a more statistically accurate estimate of feature importance.
 
-Since we are presenting our results following a k-fold cross validation scheme, we had to implement this shap process inside the CV.
-To do so and collect the final result we computed the shap values for all the test samples and we stacked them together.
-At the end of the CV, shapley values are computed for the whole dataset, and we can proceed to visualize the results
-We can visualize the contribution of each feature on pushing or pulling the predicted output from the baseline output of our model.
+Since we are presenting our results following a k-fold cross validation scheme, we have to implement this shap process inside the CV.
+To do so and collect a final and general result, we computed the shap values for all the test samples of each k-fold and we stacked them together.
+At the end of the CV, we have a matrix of shap values, and we can proceed to visualize the results.
 
-Positive shapley values, representing positive contribution to our output are colored red and negative ones are blue.
+
+
+We can visualize, for each test data, the contribution of each feature on pushing or pulling the predicted output from the baseline output of our model, but to produce this kind of plot we need to save the Test datasets as well.
 An example is shown in figure \ref{fig:shap_waterfall}.
-Even if this is just an example taken from previous analysis on our data, and it appears clear that there is not a feature whose contribution is way greater than the others.
-Each feature makes a small contribution to the final outcome, but what we are looking, is for feature that, even if contributed poorly, are recurring through all the analysis.
-
-
-
-
+In this type of plot, called \emph{waterfall plot}, is shown the result on a single test data. We have the baseline value of the model in the lower right corner and on the top left the prediction obtained with this test data. For each feature, positive shapley values, representing positive contribution to our output are colored red and negative ones are blue.
+Even if this is just an example taken from a single test data, it representative of all the analysis where there is not a feature whose contribution is way greater than the others. In fact each feature makes a small contribution to the final outcome, but the sum of them push the model towards a output.
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.6\textwidth]{shap/waterfall_plot}
-\caption{Example of a waterfall plot obtained with our data. For each row is displayes the feature's name and value and its contribution to the final output: negative contribution are colored blue and positive ones red. It is also marked the reference output in the bottom right corner, and the output of this instance on the top left.
+\caption{Example of a waterfall plot obtained with a single test data. For each row is displayed the feature's name and value and its contribution to the final output: negative contribution are colored blue and positive ones red. It is also marked the reference output in the bottom right corner, and the output of this instance on the top left.
 }\label{fig:shap_waterfall}
 \end{figure}
 
 
-To visualize the total amount of \textquotedblleft contribution \textquotedblright for each feature, it is  possible to visualize a bar plot of all the feature from the most to the least important.
+If we want look at the overall result on all the test data, it would be inconvenient to create a plot like \ref{shap_waterfall} for each data. For this reason we have to look at an other plot called \emph{force plot}
+
+The force plot of feature's importance can involve either the module of shap values or shap values themselves (positive or negative), an example of the latter is figure \ref{fig:shap_dot_kfold}: this plot shows for each instance (for each sample from the test data), the contribution of one particular feature to the final output related to that sample, and it is represented as a single colored spot, the color indicated the strength of the contribution of that feature to the final outcome, and the position in respect to the vertical line, indicates the sign of that contribution: on the right we found those that gave a positive contribution (pushed the output towards values greater than the reference output), and on the left are placed those that had a negative contribution.
+This kind of plot, though, is not the best suitable for readibility in our case because of the large amount of features and the small contribution of each feature to the final outcome, in respect to other feature.
+This results in a smoothed scatter plot for each feature, containing many but unnecessary details which make this kind of plot not the best suitable for our study.
+
+We can choose to visualize the total amount of \textquotedblleft contribution \textquotedblright of each feature, by involving the absolute value of the shap values of figure \ref{fig:shap_dot_kfold} to obtain figure \ref{fig:shap_bar_kfold} representing a bar plot of all the first 20 important feature from the most to the least important.
 Each bar represents a feature importance, computed from equation \ref{eq:shap_magnitude}.
-We choose to run this analysis only on Pearson correlation coefficients since they gave the best classification results and on the whole dataset consisting on ABIDE I + ABIDE II, only males and with an age range of 5-40.
-Our goal is to check if before and after the harmonization procedure, the most important features still remain the same or if they change depending on the kind of analysis we are carrying out.
 
-The plot of feature's importance can be either the module of shap values or shap values themselves (positive or negative), an example of the latter is figure \ref{fig:shap_features_kfold_both}: this plot shows for each instance (for each sample from the test data), the contribution of one particular feature to the final output related to that sample, and is represented as a single colored spot, the color indicated the strength of the contribution of that feature to the final outcome, and the position in respect to the vertical line, indicates the sign of that contribution: on the right we found those that gave a positive contribution (pushed the output towards values greater than the reference output), and on the left are placed those that had a negative contribution.
-This kind of plot, though, is not the best suitable for readibility in our case because of the large amount of features and the small contribution of each feature to the final outcome, in respect to other feature, or in other words there isn't a standing out feature, or group of feature that have a contribution way greater than the others, but in fact feature's importance has a quite smoothed descending trend.
-An example to visualize this trend is showed in figure \ref{fig:shap_abide_all} and thus, for a better readability we prefer reporting the results in terms of absolute shapley value, where we just consider the module of the shapley values, regardless its positive or negative contribution to the output, just to visualize the absolute contribution of that feature to a all the output.
+For a better readability we prefer reporting the results like this, in terms of absolute shapley value, where we just consider the module of the shap values, regardless its positive or negative contribution to the output, just to understand the absolute contribution of a single feature for a given analysis pipeline.
 
+From this plot we have a more immediate understanding of what are the most important features, and, as we noticed from the example in figure \ref{fig:shap_waterfall}, there is not a standing out feature, or group of feature that have a contribution way greater than the others, but in fact feature's importance has a quite smoothed descending trend.
+An example to visualize this trend is shown in figures \ref{fig:shap_bar_kfold} representing the first 20 most important features extracted from DNN trained on data harmonized inside k-fold CV.
 
-This bar plot is shown in figure \ref{fig:shap_abide_all}
-
-\paragraph{Feature importance with DNN}
-
-
-\begin{figure}
+\begin{figure}[h!]
 \centering
-\begin{subfigure}[b]{.45\textwidth}
-   \includegraphics[width=1\linewidth]{shap/ab_all/shap_dot_kfold}
+\begin{subfigure}[t]{.45\linewidth}
+   \fbox{\includegraphics[width=1\linewidth]{shap/ab_all/shap_dot_kfold}}
    \caption{Plot of dotted shapley values: for each feature each instance (each test sample) is represented by a dot, the position indicates a positive or negative contribution to the output, while the color represents the module of that contribution}
-   \label{}
+   \label{fig:shap_dot_kfold}
 \end{subfigure}
-\begin{subfigure}[b]{.45\textwidth}
-   \includegraphics[width=1\linewidth]{shap/ab_all/shap_bar_kfold}
-   \caption{Bar plot of shapley values: for each feature is represented the mean absolute value of all the shapl values computed for each instance}
-   \label{}
+\hspace{3mm}
+\begin{subfigure}[t]{.439\linewidth}
+  \fbox{ \includegraphics[width=1\linewidth]{shap/ab_all/shap_bar_kfold}}
+   \caption{Bar plot of shapley values: for each feature is represented the mean absolute value of all the shap values computed for each instance}
+   \label{fig:shap_bar_kfold}
 \end{subfigure}
-\caption{Two different plots of shap values for the first 20 important features during the K-fold harmonization peocedure}
+\caption{Two different but equivalent plots of shap values for the first 20 most important features obtained from data where harmonization procedure is implemented inside the k-fold CV scheme
+}
 \label{fig:shap_features_kfold_both}
 \end{figure}
 
@@ -2516,19 +2540,32 @@ This bar plot is shown in figure \ref{fig:shap_abide_all}
 
 
 
-\begin{figure}
+\newpage
+\paragraph{Feature importance with DNN} \hfill
+
+
+
+
+
+
+\begin{figure}[h!]
 \centering
-\begin{subfigure}[b]{.45\textwidth}
+\begin{subfigure}[c]{.45\linewidth}
+  \includegraphics[width=1\linewidth]{shap/ab_all/shap_bar_kfold}
+   \caption{k-fold}
+   \label{fig:shap_bar_kfold_}
+\end{subfigure}
+\begin{subfigure}[c]{.45\textwidth}
    \includegraphics[width=1\linewidth]{shap/ab_all/shap_bar_upstream}
    \caption{upstream}
    \label{}
 \end{subfigure}
-\begin{subfigure}[b]{.45\textwidth}
+\begin{subfigure}[c]{.45\textwidth}
    \includegraphics[width=1\linewidth]{shap/ab_all/shap_bar_no}
    \caption{Raw data}
    \label{}
 \end{subfigure}
-\begin{subfigure}[b]{.45\textwidth}
+\begin{subfigure}[c]{.45\textwidth}
    \includegraphics[width=1\linewidth]{shap/ab_all/shap_bar_adv}
    \caption{adversarial}
    \label{}
@@ -2536,7 +2573,6 @@ This bar plot is shown in figure \ref{fig:shap_abide_all}
 \caption{}
 \label{fig:shap_abide_all}
 \end{figure}
-
 
 We can see from this bar plots of the first 20 most important features that some feature seem to be persistent through all the four pipelines; if we limit our analysis on these first twenty we find that: feature 592 and 4521 appear, even if in different order of importance, in all our four analysis; features 244 592 777 1513 1521 3042 3334 3401 appear in 3 out of 4 analysis,
 %and features 2181, 244, 1507, 2126, 1631, 724 and 1511, appear just in two of them.
@@ -2553,6 +2589,7 @@ Let's see what they represent:
 \item Feature 3401: correlation between Right Parahippocampal Gyrus ( posterior division) and Right Parahippocampal Gyrus ( anterior division)
 \end{itemize}
 
+\newpage
 \paragraph{Feature importance with Random Forest}
 
 
@@ -2589,7 +2626,7 @@ Random forest: common to the three analysis are: 592, 1521, 1513, 3334 shown in 
 \item Feature 3334: correlation between Right Parahippocampal Gyrus ( posterior division) and Right Accumbens
 \end{itemize}
 
-
+\newpage
 \paragraph{Cross-analysis on feature importance}
 
 Since we want to exclude from our analysis the procedure of upstream harmonization because it creates a bias in classification results, from now on, when we refers to harmonized data, we are referring to data with harmonization procedure implemented inside kfold.
