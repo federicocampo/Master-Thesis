@@ -1563,7 +1563,7 @@ We can accoplish so, by extracting two types of information from this scalogram:
 
 We can extract the magnitude information of each entry of the scalogram, but before doing so, we need to assess the level of significance of this coherence matrix over the noise, this way we can estimate the statistical significance level of our values, and only take the significative ones.
 
-The theoretical procedure \cite{grinsted-2004} \cite{bernas-2018} is to generate, using Monte Carlo methods, a large (1000) samples of wavelet coherence matrices using red noise timeseries.
+The theoretical procedure \cite{grinsted-2004} \cite{bernas-2018} is to generate, using Monte Carlo methods, a large (1000) samples of wavelet coherence matrices using red noise timeseries. \cite{hartmann-2014}
 These red noise samples should be generated, for each time series, with the same 1-lag autoregressive coefficients (AR1 coefficient) as the two timeseries we are computing wavelet coherence on, and then, for each pair of red-noise timeseries, we should compute wavelet coherence matrix.
 However, since AR1 coefficients have little impact on the significance level \cite{grinsted-2004}, we choose to generate a single sample of 1000 pairs of red noise and for each pair we computed the wavelet coherence matrix.
 
@@ -1788,7 +1788,7 @@ Under this general way to proceed, we used a Random Forest Regression to test th
 In this analysis, we split the model into a Train and Test subsets, using the Test subjects, we created a model with only controls as explained before,
 The model was then applied to the case subjects belonging to train, and to both case and controls subjects of the Test set.
 
-A random forest regressor was trained on this dataset attempting to make binary classification of the site, for each pair of sites.
+A random forest classifier was trained on this dataset attempting to make binary classification of the site, for each pair of sites.
 
 This aproach, allows train and test dataset to be still independent, because harmonization model was only created on Train subjects and once learnt the parameters, is applied to the Test dataset, so the data we use to train the random forest, are kept separated from the test set, so that there's no information leakage of the test data into the training data.
 \newline
@@ -2287,10 +2287,14 @@ AB II EYE open &66 $\pm$2 &68$\pm$ 3 &66$\pm$ 4 &65 $\pm$5 \\
 \section{Results with PCA}
 % come ho calcolato le pca? solo sul training set
 %non avrebbe senso calcolare la PCA solo sui controlli perchè pca cerca la direzione di massima varianza, dove i davi variano maggiornente, e quidni dove si ha una migliore distinguibilità bewteen controls and asds. NOn avrebbe senso farla solo sui controlli.
+%Il numero di PC può essere più grande del test dataset, ma non sarà mai più grande del numero di feature in esso (per come è definito il massimo numero di pc), quindi una volta estratte le PC può essere applicato a qualsiasi test dataset
 
-When applying PCA to a dataset we seek to explain as much variance as possible, for this reason we start our pca analysis extracting a number of principal components that explain more then 90$\%$ of variance, then we reduced this number halving if.
+When applying PCA to a dataset we seek to explain as much variance as possible, for this reason we start our pca analysis extracting a number of principal components that explain more then 90$\%$ of variance, then we gradually reduced this number halving if.
 The maximum number of principal components is limited by the number of data we can use. If we have a dataset of $n\_samples$ samples, each with $n\_features$ features, the maximum number of PC is given by $N\_pc = min\{n\_samples, n\_features\}$.
 This is because in a $n-feature$-dimensional space, our points lie in a $n\_samples$-dimensional hyperplane and all the variance can be explained inside this subspace.
+For a better understanding of this concept, we can imagine a dataset made of only two data, each containing 3 features. If we represent these data, we construct a 3D space where each orthogonal axes corresponds to a feature, and we insert these two points, each corresponding to a data point.
+If we want to explain the maximum variance we need to find a new axis, the first principal component, but through two points passes just one straight line so we can at most limit our analysis to the plane passing through that line.
+
 In our case $n\_samples$ is always $< \ n\_features$, so the number of principal components will be limited by the number of data in the Train dataset.
 
 We choose to run PCA analysis using coefficients that gave the best classification results in the previous analysis, Pearson correlation coefficients.
@@ -2369,6 +2373,8 @@ REsults obtained with different analysis are marked with different colors: class
 \end{figure}
 
 \section{Discussion on classification results}
+
+\paragraph{Comparison between Pearson and Wavelets}
 From results reported on section \ref{sec:pearson_results} and \ref{sec:wavelet_results} it is quite evident that average results obtained with pearson correlation coefficients are systematically higher than wavelet-based correlation coefficients.
 We can therefore assume that working with Wavelet-based correlation coefficient obtained through processes described in section \ref{sec:wavelet_theory} does not bring any advantages to this kind of analysis.
 A possible reason for this outcome could be the loss of information during the extraction of these coefficients because of the introduction of redundancy and randomness into this analysis. Starting from two timeseries Wavelet transform compute a 2D matrix for each timeseries and uses them to calculate the cross-power spectrum as explained in the dedicated section.
@@ -2378,25 +2384,67 @@ In the end we shrink again our dimensions to reduce to a single data point repre
 
 Since differences of traits between controls and ASDs are not very strong, this process can cause the loss of this weak information, which does not happen with a more direct and linear correlation calculus like Pearson coefficients.
 
-This lower scores if found both on Wavelet coefficients of in-phase and counter-phase time percentage, and not even the combination of this two in a double-sized array, or with a coefficient made by the difference between these two coefficients brings any benefits, as an evidence that this procedure is not the most suitable to our classification goals.
+This lower scores is found both on Wavelet coefficients of in-phase and counter-phase time percentage, and not even the combination of this two in a double-sized array, or with a coefficient made by the difference between these two coefficients brings any benefits, as an evidence that this procedure is not the most suitable to our classification goals.
 
-Let's focus for a moment just on table \ref{tab:classification_pearson} to discuss the benefits of reducing the dataset size making cuts on covariates to run analysis on a more homogeneous dataset.
-We can state that the eye status of patients during the scan has a non-negligible impact on the outcome of classification since limiting the dataset only on subjects with open eyes systematically improves classicication scores of more than 1 \% for every dataset (ABIDE I+II, ABIDE I only, ABIDE II only).
+\paragraph{Effects of a more regular dataset}
+Let's focus for a moment just on table \ref{tab:classification_pearson} (even if what follows also applies to Wavelet results) to discuss the benefits of reducing the dataset size making cuts on covariates to run analysis on a more homogeneous dataset.
+We can state that the eye status of patients during the scan has a non-negligible impact on the outcome of classification since limiting the dataset only on subjects with open eyes systematically improves classification scores of more than 1 \% for every dataset (ABIDE I+II, ABIDE I only, ABIDE II only).
 As introduced on chapter \ref{} there can be differences in brain functional areas between patients with open eyes and patients with eyes closed due to activation of different cortex and gyri areas or because during the scan, some patients may be fallen asleep, and this heavily modify the functional connectivity matrix.
-For this reason, removing these source of variability could bring to a cleaner distinction of relevant pattern between Controls data and ASDs.
+For this reason, removing these source of variability could bring to a cleaner distinction of relevant patterns between Controls data and ASDs.
+We can also notice that results on the dataset made by ABIDE I + II are mostly driven to the data belonging to ABIDE I than those belonging to ABIDE II, and this is true whether we restrict our analysis on open eyes oatients only or we do not.
+In fact, putting together the two dataset does not lead to a great improvement of scores than limiting just on ABIDE I.
+It is possible that this trend is due to teo main factors: the greater number of ABIDE I patient than ABIDE II, and the presence in ABIDE I of a great site: NYU containing a great percentage of patient which are also balanced between controls and ASDs.
+This could monopolise the results since a great percentage of train and test data would belong to this center leading to a lower variability due to site-related features as demonstrated in studies like \cite{spera-2019}.
+(Ma allora perchè questo trend lo vediamo anche sui dati armonizzati?)
 
-An other common trend that stands out from all the analysis is the systematic scores' improvement with the method of upstream harmonization explained on section \ref{sec:} and sketched on flowchart in figure \ref{fig:harmon_upstream_flowchart}.
-We can state that this is a confirm that this procedure is the wrong way to proceed and that some good results on other similar studies (\cite{ingalhalikar-2021}) may be due to a similar data leakage as we have in this procedure.
-We have data leakage when information outside the training set is used to create and train models. This additional information allows the model to know something additional about the data that otherwise it would have not known.
+
+\paragraph{Comparison with the random forest classifier}
+As a general rule of thumb is alway a good practice to compare results obtained with a complex model, to results obtained with a simpler machine learning classifier like Random Forest. Instead of opting for a complex model, simpler methods should be tried to establish a baseline and allow a meaningful comparison. The principle of Occam's razor, when applied to machine learning demands that if two model perform quite the same, the simpler of the two should be picked \cite{domingos-1999}. This would be true expecially for our data since we start from a situation of overfitting and there is no need to choose a complex model a priori if this choice is not supported by data. This same principle was applied during the choice of the best structure of the deep learning model.
+
+Comparing the results obtained by the deep model with those obtained with a Random Forest, (table \ref{tab:comparison_dnn_rf_pearson} and \ref{tab:comparison_dnn_rf_win+wout}) it is possible to deduce that a deep model is more adapt to find characteristic patterns between controls and ASD than a simpler Ranfom Forest classifier.
+Scores obtained with a deep model are systematically way higher than those obtained with a random forest classifier, except for those we get cassifying data with upstream harmonization, but as explained in paragraph \ref{par:effect_of_harmonization} this procedure leads to biased data and as a consequence results are not reliable.
+We are still going to use Random Forest classifier in some of the remaining anslysis just as a comparison, even though we assert that a deep model is more suitable to understand differences between the two classes of interest.
+
+
+
+\paragraph{Effect of harmonization} \ref{par:effect_of_harmonization}
+An other common trend that stands out from all the analysis is the systematic scores' improvement with the method of upstream harmonization explained on section \ref{sec:} and outlined on flowchart in figure \ref{fig:harmon_upstream_flowchart}.
+This improvement disappears when we implement harmonization inside the k-fold cross validation procedure as sketched in flowchart \ref{fig:harmon_kfold_flowchart}.
+These two implementation differ on the order with which harmonization is implemented: with upstream harmonization we harmonize the whole dataset and subsequently we split it into train and test to run a cross validation procedure; conversely, with harmonization implemented inside the cross validation procedure, we run harmonization only after the division of the dataset into a Train and Test subsets.
+We can state that this is an evidence that the upstream harmonization is the wrong way to proceed, since its high results are affected by a bias due to data leakage which occur if we implement harmonization this way.
+It is also possible that some good results on other similar studies, obtained with harmonization implemented in this same way (\cite{ingalhalikar-2021}) may be due to a similar data leakage as we have in this analysis.
+As a general definition, we have data leakage when information outside the training set is used to create and train models. This additional information allows the model to know something additional about the data that otherwise it would have not known.
 This leads to an improvement of model's prediction and an overestimation of performances.
-In this case we have data leakage when we harmonize the entire dataset before splitting it into Train and Test.
-With this way to proceed, when we use Train data, they already contain informations about Test data because they have been created using covariates, features and other informations belonging to the whole dataset.
+In this case we have data leakage when we harmonize the entire dataset before splitting it into Train and Test, because, according to this way to proceed, when we use Train data, they already contain informations about Test data because they have been created using covariates, features and other informations belonging to the whole dataset.
+We can then assess that the right way to implement harmonization is inside the k-fold cross validation, or, if we don't run a cross validation, it is important to implement it after the splitting of dataset into a train and a test goups. This way, we can create the harmonization model only on Train data we give as input to the classifier so that there are not external information in the train dataset.
+We can then harmonize data belonging to test applying to them the harmonization model, with parameters created on the train dataset.
+For this reason, from now on, when we refer to \textquotedblleft harmonized data \textquotedblright, we are referring to the procedure that harmonizes data inside the k-fold CV.
 
-This same alertness is to be applied when extracting PCA because it is possible to make the mistake of computing Princial components on the whole dataset, before its separation into Train and Test sets.
-For this reason we implemented PCA
+Comparing results of harmonized data with results on raw data we don't notice a particular improvement.
+
+
+\paragraph{Results with adversarial}
+DA SCRIVERE MEGLIO; L'idea è giusta?
+Looking at tables \ref{tab:classification_pearson} we notice that the adversarial model perform slightly worse working on Pearson correlation coefficients while for wavelet coefficients (tables \ref{tab:classification_win} and \ref{tab:classification_win+wout}) we obtain values greater or equal than results obtained with a simple dnn.
+%scrivere che quando faccio l'harmonization non uso nessuna covariata specificandola come non lineare perchè non ci sono ragioni per farlo
+An possible reason, in light of the results obtained with harmonization of wavelet coefficients which is not able to make sites-related feature unrecognisable, is that when computing wavelet coefficients, linear site-dependent relationship is lost and maybe a non linear relation is created.
+Same thing does not happen with pearson coefficients where linear relations remain. harmonization is able to remove linear relations on pearon but not on wavelets, and a classifier is more likely to get these non-linear relations with site and perform better on wavelets.
 
 
 
+
+
+\paragraph{Effect of dimensionality reduction}
+This same alertness we paid for the implementation of harmonization is to be applied when extracting PCA because it is possible to make the mistake of computing Princial components on the whole dataset, before its separation into Train and Test sets.
+For this reason we implemented PCA extracting PCs from the Training dataset and applying the transformation to the both of Train and Test dataset.
+At a first glance we can notice that reducing the number of PCs leads to a gradual reduction of classification performances.
+This trend is more evident in the whole datataset, while in the ABIDE I only open eyes dataset, we obtain a flatter performances curve.
+A reduction from 5995 to 800 or 400 feature is a substanctial reduction since we are lowering our dimensionality by an order of magnitude still preserving an high classification AUC comparable to that obtained without PCA. In this analysis as well, data leakage due to the prior harmonization of dataset plays an important role as it leads to a rise in classification performances for any choice of number of PCs.
+
+An other aspect that leap out comparing results with PCA with results without it, is a light improvement of performances of the adversarial learning.
+An explaination to this can be that a reduced source of error (deriving from this dimensionality reduction) brings to a reduced variability in site-related features making these confounding feature more recognizable. This could lead to a smoother weight updates that doesn't affect classification weigths as much as it does with raw data.
+
+What arises from this analysis, is that PCA represent an important strategy to tackle the problem of dimensionality. It is plausible tbat among all the 5995 features lots of them are uninformative for Control/ASD classification and they just increase dimensions of data without any benefit. This can be linked to a biological reason: we can in fact imagine that there are some brain areas that just don't significantly change their activity between healthy and ASD people. Following this explaination, all the coefficients representing a link between them are just similar between the two groups and don't bring any benefit in this discrimination. For this reason, reducing the source of noise due to this data-points leads to a equally informative dataset.
 
 \newpage
 
@@ -2909,6 +2957,30 @@ We find that features common to the 3 pipelines are: 3042, 1417, 748, 1400, 762
 \caption{Feature importance obtained from a Random Forest classifier: results on ABIDE I only open eyes.}
 \label{fig:rf_feature_importance_ab1}
 \end{figure}
+
+
+
+
+Running on the same subgroups as in the analysis of the whole dataset:
+We have 4 features common to the 5 analysis: 1400, 762, 748, 2735
+\begin{itemize}
+\item Feature 1400: correlation between Left Supramarginal Gyrus ( posterior division) and Right Inferior Frontal Gyrus ( pars triangularis)
+\item Feature 762: correlation between Left Middle Temporal Gyrus ( temporooccipital part) and Left Middle Frontal Gyrus (nan)
+\item Feature 748: correlation between Left Middle Temporal Gyrus ( temporooccipital part) and Right Thalamus (nan)
+\item Feature 2735: correlation between Right Precuneous Cortex (nan) and Right Middle Temporal Gyrus ( anterior division)
+\end{itemize}
+
+
+\begin{itemize}
+\item Focusing on random forest classifier, we compared important features between \ref{proc:rf_kfold} and \ref{proc:rf_no} and found that 34 features out of 60 are common (57\%).
+\item Focusing on DNN we compared pipelines \ref{proc:dnn_kfold} and \ref{proc:dnn_no} finding that 19 features (32 \%) out of 60 are common.
+\item Comparing the same analysis pipeline with DNN and Random Forest we find that with harmonized data: procedure \ref{proc:rf_kfold} and \ref{proc:dnn_kfold} there are 11 common features (18 \%)
+\item Comparing results on raw data obtained with DNN \ref{proc:dnn_no} and Random Forest \ref{proc:rf_no} we obtain 13 common features  (22\%)
+\item Comparing the adversarial results \ref{proc:adv} with the harmonized data with DNN \ref{proc:dnn_kfold} we obtain 19 common features (32\%)
+\item Comparing the adversarial results \ref{proc:adv} with DNN classification of raw data \ref{proc:dnn_no} we obtain 23 common features (38\%)
+\end{itemize}
+
+
 
 
 
