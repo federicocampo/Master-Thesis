@@ -55,7 +55,7 @@
 \title{Titolo Tesi}
 \author{Federico}
 
-\graphicspath{{/home/federico/magistrale/scriptsoutput/images/}{/home/federico/magistrale/Imagess/}}
+\graphicspath{{/home/federico/magistrale/Imagess/}}
 
 
 \urlstyle{same}
@@ -114,7 +114,7 @@ Classification of raw data and harmonized data implemented with different proced
 \item After we determined the correct harmonization procedure, we implemented an interpretation method called SHAP to explain which features contributed the most to the final outcome of machine learning classification, and from them we determined the most relevant brain areas that allow a discerning between controls and ASDs
 \end{itemize}
 
-\paragraph{Chapter overview} \hfill
+\chapter*{Organization of contents}
 
 \textbf{Background:} In this background chapter we are going to explain some useful theory that lays the groundwork to all the thesis work.
 In chapter \ref{chap:autism} we outline the main problems associated with this disorder, from the biological development to the social isseues it generates. We briefly review some studies carried on so far to study this challenging issue.
@@ -142,9 +142,9 @@ At the end, chapter \ref{chap:shap_results} shows the implementation of a featur
 %\chapter*{BACKGROUND}
 
 
-\chapter{ASD = previous Introduction}\label{chap:autism}
-
-Autism spectrum disorder (ASD) is becoming a growing social issue, drawing more and more attention expecially during the last decades, both for its social impact on families and society and because of the raise in number of diagnosied cases.
+\chapter{Introduction}
+\section{Autism spectrum disorder} \label{chap:autism}
+Autism spectrum disorder (ASD) is a neurological disorder that is becoming a growing social issue, drawing more and more attention expecially during the last decades, both for its social impact on families and society and because of the raise in number of diagnosied cases.
 
 ASD is classified as a neurodevelopmental behavioural disorder \cite{guze-1995} \cite{who-1993} and refers to a broad range of conditions manifesting as deficits in social communication and interaction such as reduced sociability or empathy, repetitive behaviours, resistance to changes, and sometimes even speech difficulties.\cite{rapin-2008}
 
@@ -156,79 +156,110 @@ However, since there isn't a definitive biological test, often ASD is discovered
 Currently ADI-R (Autism Diagnostic Interview - Revised) and ADOS (Autism Diagnostic Observation Schedule) are considered the ‘gold standard’ tools for diagnosis of ASD \cite{ozonoff-2015} \cite{lecouteur-2008}.
 Nevertheless, besides these behavioural test, to achieve a more accurate diagnosis, medical and biological informations should be taken into account as well .
 
-Of great importance would be to make an early diagnosis, in order to provide in time the help and support they need. Hopefully, treating children whose this disorder is still it in its early stage, could bring to a regression of this condition.
+For a better treatment of this condition, it would be of great importance to make an early diagnosis, in order to provide in time the help and support people need.
+Hopefully, treating children when this disorder is still it in its early stage, could bring to a regression of this condition.
 
-The main factors that bring to the developing of autism aren't very clear so far, and is acquiring more consensus between neuroscientists and doctors that there isn't just a single cause, but a concatenation and cohexistence of various triggereing factors.
-Among them, the most strongly suspected are identified to be genetic and environmental, intended as environmental exposure to air pollution,
+The main factors that bring to the developing of autism aren't very clear so far, and is acquiring more consensus between neuroscientists and medical doctors that there is not just a single cause, but a concatenation and cohexistence of various triggering factors.
+Among them, the most strongly suspected are identified to be genetic and environmental, where environmental is to be intended as exposure to air pollution.
 %or certain pesticides (even though is difficult to demonstrate a strong relation)
-Regarding to the environmental causes, it is suspected that during pregnancy, expecially during the first days of embrional development (day 20-24 of gestation).\cite{ratajczak-2011}, exposition of the mother to air pollution is linked to an increased risk for her child to develop this disorder.
+Regarding these environmental causes, it is suspected that during pregnancy, expecially during the first days of embrional development (day 20-24 of gestation).\cite{ratajczak-2011}, exposition of the mother to air pollution is linked to an increased risk for her child to develop this disorder.
 
-Genetic origin of this disorder is assiciated with a rare gene's mutation, such as a deletion, duplication or inversion, and even though most of the mutation that increase the risk of developing autism are not been traced, it has been assessed that it has a percentage of inheritability around 90\%, resulting from studies on omozygotes twins \cite{freitag-2007}.
+Genetic origin of this disorder is assiciated with a rare gene's mutation, such as a deletion, duplication or inversion, and even though most of the mutation that increase the risk of developing autism are not been traced.
+It has been assessed though, that it has an high inheritance trait. From studies on twins it has been assesses that on omozygotes twins there is around 90 \% or probability to them both to develop ASD, while for heterozygote this probability falls to aroint 7\% for men and 1-2\% for women
+\cite{freitag-2007}
+%tesi di elisa???.
 
 %Ambiental factors such as prenatal air pollution or certain pesticides are also suspected to be associeted with a increase of the risk to develop this disorder, even thouh the etiology is way more complex and it can't be assessed so accurately.
 %Currently ASD is diagnosided by syntoms-based tests concerning behaviour assessment.
 From a neurological point of view, ASD can affect a brain both in its structure and in its functionality.
 
-It has been studied how it alters the structure and the symmetry of the two emispheres \cite{postema2019}
+Structural studies usually focus on volumentric and morphometric analyses to examine differences in brain anatomy.
+It has been studied how autism could alter the symmetry between the two emispheres \cite{postema2019} of the brain. In children it has been observed an increase in total brain volumne as well asan enlargment of the left superior temporal gyrus, but this trend is not well defined for older ages.\cite{riddler-2017}.
 
 
-and regarding its impaired functionality, studies pointed out a reduced information processing due to synaptic dysfunction that manifests in a reduced or altered brain activity. \cite{spera-2019}.
-Altered brain activity is found by different but controversal studies because both hyper functional connectivity and hypo-FC were detected in asd patients.
-in particular it seems to have an age-dependent trend, for over connectivity is usually observed in young children while under connectivity in adolescences and adults.\cite{supekar-2013}.
+Functional neuroimaging researches mainly focus on impaired functionality. Different studies pointed out a reduced information processing due to synaptic dysfunction that manifests in a reduced or altered brain functional connectivity. \cite{spera-2019}.
+Functional connectivity measures aim to describe statistical dependencies between brain areas in time studying temporal correlation between different brain parts even between those chich are spatially separated.
+Altered brain activity is found by different but controversal studies because both hyper functional connectivity and hypo-FC were detected in asd patients, while some found a the cohexistence of an hyper and hypo functionality between different areas of the brain.
 
-In the last decades, different approaches to study this problem have been carried out, to find a relation between different brain areas involved in this hyper or hypo connectivity
+In particular it appears functionality abnormalities to have an age-dependent trend since over connectivity is usually observed in young children while under connectivity in adolescences and adults.\cite{supekar-2013}.
+
+\section{f-MRI as investigation tool}
+
+In the last decades, different approaches to study this problem have been carried out, to find a relation between different brain areas involved in this lower or higher functional connectivity.
 Different diagnostic tool were proposed to investigate this matter, from different perspectives and at different scales, such as magnetic resonance imaging (MRI), functional-MRI (f-MRI), or electroencephalography (EEG).
-Magnetic resonance imaging was employed to study brain with structural images of it, while EEG and f-MRI aim to study temporal signals with two different temporal resolution, since with EEG is possible to study signal in scale time comparable with the neuronal activation time timescales $\sim \mu s$, while with f-MRI we look for a signal due to the hemodynamic response following a neuronal activation (timescales $\sim s$).
-Among them, f-MRI is what is drawing more interest, and in particular resting state f-MRI was proven to be suitable for examining functional connectivity among brain regions that different highlighted to be more affected by autism rather than local brain regions.
+
+Magnetic resonance imaging is employed to obtain images of brain both for structural studies and for functional through the  technique of functional MRI (fMRI).
+An other tool employed to study temporal signal is the EEG which differs from f-MRI because of the type of signal it aims to detect and because of the different resolution, since with EEG is possible to study signal in scale time comparable with the neuronal activation time timescales $\sim \mu s$, while with f-MRI we look for a signal due to the hemodynamic response following a neuronal activation (timescales $\sim s$).
+
 
 f-MRI is a diagnostic tool that investigate blood flow variations across the whole brain structure.
 The measure the blood flow is directly linked with the neuronal activity, an increase of neuronal activity leads to a boost in blood flow and an increase of vessel's size within a specific brain area, because of the bigger demand of oxigen and other nutrients to the neurons in that area.
 
 The different neural connections are identified by measuring the BOLD fluctuations, (acronym for blood-oxigen-level dependent) from different areas of the brain, using the signal difference between oxy (diamagnetic) and deoxyhemoglobin (paramagnetic).
-Oxyhemoglobin appears then brighter than deoxyhemoglobin
-The spontaneous fluctuations in the BOLD fluctuations during resting state are considered a strong indicator for the assessment of the properties of the brain system.
+%Oxyhemoglobin appears then brighter than deoxyhemoglobin
+These spontaneous fluctuations in the BOLD signal during resting state are considered a strong indicator for the assessment of the properties of the brain system.
 
-Resting state f-MRI is an acquisition performed while the patient is in a relaxed state, and is not performing any active task, he is simply asked to stay still with eye close or open while fixating a cross.
+f-MRI can be performed during the resting state of a patient or during a task. We refer to these procedures as rs-fMRI and task-based fMRI, and while task-based fMRI is a good instrument to investigate the local activation of a single brain area during a task, is resting state fMRI which is drawing more attention since it was proven to be suitable for examining functional connectivity among all the brain regions, and highlight the difference between a normal drain and one affected by this disorder.
+
+Resting state f-MRI is an acquisition performed while the patient is in a relaxed state, and is not performing any active task, he is simply asked to stay still with eye closed or open while fixating a cross.
 %either resting or, more in general in a task-negative state.
 Following this setup the brain is at rest and its activity is not perturbed by active tasks such as moving an arm or passive actions like being exposed to different visual stimuli, which are common activities for task-based functional connectivity, a different acquisition setup to investigate BOLD fluctuations between subjects in a task-stimulated state and control states.
 Resting state setup revealed to be a powerful tool to investigate the intrinsec generated brain activity and study the altered functional connectivity networks in subjects with mental disorder
 
-
-During the study of characteristic traits between control and ASD patients, different attributes are involved and characterise data in a strong and evident way, the most important of which are age, sex or FIQ (full intellective quotient).
+\section{Machine learning to deal with non-linear problems}
+During the study of characteristic traits between control and ASD patients, different attributes are involved and characterise data in a strong and evident way, the most important of which are age, sex and FIQ (full intellective quotient).
 Age for example affects both structural and functional data, with an observed overgrown of the brain volume in toddlers and hyperconnectivity mentioned before, that are both traits that tend to decrease going in on age, and on control subjects, even though it is not well characterised, seem to show a decreasing of brain structure and functional connectivity in older ages \cite{zhangC-2016}
 Sex is the other feature that gives characteristic traits to data, studies show that some brain area show an increased functional connectivity in females, and from a combined analysis of both age and sex it appears that in men some brain structures show more pronounced aging effect than women
 \cite{coffey-1998}
-Other factor conditioning the final outcome of a f-MRI data acquisition are the FIQ (Full intellective quotient) or, limiting our focus just on functional data, the eye status at scan plays an important role, about this, functional connectivity with open steady eyes results to be different from closed eyes, with strong differences and higher connectivity in different brain areas between the two coohrts of subjects.
-\cite{costumero-2020}
-and furthermore, an other aspect to be take into account regarding closed eye patients, is that during the scan acquisition, cthey may fall asleep, and this would heavily modify the functional brain activity, resulting in a modified functional connectivity pattern.
+In addition, if we limit our focus just on functional data, the eye status at scan plays an important role, about this, functional connectivity with open steady eyes results to be different from closed eyes, with strong differences and higher connectivity in different brain areas between the two coohrts of subjects.
+\cite{costumero-2020}. Furthermore, an other aspect to be take into account regarding closed eye patients, is that during the scan acquisition, they may fall asleep, and this would heavily modify the functional brain activity, resulting in a modified functional connectivity pattern.
 
 It appears clear that the distinction of asd patient among normal ones is not a simple and straightforwand task because of all these confounding factors concorring to the characterization of acquired data.
 
 To take on this challenge, one of the most promising tools that allow us to deal with complex, non-linear problems is the use of machine learning algorithm to study data extracted from fMRI such as pairwise correlations between different regions of the brain, or image of brain themselves from MRI scans to study with convolutional neural networks (CNN).
 %One of the most promising and powerful tool to tacke non-linear problems is machine learning.
-Machine learning algorithm belong to artificial inteligence tools and make use of an alghorithm that learns from data, and modify its parameters with the aim of recognising distinctive properties from them and makes prediction, classification, of new unseen data.
+Machine learning algorithm belong to artificial inteligence tools and make use of alghorithms that learn from data, and modify their parameters with the aim of recognising distinctive properties from data and make predictions or classification, on new unseen data, trying to gradually reduce the error and make amore accurate predictions.
 
-A relevant aspect that makes machine learning and artificial neural networks so popular is as cited before, the ability to deal with non-linear problems, and it accomplish so by introducing several non linear functions during training, to get non-linear outputs from each input data or from a combination of them.
+A relevant aspect that makes machine learning and artificial neural networks so popular is as cited before, the ability to deal with non-linear problems, and they accomplish so by introducing several non linear functions during training. This allow to obtain non-linear outputs from each input data, which would hopefully help in the distinction between characteristic traits of healthy people and of ASDs patients.
 
-A restraint of machine learning though, is that to perform well, algorithms need to be trained on a big dataset, because the bigger the dataset, the more it is able to generalize information and the better are its performances on new data, and this is true expecially for deep neural networks.
+As a drawback, a restraint of machine learning, is that to perform well, an algorithm need to be trained on dataset of large dimension, because the bigger the dataset, the more it is able to generalize information and the better are its performances on new data.
+This is true for all the kind of machine learning algorithms and expecially for Deep Neural Networks which are the principal kind of algorithms we are going to employ in this work.
+\section{The need for an harmonization procedure}
 
-To this end, particularly in medical field where data are not easily available from a single centre or are not in a sufficient amount to perform a large-scale analysis, several data from different acquisition centers need to be put together, and in the last years, several multicenter medical dataset such as the Human Connectome Project, the Alzheimer’s Disease Neuroimaging Initiative (ADNI) or Autism Brain Imaging Data Exchange (ABIDE) were created to try to create a large collection of data to permorm significant statistical analysis.
-Unfortunately, one drawback of multicenter datasets is the unavoidable bias towards the site the data belongs to, resulting from hardware and scan's procedure differences, and it would be a really hard request to uniform all medical center across the world to uniform to a single common acquisition protocol.
-To tacke this problem and try to uniform inter-scan variability, we need an harmonization procedure to remove site-dependent information and try to uniform data.
-In this work, two different aproaches are proposed: analytical harmonization and a deep learning aproach.
+To achieve the goal of obtaining a large dataset, particularly in medical field where data are not easily available from a single centre or are not in a sufficient amount to perform a large-scale analysis, several data from different acquisition centers need to be put together.
+In the last years, this issue is becoming increasingly popular and several multicenter medical dataset such as the Human Connectome Project, the Alzheimer’s Disease Neuroimaging Initiative (ADNI) or Autism Brain Imaging Data Exchange (ABIDE) were created to try to create a large collection of data to permorm significant statistical analysis.
+
+Unfortunately, this procedure brings with it a downside regarding the unavoidable bias towards the site the data belongs to.
+This bias is a result of hardware and scan's procedure differences, between centres and it would be a really hard request asking to all medical center across the world to uniform to a single common acquisition protocol.
+
+To tacke this problem and try to uniform inter-scan variability, we need an harmonization procedure to remove site-dependent information leaving all the rest of important information unchanged.
+
+In this work, two different aproaches are proposed: an analytical harmonization and a deep learning aproach.
 
 Analytical harmonization is a procedure that modifies data with shifts and rescaling to remove only inter-site related effects in multi-site data, while trying to preserv all other information as biological-related features.
-The second aproach, the deep learning one, tries to make classification of Control/ASD data extracting from data both relevant information for Control/ASD classification and site-dependent information and use the latter to remove the bias toward sites before making a prediction.
+
+The second aproach, the deep learning one, tries to make classification of Control/ASD data extracting from input data both information related to the class (Control/ASD) to site. It then use the latter to remove the bias toward sites before making a prediction.
 
 \chapter{fMRI}\label{chap:fmri}
-AMPLIARE
-Functional MRI aims to measure brain activity by detecting changes in blood linked to a neuronal activation.
 
-This kind of analysis is referred as blood-oxygen-level dependent (BOLD) imaging.
+Functional Magnetic Resonance Imaging is a non-invasive diagnostic tool which aims to measure the neural activity of different parts of the brain.
+The signal it detects comes from the blood oxygenation level fluctuations following a neuronal activation.
+This kind of analysis is referred as blood oxygenation level-dependent (BOLD) imaging.
+
+From a physical point of view the variation in oxygen content in blood affects the local susceptibility of the blood.
+Blood can in fact be portrated as a colloidal mixture where blood cells constitute around 40 \% of volume.
+
+Signal coming from blood cells is mainly due to the presence (in each blood cell) of several molecules of hemoglobin: a protein containing 4 heme groups each one including an iron atom which binds an oxygen atom and carries it throughout veins and capillaries.
+Hemoglobin can be in two states: oxyhemoglobin and deoxyhemoglobin, these two molecules differs in the presence or not of the bounded oxygen molecule which reflects in a difference in their magnetic susceptibility as oxyhemoglobin has diamagnetic properties while deoxyhemoglobin is paramagnetic.
+This difference is due to unpaired iron electrons in the deoxyhemoglobin which leads to an unshielded molecule against the external magnetic field.
+The presence of deoxy-hemoglobin causes local field inhomogeneities, leading to a reduction of signal coming from water molecules.
+
+This reduction is due to molecules go out of phase with one another more quickly, reducing the total magnetization.
+
+This way, when a brain area is activated, it demands a greater amount of oxygen carried by oxyhemoglobin molecule which results in an increasing of the signal.
 
 
-The process that from a neuronal stimulus leads to a measurable blood signal is governed by the hemodynamic response function (HRF).
-As shown in figure \ref{fig:hrf} after a neuronal stimulus on a timescale of $\approx$ 10-100 ms, the BOLD signal takes $\approx$ 6s to reack a peak and a total of 20-30 s to return to its zero baseline.
+The process that from a neuronal stimulus leads to a measurable blood signal is governed by the hemodynamic response function (HRF) shown in figure \ref{fig:hrf}. This figure represent the blood response immediately after a neuronal stimulus (which occurs on a timescale of $\approx$ 10-100 $\mu$s). The BOLD signal takes $\approx$ 6s to reach a peak and a total of 20-30 s to return to its zero baseline.
 
 \begin{figure}[h]
 \centering
@@ -237,9 +268,9 @@ As shown in figure \ref{fig:hrf} after a neuronal stimulus on a timescale of $\a
 \label{fig:hrf}
 \end{figure}
 
-Signal comes from changes of blood-oxygen level of hemoglobin: an iron molecule carying oxygen throughout veins and capillaries.
-Hemoglobin can be either oxyhemoglobin or deoxyhemoglobin, these two molecules differs in their magnetic susceptibility as oxyhemoglobin is diamagnetic while deoxyhemoglobin is paramagnetic.
-The presence of deoxy-hemoglobin causes local field inhomogeneities, leading to a reduction of signal from water molecules, because molecules go out of phase with one another more quickly, reducing the total magnetization.
+The entire scan duration ranges from 5 to more than 8 minutes
+
+
 
 This effect is characterized by $T_2^{\ast}$ relaxation time so this is the tuning parameter related to this kind of acquisition; this gives the alternative name of BOLD-images as $T_2^{\ast}$-weighted images.
 
@@ -819,7 +850,7 @@ An example of ROC curve is shown in figure \ref{fig:roccurve}
 
 
 
-\chapter{Explainable AI (XAI) with SHAP}
+\chapter{Explain a machine learning model using a game theory aproach}
 
 As methods to learn pattern from data becomes more complex, they become harder to interpret, deep learning represent an example of a technique to search for nonlinear relations between data, but introducing nonlinearity, makes an outcome difficult to interpret and it ends up considering a machine learning model as a black box without any hint of its inner precesses that occurred when a result is output. But if a model perform well, or bad on a dataset, we would like to know why and what feature influenced the most the outcome of our model.
 
@@ -832,10 +863,12 @@ Game theory is a branch of mathematic related on the study of mathematical model
 
 It have had a great development in the XX century expecially during and after the Second world war thanks to the contribution of mathematicians like John Von Neumann, John Nash and Lloyd Shapley.
 Game theory mainly focuses on two main research areas: cooperative and non-coperative game.
-Non-cooperative game concern competition between individual player who don't cooperate each other and can't form coalitions. The main task on non-cooperative games can be summarised as the search for a good strategy for each player. Each player's objective is in fact the maximization of his own utility function.
+\begin{itemize}
+\item Non-cooperative game concern competition between individual player who don't cooperate each other and can't form coalitions. The main task on non-cooperative games can be summarised as the search for a good strategy for each player. Each player's objective is in fact the maximization of his own utility function.
 A big contribution to the development of this theory came from von Neumann, or John Nash with the concept of Nash equilibrium \cite{nash-1950}.
 
-On the other hand, cooperative games concern competition between groups of player forming coalitions, each coalition plays as a single participant and earns a payoff; one of the the main tasks related to cooperative games is to find a way to divide the total utility among the member of a coalition in an equally way proportionally of how much they contributed to the final score.
+\item Cooperative games concern competition between groups of player forming coalitions, each coalition plays as a single participant and earns a payoff; one of the the main tasks related to cooperative games is to find a way to divide the total utility among the member of a coalition in an equally way proportionally of how much they contributed to the final score.
+\end{itemize}
 In 1951 Lloyd Shapley in 1951 Introduced a way to compute the exact amount of payoff for each player making use of what were named after him: Shapley values \cite{shap-1951}\cite{shap-1953}.
 Shapley introduced its values in the field of coalition games, therefore to properly understand his work, we need to briefly illustrate what a coalition game consists of.
 
@@ -858,161 +891,6 @@ The mathematical formulation Shapley introduced for his value is
 \end{equation}
 %That can be interpreted as $\frac{1}{N} \sum \frac{\text{marginal contribution of i to the coalition}}{\text{number of coalitions excluding i of the same size os S}}$
 And they exactly represent the amount of reward for each player i.
-
-\section{SHAP}\label{sec:shap}
-
-
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=1\linewidth]{shap/shap_presentation}
-\caption{}\label{fig:shap_waterfall_example}
-\end{figure}
-
-
-SHAP (SHapley Additive exPlanation) is a technique based on game theory wich provides a method for model explanability.
-is a powerful tool to get rid of the \textquotedblleft black box \textquotedblright idea of a machine learning model and try to understand its deep mechanism and the reasons why a model gave a certain output, or a certain prediction related to an input sample like a vector of feature or an image for example.
-As is shown in figure \ref{fig:shap_waterfall_example} just as a visual example, a common machine learning model acts like a black box that returns an output value after some non-linear unknown calculations on some input values; with an explanatory model, we are able to quantify the contribution of each feature of our input data and assess what and why are the most important features and how much they contributed to the final outcome.
-
-
-
-
-
-The idea behind SHAP is to use these Shapley values to exaplain every single feature's contribution in our machine learning model, treating it as a cooperative game
-
-To apply the concept of Shapley values to a machine learning model we just adapt some terms we used for game theory: the payout is the model's prediction and the players are the feature in our input data.
-For a single feature, its Shapley value is defined as the average marginal contributison of the value of that feature across all possible coalitions.
-
-%To get the idea of how we can explain a model, we start asking: how much is a prediction driven by the fact that a feature has a certain value A, instead of its baseline value $\bar A$? the baseline value $\bar A$ is the result of ... ?
-Shap can be regarded as a local explainatory method, and before it, several algorithms belonging to this cathegory were implemented as an attempt to create an explainatory technique for machine learning models.
-In general, local explainatory model's objective can be defined as the attempt to explain an output f(x) after a single instance x that in our case can be a vector of features.
-Local methods differs from global methods, because the latter provide us a global explanation of the model, across all the instances, they are able to attribute an importance to each feature to determine which contributed the most to the output of the model.
-One of the key point of SHAP is its flexibilityu, being both a local and global explainatory model.
-
-Being a local model, SHAP share with other algorithms some implementation features: given a single input vector x, to simplify the workflow, they introduce a coalition vector x' = $\left\{ 0, 1 \right\}^F$ : where F is the total number of features: x' is a binary vector of the same length of x, where binary means made just by zeros and ones: zero means that in our analysis we are going to withheld the corrisponding variable from x in, and the one that we are including it.
-
-To map the x' vector to the corresponding feature values vector a mapping function $h_x(x')$ = x is introduced to returns the actual features' value from the corresponding input vector x.
-Our goal is to find a simplified model g(x') to work with, because is simpler to work with a binary vector x' than with the actual vector x.
-We want that this simplified model, when applied on the coalition vector x', is able to approximate our output f(x): $ g(z') \approx f(h_x(z'))$ if z' $\approx$ x'.
-The first important condition on this function g is that it has to be a linear function
-\begin{equation}
-\label{eq:shap_g}
-g(z') = \phi_0 + \sum_{i = 0}^N \phi_i z_i'
-\end{equation}
-And several methods before SHAP were created that satisfy this condition such as LIME \cite{ribeiro-2016} or DeepLIFT \cite{shrikumar-2017} but they lacked additional properties that SHAP, proposed and implemented by Lundberg \cite{ludberg-} has:
-
-\begin{enumerate}
-\item Local accuracy:
-\begin{equation}
-g(x') =\phi_0 + \sum_i \phi_i x_i' = f(x)
-\end{equation} when x = $h_x(x')$ and not just an approximation $f(x) \approx g(x')$. Here $\phi_0$ represents the coefficient corresponding to a vector x' with all entries equal to zeros.
-\item Missingness:
-\begin{equation}
-x_i' = 0 \Longrightarrow \phi_i = 0
-\end{equation}
-\item Consistency: if we have two different functions g' and g, indicating eith $z' / i$ the setting where $z_i' = 0$, if
-\begin{equation}
- g'(z') - g'(z' / i) \ge g(z') - g(z' / i) \Longrightarrow \phi_i(f', x) \ge \phi_i(f, x)
-\end{equation}
-\end{enumerate}
-%The most important properties of this models is called local accuracy and states that g and f must give the same result when passing all the features: g has to match f when x = $h_x(x')$.
-%We attribute a contribution $\phi_i$ to each simplified vector $z_i'$
-
-In 1975 was demostrated that the only coefficients satisfying all of these properties are Shapley values, and methods which employ different coefficients usually violate local accuracy and/or consistency.
-For these reasons SHAP employs Shapley values into pre-existing algorithms and enhances them providing an unified aproach to assess feature importance for different models without any violation of the axsioms above.
-
-
-
-%To assign the importance value to a feature we need to train two different models: one with that feature included and the second one with that feature excluded and thereafter compute the difference between the two models' prediction.
-%
-%For each player i and a map function $\nu$ shap values are defined as:
-%We are then going to use them to explain a deep learning model with the SHAP method.
-
-To compute the Shapley value for a feature we have to evaluate the model on all the possible subsets S we can create with our data S$\subseteq F \setminus \left\{i\right\}$. That in a problem with an high number of features would result in a huge computational work. To bypass this problem, we can choose not to calculate the exact shapley value but just an approximation of it, depending on the model we are working on, SHAP implemented different algorithms such as Tree SHAP, a fast and exact algorithm to compute SHAP values for trees and ensembles of trees, KernelSHAP which is a model agnostic explanation method, or DeepSHAP which is optimized to work faster on deep models by making use of the knowlegde of the structure of a neural network.
-Each one of these algorithms is built upon previous algorithms like LIME or DeepLIFT
-
-LIME is a local, model-agnostic, interpretability model, made to explain the prediction of ant classifier in faithful, but only local way, meaning that it can accurately explain a single prediction but it is not able to generalize to many.
-Since Kernel SHAP is built upon LIME algorithm, it pick up an important strategy from it, to avoid the computation of all the permutaiton
-%An innovative aspect of LIME is the strategy it employs to resolve the problem of high computational work when it deals with a large number of feature in a single data: instead of computing all the possible permutations,
-%a we deal with a large number of permutations: theoretically we should evaluate the model for each possible feature permutation so that for a model with p features we should repeat this process p! times which in our case would bring to 5995! $\sim 10^{20046}$.
-KernelSHAP adopts an aproximation methods based on the introduction of a perturbed dataset: starting from a single instance x, it randomly creates a perturbed data by randomly setting to 0 or 1 the corresponding entries on several coalition vectors x', doing so it creates a perturbed dataset made of different x' vectors.
-
-The next step is to make prediction for all of these perturbed vector.
-Since x' and x are related through the mapping function h, for each x'we can retrieve the corresponding values from x and input this vector to our model
-and then uses the pre-trained model to make predictions on this perturbed dataset.
-
-As reported before, 1 means that we are including the corresponding feature in this analysis while 0 is associated to a lack of the corresponding feature.
-Since not all the machine learning models can easily deal with lacking features, to simulate the lacking of a feature, when we have a 0 in the x' vector, the algorithm replaces the corresponding feature's value with the most uninformative value.
-This is chosen using a set of data from training called \emph{background} datset, of arbitrary size, from it, features are averaged, and the this value is replaced in our vector to simulate the absence of that feature.
-
-Using this synthetic dataset, the model is evaluated on each vector and these scores are collected, and these outputs are subsequently used to accomplish a minimization task to finally find the shapley coefficients.
-Minimization is performed in a fit, but before it, each output value is weighted according to the distance of the synthetic vector with the original space vector by using coefficients $\pi_x$ defined as
-\begin{equation}
-\pi_x = \frac{p-1}{{p \choose |z'|} \cdot |z'| (p-|z'|)}
-\end{equation}
-Where we indicated as p the total number of features in the original feature vector x anc with |z'| the number of element in that subset, and cosequently (p-|z'|) is the number of features not included in the subset.
-
-To perform a fit, the loss function to minimize is in the form $L(f, g, \pi_x) = \sum_{z\in Z} [f(h(z))-g(z')]^2\ \pi_x$
-where g(z') is the simplified function expressed in equation \ref{eq:shap_g}, given by a combination of coefficients $\phi_i$ that are the parameters of the fit.
-
-
-%it creates different perturbed copies of it, modifying its features evaluating the model on each one, then, it weigths each one according to its distance from the original instance and calculate a linear fit to explain the predictions.
-%This idea is what is implemented in KernelSHAP:
-%The idea behind algorithms like KernelSHAP comes from LIME algorithm \cite{ribeiro-2016},
-%it avoids the computation of all the permutations by choosing a background subset from input data and evaluate the model only using this subset.
-%So if we want to study the effect of a single feature, we ideally switch off that feature, and SHAP does so, by replacing its value by randomly picking it from the background dataset.
-%By following this simplified procedure:
-
-%So if we want to evaluate k data samples, (each one containing p features), and we choose a background dataset of size n, the algorithm will perform evaluations only n*k times following this aproach:
-%To avoid this calculus Shapley employ by defining a background dataset with a subset of Train data we used to train the model, then during shapleyt computation it just fill in the missing features with features from this background.
-
-
-In a nutshell, the main steps of KernelSHAP algorithm are
-\begin{enumerate}
-\item Given a feature vector $\mathbf{x} = [x_1, x2, ..., x_p]$, where $x_1, .., x_p$ are the features (numbers), a model f and a background set $X_{bckg} = \{ \mathbf{x1}, ... , \mathbf{xn}\}$, we want to explain \textbf{x}
-\item replace a subset of entries of x with values from the background dataset:
-\item create n different copies of the original input fector x, all slightly different from each other because of these replacements
-\item Evaluate the model on each copy
-\item Use these outputs to fit simple model and find shapley coefficients
-\end{enumerate}
-
-
-
-%LIME \cite{ribeiro-2016}
-% shap \cite{lundberg-2017}
-%deepLIFT \cite{shrikumar-2017}
-
-As mentioned above, KernelSHAP is a model-agnostic algorithm, in the sense that can easily used with every kind of model, but SHAP includes some model-specifics algorithms that make use of a previous general knowledge of a model's structure to optimize the explainer's performances and speed up the process. DeepSHAP, is one of these model-specific algorithms and it is what we are going to use in our analysis.
-
-DeepSHAP alghorithm works with them same principles of KernelSHAP, making use of a background dataset to simulate missing values, but it is also optimized to perform better on deep models: it is in this sense, an enhanced version of the DeepLIFT algorithm because of the introduction of the background dataset and because of the use of Shapley values rather than DeepLIFT values.
-
-DeepLIFT aims to compute the difference between the output of our model with our data and a reference value computed as the output of our model with some reference data.
-The choice of the reference data depends on what kind of data we are working on: images, or genomic data for example.
-for genomic the most common way to produce reference output is to shuffle some inputs, evaluate the model on them and average across all the scores.
-It is also shaped to perform on deep learning algorithm computing its DeepLIFT value during the backpropagation process.
-DeepLIFT attributes to each feature $x_i$ a value $C_{\Delta x_i, \Delta y}$ that represent the effect of that input being set to a reference value rather than its actual value.
-This reference value is chosen from the backgound dataset and represents an uninformative value for that feature
-
-In a nutshell, let t represent the output of some inner neuron and let x1, x2, ... , $x_n$ be some preceding neurons necessary to compute t, if we label $t_0$ the reference output, we can compute the value $\Delta t = t-t_0$ and use them to define the DeepLIFT values $C_{\Delta x_i \Delta t}$ so that
-$\sum_{i = 1} ^n C_{\Delta x_i \Delta t} = \Delta t$. For a given input neuron x with difference from reference $\Delta x$ and a target neuron t, is defined a multiplier $m_{\Delta x \Delta t} = \frac{C_{\Delta x \Delta t}}{\Delta x}$ which represents the contribution of $\Delta x$ to $\Delta t$.
-
-For a more detailed explanation of how DeepLIFT works we refer to its presentation article \cite{shrikumar-2017}
-
-%showed that the per node attribution rules in DeepLIFT (Shrikumar, Greenside, and Kundaje, arXiv 2017) can be chosen to approximate Shapley values. By integrating over many backgound samples Deep estimates approximate SHAP values such that they sum up to the difference between the expected model output on the passed background samples and the current model output (f(x) - E[f(x)]).
-
-DeepSHAP combines shap values for smaller components of a network to compute values for the whole network, it does so recursively passing Deep LIFT multipliers during backpropagation: we can indeed re-writing multiplier values in terms of shap values, for a target neuron f3 we have $m_{x_j f_3} = \frac{\phi_i(f_3, x)}{x_j - E[x_j]}$ obtaining $\phi_i(f_3, y) \approx m_{y_i, f_3}(y_i - E[y_i])$
-
-
-To express the significance we can rely on the relation between feature importance in a qualitative way and shap value: feature with high absolute shapley value are important.
-The absolute importance value for a feature f is calculated as the mean of the magnitude of all the shapley value for that feature, so the mean is performed across all the samples we used to calculate these values
-\begin{equation}\label{eq:shap_magnitude}
-I_f = \frac{1}{n} \sum_{i = 1}^n \|\phi_i^{(f)}\|
-\end{equation}
-
-Shap is implemented as a free Python package with MIT license, developed and mantained by Scott Lundberg \footnote{https://github.com/slundberg/shap}.
-This package includes different classes such as TreeExplainer tuned to perform rapidly on tree and forest-like models, linearExplainer which deals with linear model and is able to compute the exact shapley values and not just an aproximation, and the algorithm we are using DeepExplainer, suitable to explain deep learning models and to compute an approximate value of shapley values.
-
-
 
 
 
@@ -1188,7 +1066,7 @@ One of the most popular atlas is Harvard Oxford atlas obtained by manually label
 
 \begin{figure}
 \centering
-\includegraphics[width=.5\linewidth]{mri/registrationchart.png}
+\includegraphics[width=.3\linewidth]{mri/registrationchart.png}
 \caption{Registration steps:
  starting from the first row there are the acquired functional and structural images and the MNI template respectively
  The second row shows the functional image registered on the structural space
@@ -1765,10 +1643,268 @@ An adversarial loss is also implemented, aimed to aviod that if, for instance, t
 
 
 
+
+\chapter{SHAP}\label{sec:shap}
+
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\linewidth]{shap/shap_presentation}
+\caption{}\label{fig:shap_waterfall_example}
+\end{figure}
+
+
+SHAP (SHapley Additive exPlanation) is a technique based on game theory wich provides a method for model explanability.
+is a powerful tool to get rid of the \textquotedblleft black box \textquotedblright idea of a machine learning model and try to understand its deep mechanism and the reasons why a model gave a certain output, or a certain prediction related to an input sample like a vector of feature or an image for example.
+As is shown in figure \ref{fig:shap_waterfall_example} just as a visual example, a common machine learning model acts like a black box that returns an output value after some non-linear unknown calculations on some input values; with an explanatory model, we are able to quantify the contribution of each feature of our input data and assess what and why are the most important features and how much they contributed to the final outcome.
+
+
+
+
+
+The idea behind SHAP is to use these Shapley values to exaplain every single feature's contribution in our machine learning model, treating it as a cooperative game
+
+To apply the concept of Shapley values to a machine learning model we just adapt some terms we used for game theory: the payout is the model's prediction and the players are the feature in our input data.
+For a single feature, its Shapley value is defined as the average marginal contributison of the value of that feature across all possible coalitions.
+
+%To get the idea of how we can explain a model, we start asking: how much is a prediction driven by the fact that a feature has a certain value A, instead of its baseline value $\bar A$? the baseline value $\bar A$ is the result of ... ?
+Shap can be regarded as a local explainatory method, and before it, several algorithms belonging to this cathegory were implemented as an attempt to create an explainatory technique for machine learning models.
+In general, local explainatory model's objective can be defined as the attempt to explain an output f(x) after a single instance x that in our case can be a vector of features.
+Local methods differs from global methods, because the latter provide us a global explanation of the model, across all the instances, they are able to attribute an importance to each feature to determine which contributed the most to the output of the model.
+One of the key point of SHAP is its flexibilityu, being both a local and global explainatory model.
+
+Being a local model, SHAP share with other algorithms some implementation features: given a single input vector x, to simplify the workflow, they introduce a coalition vector x' = $\left\{ 0, 1 \right\}^F$ : where F is the total number of features: x' is a binary vector of the same length of x, where binary means made just by zeros and ones: zero means that in our analysis we are going to withheld the corrisponding variable from x in, and the one that we are including it.
+
+To map the x' vector to the corresponding feature values vector a mapping function $h_x(x')$ = x is introduced to returns the actual features' value from the corresponding input vector x.
+Our goal is to find a simplified model g(x') to work with, because is simpler to work with a binary vector x' than with the actual vector x.
+We want that this simplified model, when applied on the coalition vector x', is able to approximate our output f(x): $ g(z') \approx f(h_x(z'))$ if z' $\approx$ x'.
+The first important condition on this function g is that it has to be a linear function
+\begin{equation}
+\label{eq:shap_g}
+g(z') = \phi_0 + \sum_{i = 0}^N \phi_i z_i'
+\end{equation}
+And several methods before SHAP were created that satisfy this condition such as LIME \cite{ribeiro-2016} or DeepLIFT \cite{shrikumar-2017} but they lacked additional properties that SHAP, proposed and implemented by Lundberg \cite{ludberg-} has:
+
+\begin{enumerate}
+\item Local accuracy:
+\begin{equation}
+g(x') =\phi_0 + \sum_i \phi_i x_i' = f(x)
+\end{equation} when x = $h_x(x')$ and not just an approximation $f(x) \approx g(x')$. Here $\phi_0$ represents the coefficient corresponding to a vector x' with all entries equal to zeros.
+\item Missingness:
+\begin{equation}
+x_i' = 0 \Longrightarrow \phi_i = 0
+\end{equation}
+\item Consistency: if we have two different functions g' and g, indicating eith $z' / i$ the setting where $z_i' = 0$, if
+\begin{equation}
+ g'(z') - g'(z' / i) \ge g(z') - g(z' / i) \Longrightarrow \phi_i(f', x) \ge \phi_i(f, x)
+\end{equation}
+\end{enumerate}
+%The most important properties of this models is called local accuracy and states that g and f must give the same result when passing all the features: g has to match f when x = $h_x(x')$.
+%We attribute a contribution $\phi_i$ to each simplified vector $z_i'$
+
+In 1975 was demostrated that the only coefficients satisfying all of these properties are Shapley values, and methods which employ different coefficients usually violate local accuracy and/or consistency.
+For these reasons SHAP employs Shapley values into pre-existing algorithms and enhances them providing an unified aproach to assess feature importance for different models without any violation of the axsioms above.
+
+
+
+%To assign the importance value to a feature we need to train two different models: one with that feature included and the second one with that feature excluded and thereafter compute the difference between the two models' prediction.
+%
+%For each player i and a map function $\nu$ shap values are defined as:
+%We are then going to use them to explain a deep learning model with the SHAP method.
+
+To compute the Shapley value for a feature we have to evaluate the model on all the possible subsets S we can create with our data S$\subseteq F \setminus \left\{i\right\}$. That in a problem with an high number of features would result in a huge computational work. To bypass this problem, we can choose not to calculate the exact shapley value but just an approximation of it, depending on the model we are working on, SHAP implemented different algorithms such as Tree SHAP, a fast and exact algorithm to compute SHAP values for trees and ensembles of trees, KernelSHAP which is a model agnostic explanation method, or DeepSHAP which is optimized to work faster on deep models by making use of the knowlegde of the structure of a neural network.
+Each one of these algorithms is built upon previous algorithms like LIME or DeepLIFT
+
+LIME is a local, model-agnostic, interpretability model, made to explain the prediction of ant classifier in faithful, but only local way, meaning that it can accurately explain a single prediction but it is not able to generalize to many.
+Since Kernel SHAP is built upon LIME algorithm, it pick up an important strategy from it, to avoid the computation of all the permutaiton
+%An innovative aspect of LIME is the strategy it employs to resolve the problem of high computational work when it deals with a large number of feature in a single data: instead of computing all the possible permutations,
+%a we deal with a large number of permutations: theoretically we should evaluate the model for each possible feature permutation so that for a model with p features we should repeat this process p! times which in our case would bring to 5995! $\sim 10^{20046}$.
+KernelSHAP adopts an aproximation methods based on the introduction of a perturbed dataset: starting from a single instance x, it randomly creates a perturbed data by randomly setting to 0 or 1 the corresponding entries on several coalition vectors x', doing so it creates a perturbed dataset made of different x' vectors.
+
+The next step is to make prediction for all of these perturbed vector.
+Since x' and x are related through the mapping function h, for each x'we can retrieve the corresponding values from x and input this vector to our model
+and then uses the pre-trained model to make predictions on this perturbed dataset.
+
+As reported before, 1 means that we are including the corresponding feature in this analysis while 0 is associated to a lack of the corresponding feature.
+Since not all the machine learning models can easily deal with lacking features, to simulate the lacking of a feature, when we have a 0 in the x' vector, the algorithm replaces the corresponding feature's value with the most uninformative value.
+This is chosen using a set of data from training called \emph{background} datset, of arbitrary size, from it, features are averaged, and the this value is replaced in our vector to simulate the absence of that feature.
+
+Using this synthetic dataset, the model is evaluated on each vector and these scores are collected, and these outputs are subsequently used to accomplish a minimization task to finally find the shapley coefficients.
+Minimization is performed in a fit, but before it, each output value is weighted according to the distance of the synthetic vector with the original space vector by using coefficients $\pi_x$ defined as
+\begin{equation}
+\pi_x = \frac{p-1}{{p \choose |z'|} \cdot |z'| (p-|z'|)}
+\end{equation}
+Where we indicated as p the total number of features in the original feature vector x anc with |z'| the number of element in that subset, and cosequently (p-|z'|) is the number of features not included in the subset.
+
+To perform a fit, the loss function to minimize is in the form $L(f, g, \pi_x) = \sum_{z\in Z} [f(h(z))-g(z')]^2\ \pi_x$
+where g(z') is the simplified function expressed in equation \ref{eq:shap_g}, given by a combination of coefficients $\phi_i$ that are the parameters of the fit.
+
+
+%it creates different perturbed copies of it, modifying its features evaluating the model on each one, then, it weigths each one according to its distance from the original instance and calculate a linear fit to explain the predictions.
+%This idea is what is implemented in KernelSHAP:
+%The idea behind algorithms like KernelSHAP comes from LIME algorithm \cite{ribeiro-2016},
+%it avoids the computation of all the permutations by choosing a background subset from input data and evaluate the model only using this subset.
+%So if we want to study the effect of a single feature, we ideally switch off that feature, and SHAP does so, by replacing its value by randomly picking it from the background dataset.
+%By following this simplified procedure:
+
+%So if we want to evaluate k data samples, (each one containing p features), and we choose a background dataset of size n, the algorithm will perform evaluations only n*k times following this aproach:
+%To avoid this calculus Shapley employ by defining a background dataset with a subset of Train data we used to train the model, then during shapleyt computation it just fill in the missing features with features from this background.
+
+
+In a nutshell, the main steps of KernelSHAP algorithm are
+\begin{enumerate}
+\item Given a feature vector $\mathbf{x} = [x_1, x2, ..., x_p]$, where $x_1, .., x_p$ are the features (numbers), a model f and a background set $X_{bckg} = \{ \mathbf{x1}, ... , \mathbf{xn}\}$, we want to explain \textbf{x}
+\item replace a subset of entries of x with values from the background dataset:
+\item create n different copies of the original input fector x, all slightly different from each other because of these replacements
+\item Evaluate the model on each copy
+\item Use these outputs to fit simple model and find shapley coefficients
+\end{enumerate}
+
+
+
+%LIME \cite{ribeiro-2016}
+% shap \cite{lundberg-2017}
+%deepLIFT \cite{shrikumar-2017}
+
+As mentioned above, KernelSHAP is a model-agnostic algorithm, in the sense that can easily used with every kind of model, but SHAP includes some model-specifics algorithms that make use of a previous general knowledge of a model's structure to optimize the explainer's performances and speed up the process. DeepSHAP, is one of these model-specific algorithms and it is what we are going to use in our analysis.
+
+DeepSHAP alghorithm works with them same principles of KernelSHAP, making use of a background dataset to simulate missing values, but it is also optimized to perform better on deep models: it is in this sense, an enhanced version of the DeepLIFT algorithm because of the introduction of the background dataset and because of the use of Shapley values rather than DeepLIFT values.
+
+DeepLIFT aims to compute the difference between the output of our model with our data and a reference value computed as the output of our model with some reference data.
+The choice of the reference data depends on what kind of data we are working on: images, or genomic data for example.
+for genomic the most common way to produce reference output is to shuffle some inputs, evaluate the model on them and average across all the scores.
+It is also shaped to perform on deep learning algorithm computing its DeepLIFT value during the backpropagation process.
+DeepLIFT attributes to each feature $x_i$ a value $C_{\Delta x_i, \Delta y}$ that represent the effect of that input being set to a reference value rather than its actual value.
+This reference value is chosen from the backgound dataset and represents an uninformative value for that feature
+
+In a nutshell, let t represent the output of some inner neuron and let x1, x2, ... , $x_n$ be some preceding neurons necessary to compute t, if we label $t_0$ the reference output, we can compute the value $\Delta t = t-t_0$ and use them to define the DeepLIFT values $C_{\Delta x_i \Delta t}$ so that
+$\sum_{i = 1} ^n C_{\Delta x_i \Delta t} = \Delta t$. For a given input neuron x with difference from reference $\Delta x$ and a target neuron t, is defined a multiplier $m_{\Delta x \Delta t} = \frac{C_{\Delta x \Delta t}}{\Delta x}$ which represents the contribution of $\Delta x$ to $\Delta t$.
+
+For a more detailed explanation of how DeepLIFT works we refer to its presentation article \cite{shrikumar-2017}
+
+%showed that the per node attribution rules in DeepLIFT (Shrikumar, Greenside, and Kundaje, arXiv 2017) can be chosen to approximate Shapley values. By integrating over many backgound samples Deep estimates approximate SHAP values such that they sum up to the difference between the expected model output on the passed background samples and the current model output (f(x) - E[f(x)]).
+
+DeepSHAP combines shap values for smaller components of a network to compute values for the whole network, it does so recursively passing Deep LIFT multipliers during backpropagation: we can indeed re-writing multiplier values in terms of shap values, for a target neuron f3 we have $m_{x_j f_3} = \frac{\phi_i(f_3, x)}{x_j - E[x_j]}$ obtaining $\phi_i(f_3, y) \approx m_{y_i, f_3}(y_i - E[y_i])$
+
+
+To express the significance we can rely on the relation between feature importance in a qualitative way and shap value: feature with high absolute shapley value are important.
+The absolute importance value for a feature f is calculated as the mean of the magnitude of all the shapley value for that feature, so the mean is performed across all the samples we used to calculate these values
+\begin{equation}\label{eq:shap_magnitude}
+I_f = \frac{1}{n} \sum_{i = 1}^n \|\phi_i^{(f)}\|
+\end{equation}
+
+Shap is implemented as a free Python package with MIT license, developed and mantained by Scott Lundberg \footnote{https://github.com/slundberg/shap}.
+This package includes different classes such as TreeExplainer tuned to perform rapidly on tree and forest-like models, linearExplainer which deals with linear model and is able to compute the exact shapley values and not just an aproximation, and the algorithm we are using DeepExplainer, suitable to explain deep learning models and to compute an approximate value of shapley values.
+
+
 \newpage
 
 \addcontentsline{toc}{chapter}{IMPLEMENTATION AND RESULTS}
 %\chapter*{IMPLEMENTATION AND RESULTS}
+
+
+
+\chapter{Analysis workflow}\label{sec:analysis_workflow}
+
+We mainly carried out three different kind of analysis using the DNN explained before, and compared them with the scores obtained from the adversarial network.
+
+For each one of these analysis, we implemented a K-fold cross validation scheme to report our results. We determined and reported model performances as the mean AUC value and the standard deviation of the scores for each k-fold. A schematic
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.6\linewidth]{ml/flowcharts/flowchart_analysis}
+\captionsetup{singlelinecheck = off}
+\caption[]{
+Flowchart of the analysis carried out in this work:
+\begin{enumerate}
+\item Select one type of coefficient: Pearson correlation, Wavelet coherence coefficients
+\item Select the desired attributes of patients in order to make cuts on dataset, for example use the whole ABIDE I + II dataset or just ABIDE I, limit analysis to a certain age range, sex, or eye status open or close.
+\item Use these data + labels to make classification following the three pipelines described in section \ref{sec:deep_learning_results} and the fourth analysis pipeline using the adversarial neural network
+\item For each of these branches, implement a K-Fold cross validation and return the results in terms of mean AUC and std deviation of the values across every fold.
+\end{enumerate}
+}
+\label{fig:workflowanalysis}
+\end{figure}
+
+
+Since we are not working with a huge amount of data $(< 1600)$ samples, we choose a 5-fold CV, we made this choice because with a 10 k-fold CV, the error on the mean AUC score was high, so we choose to hold a greater number of data in the Test to reduce variability among them and hence reduce the standard deviation of the model's score.
+K-fold CV was implemented using the stratifiedKFold class provided by sklearn library for Python
+
+The data we are using to perform classification are the Pearson correlation (Fisher-transformed) data, or the correlation values coming from the analysis with wavelets.
+
+
+
+In detailes the four types of analysis we carried out are:
+\begin{enumerate}
+\item Classification of asd/Controls using raw (not harmonized) data
+\item Classification using the whole harmonized dataset, creating the harmonization model on all the control subjects and applying the model on all ASD subjects, and then split this dataset into a train and test subsets for each k-fold. The flowchart to schematise this implementation is showh in figure \ref{fig:harmon_upstream_flowchart}.
+\item Classification with harmonization implemented inside the K-fold cross-validation, creating the model on controls and applying it to ASD: following this procedure data were splitted into a train and a test dataset, therefore using train data we computed the harmonization model only on control patients and then apply the model to asd patient and both Control and ASD Test data.
+The whole flowchart is shown in figure \ref{fig:harmon_kfold_flowchart}
+\item Classification using the domain adversarial neural network.
+\end{enumerate}
+
+Harmonizing data inside a k-fold is the best way to mantain Train and test data as much separated as possible and avoid data leakage between train and test.
+It is a common source of error to introduce some kind of data leakage between the Train and the Test dataset, when we harmonize on the entire dataset, the harmonization model permorms a fit using all the data, so each data is modified according to information obtained from all the other data, so in data belonging to the train dataset there's already information about the Test dataset, and this leads to a misleading increase of model's performances.
+Some articles perform a Leave One Site Out Cross validation. In our case we can't do that if we want to mantain Train and Test independent because if we compute the harmonization model only on the train dataset, we wouldn't have information to apply it to the test dataset since its data belong to a site not included in the model.
+
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.6\linewidth]{ml/flowcharts/harmon_kfold}
+\caption{Flowchart: implementation of harmonization inside each fold}
+\label{fig:harmon_kfold_flowchart}
+\end{figure}
+
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.6\linewidth]{ml/flowcharts/harmon_upstream}
+\caption{Flowchart: implementation of harmonization upstream}
+\label{fig:harmon_upstream_flowchart}
+\end{figure}
+
+
+
+Analysis were carried out using different selection criterias and thresholds on the dataset which brought us to different datasets combination.
+We excluded from out analysis data coming from sites NYU\_2 and ... because as noticed in section \ref{sec:} they didn't provide control data but only ASD patients, and without them, we can't perform harmonization on this sites because we would need to create the model only on Control data.
+We left with a total number of 1501 perason correlation data and
+The first classification attempt was using the whole dataset from ABIDE 1 and 2, consisting of only male patients aged between 5 and 40 years old, without any further constraint on eye status at scan.
+Then, with these same constraint we tried to classify separately ABIDE 1 and ABIDE 2 datasets.
+The second analysis was performed on a dataset with the same constraint as above, but with an additional condition on eye status choosing to select only patient who kept eyes open throughout the entire scan time.
+The latter analysis were carried out with these same constraints, but separately on ABIDE 1 and ABIDE 2 dataset.
+So in whort we have 6 different analysis shown in table \ref{tab:controlasd_per_subset}
+
+
+
+
+\begin{table}[!htp]\centering
+\scriptsize
+\begin{tabular}{lrrrr}\toprule
+Dataset &Tot &Controls &ASD \\\midrule
+AB I+II eye = all, sex = males, age(5, 50) &1470 &737 &733 \\
+AB I + II eye = open &1026 &514 &512 \\
+AB I &841 &426 &415 \\
+AB I eye=open &568 &281 &287 \\
+AB II &629 &311 &318 \\
+AB II eye = open &458 &233 &225 \\
+\bottomrule
+\end{tabular}
+\caption{Total number of data and control/ASD amount for each subset and thresholds}
+\label{tab:controlasd_per_subset}
+\end{table}
+
+
+A further analysys concerns the feature's dimensionality reduction, that is the reduction of features from the input dataset using PCA
+For each one of the analysis above, PCA was implemented to restrain the effect of overfitting.
+
+From the initial input data consisting of 5995 features, we tried to classify using n principal components
+The workflow of the entire analysis can be schematized in the workflow diagram \ref{fig:workflowanalysis}
+
+
 
 \chapter{Harmonization - results}
 
@@ -2049,106 +2185,6 @@ results obtained with this model are more stable in respect to the the value of 
 So changing the value of this parameter does not affect significantly the performances of this model.
 
 \newpage
-
-\section{Analysis workflow}
-
-We mainly carried out three different kind of analysis using the DNN explained before, and compared them with the scores obtained from the adversarial network.
-
-For each one of these analysis, we implemented a K-fold cross validation scheme to report our results. We determined and reported model performances as the mean AUC value and the standard deviation of the scores for each k-fold. A schematic
-
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=0.6\linewidth]{ml/flowcharts/flowchart_analysis}
-\captionsetup{singlelinecheck = off}
-\caption[]{
-Flowchart of the analysis carried out in this work:
-\begin{enumerate}
-\item Select one type of coefficient: Pearson correlation, Wavelet coherence coefficients
-\item Select the desired attributes of patients in order to make cuts on dataset, for example use the whole ABIDE I + II dataset or just ABIDE I, limit analysis to a certain age range, sex, or eye status open or close.
-\item Use these data + labels to make classification following the three pipelines described in section \ref{sec:deep_learning_results} and the fourth analysis pipeline using the adversarial neural network
-\item For each of these branches, implement a K-Fold cross validation and return the results in terms of mean AUC and std deviation of the values across every fold.
-\end{enumerate}
-}
-\label{fig:workflowanalysis}
-\end{figure}
-
-
-Since we are not working with a huge amount of data $(< 1600)$ samples, we choose a 5-fold CV, we made this choice because with a 10 k-fold CV, the error on the mean AUC score was high, so we choose to hold a greater number of data in the Test to reduce variability among them and hence reduce the standard deviation of the model's score.
-K-fold CV was implemented using the stratifiedKFold class provided by sklearn library for Python
-
-The data we are using to perform classification are the Pearson correlation (Fisher-transformed) data, or the correlation values coming from the analysis with wavelets.
-
-
-
-In detailes the four types of analysis we carried out are:
-\begin{enumerate}
-\item Classification of asd/Controls using raw (not harmonized) data
-\item Classification using the whole harmonized dataset, creating the harmonization model on all the control subjects and applying the model on all ASD subjects, and then split this dataset into a train and test subsets for each k-fold. The flowchart to schematise this implementation is showh in figure \ref{fig:harmon_upstream_flowchart}.
-\item Classification with harmonization implemented inside the K-fold cross-validation, creating the model on controls and applying it to ASD: following this procedure data were splitted into a train and a test dataset, therefore using train data we computed the harmonization model only on control patients and then apply the model to asd patient and both Control and ASD Test data.
-The whole flowchart is shown in figure \ref{fig:harmon_kfold_flowchart}
-\item Classification using the domain adversarial neural network.
-\end{enumerate}
-
-Harmonizing data inside a k-fold is the best way to mantain Train and test data as much separated as possible and avoid data leakage between train and test.
-It is a common source of error to introduce some kind of data leakage between the Train and the Test dataset, when we harmonize on the entire dataset, the harmonization model permorms a fit using all the data, so each data is modified according to information obtained from all the other data, so in data belonging to the train dataset there's already information about the Test dataset, and this leads to a misleading increase of model's performances.
-Some articles perform a Leave One Site Out Cross validation. In our case we can't do that if we want to mantain Train and Test independent because if we compute the harmonization model only on the train dataset, we wouldn't have information to apply it to the test dataset since its data belong to a site not included in the model.
-
-
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=0.6\linewidth]{ml/flowcharts/harmon_kfold}
-\caption{Flowchart: implementation of harmonization inside each fold}
-\label{fig:harmon_kfold_flowchart}
-\end{figure}
-
-
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=0.6\linewidth]{ml/flowcharts/harmon_upstream}
-\caption{Flowchart: implementation of harmonization upstream}
-\label{fig:harmon_upstream_flowchart}
-\end{figure}
-
-
-
-Analysis were carried out using different selection criterias and thresholds on the dataset which brought us to different datasets combination.
-We excluded from out analysis data coming from sites NYU\_2 and ... because as noticed in section \ref{sec:} they didn't provide control data but only ASD patients, and without them, we can't perform harmonization on this sites because we would need to create the model only on Control data.
-We left with a total number of 1501 perason correlation data and
-The first classification attempt was using the whole dataset from ABIDE 1 and 2, consisting of only male patients aged between 5 and 40 years old, without any further constraint on eye status at scan.
-Then, with these same constraint we tried to classify separately ABIDE 1 and ABIDE 2 datasets.
-The second analysis was performed on a dataset with the same constraint as above, but with an additional condition on eye status choosing to select only patient who kept eyes open throughout the entire scan time.
-The latter analysis were carried out with these same constraints, but separately on ABIDE 1 and ABIDE 2 dataset.
-So in whort we have 6 different analysis shown in table \ref{tab:controlasd_per_subset}
-
-
-
-
-\begin{table}[!htp]\centering
-\scriptsize
-\begin{tabular}{lrrrr}\toprule
-Dataset &Tot &Controls &ASD \\\midrule
-AB I+II eye = all, sex = males, age(5, 50) &1470 &737 &733 \\
-AB I + II eye = open &1026 &514 &512 \\
-AB I &841 &426 &415 \\
-AB I eye=open &568 &281 &287 \\
-AB II &629 &311 &318 \\
-AB II eye = open &458 &233 &225 \\
-\bottomrule
-\end{tabular}
-\caption{Total number of data and control/ASD amount for each subset and thresholds}
-\label{tab:controlasd_per_subset}
-\end{table}
-
-
-A further analysys concerns the feature's dimensionality reduction, that is the reduction of features from the input dataset using PCA
-For each one of the analysis above, PCA was implemented to restrain the effect of overfitting.
-
-From the initial input data consisting of 5995 features, we tried to classify using n principal components
-The workflow of the entire analysis can be schematized in the workflow diagram \ref{fig:workflowanalysis}
-
 
 
 \newpage
@@ -2474,8 +2510,7 @@ We compared important features extracted from DNNs with those important for a Ra
 Afterwards, we select 5 analysis to focus on, because we regard at them as the most significative to count ho many features are common in these analysis between the first 60 most important features.
 At the end we come back to the biological meaning of the most important feature to assess whether they are linked to some particular brain areas which caused an altered functional connectivity between heathy and ASDs patients.
 
-
-
+\hfill
 
 To instantiate the desired class, DeepExplainer in our case, we need the trained deep model and a fraction of the training data to use as background. We can choose as many background data as we want keeping in mind that the bigger is this background subset $N_{bkg}$, the more accurate is the computing of shapley values, but the more computationally expansive this process will be, in particular it would occupy a vast amount of RAM memory and eventually run out of it;
 However, since the error we make in shap values linked to this choice is $\sim 1/\sqrt{N_{bkg}}$, a background dataset made of 100 samples is already a good compomise to have a relatively small error.
@@ -2489,7 +2524,7 @@ Since we are presenting our results following a k-fold cross validation scheme, 
 To do so and collect a final and general result, we computed the shap values for all the test samples of each k-fold and we stacked them together.
 At the end of the CV, we have a matrix of shap values, and we can proceed to visualize the results.
 
-
+\hfill
 
 We can visualize, for each test data, the contribution of each feature on pushing or pulling the predicted output from the baseline output of our model, but to produce this kind of plot we need to save the Test datasets as well.
 An example is shown in figure \ref{fig:shap_waterfall}.
@@ -2531,7 +2566,7 @@ An example to visualize this trend is shown in figures \ref{fig:shap_bar_kfold} 
    \caption{Bar plot of shapley values: for each feature is represented the mean absolute value of all the shap values computed for each instance}
    \label{fig:shap_bar_kfold}
 \end{subfigure}
-\caption{Two different but equivalent plots of shap values for the first 20 most important features obtained from data where harmonization procedure is implemented inside the k-fold CV scheme
+\caption{Two different but closely related plots of shap values for the first 20 most important features obtained from data where harmonization procedure is implemented inside the k-fold CV scheme
 }
 \label{fig:shap_features_kfold_both}
 \end{figure}
@@ -2543,7 +2578,7 @@ An example to visualize this trend is shown in figures \ref{fig:shap_bar_kfold} 
 \newpage
 \paragraph{Feature importance with DNN} \hfill
 
-
+ that there are some features common to all the four pipelines, in particular features
 
 
 
@@ -2552,55 +2587,58 @@ An example to visualize this trend is shown in figures \ref{fig:shap_bar_kfold} 
 \centering
 \begin{subfigure}[c]{.45\linewidth}
   \includegraphics[width=1\linewidth]{shap/ab_all/shap_bar_kfold}
-   \caption{k-fold}
+   \caption{Bar plot of shap values and related important features extracted with harmonized data, with harmonization procedure implemented inside \textbf{k-fold} CV}
    \label{fig:shap_bar_kfold_}
 \end{subfigure}
 \begin{subfigure}[c]{.45\textwidth}
    \includegraphics[width=1\linewidth]{shap/ab_all/shap_bar_upstream}
-   \caption{upstream}
+   \caption{Bar plot of shap values and related important features extracted with harmonized data, with harmonization procedure implemented \textbf{upstream}, before the k-fold}
    \label{}
 \end{subfigure}
+\hspace{3mm}
 \begin{subfigure}[c]{.45\textwidth}
    \includegraphics[width=1\linewidth]{shap/ab_all/shap_bar_no}
-   \caption{Raw data}
+   \caption{Bar plot of shap values and related important features extracted from \textbf{raw}, not-harmonized data}
    \label{}
 \end{subfigure}
 \begin{subfigure}[c]{.45\textwidth}
    \includegraphics[width=1\linewidth]{shap/ab_all/shap_bar_adv}
-   \caption{adversarial}
+   \caption{Bar plot of shap values and related important features extracted from raw data using the \textbf{Adversarial} neural network,}
    \label{}
 \end{subfigure}
-\caption{}
+\caption{First twenty most important features plotted with a bar plot of mean absolute shap values. Extracted from each of the four analysis we run with DNNs and Adversarial network}
 \label{fig:shap_abide_all}
 \end{figure}
 
-We can see from this bar plots of the first 20 most important features that some feature seem to be persistent through all the four pipelines; if we limit our analysis on these first twenty we find that: feature 592 and 4521 appear, even if in different order of importance, in all our four analysis; features 244 592 777 1513 1521 3042 3334 3401 appear in 3 out of 4 analysis,
+If we plot the first twenty important feature for DNNs, obtained from each pipeline described in section \ref{sec:analysis_workflow}, we can notice that some features seem to be persistent through all the four pipelines; we find that: feature 592 and 1521 appear, even if in different order of importance, in all our four analysis;
+(We replicated the plot in figure \ref{fig:shap_bar_kfold} putting it again in figure \ref{fig:shap_bar_kfold_} for a more immediate visual comparison of all these twenty important features)
+ %features 244 592 777 1513 1521 3042 3334 3401 appear in 3 out of 4 analysis,
 %and features 2181, 244, 1507, 2126, 1631, 724 and 1511, appear just in two of them.
-Let's see what they represent:
+They represent:
 \begin{itemize}
 \item Feature 592: correlation between Right Middle Temporal Gyrus ( anterior division) and Left Superior Temporal Gyrus ( anterior division)
 \item Feature 1521: correlation between Left Angular Gyrus  and Right Middle Temporal Gyrus ( posterior division)
 
-\item Feature 244: correlation between Right Inferior Frontal Gyrus ( pars triangularis) and Right Accumbens
-\item Feature 777: correlation between Left Middle Temporal Gyrus ( temporooccipital part) and Right Middle Temporal Gyrus ( posterior division)
-\item Feature 1513: correlation between Left Angular Gyrus  and Right Temporal Pole
-\item Feature 3042: correlation between Right Frontal Orbital Cortex  and Left Middle Temporal Gyrus ( temporooccipital part)
-\item Feature 3334: correlation between Right Parahippocampal Gyrus ( posterior division) and Right Accumbens
-\item Feature 3401: correlation between Right Parahippocampal Gyrus ( posterior division) and Right Parahippocampal Gyrus ( anterior division)
+%\item Feature 244: correlation between Right Inferior Frontal Gyrus ( pars triangularis) and Right Accumbens
+%\item Feature 777: correlation between Left Middle Temporal Gyrus ( temporooccipital part) and Right Middle Temporal Gyrus ( posterior division)
+%\item Feature 1513: correlation between Left Angular Gyrus  and Right Temporal Pole
+%\item Feature 3042: correlation between Right Frontal Orbital Cortex  and Left Middle Temporal Gyrus ( temporooccipital part)
+%\item Feature 3334: correlation between Right Parahippocampal Gyrus ( posterior division) and Right Accumbens
+%\item Feature 3401: correlation between Right Parahippocampal Gyrus ( posterior division) and Right Parahippocampal Gyrus ( anterior division)
 \end{itemize}
 
 \newpage
 \paragraph{Feature importance with Random Forest}
 
-
-Random forest: common to the three analysis are: 592, 1521, 1513, 3334 shown in figure \ref{fig:shap_ab1}
+Same comparison can take place using a Random Forest classifier for the three analysis above.
+With this Random Forest classifier we extracted features shown in figure \ref{fig:shap_abide_rf_all} and we notice that are common to the three analysis feature 710, 1127, 1703, 748, 2735, 1400, 2811
 
 
 \begin{figure}
 \centering
 \begin{subfigure}[b]{.45\textwidth}
-   \includegraphics[width=1\linewidth]{shap/ab_all/rf_feature_importance_no}
-   \caption{Non-harmonized}
+   \includegraphics[width=1\linewidth]{shap/ab_all/rf_feature_importance_kfold}
+   \caption{kfold}
    \label{}
 \end{subfigure}
 \begin{subfigure}[b]{.45\textwidth}
@@ -2609,55 +2647,73 @@ Random forest: common to the three analysis are: 592, 1521, 1513, 3334 shown in 
    \label{}
 \end{subfigure}
 \begin{subfigure}[b]{.45\textwidth}
-   \includegraphics[width=1\linewidth]{shap/ab_all/rf_feature_importance_kfold}
-   \caption{kfold}
+   \includegraphics[width=1\linewidth]{shap/ab_all/rf_feature_importance_no}
+   \caption{Non-harmonized}
    \label{}
 \end{subfigure}
 \caption{Feature importance obtained with a Random Forest classifier: results on the entire dataset.}
-\label{fig:shap_ab1}
+\label{fig:shap_abide_rf_all}
 \end{figure}
 
 
 
 \begin{itemize}
-\item Feature 592: correlation between Right Middle Temporal Gyrus ( anterior division) and Left Superior Temporal Gyrus ( anterior division)
-\item Feature 1521: correlation between Left Angular Gyrus  and Right Middle Temporal Gyrus ( posterior division)
-\item Feature 1513: correlation between Left Angular Gyrus  and Right Temporal Pole
-\item Feature 3334: correlation between Right Parahippocampal Gyrus ( posterior division) and Right Accumbens
+\item Feature 710: correlation between Right Middle Temporal Gyrus ( temporooccipital part) and Right Thalamus (nan)
+\item Feature 1127: correlation between Left Postcentral Gyrus (nan) and Right Postcentral Gyrus (nan)
+\item Feature 1703: correlation between Right Lateral Occipital Cortex ( inferior division) and Right Supramarginal Gyrus ( anterior division)
+\item Feature 748: correlation between Left Middle Temporal Gyrus ( temporooccipital part) and Right Thalamus (nan)
+\item Feature 2735: correlation between Right Precuneous Cortex (nan) and Right Middle Temporal Gyrus ( anterior division)
+\item Feature 1400: correlation between Left Supramarginal Gyrus ( posterior division) and Right Inferior Frontal Gyrus ( pars triangularis)
+\item Feature 2811: correlation between Left Precuneous Cortex (nan) and Right Middle Temporal Gyrus ( posterior division)
 \end{itemize}
 
 \newpage
 \paragraph{Cross-analysis on feature importance}
 
-Since we want to exclude from our analysis the procedure of upstream harmonization because it creates a bias in classification results, from now on, when we refers to harmonized data, we are referring to data with harmonization procedure implemented inside kfold.
+So far, we discussed results linked to these images just as a rapid comparison of the results of this kind of analysis. Now we go deeper to fulfill a more meaningful analysis of what are important feature.
 
-To assess what are the most relevant recurrent feature between these different types of analysis, we choose to limit our analysis to the 1\% important features among 5995, we collected the first 60 important features and we limited our analysis to only 5 classification procedures.
+Since as explained in section \ref{sec:classification_discussion} we want to exclude from our analysis the procedure of upstream harmonization because it creates a bias in results, from now on, we focus only on the other pipelines and when we refers to harmonized data, we are referring to data with harmonization procedure implemented inside kfold.
+
+To assess what are the most relevant recurrent feature between these different types of analysis, we choose to limit our analysis to the 1\% important features among 5995; to this end we collected the first 60 important features and we limited our analysis to only 5 classification procedures listed below.
 
 
 \begin{enumerate}
-\item Classification with harmonization implemented inside k-fold using the DNN \label{proc:dnn_kfold}
-\item Classification with harmonization implemented inside k-fold using the Random Forest classifier \label{proc:rf_kfold}
-\item Classification with raw data using the DNN \label{proc:dnn_no}
-\item Classification with raw data using the Random Forest classifier \label{proc:rf_no}
-\item Classification using the adversarial neural network \label{proc:adv}
+\item Classification of harmonized data (with harmonization implemented inside k-fold) using the DNN \label{proc:dnn_kfold}
+\item Classification of harmonized data using the Random Forest classifier \label{proc:rf_kfold}
+\item Classification of raw data using the DNN \label{proc:dnn_no}
+\item Classification of raw data using the Random Forest classifier \label{proc:rf_no}
+\item Classification using raw data with the Adversarial Neural Network \label{proc:adv}
 \end{enumerate}
 
 
 
-Firstly we checked if there are common features among the first 60 important features of each method between these five classification.
-But we did not find anything in common.
-If we exclude, though, from our analysis the adversarial learning classification we find that features 1513, 3058, 1067 are common between the remaining classification methods.
-They represent:
+Firstly we checked if and how many common features we find among the first 60 important features between these five classification.
+But turns out that there are no common features between all these 5 pipelines taking into account only the first 60.
+%If we exclude, though, from our analysis the adversarial learning classification we find that features 1513, 3058, 1067 are common between the remaining classification methods.
+%They represent:
+%\begin{itemize}
+%\item Feature 1513: correlation between Left Angular Gyrus (nan) and Right Temporal Pole (nan)
+%\item Feature 3058: correlation between Right Frontal Orbital Cortex (nan) and Left Angular Gyrus (nan)
+%\item Feature 1067: correlation between Right Postcentral Gyrus (nan) and Right Superior Temporal Gyrus (posterior division)
+%\end{itemize}
+
+Now, we carry out analysis on subgroups of the previous classification methods and we report the number of common important features among the first 60 most relevant as a number and as percentage. This kind of analysis could be useful to assess whether the harmonization procedure significatively changes the number of important feature and if the type of classifier and the related technique of feature importance assessment heavily affect the result of this feature importance.
+
 \begin{itemize}
-\item Feature 1513: correlation between Left Angular Gyrus (nan) and Right Temporal Pole (nan)
-\item Feature 3058: correlation between Right Frontal Orbital Cortex (nan) and Left Angular Gyrus (nan)
-\item Feature 1067: correlation between Right Postcentral Gyrus (nan) and Right Superior Temporal Gyrus (posterior division)
+\item Focusing just on \textbf{DNN} we compared pipelines \ref{proc:dnn_kfold}. and \ref{proc:dnn_no}. finding that 22 features (37 \%) out of 60 are common.
+\item Focusing just on \textbf{Random Forest} classifier, we compared important features between \ref{proc:rf_kfold}. and \ref{proc:rf_no}. and found that 33 features out of 60 are common (55\%).
+\item Comparing the same analysis pipeline with DNN and Random Forest we find that with \textbf{harmonized data}: procedure \ref{proc:rf_kfold}. and \ref{proc:dnn_kfold}. there are 13 common features (22 \%)
+\item Comparing results on \textbf{raw data} obtained with DNN (pipeline \ref{proc:dnn_no}.) and \textbf{Random Forest} (\ref{proc:rf_no}.) we obtain 7 common features  (12\%)
+\item Comparing results of the \textbf{Adversarial network} (\ref{proc:adv}.) with the \textbf{harmonized data} with DNN (\ref{proc:dnn_kfold}.) we obtain 21 common features (35\%)
+\item Comparing results of the \textbf{Adversarial network} (\ref{proc:adv}.) with DNN classification of \textbf{raw data} (\ref{proc:dnn_no}.) we obtain 28 common features (47\%)
 \end{itemize}
 
 
-Since each feature is representative of a correlation between two brain areas, and each brain areas is involved in more than 100 features, we asked if there are some brain areas which are particularly discriminative and recurrent between the first 60 features of these classification pipelines.
-We plotted an histogram to represent the number of occurrences for each brain areas among the first 60 features for each classification procedure, and then we looked for common features between two classification procedure at a time and we created an histogram to number how many times a certain brain areas is involved in these common features throughout all the pairs of classification methods we are focusing on.
-%in the first 60 important features for each classification pipeline described above.
+
+\paragraph{Brain areas related to important features} \hfill
+
+Since each feature is representative of a correlation between two brain areas, and each brain area is involved in more than 100 features, we wonder not simply if there are some feature that repeat themselves, but if there are some brain areas which are particularly involved between the first 60 features of these classification pipelines.
+For this purpose, we plotted an histogram to represent the number of occurrences for each brain areas among the first 60 features for each classification procedure, and subsequently we created the histogram of the overall important brain areas pooling all of these results into a single histogram .
 
 Let's give a look at the histograms of the most recurrent brain areas between all the 60 important features for each classification procedure: figure \ref{fig:histograms_60}
 
@@ -2699,37 +2755,17 @@ Let's give a look at the histograms of the most recurrent brain areas between al
 \end{figure}
 
 
-Since these features are the most important among all the 5 analysis, we are willing to visualize (fig \ref{fig:important_areas_features_all}) the overall histogram putting together results obtained from each analysis.
-
-study if there's any brain areas significantly involved more than others. To this end, as mentioned above, we computed in figure \ref{fig:important_areas_features_all} the overall histogram of the most recurrent brain areas between these common feature.
+Since it is immediate to notice that there are recurrent brain areas across all the analysis, we are willing to visualize (fig \ref{fig:important_areas_features_all}) the overall histogram putting together results obtained from each analysis.
+To this end, as mentioned above, we computed in figure \ref{fig:important_areas_features_all} the overall histogram of the most recurrent brain areas between these common feature.
 
 \begin{figure}[h]
 \centering
-  \includegraphics[angle = 270, origin = c, width=0.8\linewidth]{shap/ab_all/important_areas_features_all}
+  \includegraphics[angle = 270, origin = c, width=0.75\linewidth]{shap/ab_all/important_areas_features_all}
 \caption{Histogram of the most important brain areas putting together results obtained from all the five analysis listed above.}
 \label{fig:important_areas_features_all}
 \end{figure}
 
-
-
-
-
-\hfill
-
-Now, we run analysis on subgroups of the previous classification methods and we report the number of common important features among the first 60 most relevant as a number and percentage.
-
-\begin{itemize}
-\item Focusing on random forest classifier, we compared important features between \ref{proc:rf_kfold} and \ref{proc:rf_no} and found that 33 features out of 60 are common (55\%).
-\item Focusing on DNN we compared pipelines \ref{proc:dnn_kfold} and \ref{proc:dnn_no} finding that 22 features (37 \%) out of 60 are common.
-\item Comparing the same analysis pipeline with DNN and Random Forest we find that with harmonized data: procedure \ref{proc:rf_kfold} and \ref{proc:dnn_kfold} there are 13 common features (22 \%)
-\item Comparing results on raw data obtained with DNN \ref{proc:dnn_no} and Random Forest \ref{proc:rf_no} we obtain 7 common features  (12\%)
-\item Comparing the adversarial results \ref{proc:adv} with the harmonized data with DNN \ref{proc:dnn_kfold} we obtain 21 common features (35\%)
-\item Comparing the adversarial results \ref{proc:adv} with DNN classification of raw data \ref{proc:dnn_no} we obtain 28 common features (47\%)
-\end{itemize}
-
-
-
-
+\section{Discussion on feature importance}
 
 
 
@@ -2740,25 +2776,39 @@ Now, we run analysis on subgroups of the previous classification methods and we 
 
 \appendix
 \chapter{Principles of MRI imaging}
-Nuclear magnetic resonance imaging, is a widespread imaging technique is widely employed in radiology to obtain anatomical images or study physiological processes, taking advantage of its flexible sensitivity to different tissues
-is based on the interaction of a nuclear spin of any tissue's molecule, with an external magnetic field $\textbf B_0$.
-The principal molecule we are referring to is water, and subsequently, hydrogen is the dominant nucleus in MRI.
+Nuclear magnetic resonance imaging, is a widespread imaging technique widely employed in radiology to obtain anatomical images or study physiological processes, taking advantage of its flexible sensitivity to different tissues.
+The physical principle of this imaging is the interaction of a nuclear spin of any tissue's molecule, with an external magnetic field $\textbf B_0$.
+
+Molecule that contribute the most to the signal is water's, and specifically, hydrogen nuclei are the dominant source of signal in MRI.
+
 When a nucleus undergoes an external magnetic field, the interaction would make the angular moment $\overrightarrow{\mu}$ align with the magnetic field,
 % Talk about energy levels. Review lines below.
-but, since protons have a thermal energhy associated with the temperature T, they are not static, so they start precessing around the symmetry axes given by the direction of the field $\overrightarrow{B_0}$.
-The force applied to a spinning proton under a magnetic field is given by
+but, since a proton has an intrinsec spin, it has a magnetic momentum which brings it start preprocessing
+%since protons have a thermal energy associated with the temperature T, they are not static, so they start precessing
+around the symmetry axes given by the direction of the magnetic field $\overrightarrow{B_0}$.
+
+The torque resulting from the application of a static magnetic field, applied to a spinning proton is given by
 \begin{equation}
 \overrightarrow{\tau} = \overrightarrow{\mu} \times \overrightarrow{B}
 \end{equation}
-The rotation frequency $\omega_0$ of the spinning proton is given by the Larmor equation
+This torque is what cause the proton precession and the rotation frequency $\omega_0$ of the spinning proton is given by the Larmor equation
 \begin{equation}\label{eq:larmorfrequency}
 \omega_0 = \gamma B_0
 \end{equation}
-where $\gamma$ is a constant related to the proton, in wates it has a value of $\gamma = 2.7\cdot 10^8 \frac{rad\cdot s}{T}$ and $B_0$ is the external magnetic field. For a typical scanner with a magnetic field of 2-3 T, Larmor frequency assumes values of $\sim MHz$ just below radio waves.
-proton spins can assume two values: up and down in relation to the external field direction ; after a body  underwent a magnetic field, its total magnetization is given by the net difference between spins up and down
+where $B_0$ is the magnitude of the external magnetic field and $\gamma$ is a constant called \emph{gyromagnetic factor} and is characteristic of each particle or nucleus.
+The gyromagnetic factor of a proton in water has a value of $\gamma = 2.7\cdot 10^8 \frac{rad\cdot s}{T}$.
+For a typical scanner with a magnetic field of 2-3 T, Larmor frequency assumes values of $\sim MHz$ just below radio waves.
+
+When protons undergo a magnetic field, they can assume two states in relation to the direction of the external field: parallel and anti-parallel
+%Proton spins can assume two values: up and down in relation to the external field direction ;
+therefore, after a body underwent a magnetic field, its total magnetization is given by the net difference between spins up and spins down.
 % spin excess? p.4
 % write abou quantum energy levels
-This net magnetization causes a flux which can be detected by an external coil only if it is perturbated from its equilibrium state. This is achieved by using another external magnetic field under the form of a radiofrequency impulse, with a frequence resonting with the Larmor frequence of preprocessing. This flips the spin in a direction usually perpendicular to the original $B_0$ one, which is supposed to be along $\hat z$ axis. Thus protons will start rotating in the x-y plane, still continuing preceding around their symmetry axis.
+This net magnetization can be represented by a single vector pointing parallel or anti-parallel to the direction of the external field and if we want to detect a signal related to this magnetization, we have to perturb this vector from its equilibrium.
+This would cause the precession of this magnetization vector around the magnetic field
+This precession would therefore cause a changing flux which can be detected by an external coil.
+% only if it is perturbated from its equilibrium state.
+This is achieved by using another external magnetic field under the form of a radiofrequency impulse, with a frequence resonting with the Larmor frequence of preprocessing. This flips the spin in a direction usually perpendicular to the original $B_0$ one, which is supposed to be along $\hat z$ axis. Thus protons will start rotating in the x-y plane, still continuing preceding around their symmetry axis.
 Doing so, they gradually lose their initial energy and tend to realign along z-axis.
 This process is called relaxation and it follows an exponential decay with a time constant $T_1$ called longitudinal relaxation (longitudinal in relation to the original $B_0 \hat z$ direction), or spin-lattice relaxation, referring to the loss of thermal energy through interaxtion with surroading lattice. The total magnetization along z-axis during time, after the rf impulse, will then regrow along z-axis following:
 \begin{equation}
