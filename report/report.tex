@@ -98,6 +98,8 @@
 \tableofcontents
 
 \chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+
 Autism is a neurodevelopmental disorder manifesting from the early ages and involving behavioral and cognitive impairments. So far, no univocal biomarker have been detected to identify this disorder, and the most accurate diagnostic tool remains a behavioural and attitudinal test.
 In this work we are focusing on brain functional connectivity data to study the difference between patients with Autism Spectrum Disorder (ASDs) and healthy patients (referred as Controls). To tackle this challenge, we are going to employ machine learning and deep learning models.
 Our base data are Magnetic Resonance scans provided by the ABIDE dataset consisting on structrural and functional scans of approximately 2200 patients collected from different medical centers.
@@ -115,10 +117,11 @@ Classification of raw data and harmonized data implemented with different proced
 \end{itemize}
 
 \chapter*{Organization of contents}
+\addcontentsline{toc}{chapter}{Organization of contents}
 
 \textbf{Background:} In this background chapter we are going to explain some useful theory that lays the groundwork to all the thesis work.
 In chapter \ref{chap:autism} we outline the main problems associated with this disorder, from the biological development to the social isseues it generates. We briefly review some studies carried on so far to study this challenging issue.
-Chapter \ref{chap:fmri} provides an overview of the physical and biological principles underlying fMRI diagnostic tool. This is the means through which data we are going to employ are collected.
+Chapter \ref{sec:fmri} provides an overview of the physical and biological principles underlying fMRI diagnostic tool. This is the means through which data we are going to employ are collected.
 Chapter \ref{chap:machine_learning} provides a sufficiently detailed explaination of machine learning and deep learning models diving into the mathematical formulation of important comcepts to properly get the idea of the structure of a machine learning models, the learning procedure, and the important metrics for a proper evalutation of model's performances. Ultimately, we describe a common way to reduce data dimensionality keeping as much information as possible and reducing the number of uninformative or reduntant features from data.
 Chapter \ref{chap:shap-theory} describes the theory behind an important strategy to inspect a deep model and understand the processes that brought it to a certain output given some input data.
 
@@ -240,26 +243,275 @@ Analytical harmonization is a procedure that modifies data with shifts and resca
 
 The second aproach, the deep learning one, tries to make classification of Control/ASD data extracting from input data both information related to the class (Control/ASD) to site. It then use the latter to remove the bias toward sites before making a prediction.
 
-\chapter{fMRI}\label{chap:fmri}
+
+\chapter{Principles of MRI imaging}\label{sec:mri_introduction}
+ In this chapter we are going to explain some basic principles that underlie the Nuclear Magnetic Resonance Imaging. Since the matter can become very complex, we limit to give some glimpse of what are the main principles behind this technique and the acquisition sequence employed in diagnostics.
+
+\section{Physical principles}
+Nuclear magnetic resonance imaging, is a non-invasive imaging technique widely employed in radiology to obtain anatomical images or study physiological processes, taking advantage of its flexible sensitivity to different tissues.
+
+\begin{wrapfigure}[25]{l}{0.4\textwidth}
+\centering
+\includegraphics[width=1\linewidth]{mri/precessione_}
+\caption{Representation of a angular moment vector $\mu$ under a static magnetic field $B_0$ and the resulting moment $\tau$ which causes the precession}
+\label{fig:precession}
+\end{wrapfigure}
+
+
+The physical principle of this imaging is the interaction of a nuclear spin of any tissue's molecule, with an external magnetic field $\textbf B_0$.
+Molecules that contribute the most to the signal are water's, and specifically, hydrogen nuclei are the dominant source of signal in MRI.
+
+When a nucleus undergoes an external magnetic field, the interaction would make the nuclei align with the magnetic field, but, since protons and nuclei have an intrinsec spin, and hence an angular moment $\overrightarrow{\mu}$ they start a rotatory movement called precession.
+
+Precession occurs because of the torque, a force which is created by the interaction of a static magnetic field with the angular moment of a spinning nucleus.
+The relation is given by
+
+\begin{equation}
+\overrightarrow{\tau} = \overrightarrow{\mu} \times \overrightarrow{B_0}
+\end{equation}
+
+Precession occurs around the symmetry axes given by the direction of the magnetic field $\overrightarrow{B_0}$ as schematically shown in figure \ref{fig:precession}.
+
+When a nucleus starts this rotatory movement, the characteristic frequency $\omega_0$ is uniquely determined by the properties of the nucleus itself and strength of the magnetic field; the relation is given by the Larmor equation and the frequency $\omega_0$ is called \textbf{Larmor frequency}
+
+%\begin{equation}\label{eq:larmorfrequency}
+\[
+\omega_0 = \gamma B_0
+\]
+%\end{equation}
+where  $\gamma$ is a constant called \emph{gyromagnetic factor} and is characteristic of each nucleus.
+The gyromagnetic factor of a proton in water has a value of $\gamma = 2.7\cdot 10^8 \frac{rad\cdot s}{T}$.
+For a typical scanner with a magnetic field of 2-3 T, Larmor frequency assumes values of $\sim MHz$ just below radio waves.
+
+When protons in a body undergo a magnetic field, they can assume two states in relation to the direction of the external field: parallel and anti-parallel (as an example in figure \ref{fig:precession} is represented a parallel configuration).
+If we compute the difference between the number of proton in these two states we can determine the net magnetization of a body, expressed by a vector pointing parallel or anti-parallel to the direction of $\overrightarrow{B_0}$.
+
+This net magnetization can be represented by a single vector pointing parallel or anti-parallel to the direction of the external field and if we want to detect a signal related to this magnetization, we have to perturb this vector from its equilibrium state.
+The perturbation would cause the precession of this magnetization vector around the direction of the magnetic field, with its own larmor frequency.
+This precession will produce a changing flux which can be detected by an external coil.
+% only if it is perturbated from its equilibrium state.
+To kick this vector away from its equilibrium state, a second external magnetic field is employed under the form of a radiofrequency impulse, with a frequence resonating with the Larmor frequence of the precessing spins.
+
+A common way to apply this radiofrequency impulse is with the purpose of flipping the magnetization vector and hence the spins in a direction usually perpendicular to the original along $\overrightarrow{B_0}$ one, which we can suppose to be along $\hat z$ axis.
+
+We create this way a magnetization component onto the x-y plane, aligned with the direction of the radiofrequency pulse.
+This magnetization vector on thte transverse (x-y) plane is called \emph{transverse magnetization}.
+After this radio frequency pulse, protons will start rotating in the x-y plane, but, since this impulse is not persistent, after it is switched off, they gradually lose their initial energy and tend to realign along the z-axis.
+This process of realigning along the z-axis is called longitudinal relaxation (longitudinal in relation to the original $B_0 \hat z$ direction).
+%In other words, we create a transverse magnetization by applying a rf-pulse, so that when we have a transverse magnetization, we lost the longitudinal magnetization because the vector is flipped and lie on the x-y plane.
+%Gradually, though, the transverse vector lose its magnitude in the x-y plane because of the gradually loss of energy of protons and the longitudinal magnetization reacquire its previous magnitude (longitudinal in relation to the original $B_0 \hat z$ direction).
+
+The evolution of the longitudinal and transverse magnetization are modeled with the introduction of two time constant $T_1 \text{ and } T_2$ respectively.
+Longitudinal relaxation occurs because the system goes from an higher energy state (when it is flipped on the x-y plane) to a state of thermodynamic equilibrium with its surroadings, regaining its previous magnitude.
+
+This process follows an exponential decay in time showh in equation \ref{eq:spinlattice}, with a time constant $T_1$, which for the physical reason underlying it, is also called spin-lattice relaxation time.
+
+\begin{equation}\label{eq:spinlattice}
+M_z(t) = M_0 (1-e^{-t/T_1})
+\end{equation}
+
+
+The transverse magnetization vector follows a slightly different evolution. Before introducing the T2 parameter associated with its evolution, we establish a notation to indicate this magnetization vector: since it lies on the x-y plane it has two component so we can write $M_\perp = M_x \hat x + M_y \hat y$.
+When studying the evolution of transferse magnetization an other effects has to be taken into account, namely the spin-spin interaction between protons.
+If we consider a physical system where proton are immersed in a magnetic field, each proton interacts with this external field plus all the small fields created by the surroading protons and their associated spins. This leads to the presence of a local field for each proton, slightly different from the external magnetic field $B_0$.
+These different local fields affect the evolution of the transverse magnetization because they cause a relative dephasing of protons between each other.
+According to this, if immediately after the rf-impulse all the spins can be imagined as aligned to the x axis, in time they start to fan out. This effect speeds up the loss of the total transverse magnetization on the x-y plane.
+
+If we study this evolution from the rotating reference frame, (rotating with the same Larmor frequency of protons) the module of the transverse magnetization follows an exponential decay in the form
+\begin{equation}
+M_\perp(t) = M_\perp(0) e^{-t/T_2}
+\end{equation}.
+
+Since T2 constant comprises the spin-spin interaction process plus the spin-lattice interaction which cause the realignment of spins along the $\hat z$ axis, it is always smaller than T1; and to give an idea of the order of magnitude for protons in huma tissue, if T1 ranges from 10 to 100 milliseconds, T2 is usually of the order of 10 milliseconds.
+
+
+In a real pyisical system, however, there's and additional dephasing source, coming from external field inhomogeneities.
+This effect is often taken into account by the introduction of a different decay time $T_2'$ which along with $T_2$ bring to a overall time costant given by
+\begin{equation}
+\frac{1}{T_2*} = \frac{1}{T_2}+\frac{1}{T_2'}
+\end{equation}
+
+
+\section{Image acquisition and k-space}
+
+%fem
+The physical process underlying signal acquisition is Faraday induction, according to which an electrical potential called electromotive force is generated by the variation of a magnetic flux over time $emf = -\frac{d\Phi}{dt}$ being $\Phi$ the varying flux through the receiving coil.
+
+A simple setup in MRI to generate a varying flux over time is the application of a single rf pulse with an angle of $\pi/2$. The variation of flux occurs while tipped spins are rotating in the x-y plane and the magnetization vector is relaxing towards the longitudinal axis.
+This induced emf signal can be detected by properly oriented and tuned coils. This simple experiment is referred as Free induction Decay (FID) and is usually performed in any MRI scan to tune rs coils and optimise system response.
+
+Usually the varying flux we are interested in is the one along the transfersal plane. The reasons behind this are mainly two:
+\begin{enumerate*}
+\item the weak signal along the longitudinal axes would be saturated by the strong magnetic field of the main $B_0$ coil.
+\item The signal coming from the transverse magnetization $M_\perp$ is representative of all the information we need for the analysis of a material: T1, T2 and the proton density $\rho$.
+\end{enumerate*}
+
+\hfill
+
+To properly create an image based on these information we need to spatially encode each signal received by the changing magnetic vector of the object.
+In order to relate a signal with a spatial position, in addition to the initial static magnetic field $B_0$ we have to place a second field which causes a controlled local modification of the magnetic field $B_0$. This additional field $B'$ needs to be non-uniform and have a lower magnitude of $B_0$ for each point.
+
+Its distribution follows a spatial gradient so that the total magnetic field along $\hat z$-axis is given by the sum of this two contributes, and the signal contains space-varying frequency components according to equation \ref{eq:larmorfrequency} which can be rewritten as
+\[
+\omega(z) = \gamma B(z)
+\]
+being z the spatial coordinate and where $B(z)$ is the total magnetic field now given by the relation
+\begin{equation}
+B(z, t) = B_0 + z\cdot G(t) \qquad G(t) =\partial B'/\partial z
+\end{equation}
+
+This gradual changes in magnetic field causes different parts of the body along the z axis to have different larmor frequencies.
+This gradient along the longitudinal direction of the static field $B_0$ is usually referred as Slice Selection gradient $G_{ss}$.
+Choosing the z axis as the direction of the slice selection, we acquire images on the transversal x-y plane.
+
+
+When acquiring an image, data are collected under the form of a matrix called k-space.
+K-space is a coordinate system used to store spatial frequencies information. From these informations we can retrieve the usual MRI image (containing spatial, anatomical informations) by applying the inverse fourier 2D transform.
+
+In a k-space matrix, low spatial frequencies, corresponding to large object across the whole real image, are encoded at the center of the matrix and high spatial frequencies corresponding to small objects and finer detailes, are encoded in the peripheries.
+
+The construction of k-space is done step by step in relation to the gradient applied time by time, producing a trajectory on the k-space.
+
+To acquire spatial frequency information from an image we need to introduce two kind of new gradients (one for each direction): a readout (or frequency encoding) gradient and a phase encoding gradient.
+
+The frequency encoding gradient acts on one direction in the transversal plane; let's identify this direction as the x axis for a clearer visualization.
+Just like the slice selection gradient it consists of a linear changing magnetic field to modify the Larmor frequency of the spins along the x axis. According to the acquisition technique we want to perform, it can be applied forward and after a while, reversed. This allows a refocusing of all the dephased spins due to spin-spin interaction; we will see more in detail this concept when we will discuss acquisition sequences, for now, we just need to know that the refocusing of all the dephased spins occurs after a time interval called echo time (TE).
+
+The phase encoding gradient acts the exact same way of the previous one, but it acts on the y axis. It is switched on and acts by modifying the larmor frequency but it is just a temporary change. When it is switched off, all the spin along this direction contrinue precessing all at the same frequency, but with a relative phase between them.
+
+The combined action of these two gradients allow us to acquire different lines of the k-space.
+%Each spatial line of k-space is acquired after a time interval called \textbf{Repetition time (TR)}.
+
+
+For further and more detailed information we refer to the book \cite{brown-2014}
+
+\section{Acquisition sequences}
+Depending on the type of analysis we want to carry out, we would like to focus on some magnetic properties rather than others, for eaxmple, for a an anatomical, structural image, we may be interested in a good distinction of different tissue, while in a functional scan we are interested in detecting chemical fluctiations.
+
+When talking acout acquisition sequences two main parameters drive the main differences between different techniques.
+For the moment we limit to define them but a contestualized use of them can help to clarify their meaning.
+This can be found in the following sections describing different acquisition sequences.
+
+\begin{itemize}
+\item \textbf{Repetition time (TR)} is the time interval between one rf-pulse and the next.
+\item \textbf{Echo time (TE)} is the time interval between a rf pulse and the echo peak
+\end{itemize}
+
+Changes in TR, TE and rf pulses characteristics (such as angle or numbers), allow to perform different acquisition sequences and emphasise one of the three fundamental parameters $T_1, T_2$ or the proton density $\rho$ of different tissues.
+
+As a general rule
+\begin{itemize}
+\item T-1 weighted images are acquired with small values of TR. This avoid that all nuclei are back to their longitudinal position, allowing a better tissue contrast and TE has to be very short to avoid contribution due to T2-related effects.
+\item T2-weighted images are acquired with high values of TR ($TR \gg T1$) and values of TE comparable with T2 time constant.
+\item To enhance the spin density contrast TR has to be chosen as long as possible while TE needs to be short.
+\end{itemize}
+
+
+\subsection{Spin-echo sequence}
+
+%Sometimes, though, this additional $T_2'$ is so small compared to $T_2$, that dominates over it, resulting in a rapid loss of dephasing information.
+%This lost phase information can be recovered employing a specific rf pulse sequence called \textbf{spin-echo acquisition sequence}.
+Spin echo sequence is one of the most used acquisition sequence. It lets us retrieve lost information due to spin dephasing caused by field inhomogeneities.
+
+The spin echo method employes two rf pulses: the first with an angle of $\pi/2$ with respect to the $\overrightarrow{B_0}$ direction and the second of $\pi$ in relation to the direction of the first impulse.
+All the sequence can be summarised by the following steps:
+\begin{enumerate}
+% Add a figure like on page 123
+\item The first radio-frequency pulse is applied with an angle of $\pi/2$ in relation to the direction of the external magnetic field $\overrightarrow{B_0}$. This process as mentioned in section \ref{sec:mri_introduction} causes the spin to flip onto the transversal plane x-y.
+Just as an example we imagine they are flipped into the x direction. They gradually start dephasing both because of spin-spin interactions and small external field inhomogeneities, which are different from point to point.
+Because of this, they start fanning out, some rotate faster and some are delayed in relation to the average magnetization vector.
+
+\item At the instant t = $\tau $ the second rf impulse is sent. It is created with an angle of $\pi$ in relation to the first impulse, so if the first was along the $\hat x$ direction, this point towards $-\hat x$. This has the effect of turning all spins with a phase $\phi$ to a phase $\pi - \phi$.
+\item These dephasing spins continue accumulating a phase but since they were flipped of 180 degrees, the same process according to which they were previously fanning out, push them to converge, untill they all meet again when the relative phase return to zero. This results in a recreated transverse magnetization vector in the opposite direction of the first one created after the $\pi/2$ impulse.
+\end{enumerate}
+
+The time interval covering the application of the first impulse $\pi/2$ to the instant at which phases turn back to zero is called \textbf{echo time} $T_E$.
+Between the application of the $\pi$ pulse and the echo time, the acquisition sampling of k-space starts.
+
+
+This method is an effective strategy to remove the nuisance effect due to field inhomogeneities associated to $T_2'$, but do not reduce the effect of T2 due to local fields and spin-spin interactions. The reason behind this is that static field inhomogeneities remain the same even after the $\pi$ impulse, so they act the same way even after the impulse, while local fields which cause spin-spin interactions change and the rate at which they accumulate phase changes with them. In general no refocus strategy is possible to correct for this effect.
+Fortunately though, this is not a critical issue for liquids since the time interval over which data are collected is usually smaller than the T2 time constant.
+
+
+
+\subsection{Gradient Echo sequences}
+The sequence employed to acquire functional imaging is the Echo Planar Imging (EPI) which is a particular sequence from the family of gradient echo sequences.
+%A different acquisition sequence is the gradient echo.
+Gradient echo sequences differ from spin echo because they allow a faster acquisition.
+They use a single excitation impulse with a flip angle less than 90 deg, this allows a minor time interval to make spins back to their longituginal component as they are not completely flipped on the transverse plane.
+
+The transverse component just created decay and dephase according to T2*.
+%If along the z-axis a gradient magnetic field is added to the primary magnetic field $B_0$, spins dephase faster because of this additional field perturbation.
+At this point in an spin echo sequence, the $\pi$ impulse would be applied; in its place, in GE sequences, the gradient along the x axis is reversed.
+This gradient inversion causes the spins to rephase but what is relevant is that this gradient inversion doe not act neither on dephasing due to field inhomogeneities nor on dephasing due to chemical shifts, but just on dephasing due to the gradient field.
+This is the most important aspect that makes GE different from SE: the relaxation is dictated by $T_2*$ and not just by $T_2$
+In an gradient echo sequence, the echo peak lies on T2* decay curve while in a spin echo, it lies on T2 decay curve;
+Thanks to this property, this image acquisition is susceptible to any chemical variation such as that due to hemoglobin shift.
+
+
+
+\subsection{Echo Planar Imaging (EPI)}\label{sec:epi}
+EPI refers to a technique to acquire all the 2D k-space after a single rf impulse. This is achieved by applying intermittent small phase encoging gradients called blips: triangular gradients that are switched on and off between gradient echoes in a multi echo acquisition.
+
+To discuss this method is can be useful to give a look at picture \ref{fig:epi_gradients} where all the gradients in play are illustrated, and discuss line by line what they represent
+\begin{enumerate}
+\item A single rf impulse with an angle of 90 degrees is applied to the body under examination
+\item Together with the rf impulse, a slice of the body is selected, corresponding to a position along the z axis, by applying the slice selection gradient
+\item Now we focus on the single 2D slice to begin the k-space data acquisition starting from the bottom line of the diagram in figure \ref{fig:epi_kspace}: both gradient of phase encoding and frequency encoding are switched on.
+\item The frequency encoding (readout) gradient is reversed to create the first echo
+\item When the first echo occurs, the first line of k-space (along the kx direction) is acquired. In figure \ref{fig:epi_kspace} this lines corresponds to the horizontal bottom line
+\item Now we have to move to higher values of ky: to accomplish so, the phase encoding gradient performs a small blip: it is switched on for a brief time and then switched off. This dephase spins a little further so that we move up along the ky direction in figure \ref{fig:epi_kspace} and we are ready to acquire the other line of k-space
+\item the frequency encoding gradient is reversed again and the second horizontal line along kx is acquired.
+\item This process is iterated: these last two steps are repeated untill all the k-space is covered and the slice data is fully acquired.
+\end{enumerate}
+
+This acquisition technique allows the acquisition of a single slice in a short time (around 50-100 ms). The whole k-space for a single slice is acquired sequentially, following a snack-like pattern and the number of k-space line acquired after each single rf impulse is named differencly according to the scan brand factory: examples are \emph{EPI factor} or \emph{Echo train lenght}.
+
+Since slice data are collected after gradient echo inversions, this imaging technique if sensitive to the $T_2^*$ time constant which makes it suitable for functional imaging where we are interested in chemical shifts within a body. For this reason this kind of imaging is often called $T_2^*$-weighted imaging.
+In fact, the period of the Readout gradient is the echo time $T_E$, and is modulated such that is sensible to $T_2^{\ast}$ setting $T_E \approx T_2^{\ast}$.
+
+
+
+
+\begin{figure}
+\begin{subfigure}{0.5\textwidth}
+\includegraphics[width=\textwidth]{mri/epi_gradients_}
+\caption{}
+\label{fig:epi_gradients}
+\end{subfigure}
+\begin{subfigure}{0.5\textwidth}
+\includegraphics[width=\textwidth]{mri/epi-kspace}
+\caption{}
+\label{fig:epi_kspace}
+\end{subfigure}
+\caption{}
+\label{fig:epi}
+\end{figure}
+
+
+
+\section{Functional MRI (fMRI)}\label{sec:fmri}
 
 Functional Magnetic Resonance Imaging is a non-invasive diagnostic tool which aims to measure the neural activity of different parts of the brain.
-The signal it detects comes from the blood oxygenation level fluctuations following a neuronal activation.
-This kind of analysis is referred as blood oxygenation level-dependent (BOLD) imaging.
+The vast majority of scan acquisition is carried out usi EPI sequences (section \ref{sec:epi}) and consist of several 3D volumes acquired each 1.5-2 seconds for the entire duration of a scan which lasts from 5 to more than 8 minutes depending on the scanner model.
 
-From a physical point of view the variation in oxygen content in blood affects the local susceptibility of the blood.
-Blood can in fact be portrated as a colloidal mixture where blood cells constitute around 40 \% of volume.
 
-Signal coming from blood cells is mainly due to the presence (in each blood cell) of several molecules of hemoglobin: a protein containing 4 heme groups each one including an iron atom which binds an oxygen atom and carries it throughout veins and capillaries.
-Hemoglobin can be in two states: oxyhemoglobin and deoxyhemoglobin, these two molecules differs in the presence or not of the bounded oxygen molecule which reflects in a difference in their magnetic susceptibility as oxyhemoglobin has diamagnetic properties while deoxyhemoglobin is paramagnetic.
+The signal it detects comes from the blood oxygenation level fluctuations following a neuronal activation, and for this reason this kind of analysis is referred as BOLD (blood oxygenation level-dependent) imaging.
+
+Blood can in fact be portrated as a colloidal mixture where blood cells constitute around 40-45 \% of volume. \cite{brown-2014}
+
+From a physical point of view the variation in oxygen content in blood affects the local magnetic susceptibility of the blood.
+Signal coming from blood cells is mainly due to the presence (in each blood cell) of several molecules of hemoglobin: a protein containing 4 \textquotedblright heme groups \textquotedblleft each one including an iron atom which binds an oxygen molecule and carries it throughout veins and capillaries.
+Hemoglobin can be in two states: oxyhemoglobin and deoxyhemoglobin, these two molecules differs in the presence of the bounded oxygen molecule which reflects in differences in their magnetic susceptibility as oxyhemoglobin has diamagnetic properties while deoxyhemoglobin is paramagnetic.
 This difference is due to unpaired iron electrons in the deoxyhemoglobin which leads to an unshielded molecule against the external magnetic field.
-The presence of deoxy-hemoglobin causes local field inhomogeneities, leading to a reduction of signal coming from water molecules.
+The presence of deoxy-hemoglobin causes local field inhomogeneities, leading to a reduction of the main signal coming from water molecules.
 
-This reduction is due to molecules go out of phase with one another more quickly, reducing the total magnetization.
+This signal weakening is due to spins going out of phase between each other more quickly, because of these additional field inhomogeneities, which results in reducing the total magnetization, this means that nuclei would lose their magnetization faster than the typical $T_2^*$ decay constant.
+For this reason if the scenner is tuned to the $T_2^*$ relaxation time, it woule be possible to appreciate this chemical shift between oxygenated and deoxygenated areas. This gives the alternative name of BOLD-images as $T_2^{\ast}$-weighted images. \cite{huettel-2009}
 
-This way, when a brain area is activated, it demands a greater amount of oxygen carried by oxyhemoglobin molecule which results in an increasing of the signal.
+This way, since the presence of deoxy-hemoglobin causes a weakening of the signal, when a brain area is activated, it demands a greater amount of oxygen carried by oxyhemoglobin molecule which results in an increasing of signal.
 
-
-The process that from a neuronal stimulus leads to a measurable blood signal is governed by the hemodynamic response function (HRF) shown in figure \ref{fig:hrf}. This figure represent the blood response immediately after a neuronal stimulus (which occurs on a timescale of $\approx$ 10-100 $\mu$s). The BOLD signal takes $\approx$ 6s to reach a peak and a total of 20-30 s to return to its zero baseline.
+The process that from a neuronal stimulus leads to a measurable blood signal is governed by the hemodynamic response function (HRF) shown in figure \ref{fig:hrf}. This figure represent the blood response immediately after a neuronal stimulus (which occurs on a timescale of $\approx$ 10-100 $\mu$s). The BOLD signal takes $\approx$ 4-6s to reach a peak and a total of 20-30 s to return to its zero baseline.
 
 \begin{figure}[h]
 \centering
@@ -268,13 +520,12 @@ The process that from a neuronal stimulus leads to a measurable blood signal is 
 \label{fig:hrf}
 \end{figure}
 
-The entire scan duration ranges from 5 to more than 8 minutes
+
+Since we are interested in these slow signal trends, the TR of 1.5-2 seconds is the minimum necessary to have an analysis sensitive to these signals.
+According to the Shannon-Nyquist sampling theoreme, the maximum detectable frequency in a signal is equal to 1/2 sampling frequency. For this reason with a TR of 1.5 seconds for example, we are able to detect signals with a period $\geq 3$ seconds.
 
 
 
-This effect is characterized by $T_2^{\ast}$ relaxation time so this is the tuning parameter related to this kind of acquisition; this gives the alternative name of BOLD-images as $T_2^{\ast}$-weighted images.
-
-Three different types of tissues are present in the brain: cerebrospinal fluid (CSF), and gray and white matter.
 
 \chapter{Machine learning}
 
@@ -2772,235 +3023,6 @@ To this end, as mentioned above, we computed in figure \ref{fig:important_areas_
 \addcontentsline{toc}{chapter}{APPENDIX}
 
 \appendix
-\chapter{Principles of MRI imaging}\label{sec:mri_introduction}
-Nuclear magnetic resonance imaging, is a widespread imaging technique widely employed in radiology to obtain anatomical images or study physiological processes, taking advantage of its flexible sensitivity to different tissues.
-The physical principle of this imaging is the interaction of a nuclear spin of any tissue's molecule, with an external magnetic field $\textbf B_0$.
-
-Molecule that contribute the most to the signal is water's, and specifically, hydrogen nuclei are the dominant source of signal in MRI.
-
-When a nucleus undergoes an external magnetic field, the interaction would make the angular moment $\overrightarrow{\mu}$ align with the magnetic field,
-% Talk about energy levels. Review lines below.
-but, since a proton has an intrinsec spin, it has a magnetic momentum which brings it start preprocessing
-%since protons have a thermal energy associated with the temperature T, they are not static, so they start precessing
-around the symmetry axes given by the direction of the magnetic field $\overrightarrow{B_0}$.
-
-The torque resulting from the application of a static magnetic field, applied to a spinning proton is given by
-\begin{equation}
-\overrightarrow{\tau} = \overrightarrow{\mu} \times \overrightarrow{B}
-\end{equation}
-This torque is what cause the proton precession and the rotation frequency $\omega_0$ of the spinning proton is given by the Larmor equation
-\begin{equation}\label{eq:larmorfrequency}
-\omega_0 = \gamma B_0
-\end{equation}
-where $B_0$ is the magnitude of the external magnetic field and $\gamma$ is a constant called \emph{gyromagnetic factor} and is characteristic of each particle or nucleus.
-The gyromagnetic factor of a proton in water has a value of $\gamma = 2.7\cdot 10^8 \frac{rad\cdot s}{T}$.
-For a typical scanner with a magnetic field of 2-3 T, Larmor frequency assumes values of $\sim MHz$ just below radio waves.
-
-When protons undergo a magnetic field, they can assume two states in relation to the direction of the external field: parallel and anti-parallel
-%Proton spins can assume two values: up and down in relation to the external field direction ;
-and the difference between the number of proton in these two states determine the net magnetization of a body under an external magnetic field.
-%therefore, after a body underwent a magnetic field, its total magnetization is given by the net difference between spins up and spins down.
-% spin excess? p.4
-% write abou quantum energy levels
-This net magnetization can be represented by a single vector pointing parallel or anti-parallel to the direction of the external field and if we want to detect a signal related to this magnetization, we have to perturb this vector from its equilibrium state.
-The perturbation would cause the precession of this magnetization vector around the direction of the magnetic field, with its own larmor frequency.
-This precession will produce a changing flux which can be detected by an external coil.
-% only if it is perturbated from its equilibrium state.
-To kick this vector away its equilibrium state, a second external magnetic field is employed under the form of a radiofrequency impulse, with a frequence resonating with the Larmor frequence of the precessing.
-
-A common way to apply this radiofrequency impulse is with the purpose of flipping the magnetization vector and hence the spins in a direction usually perpendicular to the original $B_0$ one, which we can suppose to be along $\hat z$ axis.
-
-We create this way a magnetization component along the x-y plane in the direction of the field applied by the radiofrequency pulse, called transverse magnetization.
-After this radio frequency pulse, protons will start rotating in the x-y plane,
-%still continuing preceding around their symmetry axis.
-but doing so, they gradually lose their initial energy and tend to realign along z-axis.
-In other words, we create a transverse magnetization by applying a rf-pulse, so that when we have a transverse magnetization, we lost the longitudinal magnetization because the vector is flipped and lie on the x-y plane.
-Gradually, though, the transverse vector lose its magnitude in the x-y plane because of the gradually loss of energy of protons and the longitudinal magnetization reacquire its previous magnitude (longitudinal in relation to the original $B_0 \hat z$ direction).
-
-The evolution of the longitudinal and transverse magnitudes are modeled with the introduction of two time constant $T_1 \text{ and } T_2$ respectively.
-
-The process through which the longitudinal magnetization regaing its previous magnitude is called longitudinal relaxation and it occurs because the system goes from an higher energy state (when it is flipped on the x-y plane) to a state of thermodynamic equilibrium with its surroadings.
-
-This process follows an exponential decay in time showh in equation \ref{eq:spinlattice}, with a time constant $T_1$, which for the physical reason underlying it, is also called spin-lattice relaxation time.
-
-\begin{equation}\label{eq:spinlattice}
-M_z(t) = M_0 (1-e^{-t/T_1})
-\end{equation}
-
-%This relaxation occurs because ocalled longitudinal relaxation , or spin-lattice relaxation, referring to the loss of thermal energy through interaxtion with surroading lattice. The total magnetization along z-axis during time, after the rf impulse, will then regrow along z-axis following:
-
-The transverse magnetization vector follows a slightly different evolution. Before introducing the T2 parameter associated with its evolution, we establish a notation to indicate this vector: since it lies on the x-y plane it has two component so we can write $M_\perp = M_x \hat x + M_y \hat y$.
-When studying the evolution of transferse magnetization an other effects has to be taken into account, namely the spin-spin interaction between proton.
-If we consider a physical system where proton are immersed in a magnetic field, each proton interacts with this external field plus all the small fields created by the surroading proton and their associated spins. This leads to the presence of a local field for each proton, slightly different from the external magnetic field $B_0$.
-These different local fields affects the evolution of the transverse magnetization because they cause a relative dephasing of protons between each other.
-According to this, if immediately after the rf-impulse all the spins can be imagined as aligned to the x axis, in time they start to fan out. This effect reduces the total transverse magnetization on the x-y plane.
-If we study this evolution from the rotating reference frame, the module of the transverse magnetization follows an exponential decay in the form
-\begin{equation}
-M_\perp(t) = M_\perp(0) e^{-t/T_2}
-\end{equation}.
-
-Since T2 constant comprises the spin-spin interaction process plus the spin-lattice interaction which cause the realignment of spins along the $\hat z$ axis, it is always smaller than T1; and to give an idea of the order of magnitude for protons in huma tissue, if T1 ranges from 10 to 100 milliseconds, T2 is usually of the order of 10 milliseconds.
-
-
-In a real pyisical system, however, there's and additional dephasing source, coming from external field inhomogeneities.
-This effect is often taken into account by the introduction of a different decay time $T_2'$ which along with $T_2$ bring to a overall time costant given by $\frac{1}{T_2*} = \frac{1}{T_2}+\frac{1}{T_2'}$.
-
-Sometimes, though, this additional $T_2'$ is so small compared to $T_2$, that dominates over it, resulting in a rapid loss of dephasing information.
-This lost phase information can be recovered employing a specific rf pulse sequence called \textbf{spin-echo acquisition sequence}.
-
-
-
-
-\section{Spin-echo sequence}
-The spin echo method employes two rf pulses: the first with an angle of $\pi/2$ with respect to the $\overrightarrow{B_0}$ direction and the second of $\pi$ in relation to the direction of the first impulse.
-All the sequence can be summarised by the following steps:
-\begin{enumerate}
-% Add a figure like on page 123
-\item The first radio-frequency pulse is applied with an angle of $\pi/2$ in relation to the direction of the external magnetic field $\overrightarrow{B_0}$. This process as mentioned in section \ref{sec:mri_introduction} causes the spin to flip over the transversal plane x-y.
-Just as an example we imagine they are flipped into the x direction. They gradually start dephasing both because of spin-spin interactions and small external field inhomogeneities, which are different from point to point.
-Because of this, they start fanning out, some rotate faster and some are delayed in relation to the average magnetization vector.
-
-\item At the instant t = $\tau $ the second rf impulse is sent. It is created with an angle of $\pi$ compared to the first impulse, so if the first was along the $\hat x$ direction, this point towards $-\hat x$. This turns all spins with a phase $\phi$ to a phase $\pi - \phi$.
-\item These dephasing spins continue accumulating a phase but since they were flipped of 180 degrees, the same process according to which they were previously fanning out, push them to converge, untill they all meet again when the relative phase return to zero. This results in a recreated transverse magnetization vector in the opposite direction of the first one created after the $\pi/2$ impulse.
-\end{enumerate}
-
-The time interval covering the application of the first impulse $\pi/2$ to the instant at which phases turn back to zero is called \textbf{echo time} $T_E$.
-Between the application of the $\pi$ pulse and the echo time, the acquisition sampling starts.
-
-
-This method is an effective strategy to remove the nuisance effect due to field inhomogeneities associated to $T_2'$, but do not reduce the effect of T2 due to local fields and spin-spin interactions. The reason behind this is that static field inhomogeneities remain the same even after the $\pi$ impulse, so they act the same way even after the impulse, while local fields which cause spin-spin interactions change and the rate at which they accumulate phase changes with them. In general no refocus strategy is possible to correct for this effect.
-Fortunately though, this is not a critical issue for liquids since the time interval over which data are collected is usually smaller than the T2 time constant.
-
-
-\section{Image acquisition and k-space}
-
-%fem
-The physical process underlying signal acquisition is Faraday induction, according to which an electrical potential called electromotive force is generated by the variation of a magnetic flux over time $emf = -\frac{d\Phi}{dt}$ being $\Phi$ the varying flux through the receiving coil.
-
-A simple setup in MRI to generate a varying flux over time is the application of a single rf pulse with an angle of $\pi/2$. The variation of flux occurs while tipped spins are rotating in the x-y plane and the magnetization vector is relaxing towards the longitudinal axis.
-This induced emf signal can be detected by properly oriented and tuned coils. This simple experiment is referred as Free induction Decay (FID) and is usually performed in any MRI scan to tune rs coils and optimise system response.
-
-Usually the varying flux we are interested in is the one along the transfersal plane. The reasons behind this are mainly two:
-\begin{enumerate*}
-\item the weak signal along the longitudinal axes would be saturated by the strong magnetic field of the main $B_0$ coil.
-\item The signal coming from the transverse magnetization $M_\perp$ is representative of all the information we need for the analysis of a material: T1, T2 and the proton density $\rho$.
-\end{enumerate*}
-
-\hfill
-
-To properly create an image based on these information we need to spatially encode each signal received by the changing magnetic vector of the object.
-In order to relate a signal with a spatial position, in addition to the initial static magnetic field $B_0$ we have to place a second field which causes a controlled local modification of the magnetic field $B_0$. This additional field needs to be non-uniform and have a lower magnitude of $B_0$ for each point.
-
-Its distribution follows a spatial gradient so that the total magnetic field along $\hat z$-axis is given by the sum of this two contributes, and the signal contains space-varying frequency components according to equation \ref{eq:larmorfrequency} which can be rewritten as
-\[
-\omega(z) = \gamma B(z)
-\]
-being z the spatial coordinate and where $B(z)$ is the total magnetic field now given by the relation
-\begin{equation}
-B(z, t) = B_0 + z\cdot G(t) \qquad G(t) =\partial B'/\partial z
-\end{equation}
-
-This gradual changes in magnetic field causes different parts of the body along the z axis to have different larmor frequencies.
-This gradient along the longitudinal direction of the static field $B_0$ is usually referred as Slice Selection gradient $G_{ss}$.
-Choosing the z axis as the direction of the slice selection, we acquire images on the transversal x-y plane.
-
-
-When acquiring an image, data are collected under the form of a matrix called k-space.
-K-space is a coordinate system used to store spatial frequencies information. From these informations we can retrieve the usual MRI image (containing spatial, anatomical informations) by applying the inverse fourier 2D transform.
-
-In a k-space matrix, low spatial frequencies, corresponding to large object across the whole real image, are encoded at the center of the matrix and high spatial frequencies corresponding to small objects and finer detailes, are encoded in the peripheries.
-
-The construction of k-space is done step by step in relation to the gradient applied time by time, producing a trajectory on the k-space.
-
-To acquire frequency information from an image we need to introduce two kind of new gradients (one for each direction): a readout (or frequency encoding gradient) and a phase encoding gradient.
-
-The frequency encoding gradient acts on one direction in the transversal plane; let's identify this direction as the x axis without losing generality. Just like the selection gradient it consists of a linear changing magnetic field to modify the Larmor frequency of the spins along the x axis.
-The phase encoding gradient acts the exact same way of the previous one, but it acts on the y axis. It is switched on and acts by modifying the larmor frequency but it is just a temporary change. When it is switched off, all the spin along this direction contrinue precessing all at the same frequency, but with a relative phase between them.
-
-The combined action of these two gradients allow us to acquire different lines of the k-space.
-Each spatial line of k-space is acquired after a time interval called Repetition time (TR).
-.
-Starting from k = 0, the center of k-space, after a preencoding gradient, we move toward negative position of both k-phase and k-frequency; subsequently a frequency encoding gradient (also called readout gradient) is applied and the signal is collected along the frequency encoding direction.
-The signal is then reformed and the process is repeated, from k = 0, to a new k-phase position and an other line of k-frequency is acquired.
-
-
-Changes in acquisition sequences and rf pulses allow us to emphasise one of the three fundamental parameters $T_1, T_2, \rho$ where $\rho$ is the proton concentration inside the tissue.
-An image acquired with a spin echo sequence can be T1, T2 or proton density weighted
-%The acquired signal is examined by inverse Fourier transform, exploiting the differences from Larmor frequency which cause a phase displacement along z-axis $\phi_G(z, t)$
-%\begin{equation}
-%s(t) = \int_0^tdz\rho \ (9.14) \ pag \ 145
-%\end{equation}
-
-
-\section{Gradient Echo sequences}
-The sequence employed to acquire functional imaging is the Echo Planar Imging (EPI) which is a particular sequence from the family of gradient echo sequences.
-%A different acquisition sequence is the gradient echo.
-Gradient echo sequences differ from spin echo because they allow a faster acquisition.
-They use a single excitation impulse with a flip angle less than 90 deg, this allows a minor time interval to make spins back to their longituginal component as they are not completely flipped on the transverse plane.
-
-The transverse component just created decay and dephase according to T2*.
-If along the z-axis a gradient magnetic field is added to the primary magnetic field $B_0$, spins dephase faster because of this additional field perturbation.
-At this point in an spin echo sequence, the $\pi$ impulse would be applied; in its place, in GE sequences, the gradient is reversed.
-This gradient inversion causes the spins to rephase but what is relevant is that this gradient inversion doe not act neither on dephasing due to field inhomogeneities nor on dephasing due to chemical shifts, but just on dephasing due to the gradient field.
-This is the most important aspect that makes GE different from SE: the relaxation is dictated by $T_2*$ and not just by $T_2$
-In an gradient echo sequence, the echo peak lies on T2* decay curve while in a spin echo, it lies on T2 decay curve;
-As thanks to whis it is susceptible to any chemical variation such as that due to hemoglobin shift.
-
-
-Since
-
-Since TR are short there is some transversal magnetization left after the acquisition, in \emph{spoiled} Gradient Echo, the residual magnetization is wiped out.
-Ultra fast gradient echo start with a 180 degrees pulse, to invert longitudinal magnetization, in order to increase T1 weighting, and allk-space lines are acquired after this impulse. This first pulse is followed by minor pulses, and k-space is acquired after each echo.
-
-
-\section{Echo Planar Imaging (EPI)}
-EPI refers to a technique to acquire all the 2D k-space after a single rf impulse. This is achieved by applying short phase encoging gradient blips between spin echoes in a multi echo acquisition.
-Before we discuss this method we focus our attention on principal factors that play an important role in this kind of acquisition:
-
-
-During an EPI session, a single rf inpulse of 90 degrees is applied and the whole k-space is acquired in a single acquisition:
-as shown in figure \ref{fig:epi-gradients} after the initial RF pulse, together with the gradient for slice selection (G-Select), the acquisition of k-space information starts with the combined action of both the readout and the phase encoding gradients.
-From the left bottom as in figure \ref{fig:epi-kspace} the first line is acquired by using the readout gradient. Before acquiring the second line a blip (weas triangular gradient) on the phase encoding gradient occurs. Then the readout gradient is reversed and a second echo signal occurs.
-
-
-
-each line along k-frequency  is acquired. it is controlled by the readout gradient (G-Readout).
-
-
-The period of the G-Readout is the echo time $T_E$, and is modulated such that is sensible to $T_2^{\ast}$ setting $T_E \approx T_2^{\ast}$.
-During the acquisition of the whole k-space each line is shifted from the other along k-phase direction by applying brief pulses of the phase encoding gradient (G-Select) called blip, creating a snake-like path during the acquisition of the k-space matrix.
-%shmitt tuner -echo planar Imaging
-
-
-
-
-
-\begin{figure}
-\begin{subfigure}{0.5\textwidth}
-\includegraphics[width=\textwidth]{mri/epi-gradients}
-\caption{}
-\label{fig:epi-gradients}
-\end{subfigure}
-\begin{subfigure}{0.5\textwidth}
-\includegraphics[width=\textwidth]{mri/epi-kspace}
-\caption{}
-\label{}
-\end{subfigure}
-\caption{}
-\label{fig:epi}
-\end{figure}
-
-
-Pixel-to-pixel frequency difference in the phase-encoding direction emphasizes chemical shift artifact.
-EPI generates gradient echoes under the FID curve created by the RF flip. As the curve decays according to T2*, gradient EPI sequences willl be T2* weighted.
-Sensitivity to T2*, of course, introduces sensitivity to artifacts caused by changes in magnetic susceptibility (eg, air/tissue interfaces) and imperfect magnet shim
-
-
-
-
-
-
-
 
 
 \chapter{Other classification results}
