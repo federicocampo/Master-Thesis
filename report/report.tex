@@ -2125,16 +2125,16 @@ Giving a look at figure \ref{fig:deepshap_linear} we can write formulas for forw
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.6\linewidth]{shap/deepshap_linear}
-\caption{Immagine da sostituire, ma utile per seguire i passaggi descritti}
+\caption{Representation of a linear network and important quantities involved during forward propagation}
 \label{fig:deepshap_linear}
 \end{figure}
 
 
 \[
-h_1 = w_{1, 1}x_1 + w_{2, 1}x_2 \qquad y = w_i h_i + w_2 h_2
+h_1 = w_{1, 1}x_1 + w_{2, 1}x_2 \qquad y = w_1 h_1 + w_2 h_2
 \]
 Giving a look at the model, we can retrieve Shap values for each node by summation of all the contribution from each path, where the path contribution to a shapley value for $x_i$ is defined as the product of the weights along the path and the difference between $x_i$ and the background value $b_{x_i}$.
-In practice, if we focus on the colored line we have that the contribution from this path to $\phi(h_1)$ is given by
+In practice, if we focus on the colored blue line we have that the contribution from this path to $\phi(h_1)$ is given by
 \[
 \phi(h_1) = w_1 (f_{h_1} - b_{h_1})
 \]
