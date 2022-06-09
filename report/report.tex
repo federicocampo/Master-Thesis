@@ -1269,9 +1269,9 @@ We have then carried out our analysis on a dataset consisting on only male patie
 \label{sec:preprocessing_steps}
 
 \textcolor{red}{(Da spostare nel capitolo di MRI ?} \textcolor{blue}{ During an MRI and f-MRI scan session, data are usually acquired slice by slice, and the thinner is the slice, the more spatial resolution we can accomplish.
-But there's a trade-off between spatial and temporal resolution: decrease the slice's thickness would lead to a better space resolution but at the cost of increasing repetition time to mantain the same Signal to Noise ratio (SNR).
-This is because the signal is proportional to the number of hydrogen nuclei, which is proportional to the slice volume.
-In order to obtain a strong BOLD signal, echo time plays a significant role as well: to obtain the maximum strenght signal it has to be set $T_E = T_2^{\ast}$ so in the case of BOLD signal it should be around 30 ms.
+But there's a trade-off between spatial and temporal resolution: decreasing the slice's thickness would lead to a better space resolution but at the cost of increasing repetition time to mantain the same Signal to Noise ratio (SNR).
+Thie main reason is that signal is proportional to the number of hydrogen nuclei, which is proportional to the slice volume.
+In order to obtain a strong BOLD signal, echo time plays a significant role as well: to obtain the maximum strenght signal echo time has to be set $TE \approx T_2^{\ast}$ that means TE around 30 ms.
 Images acquired using a shorter echo time have a weaker BOLD signal because of the lack of signal to detect. \cite{jenkinson2018}
 }
 
@@ -1359,7 +1359,8 @@ We will describe some og the most important atlases in the following section (\r
 
 \section{Preprocessing of ABIDE I \& ABIDE II dataset}\label{sec:cpac}
 
-\subsection{ABIDE-preprocessed initiative}
+\paragraph{ABIDE-preprocessed initiative}\hfill
+
 In 2013 Neuro Bureau Preprocessing Initiative took care of data preprocessing of ABIDE I dataset and shared its results making them publicly available \cite{cameron2013}.
 Thanks to this work, ABIDE I data are available as raw data, as well as preprocessed data.
 Four preprocessing software and approaches were employed each from a different group and every one publicly available \footnote{http://preprocessed-connectomes-project.org/abide/C-PAC.html} for download.
@@ -1374,7 +1375,7 @@ The preprocessing steps implemented by the different softwares are similar, they
 
 But since this work only concerns ABIDE I dataset, and our task is to work with the entire ABIDE I + ABIDE II dataset, we to repeat the preprocessing procedures in order to obtain a dataset including both ABIDE I and II preprocessed with the same pipeline.
 
-\subsection{C-PAC the Configurable Pipeline for the Analysis of Connectomes}
+\paragraph{C-PAC the Configurable Pipeline for the Analysis of Connectomes}\hfill
 
 In our work, we choose to preprocess data from ABIDE I and ABIDE II using C-PAC: a configurable, open source pipeline, based on Nipype platform.
 C-PAC was run on a Docker container installed on a computer and our hardware and software setup consisted on:
