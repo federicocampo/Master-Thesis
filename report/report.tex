@@ -109,7 +109,7 @@ Starting from these data the workflow of this thesis can be summarised in the fo
 
 \begin{itemize}
 \item MRI and fMRI data preprocessing and normalization to a common template, and extraction of temporal series of different brain areas for each patient from the fMRI scans.
-\item Creation of a connectivity map for each patient. This connectivity matrix is created computing a correlation coefficient for every pair of timeseries of a single patient. Correlation coefficients were computed using two different approaches: a linear correlation of the two timeseries known as Pearson correlation, and a correlation based on time-frequency analysis of a timeseries pairs by means of Wavelet Transform.
+\item Creation of a connectivity map for each patient. This connectivity matrix is created computing a correlation coefficient for every pair of timeseries of a single patient. Correlation coefficients were computed using two different approaches: a linear correlation of the two timeseries known as Pearson correlation, and a correlation based on time-frequency analysis of a timeseries pairs by means of wavelet Transform.
 \item Implementation of an harmonization procedure to correct for potential biases and distinctive traits of data, linked to a certain acquisition scan procedures employed in a medical centre which can differ between different centres.
 \item Study and classification of connectivity matrices with deep learning methods. The two different connectivity matrices described above are compared toassesswhich one is able to yield the best separability between Controls and ASDs.
 Classification of raw data and harmonized data implemented with different procedures are compared, and in addition an harmonization implemented inside a deep learning model through an adversarial learning technique was tested.
@@ -129,12 +129,12 @@ Chapter \ref{chap:shapley_values} describes the theory behind an important strat
 \textbf{MATERIALS \& METHODS:} This section describes the instruments we used to run the analysis: dataset, preprocessing steps, and data preparation employed to obtain correlation matrix.
 Chapter \ref{chap:dataset} describes and analyse ABIDE dataset: a collection of more than 2000 scans of healthy and ASD patients, collected from different medical centers.
 Chapter \ref{chap:image_preprocessing} provides an overviwe of the most important preprocessing steps to normalize and align all these scan to a common template to run meaningful statistical analysis and to exctract brain timeseries form different brain areas aligned to a common coordinate system. We describe C-PAC: the software employed to this image preprocessing and how we used it to conduct our processing.
-Chapter \ref{chap:connectivity_coefficients} describes the two methods we used to calculate connectivity coefficients and create a functional connectivity matrix for each patient. We describe the computation of correlation using Pearson correlation, and illustrate the formalism of Wavelet Transform for time-frequancy analysis and the process to extract a correlation coefficient from time-frequency data of two timeseries.
+Chapter \ref{chap:connectivity_coefficients} describes the two methods we used to calculate connectivity coefficients and create a functional connectivity matrix for each patient. We describe the computation of correlation using Pearson correlation, and illustrate the formalism of wavelet Transform for time-frequancy analysis and the process to extract a correlation coefficient from time-frequency data of two timeseries.
 Chapter \ref{chap:harmonization_theory} describes the regression model upon which harmonization procedure is based. This is the analytical method to remove inter-site variability from our data and avoid biases towards the acquisition source.
 Chapter \ref{chap:adversarial} describes the structure and the general idea beyond a domain adversarial neural network: a deep neural network that aims
 to make Control/ASD classification following a procedure that makes data site-independent to classify following a procedure that makes the classification Control/ASD output sites-independent.
 
-\textbf{Implementation \& RESULTS:} In this last section, the results obtained applying methods to our materials are presented. We illustrate the results of harmonization applied to our data and classification result of Pearson-based correlation coefficients and Wavelet-based coefficients and in the end we study the most relevant feature from our data, that played an important role in discrimination of Control/ASD.
+\textbf{Implementation \& RESULTS:} In this last section, the results obtained applying methods to our materials are presented. We illustrate the results of harmonization applied to our data and classification result of Pearson-based correlation coefficients and wavelet-based coefficients and in the end we study the most relevant feature from our data, that played an important role in discrimination of Control/ASD.
 Chapter \ref{chap:harmonization_results} Presents the results of the analytical harmonization to our data to have a visual understanding of how this process affects a feature distribution.
 Chapter \ref{chap:results} shows all the classification results obtained with a deep neural network on harmonized and non-harmonized (raw) data and the results of the domain adversarial neural network and compares them with results obtained using a simpler Random Forest classifier. Results of data dimensionality reduction are presented as well to assess if this is a meaningful procedure to reduce dimensionality on this dataset.
 At the end, chapter \ref{chap:shap_results} shows the implementation of a feature importance assessment procedure and the results obtained with machine learning in the previous chater. We show what feature contributed the most to the outcome of a prediction, and then to the discrimination of healthy and ASD patients, and subsequently we study what brain areas are mainly involved in this discernment.
@@ -210,7 +210,7 @@ Resting state f-MRI is an acquisition performed while the patient is in a relaxe
 Following this setup the brain is at rest and its activity is not perturbed by active tasks such as moving an arm or passive actions like being exposed to different visual stimuli, which are common activities for task-based functional connectivity, a different acquisition setup to investigate BOLD fluctuations between subjects in a task-stimulated state and control states.
 Resting state setup revealed to be a powerful tool to investigate the intrinsec generated brain activity and study the altered functional connectivity networks in subjects with mental disorder
 
-\section{Machine learning to deal with non-linear problems}
+\section{Machine learning to deal with non-linear problems}\label{sec:intro_ml}
 During the study of characteristic traits between control and ASD patients, different attributes are involved and characterise data in a strong and evident way, the most important of which are age, sex and FIQ (full intellective quotient).
 Age for example affects both structural and functional data, with an observed overgrown of the brain volume in toddlers and hyperconnectivity mentioned before, that are both traits that tend to decrease going in on age, and on control subjects, even though it is not well characterised, seem to show a decreasing of brain structure and functional connectivity in older ages \cite{zhangC-2016}
 Sex is the other feature that gives characteristic traits to data, studies show that some brain area show an increased functional connectivity in females, and from a combined analysis of both age and sex it appears that in men some brain structures show more pronounced aging effect than women
@@ -1241,7 +1241,7 @@ We have then carried out our analysis on a dataset consisting on only male patie
 
 
 
-%EYE plots
+%eye plots
 \begin{figure}
 \begin{subfigure}{0.4\linewidth}
 \includegraphics[width=\linewidth]{abide/abide_eye.png}
@@ -1449,7 +1449,7 @@ For this reason, in our pipeline configuration file, parameters in common betwee
 
 
 
-\chapter{Connectivity measures}
+\chapter{Connectivity measures}\label{chap:connectivity_coefficients}
 As described in chapter \ref{sec:preprocessing_steps} if we choose an atlas on fMRI data, for brain parcellization, we can extract timeseries of different brain areas. If we use Harvard-Oxford atlas, we are able to extract 110 timeseries for each patient.
 With these data, we want to construct a correlation matrix for each patient, by pairwise comparing timeseries and extracting a coefficient representative of functional correlation between two areas.
 
@@ -1516,7 +1516,7 @@ At the end of this analysis, we obtain correlation matrices like the one shown a
 
 \section{Wavelet analysis}
 A different approach to compute a correlation coefficient is by making use of wavelet analysis.\cite{ferrante-2015} \cite{vandenberg-1999}
-Wavelet is a mathematical tool for analyzing time series or images, and provides a comprehensive way for investigating the bivariate relationship between timeseries both in time (or space) and frequency domain.
+wavelet is a mathematical tool for analyzing time series or images, and provides a comprehensive way for investigating the bivariate relationship between timeseries both in time (or space) and frequency domain.
 
 To understand wavelet transformation it could be helpful to compare it with Fourier analysis.
 Fourier analysis allows us to expand a periodic function f(t) into a series, ideally infinite sums of weighted sines and cosines with different frequencies
@@ -1598,7 +1598,7 @@ There are different wavelets that satisfy properties \ref{eq:waveletproperties},
 \caption{}
 \label{fig:wavelet_meyer}
 \end{subfigure}
-\caption{Visual comparison between three different types of mother Wavelets, Haar wavelet (fig \ref{fig:wavelet_haar}) is a simple square wave function, mexican hat (fig \ref{fig:wavelet_mexicanhat}) is a Wavelet belonging to gaussian function family and represents the negative normalized second derivative of a gaussian function; and Meyer wavelet (fig \ref{fig:wavelet_meyer}) a wavelet with applications in fields like adaptive filters}
+\caption{Visual comparison between three different types of mother wavelets, Haar wavelet (fig \ref{fig:wavelet_haar}) is a simple square wave function, mexican hat (fig \ref{fig:wavelet_mexicanhat}) is a wavelet belonging to gaussian function family and represents the negative normalized second derivative of a gaussian function; and Meyer wavelet (fig \ref{fig:wavelet_meyer}) a wavelet with applications in fields like adaptive filters}
 \label{fig:different_wavelets}
 \end{figure}
 
@@ -1620,7 +1620,7 @@ This way results in frequency domain are more interpretable since the scale para
 \begin{figure}[h]
 \centering
 \includegraphics[width=.4\linewidth]{wavelet/morlet}
-\caption{Morlet Wavelet}
+\caption{Morlet wavelet}
 \label{fig:wavelet_morlet}
 \end{figure}
 
@@ -1719,7 +1719,7 @@ S = S_{scale}S_{time}(W) \quad S_{time} = W\cdot c_1 ^{\frac{-t^2}{2a^2}} \quad 
 \]
 where $c_1, c_2$ are normalization constants, $\Pi$ is a boxcar (rectangle) function and 0.6 is an empirically determined factor for Morlet Wavelet \cite{torrence-1998}.
 
-An example of Wavelet coherence scalogram is shown in figure \ref{fig:wcoherence_scalogram}. It represents the wavelet coherence computed from two timeseries (fig \ref{fig:wcoherence_timeseries})of patient 51056: ROI 57 corresponds to Right Angular Gyrus and ROI 65 to Right lateral occipital cortex.
+An example of wavelet coherence scalogram is shown in figure \ref{fig:wcoherence_scalogram}. It represents the wavelet coherence computed from two timeseries (fig \ref{fig:wcoherence_timeseries})of patient 51056: ROI 57 corresponds to Right Angular Gyrus and ROI 65 to Right lateral occipital cortex.
 The color represents the magniture of the cross-power, and phase information is represented as oriented arrows, pointing towards an imaginary 360 degrees circle, where the zero phase shift is represented by an arrow pointing right and a 180 degrees, by a left arrow.
 
 
@@ -1735,7 +1735,7 @@ The color represents the magniture of the cross-power, and phase information is 
 \caption{}
 \label{fig:wcoherence_scalogram}
 \end{subfigure}
-\caption{Plot of two timeseries from patient 51056 in figure \ref{fig:wcoherence_timeseries} and their relative Wavelet Coherence scalogram.
+\caption{Plot of two timeseries from patient 51056 in figure \ref{fig:wcoherence_timeseries} and their relative wavelet Coherence scalogram.
 On the x axis the timepoints and on the y axis the frequencies of this time-frequency decomposition.
 The color represents the magnitude of the cross-power coefficients and the relative phase shift is represented as arrows pointing to the right is phase shift is zero ad to the left is is 180 degrees. Starting from 0 degrees arrows rotate counterclockwise.
 }
@@ -1766,7 +1766,7 @@ This time of in-phase coefficient is defined as:
 c_{ij} = \frac{100}{N}\sum_{a, b}^N I\left\{ R_{ij}^2(a,b) > a_{95}\right\}\cdot I\left\{-\frac{\pi}{4}<arg(W^{XY}(a, b))_{ij} < \frac{\pi}{4}  \right\}
 \end{equation}
 
-Where the indices i and j refers to the two timeseries i and j; N is the total number of points inside the cone of influence (COI) $I\left\{ ...\right\}$ is either 0 or 1 depending on if the condition inside is satisfied; $a_{95}$ is the threshold value above which the computed Wavelet coherence coefficient is regarded as significative.
+Where the indices i and j refers to the two timeseries i and j; N is the total number of points inside the cone of influence (COI) $I\left\{ ...\right\}$ is either 0 or 1 depending on if the condition inside is satisfied; $a_{95}$ is the threshold value above which the computed wavelet coherence coefficient is regarded as significative.
 
 Similarily to this coefficient is the time of counter-phase coefficient, which can be obtained by modifying from the formula \ref{eq:wavelet_inphase} the phase condition into
 
@@ -1776,7 +1776,7 @@ I\left\{arg(W^{XY}(a, b))_{ij} < -\frac{3\pi}{4} \ \lor \ arg (W^{XY}(a, b))_{ij
 
 In short with this analysis, we are just considering coefficients with an high significance level (above 95\%) and with a small $\in [-\pi/4, \pi/4]$, or big phase shift ( $< -\frac{3\pi}{4}  \lor  >\frac{3 \pi}{4}$).
 
-Wavelet coherence maps were calculated using MATLAB's Wavelet Toolbox, which employs the Morlet wavelet, for the wavelet decomposition, as  mentioned before, and decomposes the frequency range using 12 subscales per octave and 9 octave.
+Wavelet coherence maps were calculated using MATLAB's wavelet Toolbox, which employs the Morlet wavelet, for the wavelet decomposition, as  mentioned before, and decomposes the frequency range using 12 subscales per octave and 9 octave.
 
 %Figure \ref{fig:wcoherence} represents the wavelet coherence scalogram obtained from two ROIs of patient 51056.
 
@@ -1798,7 +1798,7 @@ An example of correlation matrix created with in-phase and out-of-phase coeffici
 \caption{Coefficients of Off-phase percentage}
 \label{}
 \end{subfigure}
-\caption{Correlation matrix created with Wavelet coefficients of in-phase and off-phase percentage. Patient 51056, ABIDE I }
+\caption{Correlation matrix created with wavelet coefficients of in-phase and off-phase percentage. Patient 51056, ABIDE I }
 \label{fig:win_wout}
 \end{figure}
 
@@ -2163,59 +2163,69 @@ This package includes different classes such as KernelExplainer, which is the cl
 
 
 
+
+
 \addcontentsline{toc}{chapter}{IMPLEMENTATION \& RESULTS}
 %\chapter*{IMPLEMENTATION \& RESULTS}
-
 \chapter{Analysis workflow}\label{sec:analysis_workflow}
+So far we have been discussing what type of data we used in our work without specifying what kind of analysis we carried out with those data.
+We mainly performed classification using two different machine learning classifier: a deep neural network and a common Random Forest classifier.
+Before running any classification procedure we tackled the problem of data harmonization. To this end in chapter \ref{chap:harmonization_results} we explain how we implemented the procedure of data harmonization and some results obtained by applying it on our data obtained from the analysis discussed in chapter \ref{chap:connectivity_coefficients} which we report for convenience:
+\begin{itemize}
+\item Data obtained by Fisher-transforming Pearson correlation coefficients extracted for each pair of timeseries of each patient
+\item Data obtained from wavelet analysis by computing time of in-phase or out-of-phase percentage coefficients for each pair of timeseries of each patient
+\end{itemize}
+We report results to have a visual feedback of how harmonization modify data and how effective is this procedure in eliminating site-related information from our data.
 
-We mainly carried out three different kind of analysis using the DNN explained before, and compared them with the scores obtained from the adversarial network.
+In chapter \ref{chap:results_deeplearning} we present results obtained from classification of data using different machine learning algorithms. We seek to find the best strategy to obtain the best separability between Controls and ASDs data.
+Classification was carried out following different pipelines: we compared performances between a Random Forest classifier, a deep neural network and a Domain-adversarial neural network. We also discuss the effects of data harmonization on a classification procedure and we discuss the best strategy to implement harmonization.
 
-For each one of these analysis, we implemented a K-fold cross validation scheme to report our results. We determined and reported model performances as the mean AUC value and the standard deviation of the scores for each k-fold. A schematic
-
+\paragraph{Analysis pipelines}\hfill
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=0.6\linewidth]{ml/flowcharts/flowchart_analysis}
+\includegraphics[width=0.6\linewidth]{flowchart/flowchart_analysis}
 \captionsetup{singlelinecheck = off}
 \caption[]{
 Flowchart of the analysis carried out in this work:
 \begin{enumerate}
-\item Select one type of coefficient: Pearson correlation, Wavelet coherence coefficients
-\item Select the desired attributes of patients in order to make cuts on dataset, for example use the whole ABIDE I + II dataset or just ABIDE I, limit analysis to a certain age range, sex, or eye status open or close.
-\item Use these data + labels to make classification following the three pipelines described in section \ref{sec:deep_learning_results} and the fourth analysis pipeline using the adversarial neural network
-\item For each of these branches, implement a K-Fold cross validation and return the results in terms of mean AUC and std deviation of the values across every fold.
+\item Coefficient selection: select whether to use Pearson-based correlation coefficients, or wavelet-based correlation coefficients
+\item Patients attributes selection: select the desired attributes of patients in order to make cuts on dataset, for example use the whole ABIDE I + II dataset or just ABIDE I, limit analysis to a certain age range, sex, or eye status open or close.
+\item After making cuts, and obtained raw data, classification can be performed. Classification of Controls/ASDs can be fullfilled by a deep neural network, a Random Forest classifier, or the Domain-Adversarial neural network.
+\item Different harmonization procedures are compared: 1) harmonization implemented inside the k-fold CV,  2)harmonization of the entire dataset before k-fold CV, 3) no harmonization 4) harmonization implemented with the Domain adversarial neural network.
+\item For each of procedures, the final classification score is reported as the mean and standard deviation across all the folds of k-fold CV.
 \end{enumerate}
 }
 \label{fig:workflowanalysis}
 \end{figure}
 
-
-Since we are not working with a huge amount of data $(< 1600)$ samples, we choose a 5-fold CV, we made this choice because with a 10 k-fold CV, the error on the mean AUC score was high, so we choose to hold a greater number of data in the Test to reduce variability among them and hence reduce the standard deviation of the model's score.
-K-fold CV was implemented using the stratifiedKFold class provided by sklearn library for Python
-
-The data we are using to perform classification are the Pearson correlation (Fisher-transformed) data, or the correlation values coming from the analysis with wavelets.
-
+For each classification analysis, we implemented a K-fold cross validation scheme to report our results. We determined and reported model performances as the mean AUC value and the standard deviation of the scores for each k-fold
+Since we are not working with a huge amount of data ($< 1600$ samples), we choose to perform a 5-fold CV. We made this choice because with a 10 k-fold CV, the error on the mean AUC score increases, since we have less data in the test dataset, and hence more variability.
+For this reason we choose to hold a greater number of data in the Test (at the cost of reducing the number of data available for train) to reduce variability among them and reduce the standard deviation of the model's score.
+K-fold CV was implemented using the stratifiedKFold class provided by sklearn library for Python.
 
 
-In detailes the four types of analysis we carried out are:
+A flowchart of the analysis mentioned above is shown in figure \ref{fig:workflowanalysis}
+In details the four types of analysis we carried out are:
 \begin{enumerate}
-\item Classification of asd/Controls using raw (not harmonized) data
+\item Classification of ASDs/controls using raw (not harmonized) data
 \item Classification using the whole harmonized dataset, creating the harmonization model on all the control subjects and applying the model on all ASD subjects, and then split this dataset into a train and test subsets for each k-fold. The flowchart to schematise this implementation is shown in figure \ref{fig:harmon_upstream_flowchart}.
 \item Classification with harmonization implemented inside the K-fold cross-validation, creating the model on controls and applying it to ASD: following this procedure data were splitted into a train and a test dataset, therefore using train data we computed the harmonization model only on control patients and then apply the model to asd patient and both Control and ASD Test data.
 The whole flowchart is shown in figure \ref{fig:harmon_kfold_flowchart}
 \item Classification using the domain adversarial neural network.
 \end{enumerate}
 
-Harmonizing data inside a k-fold is the best way to mantain Train and test data as much separated as possible and avoid data leakage between train and test.
-It is a common source of error to introduce some kind of data leakage between the Train and the Test dataset, when we harmonize on the entire dataset, the harmonization model permorms a fit using all the data, so each data is modified according to information obtained from all the other data, so in data belonging to the train dataset there's already information about the Test dataset, and this leads to a misleading increase of model's performances.
+\textcolor{blue}{
+Harmonizing data inside a k-fold is the best way to keep train and test data apart and avoid data leakage between train and test.
+It is a common source of error to introduce some kind of data leakage between the train and the test dataset, when we harmonize on the entire dataset, the harmonization model permorms a fit using all the data, so each data is modified according to information obtained from all the other data, so in data belonging to the train dataset there's already information about the test dataset, and this leads to a misleading increase of model's performances.
 Some articles perform a Leave One Site Out Cross validation. In our case we can't do that if we want to mantain Train and Test independent because if we compute the harmonization model only on the train dataset, we wouldn't have information to apply it to the test dataset since its data belong to a site not included in the model.
-
+}
 
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.6\linewidth]{ml/flowcharts/harmon_kfold}
-\caption{Flowchart: implementation of harmonization inside each fold}
+\caption{Flowchart for the implementation of harmonization inside a k-fold CV: for each fold, data are splitted into a train and a test dataset. Harmonization model is created on control data of the train dataset, and applied to ASD data and on the entire test dataset. Harmonized control and ASD train data are merged to obtain a harmonized train dataset. Classification is performed on the new harmonized dataset: training is accomplished on the train dataset and the model is evaluated on test dataset. This entire process is repeated for each fold with different train/test data.}
 \label{fig:harmon_kfold_flowchart}
 \end{figure}
 
@@ -2223,93 +2233,115 @@ Some articles perform a Leave One Site Out Cross validation. In our case we can'
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=0.6\linewidth]{ml/flowcharts/harmon_upstream}
-\caption{Flowchart: implementation of harmonization upstream}
+\includegraphics[width=0.45\linewidth]{ml/flowcharts/harmon_upstream}
+\caption{Flowchart of the upstream implementation of harmonization, before the k-fold split: from the entire dataset controls are collected, and the harmonization model is built with only these controls data. The model is applied to the controls and ASDs, and the harmonized dataset is created. With this harmonized dataset, a k-fold CV is performed: the dataset is split into train and test subsets and on these data, and classification is carried through.}
 \label{fig:harmon_upstream_flowchart}
 \end{figure}
 
 
+\paragraph{Dataset selection} \hfill
 
-Analysis were carried out using different selection criterias and thresholds on the dataset which brought us to different datasets combination.
-We excluded from out analysis data coming from sites NYU\_2 and ... because as noticed in section \ref{sec:} they didn't provide control data but only ASD patients, and without them, we can't perform harmonization on this sites because we would need to create the model only on Control data.
-We left with a total number of 1501 perason correlation data and
-The first classification attempt was using the whole dataset from ABIDE 1 and 2, consisting of only male patients aged between 5 and 40 years old, without any further constraint on eye status at scan.
-Then, with these same constraint we tried to classify separately ABIDE 1 and ABIDE 2 datasets.
-The second analysis was performed on a dataset with the same constraint as above, but with an additional condition on eye status choosing to select only patient who kept eyes open throughout the entire scan time.
-The latter analysis were carried out with these same constraints, but separately on ABIDE 1 and ABIDE 2 dataset.
-So in whort we have 6 different analysis shown in table \ref{tab:controlasd_per_subset}
+With reference to the \textquotedblleft Patients attributes selection \textquotedblright in figure \ref{fig:workflowanalysis} we discuss now what selection criterias we adopted.
+All the analysis mentioned above were performed using different selection criterias and thresholds on the dataset which brought us to different datasets combination.
+First of all, we excluded from the analysis data from sites NYU\_2 and KUL\_3 because as noticed in chapter \ref{chap:dataset} they did not provide control data but only ASD patients, and without control data, we can't perform harmonization on these sites because to create an harmonization model, we perform a regression on control data and then apply the model to ASDs data of that site.
+The first and most obvious selection criteria is to use the whole dataset from ABIDE 1 and 2, consisting of only male patients aged between 5 and 40 years old, without any further constraint. So we have our first complete dataset consisting on 1470 patient data, from ABIDE I + ABIDE II datasets.
+This dataset can be divided to analyse classification performances separately on ABIDE I and ABIDE II, mantaining the same constraints on ages and sex.
+This choice was made because several articles dealing with controls/ASDs classification using the ABIDE dataset, are fullfilled only on ABIDE I, or, more precisely, on ABIDE I preprocessed (see section \ref{sec:cpac}). Thus for an immediate comparison we choose to run classification on the two disjoint dataset as well.
+
+To seek for a more homogeneous dataset, an other constraint can be set on the eye status at scan. The objective is to select only patients who kept open eyes throughout the entire scan session. This, as mentioned in chapter \ref{sec:intro_ml} helps obtaining a more homogeneous dataset, removing also data potentially altered by sleep.
+This constraint was applied on the dataset consisting on data from ABIDE I and ABIDE II pooled together  cited earlier, and on ABIDE I and ABIDE II separately as well.
+In short, considering these constraints, we obtain 6 different subdatasets, with different number of patients each, summarised in table \ref{tab:controlasd_per_subset}
 
 
 
 
 \begin{table}[!htp]\centering
 \scriptsize
-\begin{tabular}{lrrrr}\toprule
-Dataset &Tot &Controls &ASD \\\midrule
-AB I+II eye = all, sex = males, age(5, 50) &1470 &737 &733 \\
-AB I + II eye = open &1026 &514 &512 \\
-AB I &841 &426 &415 \\
-AB I eye=open &568 &281 &287 \\
-AB II &629 &311 &318 \\
-AB II eye = open &458 &233 &225 \\
+\begin{tabular}{lcrrr}\toprule
+Dataset &Constraints &Tot &Controls &ASD \\\midrule
+AB I+II &eye = all, sex = M, age = (5, 40) &1470 &737 &733 \\
+AB I& eye = all&841 &426 &415 \\
+AB II&eye = all &629 &311 &318 \\
+AB I + II &eye = open &1026 &514 &512 \\
+AB I& eye=open &568 &281 &287 \\
+AB II &eye = open &458 &233 &225 \\
 \bottomrule
 \end{tabular}
-\caption{Total number of data and control/ASD amount for each subset and thresholds}
+\caption{Total number of data and control/ASD amount for each subset and thresholds. To avoid repetitions in all the subdatasets, are implicit constraints regarding sex (only males) and ages (between 5 and 40).}
 \label{tab:controlasd_per_subset}
 \end{table}
 
 
-A further analysys concerns the feature's dimensionality reduction, that is the reduction of features from the input dataset using PCA
-For each one of the analysis above, PCA was implemented to restrain the effect of overfitting.
+\paragraph{Dimensionality reduction of data} \hfill
 
-From the initial input data consisting of 5995 features, we tried to classify using n principal components
-The workflow of the entire analysis can be schematized in the workflow diagram \ref{fig:workflowanalysis}
+An important issue related to data we are working on concerns their dimensionality.
+We are dealing with data lying in an high dimensional space but we lack an apropriate number of data to make acccurate predictions on them: this problem is usually referred as the \textquotedblleft curse of dimensionality \textquotedblright
+%\footnote{https://en.wikipedia.org/wiki/Curse\_of\_dimensionality\#Machine_Learning} .
+In our work, dimensionality is a relevant issue since we are dealing with 5995 features and less then 1500 patients, and for this reason we run our analysis in a situation of permantent overfitting.
+One important method to tackle this problem is dimensionality reduction performing a Principal Components Analysis (PCA) as explained in section \ref{sec:pca}
+
+% come ho calcolato le pca? solo sul training set
+%non avrebbe senso calcolare la PCA solo sui controlli perchè pca cerca la direzione di massima varianza, dove i davi variano maggiornente, e quidni dove si ha una migliore distinguibilità bewteen controls and asds. NOn avrebbe senso farla solo sui controlli.
+%Il numero di PC può essere più grande del test dataset, ma non sarà mai più grande del numero di feature in esso (per come è definito il massimo numero di pc), quindi una volta estratte le PC può essere applicato a qualsiasi test dataset
+
+When applying PCA to a dataset we seek to explain as much variance as possible, for this reason we start our pca analysis extracting a number of principal components that explain more then 90$\%$ of variance, then we gradually reduced this number halving if.
+The maximum number of principal components is limited by the number of data we can use. If we have a dataset of $n\_samples$ samples, each with $n\_features$ features, the maximum number of PC is given by $N\_pc = min\{n\_samples, n\_features\}$.
+This is because in a $n-feature$-dimensional space, our points lie in a $n\_samples$-dimensional hyperplane and all the variance can be explained inside this subspace.
+For a better understanding of this concept, we can imagine a dataset made of only two data, each containing 3 features. If we represent these data, we construct a 3D space where each orthogonal axes corresponds to a feature, and we insert these two points, each corresponding to a data point.
+If we want to explain the maximum variance we need to find a new axis, the first principal component, but through two points passes just one straight line so we can at most limit our analysis to the plane passing through that line.
+
+In our case $n\_samples$ is always $< \ n\_features$, so the number of principal components will be limited by the number of data in the Train dataset.
+We use just the train dataset to calculate principal components because this is the correct way to proceed to avoid data leakage between Train and Test dataset.
+
+To avoid repeating all the analysis mentioned earlier with the additional implementation of PCA, we choose to implement it only on some sub-dataset and using those coefficients that give the best classification performances.
+
+%For each one of the analysis above, PCA was implemented to restrain the effect of overfitting.
+From the initial input data consisting of 5995 features, we performed classification using different values of principal components. The search for principal components is accomplished only on the train dataset and then the same transformation is applied on the test dataset. In accordance of what we stated about harmonization when we asked whether is more correct to perform it inside or outside the k-fold splitting of train/test, calculating principal components just on the training set, allows to keep train and test set apart, and avoid data leakage of test into train.
+
+Results are shown in chapter \ref{sec:results_pca}
 
 
 
-\chapter{Harmonization - results}
+\chapter{Harmonization - results}\label{chap:harmonization_results}
 
 % data do not present a clear age-trend  (and FIQ?)
-
+%scrivere che quando faccio l'harmonization non uso nessuna covariata specificandola come non lineare perchè non ci sono ragioni per farlo
 As described in section \ref{sec:harmonizationtheory}, ComBat-based harmonization procedure simultaneously models and estimates biological and non biological terms, from data and algebraically removes the estimated addivite and multiplicative site-effect terms.
 
-Harmonization procedure was tested on the datased created by using patients from ABIDE I and II after the cuts on covariates discussed in section \ref{sec:analysis_workflow}. From these patients we used Pearson-based correlation coefficients and Wavelet coefficients of in phase time percentage.
-To have a visual representation of how features are modified after being processed with harmonization pipeline.
+Harmonization procedure was tested on the datased created by using patients from ABIDE I and II after the cuts on sex and age discussed in section \ref{sec:analysis_workflow}.
+From these patients we tested harmonization using Pearson-based correlation coefficients and wavelet coefficients of in phase time percentage.
+We run this analysis to have a quantitative and a visual representation of how features are modified after being processed with harmonization pipeline.
 
-To test harmonization procedure and evaluate its performances in making sites' feature uniform, we used NeuroHarmonize \footnote{https://github.com/rpomponio/neuroHarmonize} package for Pyhton, developed by Pomponio et al. \cite{pomponio-2019} which implemented and added some features to the previous NeuroComBat Python package \footnote{https://github.com/Jfortin1/ComBatHarmonization}.
+To test harmonization procedure and evaluate its performances in making feature uniform in relation to sites, we used NeuroHarmonize \footnote{https://github.com/rpomponio/neuroHarmonize} package for Pyhton, developed by Pomponio et al. \cite{pomponio-2019} which implemented and added some features to the previous NeuroComBat Python package \footnote{https://github.com/Jfortin1/ComBatHarmonization}.
 
 To use Neuroharmonize package we need to input the feature data to harmonize and the corresponding covariate information with site, age, sex, and other biological quantities we desire to take into account.
-For our data these information were provided by a csv file on the ABIDE website. In this file, for each patient, are collected as much medical information as scientists could retrieve.
-A regression model is thus created with parameters estimated with the procedure explained in section \ref{sec:harmonizationtheory}. This model can be applied to the same input data we used to generate it, or new data unseen data belonging to the same sites we used to create the model.
+For our data these information were provided by a csv file on the ABIDE website. In this file, for each patient, are collected several medical and biologiclal information useful to run a great number of different analysis.
+A regression model is thus created with parameters estimated with the procedure explained in section \ref{sec:harmonizationtheory}. This model can be applied to the same input data we used to generate it, or to new, unseen data acquired from the same sites we used to create the model.
 
-We tested harmonization procedure on 1494 male patients coming from ABIDE I and ABIDE II of which 722 controls and 772 cases, choosing as covariate to preserve the Age, and the FIQ (Full intellective quotient) to mantain important biolgical trends in the data and avoid overcorrection.
+We tested harmonization procedure on 1470 male patients coming from ABIDE I and ABIDE II of which 737 controls and 733 cases, choosing as covariate to preserve the age, and the FIQ (Full intellective quotient) to mantain important possible biolgical trends in the data and avoid overcorrection.
 
-
-The central idea is to create the model on control subjects only, to operate without the influence of informations related to ASD patients whose feature might follow a different distribution compared to control's.
-Then once created the model on control subject, it is applied to both control and ASD subjects, following this procedure site-related information are eliminated from our data.
+The central idea is to create the model on control subjects only, to operate without the influence of informations related to ASD patients whose feature might follow a different distribution compared to control.
+Once created the model on control subject, it is applied to both control and ASD subjects, following this procedure site-related information are eliminated from our data.
 To test the effectiveness of this harmonization procedure, we used a Random Forest Regression to test the site classification performances before and after the harmonization procedure.
-In this analysis, we split the model into a Train and Test subsets: using only COntrol subjects from the Train dataset, we created the harmonization model as explained before.
+In this analysis, we split the model into a Train and Test subsets: using only control subjects from the train dataset, we created the harmonization model as explained before.
+
 To actually harmonize data, the model is applied to all the data: Controls and cases of Train dataset and Control and Cases of the Test.
-This approach, allows train and test dataset to be still independent, because harmonization model was only created on Train subjects and once learnt the parameters, is applied to the Test dataset, so the data we use to train the random forest, are kept separated from the test set, so that there's no information leakage of the test data into the training data.
+We remind that this approach, allows train and test dataset to remain independent, because harmonization model is only created on train subjects and once learnt the parameters, is applied to the Test dataset. Thus, data we use to train the random forest, are kept separated from the test set, and there's no information leakage of the test data into the training data.
 
 Two random forest classifiers were trained. One using raw (non-harmonized) data, and the second using harmonized data.
 Their task was to make a binary classification of data: site vs site, for each pair of sites.
 
 
-\textbf{Note:} As can be seen from figure \ref{fig:controlcase_site} two sites namely \texttt{NYU\_2} and \texttt{KUL\_3} provided only ASD patients, and, since we are estimating the mean and the variance for each feature across all sites, when we train a model only on control cases, and we apply it on patients belonging to new sites, we don't have information to scale and modify those data so the model would output NaN values.
-In our analysis we excluded these sites since we can't perform a proper harmonization of them.
-\newline
+\begin{notes}
+\item As mentioned in the previous paragraph, two sites namely \texttt{NYU\_2} and \texttt{KUL\_3} provided only ASD patients, and, since we are estimating the mean and the variance for each feature across all sites, when we train a model only on control cases, and we apply it on patients belonging to new sites, we don't have information to scale and modify those data so the model would output NaN values.
+This is the reason why in our analysis we excluded these sites since we can't perform a proper harmonization of them.
+\end{notes}
 
-Figures \ref{fig:heatmap_harmonization} and \ref{fig:heatmap_harmonization_w} show the results of classification on the two datasets described above (Pearson and Wavelet coefficients). Scores are reported in terms of AUC for the classification of each pair of sites, and sites along the x and y axes are ordered by incresging average age of patients coming from that site.
+Figures \ref{fig:heatmap_harmonization} and \ref{fig:heatmap_harmonization_w} show the results of classification site vs site using the two coefficients described above:  Pearson and wavelet correlations. Sites along the x and y axes are ordered by incresging average age of patients and scores are reported in terms of AUC,
 
-Specifically, fig \ref{fig:heatmap_harmonization_noharmon} and \ref{fig:heatmap_harmonization_noharmon_w} show the AUC score of the model trained with the raw, not harmonized dataset,  while in figures
-\ref{fig:heatmap_harmonization_harmon} and \ref{fig:heatmap_harmonization_harmon_w}
-show the results obtained with the harmonized datasets.
-
+Specifically, fig \ref{fig:heatmap_harmonization_noharmon} and \ref{fig:heatmap_harmonization_noharmon_w} show the AUC score of the model trained with the raw, not harmonized dataset, while in figures \ref{fig:heatmap_harmonization_harmon} and \ref{fig:heatmap_harmonization_harmon_w} show the results obtained with harmonized data.
 
 
-
-%C'è da dire che anche dopo l'armonizzazione, il sito SU_2 rimane distinguibile, anche se dalle feature sembra essere stato allineato con gli altri. Quindi stessa storia potrebbe essere avvenuta per i wavelet.
 
 % HEATMAPS
 \begin{figure}
@@ -2347,7 +2379,7 @@ show the results obtained with the harmonized datasets.
    \label{fig:heatmap_harmonization_noharmon_w}
 \end{subfigure}
 
-\caption{Comparison of two heatmaps with AUC score of binary classification site vs site of \textbf{Wavelet}-based correlation coefficients of raw (fig \ref{fig:heatmap_harmonization_harmon_w}) and harmonized data (fig \ref{fig:heatmap_harmonization_noharmon_w}) classified using a Random Forest Classifier
+\caption{Comparison of two heatmaps with AUC score of binary classification site vs site of \textbf{wavelet}-based correlation coefficients of raw (fig \ref{fig:heatmap_harmonization_harmon_w}) and harmonized data (fig \ref{fig:heatmap_harmonization_noharmon_w}) classified using a Random Forest Classifier
 }
 \label{fig:heatmap_harmonization_w}
 \end{figure}
@@ -2356,15 +2388,15 @@ show the results obtained with the harmonized datasets.
 
 
 
-To have a visual representation of how much each feature is modified in respect of its sourced site, in fig \ref{fig:features_raw-harmo} are shown two features among 5995: \emph{feature 324} and \emph{feature 2800} as a function of sites.
-For a clearer idea of what is shown, feature 324 represents the correlation between right and left inferior frontal gyrus, and feature 2800 that between left precuneous cortex and the left inferior frontal gyrus
-Their values are plotted as a box along the y axis and sites are indicated along the x-axis, it is clear how harmonization is a powerful tool to level up feature and remove site-dependent information from them.
+To have a visual representation of how much each feature is modified in respect of its sourced site, in fig \ref{fig:features_raw-harmo} are shown two features among the 5995: \emph{feature 324} and \emph{feature 2800} as a function of sites. This figures show features computed with Pearson coefficients while in figure \ref{fig:wavelet_features_raw-harmo} are shown the same two features with wavelet coefficients.
+Just for a clearer idea of what is shown, feature 324 represents the correlation between right and left inferior frontal gyrus, and feature 2800 that between left precuneous cortex and the left inferior frontal gyrus. There is not a particular reason for choosing these two feature, they are just randomly drawn from the 5995 possible combinations.
+Their values are plotted as a box along the y axis and sites are indicated along the x-axis, it appears clear how the mean value of each feature for each site is shifted and features are stretched or shrinked to make them follow a more uniform distribution.
 
 \begin{figure}
 \centering
 \begin{subfigure}[b]{1.\textwidth}
    \includegraphics[width=1\linewidth]{/home/federico/magistrale/Imagess/harmonization/pearson/Feature324raw-harmo}
-   \caption{Feature 324 }
+   \caption{}
    \label{fig:feature324}
 \end{subfigure}
 \begin{subfigure}[b]{1.\textwidth}
@@ -2390,13 +2422,13 @@ Their values are plotted as a box along the y axis and sites are indicated along
     \caption{}
     \label{fig:wavelet_feature2800}
  \end{subfigure}
- \caption{Wavelet-based connectivity coefficients of in-phase percentage, for features 324 (fig \ref{fig:wavelet_feature324}) and 2800 (fig \ref{fig:wavelet_feature2800}) before and after harmonization}
+ \caption{wavelet-based connectivity coefficients of in-phase percentage, for features 324 (fig \ref{fig:wavelet_feature324}) and 2800 (fig \ref{fig:wavelet_feature2800}) before and after harmonization}
  \label{fig:wavelet_features_raw-harmo}
  \end{figure}
 
 
 
- If we split this plot into control and ASD patients to see the effect of harmonization separately on these subsets, \ref{fig:features_control-asd_raw-harmo}
+ If we split this plot into control and ASD patients to see the effect of harmonization separately on these subsets, \ref{fig:features_control-asd_raw-harmo} shows feature 324 computed using Pearson coefficients and figure \ref{fig:feature324-control-asd_w} with wavelet coefficients.
 
  \begin{figure}
  \centering
@@ -2407,10 +2439,10 @@ Their values are plotted as a box along the y axis and sites are indicated along
  \end{subfigure}
  \begin{subfigure}[b]{1.\textwidth}
     \includegraphics[width=1\linewidth]{harmonization/wavelets/Feature324control-asd_raw-harmo}
-    \caption{Feature 324 of Wavelet-based correlation coefficients}
+    \caption{Feature 324 of wavelet-based correlation coefficients}
     \label{fig:feature324-control-asd_w}
  \end{subfigure}
- \caption{Pearson-correlation and Wavelet coefficients for features 324 before and after harmonization with a separated plot for controls and ASD}
+ \caption{Pearson-correlation and wavelet coefficients for features 324 before and after harmonization with a separated plot for controls and ASD}
  \label{fig:features_control-asd_raw-harmo}
  \end{figure}
 
@@ -2419,39 +2451,38 @@ Their values are plotted as a box along the y axis and sites are indicated along
 
 \section{Comments on harmonization}
 
-Figure \ref{fig:heatmap_harmonization_w} shows a binary classification procedure with a random forest, for site discrimination of Wavelet-based coefficients. It appears clear that with Wavelet coefficients there is not the same outcome as with Pearson coefficients (figure \ref{fig:heatmap_harmonization}), in fact with Wavelets sites still remain distinguishable after harmonization.
+%C'è da dire che anche dopo l'armonizzazione, il sito SU_2 rimane distinguibile, anche se dalle feature sembra essere stato allineato con gli altri. Quindi stessa storia potrebbe essere avvenuta per i wavelet.
+
+Figure \ref{fig:heatmap_harmonization_w} shows a binary classification procedure with a random forest, for site discrimination of wavelet-based coefficients. It appears clear that with wavelet coefficients there is not the same outcome as with Pearson coefficients (figure \ref{fig:heatmap_harmonization}), in fact with wavelets sites still remain distinguishable after harmonization.
 
 %This may be due to the loss of some information linked to the site througout all the process of extracting a correlation coefficient starting from a time-frequency analysis of two timeseries.
 %Accordind to this hypotesis, if we lost site information, the particular trend of a feature we see for example in figure \ref{fig:wavelet_features_raw} is just a casual trend and taking into account all of the features, there is not a specific bias connected to a site.
 %This way, during procedure of harmonization, we are creating a bias towards each site and for this reason after harmonization, sites remain distinguishable, or actually, they become even more recognisable
-Nevertheless, if we plot the mean value of a feature computed with Wavelet-based correlation across sites (figure \ref{wavelet_features_raw}) we note that there is a certain trend related to sites, but it is possible either that we obtain this trend just for this choice of feature or that even if the mean values of these features underwent a level out procedure, they still remain recognisable because of the values they assume which is not in the same range for all the sites and this can help the classificator recognising sites differences.
+Nevertheless, if we plot the mean value of a feature computed with wavelet-based correlation across sites (figure \ref{wavelet_features_raw}) we note that there is a certain trend related to sites, but it is possible either that we obtain this trend just for this choice of feature or that even if the mean values of these features underwent a level out procedure, they still remain recognisable because of the values they assume which is not in the same range for all the sites and this can help the classificator recognising sites differences.
 
 \hfill
 
-Both for Wavelet-based coefficients in figure \ref{fig:wavelet_features_raw} and for Pearson-based coefficients in figure \ref{fig:features_raw-harmo} we can notice a certain messy trend of features of raw data in respect to site (plots on the left side), which is not due to the presence of an unbalanced Controls/ASD number of patients per site, because from figure \ref{fig:features_control-asd_raw-harmo} we observe as well, a messy trend both for Controls and ASDs.
+Both for wavelet-based coefficients in figure \ref{fig:wavelet_features_raw} and for Pearson-based coefficients in figure \ref{fig:features_raw-harmo} we can notice a certain messy trend of features of raw data in respect to site (plots on the left side), which is not due to the presence of an unbalanced Controls/ASD number of patients per site, because from figure \ref{fig:features_control-asd_raw-harmo} we observe as well, a messy trend both for Controls and ASDs.
 We can therefore conclude that in our data there's some kind of bias linked to the acquisition site.
-After harmonization procedure both Pearson-based coefficients and Wavelet-based coefficients assume a more regular trend (plots on the right side of figures  \ref{fig:wavelet_features_raw} and \ref{fig:features_raw-harmo})
-This is a visual confirm that harmonization effectively removes site-related, but if for Pearson coefficients this is enough to remove inter-site variability, for Wavelet coefficients this difference remain the same
+After harmonization procedure both Pearson-based coefficients and wavelet-based coefficients assume a more regular trend (plots on the right side of figures  \ref{fig:wavelet_features_raw} and \ref{fig:features_raw-harmo})
+This is a visual confirm that harmonization effectively removes site-related, but if for Pearson coefficients this is enough to remove inter-site variability, for wavelet coefficients
 
-%This bias is more evident with Pearson-based correlation coefficients (fig \ref{fig:wavelet_features_raw}) than with Wavelet-based coefficients (fig \ref{fig:features_raw-harmo}) that appear to assume a more uniform trend.
-
-%
-
-
-
+%This bias is more evident with Pearson-based correlation coefficients (fig \ref{fig:wavelet_features_raw}) than with wavelet-based coefficients (fig \ref{fig:features_raw-harmo}) that appear to assume a more uniform trend.
 
 
 
 \newpage
-\chapter{Deep learning: implementation and results} \label{sec:deep_learning_results}
-\section{Model's structure}
-In this work we performed a classification task, using a shallow neural network built using keras library for Python.
+\chapter{Deep neural models} \label{chap:deep_models}
+%\section{Model's structure}
+\paragraph{Deep neural network}\hfill
+
+In this work we performed a classification task, using a shallow neural network built using Keras library for Python.
 Since we are working in an unavoidable overfitting condition, we tried to build a network with as less feature as possible, but still preserving good classification performances.
 We then started the research of our newtork with a network comprising only 3 layers and we searched the minimum number of neurons to employ in each layer.
 We started with a trivial network made by just 3 neuron in the first layer, 2 nodes in the second and at last a single-output layer. Even if this was just an attempt to put a lower limit to the number of neurons, we noted that even with this configuration, the network tends to overfit our data.
 This is clear if we take a look at the learning curves in figure \ref{fig:learningcurve} which shows the training and validation AUC curves for two models: the first one of them (\ref{fig:auc_no3-2-1}) even if with the simplified structure just mentioned, shows the classical trend of an overfitting state, however, it performes a bit worse than the other two more complex models.
-We continued adding neurons to each layer and tried different configurations. With a configuration of 8-8-1 performances were slightly higher, so we set the second layer to 8 neurons and tried changing the number of the neurons in the first layer, performances seemed to increase as the number of neurons increased untill they reached a stable value. Different attempts and the relasted classification scores are reported in table \ref{tab:appendice..} in appendix.
-We decided to pick the configuration which gave the minimum number of neurons, beyond which performances were stable, and the addition of more neurons to create a more complex network was unjustified.
+We continued adding neurons to each layer and tried different configurations. With a configuration of 8-8-1 performances were slightly higher, so we set the second layer to 8 neurons and tried changing the number of the neurons in the first layer, performances seemed to increase as the number of neurons increased untill they reached a stable value. Different attempts and the related classification scores are reported in table \ref{tab:different_model_structures} in appendix.
+We decided to pick the configuration comprising the minimum number of neurons, beyond which performances were stable, and the addition of more neurons to create a more complex network was unjustified.
 
 \begin{figure}
 \centering
@@ -2475,10 +2506,10 @@ We decided to pick the configuration which gave the minimum number of neurons, b
 \end{figure}
 
 
-In our work we employed a the neural network schematized in figure \ref{fig:model_structure}.
-This network consisted of 2 hidden layers made up of 264, and 8 neurons respectively, both activated by a ReLU function and separated by a Batch-Normalization and a Dropout layer with a dropout chance of 30\%.
-After the 8-node layer we added a second Batch-Normalization layer, with a second dropout layer once again wich 30\% dropout.
-After them we put a single output layer with a single neuron for the classification output.
+In our work we employed the neural network schematized in figure \ref{fig:model_structure}.
+This network consists of 2 hidden layers made up of 264, and 8 neurons respectively, both activated by a ReLU function and separated by a Batch-Normalization and a Dropout layer with a dropout chance of 30\%.
+After the 8-node layer we added a second Batch-Normalization layer, before the output layer.
+At the end we put a single output layer with a single neuron for the classification output.
 This last layer is activated by a sigmoid function, which outputs a real number between 0 and 1.
 
 
@@ -2492,91 +2523,105 @@ Each box contains the layer's name, layer's task (Input, Dense, BatchNormalizati
 \end{figure}
 
 
-Since we are still working in an underlying overfitting condition we set the subsequent hyperparameters after a grid search on learning rate and number of epochs, setting a validation set of 25\% of Train data, and studying the evolution of the learning curves, of which some exaples are illustrated in figure \ref{fig:learningcurves} to find the minimal parameters' configuration which allows high classification scores.
-
-In our model, as loss function to minimize we used binary crossentropy and the neural network's weights were optimized via Adam optimizer with a learning rate of $10^{-4}$.
-Adam optimizer was chosen over Stochastic Gradient Descent optimizer since Adam reached similar performances with a lower error in respect of SGD.
-Model's classification performances were assessed with a 5 k-fold Cross validation, collecting the AUC score for each fold and then computing mean and std deviation of these results.
+To create the network we set the subsequent hyperparameters after a grid search on learning rate and number of epochs, setting a validation set of 25\% of Train data, and studying the evolution of the learning curves, to find the minimal parameters configuration which allows high classification scores.
+We trained the model using binary crossentropy loss function and optimizing parameters using Adam optimizer with a learning rate of $10^{-4}$.
+Adam optimizer was chosen over Stochastic Gradient Descent optimizer since with Adam we empirically achieved similar classification performances with a lower error than with SGD.
+%Model's classification performances were assessed with a 5 k-fold Cross validation, collecting the AUC score for each fold and then computing mean and std deviation of these results.
 
 %Adversarial model:
+\paragraph{Domain-adversarial neural network}\hfill
 
-The other neural network employed was the site-adversarial neural network: a model able to earn from data both class and site information, and avoid some sort of bias due to site, when performing class classification.
-We tried two different approaches to this task, but later we focused only on one of them.
-The first attempt to implement a model able to predict category label without any influence of site's information is a model with two different branches, one for the output of Control/ASD prediction, and one for the output of the predicted site.
-With these two informations, a loss is created by combining two different loss functions, one for the class and the other for site: the idea is similrar to that proposed in the article \ref{Guan-2021}.
+As mentioned in chapter \ref{sec:analysis_workflow} an other kind of analysis was performed using a Domain adversarial neural network.
+This domain-adversarial or site-adversarial network is a model able to earn from data both class and site information, and avoid some sort of bias due to site, when performing classification.
+The main idea behind this network comes from a revisited and customized version of the model described in chapter{chap:adversarial}, but before building this network we tried a different aproach.
+
+The first attempt to implement a model able to predict category label without any influence of site's information is a model consisting on two different branches, one for the output of control/ASD prediction, and one for the output of the predicted site.
+With these two informations, a loss is created by combining two different loss functions, one for the class and the other for site: the idea is similrar to that proposed in the article \ref{guan2021}.
 This new loss is in the form
 \begin{equation}
 L = L_1 - \lambda L_2
 \end{equation}
-Where $L_1$  is in our case the loss for the binary classification Control/ASD that we want to minimize (binary crossentropy), while $L_2$ is the loss for site classification (categorical crossentropy) we aim to maximize in order to avoid to learn any information somehow linked to site, and $\lambda $ is a parameter to set empirically, to control the contribution of the site's loss to the overall loss.
+Where $L_1$  is in our case the loss for the binary classification Control/ASD that we want to minimize (binary crossentropy), while $L_2$ is the loss for site classification: categorical crossentropy we aim to maximize in order to avoid learning any information related to sites. $\lambda $ is a parameter empirically set, to control the contribution of the sites loss $L_2$ to the overall loss.
 This way, the minimum of the total loss is reached with parameters that minimize the category classification loss and maximize the site classification loss.
-Performances of this kind of model are strictly linked to the value of the parameter $\lambda$, in a sense that if a certain value gave an optimal performance on a certain dataset, on an other dataset, for example one created with some more constraints on patients, the value for which one had the best scores needed to be changed.
-And also, since this kind of model gave slightly worse performances than simple deep model, we looked for an other strategy and carried out the analysis with this second type of model.
-
-We tried to build something with the same underlying idea, namely minimize the error on classification of asd/controls, while maximizing the loss related to the site classification.
+Performances of this kind of model are strictly linked to the value of the parameter $\lambda$, in a sense that if a certain value gave an optimal performance on a certain dataset, on an other dataset, for example one created with some more constraints on patients, the value for which one had the best scores was slightly different.
+And also, since when we first employed this model it gave slightly worse performances than simple deep model, we looked for an other strategy and carried out the analysis with this second type of model.
+Thus we reached to the domain-adversarial neural network.
+Even though this network is based on the same principles of the neural network with combination of two losses (minimize the error on classification of asd/controls, and maximizing the one on site classification), it accomplish its task in a different way.
 Our task is in fact to avoid the model to learn some site-related pattern from data and we accomplished so with a model whose inner weights are updated moving towards a minimization of the gradient for classification, and in the opposite direction for site classification, as explained in section \ref{sec:domain_adversarial_theory}.
 
-%a similar structure as the DNN,
-Following a similar structure of the model before mentioned, with a composition of the two losses, the structure of this model can be divided into three main components, two of which are exactly the same of the deep neural model explained at the beginning of this section.
-The three components that make up this model are: a first feature extraction branch comprising th input layer, the 264-nodes and the 8-node layer, between which we put a Batch-normalization and a 0.3 dropout layer, as we did in the first DNN.
-From this point on the network is splitted into two branches: one categorical classificator, similarily to the DNN consists of a last layer with a sigmoiod activation function for Control/ASD classification,
-and the other branch, the third component of this network, the site classifier consisting of a gradient reversal layer as the first layer followed by a layer with 16 nodes, and after a batch Batch-Normalization layer, the last layer: a multi-output layer with N nodes, being N the total number of sites input data belong to.
+To costruct our domain-adversarial neural network, we followed the same structure of the deep neural network implemented before, and we added the domain-adversarial branch.
+We can describe the structure of this model as consisting on three parts: a feature extractor branch takes input data and creates an inner representation of them within its structure; at this point the network is forked into two branches: a label classificator for control/ASD cassification and the second branch for site classification. At the top of the site-classification branch, the gradient reversal layer was placed.
+
+%with a composition of the two losses, the structure of this model can be divided into three main components, two of which are exactly the same of the deep neural model explained at the beginning of this section.
+In details the three components that make up this model are: the first feature extraction branch comprising the input layer, the 264-nodes and the 8-node layer. Between the last two, we put a Batch-normalization and a 0.3 dropout layer, as we did in the first DNN.
+From this point on the network is splitted into two branches: the categorical classifier, similarily to the DNN consists of a last layer with a single neuron activated by a sigmoid function, for the output of control/ASD classification.
+The other branch, the site classifier consists of a gradient reversal layer as the first layer followed by a layer with 16 neurons, a Batch-Normalization layer and the last layer: a multi-output layer with N nodes, being N the total number of sites input data belong to. The effect of the gradient reversal layer can be regularized with a factor to weight the contribution of the site loss on the feature extractor parameters. We empirically set this value on 0.3.
 The structure of this network is illustrated in figure \ref{fig:adv_model_structure}
 
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.6\linewidth]{ml/models/adv_model_structure}
-\caption{Structure of the adversarial neural network with two outputs: a single-neuron output for binary classification controls/ASD and a multi-class classification for site classification.
+\caption{Structure of the domain-adversarial neural network with two outputs: a single-neuron output for binary classification controls/ASD and a multi-class classification for site classification.
 Each box contains the layer's name, layer's task (Input, Dense, BatchNormalization etc..), activation function, input shape (number of neurons) and output shape.
 }
 \label{fig:adv_model_structure}
 \end{figure}
 
 
-The final layer of the site-classification branch is activated by a softmax function, and the loss function employed is the categorical crossentropy implemented using a custom function to deal with a possible low crossentropy score when by chance the site classifier, categorize one or more input data site label correctly, which would have low impact on the whole branch classifier making the adversarial strategy less effective.
+The final layer of the site-classification branch is activated by a softmax function, and the loss function employed is the categorical crossentropy, commonly employed for multi-class classification tasks as explained in \ref{sec:loss_functions}.
 
-Categorical crossentropy is the loss which allows to deal with multi label output as explained in \ref{sec:loss_functions}.
+%implemented using a custom function to deal with a possible low crossentropy score when by chance the site classifier, categorize one or more input data site label correctly, which would have low impact on the whole branch classifier making the adversarial strategy less effective.
+
 \begin{notes}
-\item To work with this loss we need to encode each site numerically before before use its label into our model because functions like these can't deal with string variables such as site's names, so we have to associate each one of them with a number: site\_a = 0, site\_b = 1 and so on, but if we stop to this point and input integer numbers $\{0, ..., s\}$ where s is the total number of sites, to our model, it ends up considering sites with higher number as \textquotedblleft larger \textquotedblright than that and produces not-optimal results.
+\item To work with this loss we need to encode each site numerically before before use its label into our model because functions like these can't deal with string variables such as site names. For this reason we have to associate each name to a number: site\_a = 0, site\_b = 1 and so on. If we stop to this point and use integer numbers $\{0, ..., s\}$ as labels (where s corresponds to the integer associated to the last sites : N\_total\_sites - 1), our classification model would end up considering sites with higher number as \textquotedblleft larger \textquotedblright than others. This should be avoided in our case since all the sites are \textquotedblleft equally important \textquotedblright. % not-optimal results.
 To avoid this a common strategy is to transform these variables according to a technique called One-hot-encoding.
-This common approach converts each value to a vector of len s, and containing all zeros but in the entry corresponding to that site, where it puts 1, so thast each site label becomes a binary vector, with just a single 1 in position corresponding to that specific site.
+This common approach converts each value to a vector of len s, containing all zeros but in the entry corresponding to that site, where it puts 1. With this transformation, each site label becomes a binary vector, with just a single 1 places in correspondence to that specific site.
 \end{notes}
 
-We tested both these different adversarial models (the one with loss combination and the one with gradient reversal) and we noticed that they had more or less similar performances, but we choose to carry out the next analysis with this second model, the gradient reversal one, because, even if, like the model with loss compositions, in the gradient reversal layer, a parameter $\lambda$ controls the weights updating during the backpropagation,
-results obtained with this model are more stable in respect to the the value of this parameter.
-So changing the value of this parameter does not affect significantly the performances of this model.
+
+We tested both these different adversarial models (the model with loss combination and this with gradient reversal) and we noticed that they had more or less similar performances, but we choose to carry out the following analysis with this second model, because, even if, like the model with loss compositions, in the gradient reversal layer, a parameter $\lambda$ controls the weights updating during the backpropagation, results obtained with this model are more stable in respect to the the value of this parameter.
+Moreover, there are other studies \cite{kamath2019} that compare the performances obtained with different implementation of adversarial network, and, even if they work with different data (text data) from ours, they find the DANN the best performing implementation; since this network appears to be more promising than the simple loss combination networks, we choose to employ this network in the following analysis.
+
+
 
 \newpage
+\chapter{Results of classification} \label{chap:results_deeplearning}
+In the following section we report results of classification controls/ASD obtained by following different strategies of harmonization as explained in chapter \ref{sec:analysis_workflow} using the neural network and the adversarial neural network presented in chapter \ref{chap:deep_models}.
 
+From now on, in all the tables we denote as \textquotedblleft Harmon k-fold \textquotedblright the pipeline where harmonization is implemented inside the k-fold and harmonization model is created only on control train data. \textquotedblleft Harmon. upstream \textquotedblright denote the pipeline where harmonization is implemented upstream, before the k-fold partition of dataset into train and test; with this pipeline, harmonization model is created using data of all controls.  \textquotedblleft No harmon. \textquotedblright denote the pipeline of classification of raw data, while  \textquotedblleft Adversarial \textquotedblright denotes the pipeline where we use the domain-adversarial neural network giving as input raw data.
 
-\newpage
-\section{Results with Pearson coefficients}
+And when listing datasets, we denote as ABIDE I+II / ABIDE I / ABIDE II datasets with cuts on covariates such as sex and ages as discussed in chapter \ref{sec:analysis_workflow} and when we select only patients with open eye we expressly specify it.
 
-With Pearson correlation coefficients normalized with Fisher transform we obtained the following AUC scores, listed in table \ref{tab:pearson_results} with our DNN models, and we compared some of these results with a Random Forest classifies, toassesswhether is convenient to use a deep model instead of a common machine learning algorithm such as Random Forest.
+\section{Results with Pearson coefficients}\label{sec:pearson_results}
+The first classification analysis was run on Pearson-related correlation coefficients. To recall the different analysis pipeline we can take a look at flowchart \ref{fig:workflowanalysis}, and in this analysis \textquotedblleft Coefficients selection \textquotedblright  translates as we are selecting coefficients based on Pearson correlation.
+
+Results of classification are reported in terms of mean AUC across all the 5 folds.
+We listed in table \ref{tab:pearson_results} results obtained with our DNN model followind different harmonization implementation and with the domain-adversarial network.
+
+In table \ref{tab:comparison_dnn_rf_pearson} and we compared some of these results with a Random Forest classifier to assess whether is convenient to use a deep model instead of a conventional machine learning algorithm such as Random Forest.
+Comparison with Random Forest were performed on the whole dataset ABIDE I+II, and on ABIDE I with open eye, since on this dataset we obtained the best classification performances. Results of DNN and RF concern the three pipelines of: hamonization inside K-fold, harmonization upstream, and raw data (non-harmonized).
 
 
 %If the table is too wide, replace \begin{table}[!htp]...\end{table} with
 %\begin{adjustwidth}{-2.5 cm}{-2.5 cm}\centering\begin{threeparttable}[!htb]...\end{threeparttable}\end{adjustwidth}
+
 \begin{table}[!htp]\centering
 \scriptsize
 \begin{tabular}{lcccc}\toprule
-Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adv 264-8 \\\midrule
-AB I+II &71$\pm$1 &74$\pm$2 &73$\pm$3 &69$\pm$2 \\
+Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adversarial \\\midrule
+AB I+II &71$\pm$1 &74$\pm$2 &73$\pm$3 &70$\pm$3 \\
 AB I &71$\pm$3 &74$\pm$2 &72$\pm$3 &71$\pm$4 \\
 AB 2 &63 $\pm$5 &68$\pm$ 6 &64$\pm$ 4 &66 $\pm$ 4 \\
-AB I + II - EYE open &72$\pm$3 &75$\pm$4 &72$\pm$3 &71$\pm$3 \\
-AB I open EYE &73$\pm$ 1 &76$\pm$2 &72$\pm$1 &72$\pm$4 \\
-AB II EYE open &66$\pm$3 &70$\pm$6 &69$\pm$6 &68$\pm$6 \\
+AB I + II, eye open &72$\pm$3 &75$\pm$4 &72$\pm$3 &71$\pm$3 \\
+AB I, eye open &73$\pm$ 1 &76$\pm$2 &72$\pm$1 &72$\pm$4 \\
+AB II, eye open &66$\pm$3 &70$\pm$6 &69$\pm$6 &68$\pm$6 \\
 \bottomrule
 \end{tabular}
-\caption{AUC score obtained from three different kind of analysis with Pearson coefficients}
+\caption{AUC score obtained with the deep neural network, using Pearson-related coefficients and following different harmonization procedures.}
 \label{tab:classification_pearson}
 \end{table}
 
-
-Analysis with Random Forest were performed on the whole dataset: ABIDE I+II, and on the dataset which gave best classification performances: ABIDE I with open eye, following the three main pipelines of: Hamonization inside K-fold, Harmonization upstream, and Raw data (non-harmonized).
-Comparison results between a DNN model and RF results are listed on table \ref{tab:comparison_dnn_rf_pearson}
 
 
 \begin{table}[h]
@@ -2603,43 +2648,42 @@ Comparison results between a DNN model and RF results are listed on table \ref{t
        \bottomrule
        \end{tabular}
     \end{subtable}
-    \caption{Classification scores comparison between the DNN model and a Random Forest classifier, on Pearcon correlation coefficients, for dataset: ABIDE I + II and ABIDE I with open eyes}
+    \caption{Classification score of a DNN and a RF classifier, using Pearcon correlation coefficients, for dataset: ABIDE I + II and ABIDE I with open eyes}
     \label{tab:comparison_dnn_rf_pearson}
 \end{table}
 
 
 \newpage
 
-\section{Results with Wavelet coefficients}
+\section{Results with wavelet coefficients}\label{sec:wavelet_results}
 
-Following the same path as with Pearson coefficients, we tried to run classification on Wavelet coefficients
-
-Four main analysis were carried out
+The same analysis performed with Pearson-related coefficients were carried out with wavelet-related coefficients. If we refer once again to the flowchart \ref{fig:workflowanalysis}, now with  \textquotedblleft Coefficients selection \textquotedblright we denote four different dataset created using wavelet coefficients, whose classification results are reported in the respective tables.
 
 \begin{enumerate}
-\item In phase wavelet coefficients, reported in table \ref{tab:classification_win}
-\item In phase and counter phase coefficient stacked together in a single array long twice In-phase coefficients only
-\item Coefficients resulting from the subtraction of the two: In phase - Counter phase: denoted as W\_in - w\_out, reported in appendix, in table \ref{tab:classification_win-wout}
-\item Counter phase wavelet coefficients, reported in appendix in table \ref{tab:classification_wout}
+\item In phase wavelet coefficients, with results reported in table \ref{tab:classification_win}
+\item In phase and counter phase coefficient stacked together in a single array long twice the in-phase coefficients array. Results reported on table \ref{tab:classification_win+wout}
+\item Counter phase wavelet coefficients, with results reported in appendix in table \ref{tab:classification_wout}
+\item Coefficients resulting from the subtraction of the two: In phase - Counter phase: denoted as w\_in - w\_out, reported in appendix, in table \ref{tab:classification_win-wout} \textcolor{red}{Ha senso questa analisi? Come si giustifica?}
 \end{enumerate}
 
+We choose to put some tables in appendix to avoid to weight down this section with tables. We choose to put in appendix results less relevant both from a physical point of view and for classification scores.
 
 \begin{table}[!htp]\centering
 \scriptsize
 \begin{tabular}{lrrrrr}\toprule
-Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adv 264-8 \\\midrule
+Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adversarial \\\midrule
 AB I$\pm$II &65$\pm$ 2 &74$\pm$ 2 &66$\pm$ 2 &67 $\pm$2 \\
 AB I &67$\pm$ 3 &73 $\pm$2 &68$\pm$ 3 &68$\pm$ 2 \\
 AB 2 &62 $\pm$4 &68$\pm$ 4 &63$\pm$ 4 &62$\pm$ 4 \\
-AB I $\pm$ II - EYE open &65 $\pm$4 &71 $\pm$3 &66 $\pm$3 &66$\pm$ 3 \\
-AB I open EYE &69$\pm$ 4 &74$\pm$ 6 &67$\pm$ 3 &67 $\pm$4 \\
-AB II EYE open &66 $\pm$2 &69 $\pm$3 &67$\pm$ 2 &68 $\pm$2 \\
+AB I $\pm$ II - eye open &65 $\pm$4 &71 $\pm$3 &66 $\pm$3 &66$\pm$ 3 \\
+AB I open eye &69$\pm$ 4 &74$\pm$ 6 &67$\pm$ 3 &67 $\pm$4 \\
+AB II eye open &66 $\pm$2 &69 $\pm$3 &67$\pm$ 2 &68 $\pm$2 \\
 \bottomrule
 \end{tabular}
-\caption{Classification scores: AUC of joined W\_in and W\_out coefficients}\label{tab:classification_win+wout}
+\caption{AUC score obtained with the deep neural network, using wavelet coefficients w\_in and w\_out stacked together, following different harmonization procedures.}\label{tab:classification_win+wout}
 \end{table}
 
-These results were compared with a Random Forest classifier obtaining the following scores: (table \ref{tab:comparison_dnn_rf_win+wout})
+As we did with Pearson-related coefficients, we compared results obtained using a DNN with results obtained from a Random Forest. We run this comparison only with coefficients that gave the best classification performances between the four coefficients (or combination of coefficients) listed at the beginning of this section. Results are compared in table \ref{tab:comparison_dnn_rf_win+wout}
 
 \begin{table}[h]
     \begin{subtable}[h]{0.45\textwidth}
@@ -2665,7 +2709,7 @@ These results were compared with a Random Forest classifier obtaining the follow
        \bottomrule
        \end{tabular}
     \end{subtable}
-    \caption{Classification scores comparison between the DNN model and a Random Forest classifier, on Wavelet coherence coefficients W\_in and W\_out, for dataset: ABIDE I + II and ABIDE I with open eyes}
+    \caption{Classification scores comparison between the DNN model and a Random Forest classifier, on wavelet coherence coefficients W\_in and W\_out, for dataset: ABIDE I + II and ABIDE I with open eyes}
     \label{tab:comparison_dnn_rf_win+wout}
 \end{table}
 \newpage
@@ -2676,13 +2720,13 @@ These results were compared with a Random Forest classifier obtaining the follow
 \begin{table}[!htp]\centering
 \scriptsize
 \begin{tabular}{lrrrrr}\toprule
-Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adv 264-8 \\\midrule
+Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adversarial \\\midrule
 AB I$\pm$II &65$\pm$ 2 &71$\pm$ 2 &62$\pm$ 2 &64$\pm$ 1 \\
 AB I &66$\pm$ 3 &73 $\pm$3 &65$\pm$ 3 &66$\pm$ 2 \\
 AB 2 &62 $\pm$3 &65 $\pm$3 &61 $\pm$4 &60 $\pm$2 \\
-AB I $\pm$ II - EYE open &64$\pm$ 4 &70 $\pm$3 &66$\pm$ 3 &65 $\pm$3 \\
-AB I open EYE &64 $\pm$5 &68 $\pm$5 &64 $\pm$3 &64 $\pm$4 \\
-AB II EYE open &66 $\pm$2 &68$\pm$ 3 &66$\pm$ 4 &65 $\pm$5 \\
+AB I $\pm$ II - eye open &64$\pm$ 4 &70 $\pm$3 &66$\pm$ 3 &65 $\pm$3 \\
+AB I open eye &64 $\pm$5 &68 $\pm$5 &64 $\pm$3 &64 $\pm$4 \\
+AB II eye open &66 $\pm$2 &68$\pm$ 3 &66$\pm$ 4 &65 $\pm$5 \\
 \bottomrule
 \end{tabular}
 \caption{Classification scores: AUC, only w\_in coefficients}\label{tab:classification_win}
@@ -2692,31 +2736,19 @@ AB II EYE open &66 $\pm$2 &68$\pm$ 3 &66$\pm$ 4 &65 $\pm$5 \\
 
 \newpage
 
-\section{Results with PCA}
-% come ho calcolato le pca? solo sul training set
-%non avrebbe senso calcolare la PCA solo sui controlli perchè pca cerca la direzione di massima varianza, dove i davi variano maggiornente, e quidni dove si ha una migliore distinguibilità bewteen controls and asds. NOn avrebbe senso farla solo sui controlli.
-%Il numero di PC può essere più grande del test dataset, ma non sarà mai più grande del numero di feature in esso (per come è definito il massimo numero di pc), quindi una volta estratte le PC può essere applicato a qualsiasi test dataset
+\section{Results with PCA}\label{sec:results_pca}
 
-When applying PCA to a dataset we seek to explain as much variance as possible, for this reason we start our pca analysis extracting a number of principal components that explain more then 90$\%$ of variance, then we gradually reduced this number halving if.
-The maximum number of principal components is limited by the number of data we can use. If we have a dataset of $n\_samples$ samples, each with $n\_features$ features, the maximum number of PC is given by $N\_pc = min\{n\_samples, n\_features\}$.
-This is because in a $n-feature$-dimensional space, our points lie in a $n\_samples$-dimensional hyperplane and all the variance can be explained inside this subspace.
-For a better understanding of this concept, we can imagine a dataset made of only two data, each containing 3 features. If we represent these data, we construct a 3D space where each orthogonal axes corresponds to a feature, and we insert these two points, each corresponding to a data point.
-If we want to explain the maximum variance we need to find a new axis, the first principal component, but through two points passes just one straight line so we can at most limit our analysis to the plane passing through that line.
-
-In our case $n\_samples$ is always $< \ n\_features$, so the number of principal components will be limited by the number of data in the Train dataset.
-We use just the train dataset to calculate principal components because this is the correct way to proceed to avoid data leakage between Train and Test dataset.
-
-We choose to run PCA analysis using coefficients that gave the best classification results in the previous analysis namely Pearson correlation coefficients. And to not weigth down this table, we limited our dataset choice to the whole ABIDE I + II dataset and to ABIDE I only open eye, because on it we obtained a bit higher classification results.
+As mentioned in section \ref{sec:analysis_workflow} we choose to run PCA analysis using coefficients that gave the best classification results in the previous analysis namely Pearson correlation coefficients. Furthermore, to not weigth down this table, we limit our dataset choice to the whole ABIDE I + II dataset and to ABIDE I only open eye, because on it we obtained a bit higher classification results.
 
 We started our analysis choosing the proper number of PC to explain $> 90\%$ of variance and then gradually reduced them as reported in table \ref{tab:pca_explained}
 
-\begin{table}
+\begin{table}[h]
 \centering
 \begin{tabular}{ |l|c c| }
 \hline
 \multicolumn{3}{|c|}{Explained variance} \\
  \hline
-  N PC & All dataset [\%] & AB-I eye=open [\%] \\
+  N PC & ABIDE I + II [\%] & AB I eye open [\%] \\
   \hline
  800 & 93 & -- \\
  400 & 78 & 98 \\
@@ -2731,7 +2763,7 @@ We started our analysis choosing the proper number of PC to explain $> 90\%$ of 
 \end{table}
 
 
-
+We followed the same pipelines as we did for Pearson and wavelet coefficients, following the four different harmonization procedures.
 Results obtained from this analysis are reported in table \ref{tab:classification_pearson_pca} and shown in figure \ref{fig:classification_pearson_pca}
 
 \begin{table}[!htp]\centering
@@ -2741,22 +2773,22 @@ PC &Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adversarial \\\midrule
 800 &AB I+II &69$\pm$2 &73$\pm$3 &71$\pm$1 &71$\pm$2 \\
 \hline
 \multirow{2}{*}{400} &AB I+II &67$\pm$3 &73$\pm$5 &72$\pm$3 &73$\pm$3 \\
-&AB I EYE open &71$\pm$3 &72$\pm$3 &71$\pm$3 &72$\pm$4 \\
+&AB I eye open &71$\pm$3 &72$\pm$3 &71$\pm$3 &72$\pm$4 \\
 \hline
 \multirow{2}{*}{200} &AB I+II &68$\pm$3 &74$\pm$2 &72$\pm$2 &71$\pm$2 \\
-&AB I EYE open &69$\pm$3 &73$\pm$2 &72$\pm$4 &73$\pm$3 \\
+&AB I eye open &69$\pm$3 &73$\pm$2 &72$\pm$4 &73$\pm$3 \\
 \hline
 \multirow{2}{*}{100} &AB I+II &67 $\pm$2 &72$\pm$2 &69$\pm$1 &70$\pm$2 \\
-&AB I - EYE open &70$\pm$2 &73$\pm$2 &71$\pm$4 &72$\pm$2 \\
+&AB I - eye open &70$\pm$2 &73$\pm$2 &71$\pm$4 &72$\pm$2 \\
 \hline
 \multirow{2}{*}{50} &AB I+II &66$\pm$4 &70$\pm$6 &68$\pm$3 &69$\pm$2 \\
-&AB I - EYE open &70$\pm$4 &72$\pm$3 &69$\pm$3 &72$\pm$3 \\
+&AB I - eye open &70$\pm$4 &72$\pm$3 &69$\pm$3 &72$\pm$3 \\
 \hline
 \multirow{2}{*}{20} &AB I+II &65$\pm$5 &67$\pm$4 &64$\pm$5 &66$\pm$1 \\
-&AB I - EYE open &68$\pm$6 &71$\pm$2 &71$\pm$6 &71$\pm$3 \\
+&AB I - eye open &68$\pm$6 &71$\pm$2 &71$\pm$6 &71$\pm$3 \\
 \bottomrule
 \end{tabular}
-\caption{Classification resluts: AUC obtained during all the four analysis, with different number of Principal Components}
+\caption{AUC score obtained with the deep neural networks, using a decreasing number of principal components, following different harmonization procedures}
 \label{tab:classification_pearson_pca}
 \end{table}
 
@@ -2776,138 +2808,170 @@ PC &Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adversarial \\\midrule
    \caption{Classification on dataset ABIDE I - only open eyes}
    \label{}
 \end{subfigure}
-\caption{AUC scores obtained from Controls/ASD classification of data using different numbers of principal components during dimensionaliti reduction with PCA.
-REsults obtained with different analysis are marked with different colors: classification with data harmonization implemented inside the k-fold cross validation procedure are marked \textbf{blue}, classification of data harmonized upstream \textbf{orange}, classification of raw data (not harmonized) \textbf{green} and AUC scores of controls/ASD classification obtained with the adversarial network \textbf{red}.
+\caption{AUC scores obtained from control/ASD classification of data using decreasing numbers of principal components for Pearson-based coefficients.
+Results obtained with different analysis are represented with different colors: AUC scores with data harmonized inside k.fold are marked \textbf{blue}, AUC score with data harmonized upstream \textbf{orange}, AUC scores with raw data (not harmonized) \textbf{green} and AUC scores classification with the adversarial network \textbf{red}.
 }
 \label{fig:classification_pearson_pca}
 \end{figure}
 
 \section{Discussion on classification results}
 
-\paragraph{Comparison between Pearson and Wavelets}
-From results reported on section \ref{sec:pearson_results} and \ref{sec:wavelet_results} it is quite evident that average results obtained with pearson correlation coefficients are systematically higher than wavelet-based correlation coefficients.
-We can therefore assume that working with Wavelet-based correlation coefficient obtained through processes described in section \ref{sec:wavelet_theory} does not bring any advantages to this kind of analysis.
-A possible reason for this outcome could be the loss of information during the extraction of these coefficients because of the introduction of redundancy and randomness into this analysis. Starting from two timeseries Wavelet transform compute a 2D matrix for each timeseries and uses them to calculate the cross-power spectrum as explained in the dedicated section.
+\paragraph{Comparison between Pearson and wavelets}
+From results reported on section \ref{sec:pearson_results} and \ref{sec:wavelet_results} we can observe that average results obtained with Pearson correlation coefficients are systematically higher than wavelet-based correlation coefficients.
+We can therefore assume that working with wavelet-based correlation coefficient obtained through processes described in section \ref{sec:wavelet_theory} does not bring any advantages to this kind of analysis.
+A possible reason for this outcome could be the loss of information during the extraction of these coefficients because of the introduction of redundancy and randomness into this analysis. Starting from two timeseries wavelet transform compute a 2D matrix for each timeseries and uses them to calculate the cross-power spectrum as explained in the dedicated section.
 Doing so we create a redundant representation of timeseries data moving from one dimension to two-dimensional data.
 We furthermore compare the cross-power spectrum obtained from the wavelet transform of each timeseries, with a red-noise cross-power spectrum to assess the significativity of our data.
 In the end we shrink again our dimensions to reduce to a single data point representing a correlation.
 
-Since differences of traits between controls and ASDs are not very strong, this process can cause the loss of this weak information, which does not happen with a more direct and linear correlation calculus like Pearson coefficients.
+Since differences of traits between controls and ASDs are not very strong, this process can cause the loss of this weak information, which does not happen with a more direct and linear correlation calculus like with Pearson coefficients.
 
-This lower scores is found both on Wavelet coefficients of in-phase and counter-phase time percentage, and not even the combination of this two in a double-sized array, or with a coefficient made by the difference between these two coefficients brings any benefits, as an evidence that this procedure is not the most suitable to our classification goals.
+This lower scores is found both on wavelet coefficients of in-phase and counter-phase time percentage, and not even the combination of this two in a double-sized array, or with a coefficient made by the difference between these two coefficients brings any benefits, as an evidence that this procedure is not the best suitable to our classification goals.
 
-\paragraph{Effects of a more regular dataset}
-Let's focus for a moment just on table \ref{tab:classification_pearson} (even if what follows also applies to Wavelet results) to discuss the benefits of reducing the dataset size making cuts on covariates to run analysis on a more homogeneous dataset.
+\paragraph{Effects of a smaller and more regular dataset}\hfill
+
+Let's focus for a moment just on table \ref{tab:classification_pearson} (even if these considerations also apply to wavelet results) to discuss the benefits of reducing the dataset size making cuts on covariates to run analysis on a more homogeneous dataset.
 We can state that the eye status of patients during the scan has a non-negligible impact on the outcome of classification since limiting the dataset only on subjects with open eyes systematically improves classification scores of more than 1 \% for every dataset (ABIDE I+II, ABIDE I only, ABIDE II only).
-As introduced in chapter \ref{chap:autism} there can be differences in brain functional areas between patients with open eyes and patients with eyes closed due to activation of different cortex and gyri areas or because during the scan, some patients may be fallen asleep, and this heavily modify the functional connectivity matrix.
-For this reason, removing these source of variability could bring to a cleaner distinction of relevant patterns between Controls data and ASDs.
-We can also notice that results on the dataset made by ABIDE I + II are mostly driven to the data belonging to ABIDE I than those belonging to ABIDE II, and this is true whether we restrict our analysis on open eyes oatients only or we do not.
+As introduced in chapter \ref{chap:autism} there can be differences in brain functional areas between patients with open eyes and patients with eyes closed.
+This is related to activation of different cortex and gyri areas or because during the scan, some patients may be fallen asleep, and this heavily modify the functional connectivity matrix.
+For this reason, removing these source of variability could bring to a cleaner distinction of relevant patterns between controls data and ASDs.
+
+We can also notice that results on the dataset made by ABIDE I + II are mostly driven to the data belonging to ABIDE I than those belonging to ABIDE II, and this is true either if we restrict our analysis on open eyes patients only or we do not.
 In fact, putting together the two dataset does not lead to a great improvement of scores than limiting just on ABIDE I.
-It is possible that this trend is due to teo main factors: the greater number of ABIDE I patient than ABIDE II, and the presence in ABIDE I of a great site: NYU containing a great percentage of patient which are also balanced between controls and ASDs.
+It is possible that this trend is due to two main factors: the greater number of ABIDE I patient with respect to those in ABIDE II left after all the cuts, and the presence in ABIDE I of a great site: NYU containing a great percentage of patient which are also balanced between controls and ASDs.
 This could monopolise the results since a great percentage of train and test data would belong to this center leading to a lower variability due to site-related features as demonstrated in studies like \cite{spera-2019}.
-(Ma allora perchè questo trend lo vediamo anche sui dati armonizzati?)
+\textcolor{red}{Ma allora perchè questo trend lo vediamo anche sui dati armonizzati?}
 
 
-\paragraph{Comparison with the random forest classifier}
-As a general rule of thumb is alway a good practice to compare results obtained with a complex model, to results obtained with a simpler machine learning classifier like Random Forest. Instead of opting for a complex model, simpler methods should be tried to establish a baseline and allow a meaningful comparison. The principle of Occam's razor, when applied to machine learning demands that if two model perform quite the same, the simpler of the two should be picked \cite{domingos-1999}. This would be true expecially for our data since we start from a situation of overfitting and there is no need to choose a complex model a priori if this choice is not supported by data. This same principle was applied during the choice of the best structure of the deep learning model.
+\paragraph{Comparison between a deep neural network and a random forest classifier}hfill
+
+As a general rule of thumb is alway a good practice to compare results obtained with a complex model, to results obtained with a simpler machine learning classifier like Random Forest.
+Instead of immediately opting for a complex model, simpler methods should be tried to establish a baseline and allow a meaningful comparison.
+The principle of Occam's razor, when applied to machine learning demands that if two model perform quite the same, the simpler of the two should be picked \cite{domingos-1999}.
+This is true expecially for our data since we start from a situation of overfitting and there is no need to choose a complex model a priori if this choice is not supported by data.
+This is the same principle that lead us during the choice of the best structure and the best number of layers and neurons of the deep neural network.
 
 Comparing the results obtained by the deep model with those obtained with a Random Forest, (table \ref{tab:comparison_dnn_rf_pearson} and \ref{tab:comparison_dnn_rf_win+wout}) it is possible to deduce that a deep model is more adapt to find characteristic patterns between controls and ASD than a simpler Ranfom Forest classifier.
-Scores obtained with a deep model are systematically way higher than those obtained with a random forest classifier, except for those we get cassifying data with upstream harmonization, but as explained in paragraph \ref{par:effect_of_harmonization} this procedure leads to biased data and as a consequence results are not reliable.
+Scores obtained with a deep model are systematically much higher than those obtained with a random forest classifier.
+This trend is true, with the exception of data classified with the upstream harmonization pipeline, but as explained in the paragraph below, this procedure leads to biased data and as a consequence results obtained with this pipeline are not reliable.
 We are still going to use Random Forest classifier in some of the remaining anslysis just as a comparison, even though we assert that a deep model is more suitable to understand differences between the two classes of interest.
 
-
-
-\paragraph{Effect of harmonization} \ref{par:effect_of_harmonization}
-An other common trend that stands out from all the analysis is the systematic scores' improvement with the method of upstream harmonization explained on section \ref{sec:} and outlined on flowchart in figure \ref{fig:harmon_upstream_flowchart}.
-This improvement disappears when we implement harmonization inside the k-fold cross validation procedure as sketched in flowchart \ref{fig:harmon_kfold_flowchart}.
-These two implementation differ on the order with which harmonization is implemented: with upstream harmonization we harmonize the whole dataset and subsequently we split it into train and test to run a cross validation procedure; conversely, with harmonization implemented inside the cross validation procedure, we run harmonization only after the division of the dataset into a Train and Test subsets.
-We can state that this is an evidence that the upstream harmonization is the wrong way to proceed, since its high results are affected by a bias due to data leakage which occur if we implement harmonization this way.
+\paragraph{Effect of harmonization}
+An other common trend that stands out from all the analysis is the systematic improvement of AUC score, when we use data harmonized with the pipeline of upstream harmonization (explained in section \ref{sec:analysis_workflow} and outlined on flowchart in figure \ref{fig:harmon_upstream_flowchart}.
+This improvement disappears when we implement harmonization inside the k-fold cross validation procedure (sketched in flowchart \ref{fig:harmon_kfold_flowchart}).
+These two implementation differ on the order by which harmonization is implemented: with upstream harmonization we harmonize the whole dataset and after we split it into train and test to run the cross validation procedure; conversely, with harmonization implemented inside the cross validation procedure, we run harmonization only after the division of the dataset into a train and test subsets.
+We can state that these high results are an evidence that the upstream harmonization is the wrong way to proceed, since classification results are affected by a bias due to data leakage which occur if we implement harmonization upstream.
 It is also possible that some good results on other similar studies, obtained with harmonization implemented in this same way (\cite{ingalhalikar-2021}) may be due to a similar data leakage as we have in this analysis.
 As a general definition, we have data leakage when information outside the training set is used to create and train models. This additional information allows the model to know something additional about the data that otherwise it would have not known.
 This leads to an improvement of model's prediction and an overestimation of performances.
-In this case we have data leakage when we harmonize the entire dataset before splitting it into Train and Test, because, according to this way to proceed, when we use Train data, they already contain informations about Test data because they have been created using covariates, features and other informations belonging to the whole dataset.
-We can then assess that the right way to implement harmonization is inside the k-fold cross validation, or, if we don't run a cross validation, it is important to implement it after the splitting of dataset into a train and a test goups. This way, we can create the harmonization model only on Train data we give as input to the classifier so that there are not external information in the train dataset.
-We can then harmonize data belonging to test applying to them the harmonization model, with parameters created on the train dataset.
-For this reason, from now on, when we refer to \textquotedblleft harmonized data \textquotedblright, we are referring to the procedure that harmonizes data inside the k-fold CV.
+In this case we have data leakage when we harmonize the entire dataset before splitting it into train and test, because, according to this way to proceed, when we use train data, they already contain informations about test data.
+In fact, harmonized train and test data they have been created using covariates, features and other informations belonging to the whole dataset.
+We can then assert that the right way to implement harmonization is inside the k-fold cross validation, otherwise, if we don't run a cross validation, it is important to implement it after the splitting of dataset into a train and a test goups. This way, we can create the harmonization model only on control subjects belonging to train dataset, and we train the model with this dataset so there are not external information in it during training.
+We can then harmonize data belonging to test applying the harmonization model, with parameters created only on the train dataset, on test data.
+For this reason, from now on, when we refer to \textquotedblleft harmonized data \textquotedblright, we are referring to the procedure according to which data are harmonized inside the k-fold CV.
 
-Comparing results of harmonized data with results on raw data we don't notice a particular improvement.
+\hfill
+
+Comparing results of harmonized data with results on raw data we don't notice any particular improvements. This is likely due to the weak information contained within our data. Distinction between healthy and ASDs subjects based only on functional connectivity data is not a straigthforward task, and it is possible that these results are driven by all the information available. Removing site-related information from our data does not bring relevant improvements because this is all the information we can retrieve from our data, and with this procedure we are not able to bring out new information from our data.
+However harmonization procedure can become a usefull tool to remove some noise from data and obtain a cleaner assessment of what feature are the most discriminative between controls and ASDs. This theme is entirely addressed in chapter \ref{chap:shap_results} talking about feature importance.
 
 
 \paragraph{Results with adversarial}
-DA SCRIVERE MEGLIO; L'idea è giusta?
-Looking at tables \ref{tab:classification_pearson} we notice that the adversarial model perform slightly worse working on Pearson correlation coefficients while for wavelet coefficients (tables \ref{tab:classification_win} and \ref{tab:classification_win+wout}) we obtain values greater or equal than results obtained with a simple dnn.
+Looking at tables \ref{tab:classification_pearson} we notice that the adversarial model perform slightly worse working on Pearson-based coefficients while for wavelet coefficients (tables \ref{tab:classification_win} and \ref{tab:classification_win+wout}) we obtain on average the same values between DNN and adversarial.
+A reason for this is the possible confusion in weight updates introduced by thhe adversarial network that sometimes may generate noise between weights belonging to the feature extraction branch. So far, in different papers, \cite{ganin2016}, \cite{kamath2019} or \cite{guan2021} (where, however adversarial is introduced just by combining losses), adversarial networks are employed with only two domains, which can be considered as the equivalent of our sites. In our data we deal with 36 sites when we consider ABIDE I+II, or, best case scenario, about 15 sites when we reduce to ABIDE I or II with just open eyes.
+This way even if the site-predictor branch is encouraged to learn site-distinctive traits, it is not always able to distinguish between 36 sites, so this can cause confusion during backpropagation on weigths of the feature extractor branch. This noise introduced by this process may be the cause of this slight worsening of classification performances.
+For this reason it is possible that when dealing with more than two domains (sites) this implementation of an adversarial network is not the most suitable way to proceed to remove site-related patterns from data.
+
 %scrivere che quando faccio l'harmonization non uso nessuna covariata specificandola come non lineare perchè non ci sono ragioni per farlo
-An possible reason, in light of the results obtained with harmonization of wavelet coefficients which is not able to make sites-related feature unrecognisable, is that when computing wavelet coefficients, linear site-dependent relationship is lost and maybe a non linear relation is created.
-Same thing does not happen with pearson coefficients where linear relations remain. harmonization is able to remove linear relations on pearson but not on wavelets, and a classifier is more likely to get these non-linear relations with site and perform better on wavelets.
-
-
-
+%A possible reason, in light of the results obtained with harmonization of wavelet coefficients which is not able to make sites-related feature unrecognisable, is that when computing wavelet coefficients, linear site-dependent relationship is lost and maybe a non linear relation is created.
+%Same thing does not happen with pearson coefficients where linear relations remain. harmonization is able to remove linear relations on pearson but not on wavelets, and a classifier is more likely to get these non-linear relations with site and perform better on wavelets.
 
 
 \paragraph{Effect of dimensionality reduction}
-This same alertness we paid for the implementation of harmonization is to be applied when extracting PCA because it is possible to make the mistake of computing Princial components on the whole dataset, before its separation into Train and Test sets.
-For this reason we implemented PCA extracting PCs from the Training dataset and applying the transformation to the both of Train and Test dataset.
+The same alertness we paid for the implementation of harmonization was applied when extracting PCA. As mentioned in the overview chapter \ref{sec:analysis_workflow}, it is possible to make the mistake of computing princial components on the whole dataset, before its separation into Train and Test sets.
+For this reason we implemented PCA extracting PCs from the training dataset and applying the transformation to the both of Train and Test dataset.
+\hfill
+
 At a first glance we can notice that reducing the number of PCs leads to a gradual reduction of classification performances.
 This trend is more evident in the whole datataset, while in the ABIDE I only open eyes dataset, we obtain a flatter performances curve.
-A reduction from 5995 to 800 or 400 feature is a substanctial reduction since we are lowering our dimensionality by an order of magnitude still preserving an high classification AUC comparable to that obtained without PCA. In this analysis as well, data leakage due to the prior harmonization of dataset plays an important role as it leads to a rise in classification performances for any choice of number of PCs.
+A reduction from 5995 to 800 or 400 feature is a substanctial reduction since we are lowering our dimensionality by an order of magnitude still preserving an high classification AUC comparable to that obtained without PCA.
+In this analysis as well, data leakage due to the prior harmonization of dataset plays an important role as it leads to a rise in classification performances for any choice of number of PCs.
 
 An other aspect that leap out comparing results with PCA with results without it, is a light improvement of performances of the adversarial learning.
 An explaination to this can be that a reduced source of error (deriving from this dimensionality reduction) brings to a reduced variability in site-related features making these confounding feature more recognizable. This could lead to a smoother weight updates that doesn't affect classification weigths as much as it does with raw data.
 
-What arises from this analysis, is that PCA represent an important strategy to tackle the problem of dimensionality. It is plausible tbat among all the 5995 features lots of them are uninformative for Control/ASD classification and they just increase dimensions of data without any benefit. This can be linked to a biological reason: we can in fact imagine that there are some brain areas that just don't significantly change their activity between healthy and ASD people. Following this explaination, all the coefficients representing a link between them are just similar between the two groups and don't bring any benefit in this discrimination. For this reason, reducing the source of noise due to this data-points leads to a equally informative dataset.
+What arises from this analysis, is that PCA represent an important strategy to tackle the problem of dimensionality.
+It is plausible tbat among all the 5995 features, a lots of them are uninformative for Control/ASD classification and they just increase dimensions of data without any benefit, or worse, just adding noise.
+This can be linked to a biological reason: we can in fact imagine that there are some brain areas that just don't significantly change their activity between healthy and ASD people.
+Following this explaination, all the coefficients representing a link between them are just similar between the two groups and don't bring any benefit in this discrimination.
+For this reason, reducing the source of noise due to this data-points leads to the creation of an equally informative dataset, but with a reduced source of error.
 
 \newpage
 
 
-\chapter{SHAP - Implementation and results}
+\chapter{SHAP - Implementation and results}\label{chap:shap_results}
 
-In this chapter we are going to give a look at how we implemented a feature explainatory model using the DeepSHAP algorithm described in section \ref{sec:shap}, and we present a brief summary of all the analysis we performed using feature importance informations.
+In this chapter we are going to give a look at how we implemented a feature explainatory model using the DeepSHAP algorithm described in section \ref{sec:shap}, and we compared its results with a more conventional random forest feature importance analysis.
 
-We choose to run this analysis only on Pearson correlation coefficients since they gave the best classification results, and we use the whole dataset consisting of ABIDE I + ABIDE II patients with the same characteristics as we choose for classification: only males and with an age range of 5-40.
+Here we present a brief summary of all the analysis we performed using feature importance informations.
+
+We choose to run this analysis only on Pearson correlation coefficients since they gave the best classification results which means achieve the best separability between controls and ASDs.
+We used the whole dataset consisting of ABIDE I + ABIDE II patients with the same characteristics as we choose for classification: only males and with an age range of 5-40.
 In addition we put in appendix some results obtained on the dataset ABIDE I only open eye.
 
 \textcolor{red}{Metto questo in una lista numerate? Devo essere più preciso in questa overview?}
 In this section we are looking for what are the most important features that guide the prediction made by a model.
+These features will be representative of some altered functional connections between brain areas.
+From the study of these altered connection we should be able to identify biological areas relevant for the distinction between an healty and with ASD subjects.
+
 %We are creating a gerarchy of features from the most to the less important in order to analyse if
-What we are looking for in this section is whether there are some features that stand out from the others, and if they are recurrent, regardless the type of analysis we are carrying out.
+What we are looking for in this section is whether there are some features whose contribution was greater than others during the distinction between controls and ASDs data, and if these feature are recurrent, regardless the type of analysis we are carrying out, or the machine learning classifier we use.
 %for the most important features computed on the entire test dataset and even if for each test data they contributed poorly, there is a certain gerarchy of importance between them.
 
-In section \ref{sec:feature_importance_dnn} we start analyzing the important feature extracted from the DNNs using SHAP, for each of the pipeline discussed in section \ref{sec:analysis_workflow}. Then in section \ref{sec:feature_importance_rf} we repeat the same kind of analysis with the features extracted from a random forest for all the analysis (except for the one concerning the adversarial model).
-Feature from the Random Forest were extracted using the feature\_importance class provided by scikit learn to assess feature in a random forest classifier.
+As a first analysis, in section \ref{sec:feature_importance_dnn} we start analyzing the most important feature that lead the classification of the DNNs models, using SHAP.
+We extract the most important features for each of the pipeline discussed in section \ref{sec:analysis_workflow}, our goal is to check if the presence of harmonization, implemented by different strategies, significatively alter the contribution of features in the output of the model.
+In section \ref{sec:feature_importance_rf} we repeat the same analysis earlier done with DNNs, with a random forest classifier. For this machine learning model, feature extraction is implemented by the use of the feature\_extraction methods provided by sklearn.
+In these analysis our goal is to understand if a different machine learning algorithm gives results relying on different features than a deep network model.
+We also check the impact of harmonization just as we did with the deep models
 %We start asking what are the most important feature for each of the analysis we discussed in section \ref{sec:analysis_workflow} both with the DNNs and with the Random Forest classifier.
-With this first analysis we check if a model trained on different data (for example before or after harmonization) or different models (simple DNN, Adversarial Network, or Random Forest) make prediction using different subsets of relevant features.
-This is just a first, preliminary inspection and for this reason we limit our focus to the first 20 important feature for each pipeline.
+These, however are just a first, preliminary inspections and for this reason we limit our focus to the first 20 important feature for each pipeline. We limit this first analysis to 20 because we can easily visualize them and have a visual comparison to find differences between the diffent analysis.
 %if these most important features are the same across the different pipelines we followed or if each pipeline  more specifically we want to check if before and after the harmonization procedure, the most important features still remain the same or if they change depending on the kind of analysis we are carrying out.
 %We compared important features extracted with SHAP (related to the DNNs) with those important for a Random Forest classifier to evaluate if there are feature that stand out regardless the algorithm used to compute them since we used SHAP to explain feature from the DNN and the feature\_importance class provided by scikit learn to assess feature in a random forest classifier.
 
-Afterwards, we select 5 analysis to focus on, because we consider them the most significative. We will explain more in detail what are these 5 analysis in section \ref{sec:feature_importance_cross}. From them we count how many features are common between the first 60 most important features for each analysis.
+\textcolor{red}{Da rifrasare..}
+Afterwards, we select 5 analysis to focus on, because we consider them the most significative. We will explain more in detail what are these 5 analysis in section \ref{sec:feature_importance_cross}. From them we consider the first 60 important feature for each one of these analysis, and count how many features are common between the first 60 most important features for each analysis.
 
 At the end we come back to the biological meaning of the most important feature to assess whether they are linked to some particular brain areas which caused an altered functional connectivity between heathy and ASDs patients.
 
 
 
 
-
 \hfill
 
-To instantiate the desired class, DeepExplainer in our case, we need the trained deep model and a fraction of the training data to use as background. We can choose as many background data as we want keeping in mind that the bigger is this background subset $N_{bkg}$, the more accurate is the computing of shapley values, but the more computationally expansive this process will be, in particular it would occupy a vast amount of RAM memory and eventually run out of it;
-However, since the error we make in shap values linked to this choice is $\sim 1/\sqrt{N_{bkg}}$, a background dataset made of 100 samples is already a good compomise to have a relatively small error.
+To instantiate the desired class with SHAP, DeepExplainer in our case, we require the trained deep model and a fraction of the training data to use as background.
+We can choose as many background data as we want keeping in mind that the bigger is this background subset $N_{bkg}$, the more accurate is the computing of shapley values, but the more computationally expansive this process will be.
+In particular using a big amount of background data, would occupy a vast amount of RAM memory and eventually run out of it;
+However, since the error we make on shap values linked to this choice is $\sim 1/\sqrt{N_{bkg}}$, a background dataset made of 100 samples is already a good compomise to have a relatively small error.
 We choose though, a background size of 500 samples for the entire dataset and a size of 100 samples when working on ABIDE I only open eyes, since we had a reduced number of train data to collect background data from.
 
 Once the explainer is created on our model, we need to input as many test dataset as we want to explain, and for each one of them, the explainer will output an array containing a shap coefficient for all the n\_features of each test data.
-Once inputed a batch of test data, we obtain a matrix of the same size of the test dataset we used, shaped n\_samples x n\_features.
+Once inputed a batch of test data, we obtain a matrix of the same size of the test dataset we used, shaped n\_samples x n\_features, containing all the shapley values for each feature of each test data.
 We choose to input all the test dataset for each fold to obtain a more statistically accurate estimate of feature importance.
 
-Since we are presenting our results following a k-fold cross validation scheme, we have to implement this shap process inside the CV.
+Since we are presenting our results following a k-fold cross validation scheme, we implemented this procedure inside the k-fold CV.
 To do so and collect a final and general result, we computed the shap values for all the test samples of each k-fold and we stacked them together.
 At the end of the CV, we have a matrix of shap values, and we can proceed to visualize the results.
 
-\hfill
+\paragraph{Different typer of SHAP plots} \hfill
 
-We can visualize, for each test data, the contribution of each feature on pushing or pulling the predicted output from the baseline output of our model, but to produce this kind of plot we need to save the Test datasets as well.
+We can visualize, for each test data, the contribution of each feature on pushing or pulling the predicted output from the baseline output of our model, but to produce this kind of plot we need to save the test datasets as well.
 An example is shown in figure \ref{fig:shap_waterfall}.
-In this type of plot, called \emph{waterfall plot}, is shown the result on a single test data. We have the baseline value of the model in the lower right corner and on the top left the prediction obtained with this test data. For each feature, positive shapley values, representing positive contribution to our output are colored red and negative ones are blue.
-Even if this is just an example taken from a single test data, it representative of all the analysis where there is not a feature whose contribution is way greater than the others. In fact each feature makes a small contribution to the final outcome, but the sum of them push the model towards a output.
+This type of plot, called \emph{waterfall plot}, shows the result of each feature on a single test data.
+We have the baseline value of the model in the lower right corner and on the top left the output of the model with this test data.
+For each feature, positive shapley values, representing positive contribution to our output are colored red and negative ones are blue.
+Even if this is just an example taken from a single test data, it representative of all the analysis where there is not a feature whose contribution is way greater than the others.
+In fact each feature makes a small contribution to the final outcome, but the sum of them push the model towards an output.
+
 
 \begin{figure}[h]
 \centering
@@ -2919,11 +2983,23 @@ Even if this is just an example taken from a single test data, it representative
 
 If we want look at the overall result on all the test data, it would be inconvenient to create a plot like \ref{fig:shap_waterfall} for each data. For this reason we have to look at an other plot called \emph{force plot}
 
-The force plot of feature's importance can involve either the module of shap values or shap values themselves (positive or negative), an example of the latter is figure \ref{fig:shap_dot_kfold}: this plot shows for each instance (for each sample from the test data)\footnote{https://shap.readthedocs.io/en/latest/example\_notebooks/tabular\_examples/tree\_based\_models/Scatter\%20Density\%20vs.\%20Violin\%20Plot\%20Comparison.html}, the contribution of one particular feature to the final output related to that sample, and it is represented as a single colored spot, the color indicated the strength of the contribution of that feature to the final outcome, and the position in respect to the vertical line, indicates the sign of that contribution: on the right we found those that gave a positive contribution (pushed the output towards values greater than the reference output), and on the left are placed those that had a negative contribution.
-This kind of plot, though, is not the best suitable for readibility in our case because of the large amount of features and the small contribution of each feature to the final outcome, in respect to other feature.
-This results in a smoothed scatter plot for each feature, containing many but unnecessary details which make this kind of plot not the best suitable for our study.
+The force plot of feature's importance can involve either the module of shap values or shap values themselves (positive or negative), an example of the latter is figure \ref{fig:shap_dot_kfold}: this plot shows for each instance (for each sample from the test data)
+%\footnote{https://shap.readthedocs.io/en/latest/example\_notebooks/tabular\_examples/tree\_based\_models/Scatter\%20Density\%20vs.\%20Violin\%20Plot\%20Comparison.html},
+\footnote{https://shap.readthedocs.io/en/latest/}
+the contribution of one particular feature on the output computed with that test data.
+In other words, for each test data, we have an array of shapley values: one for each feature, and these shap values for each features are represented by a dot, placed to the right or to the left of the thin black line corresponding shapley values with a value zero (a zero value indicates that for a certain test data, that corresponding feature did not contributed to the output).
+This position in respect to the black vertical line, indicates the sign of that contribution: on the right we found positive coefficients that gave a positive contribution pushing the output towards values greater than the reference output, and on the left are placed those that had a negative contribution.
+Just to be clear, positive and negative adjectives are to be intended in a mathematical sense, as greater or smaller than zero, and pushing the output towards greater values (closer to 1 than to 0), means that the input data is being classified as autism.
+This process of placing shap values for each feature in a plot, is repeated for each test data to obtain a scatter plot of shapley values for each feature, where features are ordered by importance.
+Each spot is also colored red or blue. Color indicates the magnitude of that feature calculated in respect of the mean value of that feature across all the test dataset. With this additional information we are able to understand if a great or a small value of a feature pushes the model towards one output or the opposite (0 or 1).
+As a practicle example to understand this concept of colors, with our data, if we ask \textquotedblleft is a strong or a weak correlation between two areas, that contributed the most to the prediction of my model towards high values (and then more close to a label 1 which means autism)?\textquotedblright.
 
-We can choose to visualize the total amount of \textquotedblleft contribution \textquotedblright of each feature, by involving the absolute value of the shap values of figure \ref{fig:shap_dot_kfold} to obtain figure \ref{fig:shap_bar_kfold} representing a bar plot of all the first 20 important feature from the most to the least important.
+
+% as a single colored spot, the color indicated the strength of the contribution of that feature to the final outcome, and
+However, for our data, this kind of plot, is not the best suitable for readibility because of the large amount of features and the small contribution of each feature to the final outcome, in respect to other feature.
+This results in a smoothed scatter plot for each feature, containing many but unnecessary details which make this kind of plot not the most clear to asses how much a feature is important for that model.
+
+We can choose to visualize the total amount of \textquotedblleft contribution \textquotedblright of each feature, by considering the absolute value of the shap values of figure \ref{fig:shap_dot_kfold} to obtain figure \ref{fig:shap_bar_kfold} representing a bar plot of all the first 20 important feature from the most to the least important.
 Each bar represents a feature importance, computed from equation \ref{eq:shap_magnitude}.
 
 For a better readability we prefer reporting the results like this, in terms of absolute shapley value, where we just consider the module of the shap values, regardless its positive or negative contribution to the output, just to understand the absolute contribution of a single feature for a given analysis pipeline.
@@ -2935,7 +3011,7 @@ An example to visualize this trend is shown in figures \ref{fig:shap_bar_kfold} 
 \centering
 \begin{subfigure}[t]{.45\linewidth}
    \fbox{\includegraphics[width=1\linewidth]{shap/ab_all/shap_dot_kfold}}
-   \caption{Plot of dotted shapley values: for each feature each instance (each test sample) is represented by a dot, the position indicates a positive or negative contribution to the output, while the color represents the module of that contribution}
+   \caption{Plot of dotted shapley values: for each feature each instance (each test sample) is represented by a dot, the position indicates a positive or negative contribution to the output, while the color represents the magnitude of the feature, compared with the average value of that feature across all the test dataset.}
    \label{fig:shap_dot_kfold}
 \end{subfigure}
 \hspace{3mm}
@@ -2956,9 +3032,24 @@ An example to visualize this trend is shown in figures \ref{fig:shap_bar_kfold} 
 \newpage
 \section{Feature importance with DNN}\label{sec:feature_importance_dnn} \hfill
 
- that there are some features common to all the four pipelines, in particular features
-
-
+If we plot the first twenty important feature for DNNs, obtained from each pipeline described in section \ref{sec:analysis_workflow}, we can notice that some features seem to be persistent through all the four pipelines; we find that: feature 592 and 1521 appear, even if in different order of importance, in all our four analysis;
+(We replicated the plot in figure \ref{fig:shap_bar_kfold} putting it again in figure \ref{fig:shap_bar_kfold_} for a more immediate visual comparison of all these twenty important features).
+If we consider only features common between harmonization in k-fold, harmonization upstream and raw data, two feature add between common features:  1513, 3334. We run this latter analysis excluding the adversarial network to allow comparison with results of the following section \ref{sec:feature_importance_rf} extracted from random forest.
+ %features 244 592 777 1513 1521 3042 3334 3401 appear in 3 out of 4 analysis,
+%and features 2181, 244, 1507, 2126, 1631, 724 and 1511, appear just in two of them.
+They represent:
+\begin{itemize}
+\item Feature 592: correlation between Right Middle Temporal Gyrus ( anterior division) and Left Superior Temporal Gyrus ( anterior division)
+\item Feature 1521: correlation between Left Angular Gyrus  and Right Middle Temporal Gyrus ( posterior division)
+\item Feature 1513: correlation between Left Angular Gyrus (nan) and Right Temporal Pole (nan)
+\item Feature 3334: correlation between Right Parahippocampal Gyrus ( posterior division) and Right Accumbens (nan)
+%\item Feature 244: correlation between Right Inferior Frontal Gyrus ( pars triangularis) and Right Accumbens
+%\item Feature 777: correlation between Left Middle Temporal Gyrus ( temporooccipital part) and Right Middle Temporal Gyrus ( posterior division)
+%\item Feature 1513: correlation between Left Angular Gyrus  and Right Temporal Pole
+%\item Feature 3042: correlation between Right Frontal Orbital Cortex  and Left Middle Temporal Gyrus ( temporooccipital part)
+%\item Feature 3334: correlation between Right Parahippocampal Gyrus ( posterior division) and Right Accumbens
+%\item Feature 3401: correlation between Right Parahippocampal Gyrus ( posterior division) and Right Parahippocampal Gyrus ( anterior division)
+\end{itemize}
 
 
 \begin{figure}[h!]
@@ -2988,22 +3079,7 @@ An example to visualize this trend is shown in figures \ref{fig:shap_bar_kfold} 
 \label{fig:shap_abide_all}
 \end{figure}
 
-If we plot the first twenty important feature for DNNs, obtained from each pipeline described in section \ref{sec:analysis_workflow}, we can notice that some features seem to be persistent through all the four pipelines; we find that: feature 592 and 1521 appear, even if in different order of importance, in all our four analysis;
-(We replicated the plot in figure \ref{fig:shap_bar_kfold} putting it again in figure \ref{fig:shap_bar_kfold_} for a more immediate visual comparison of all these twenty important features)
- %features 244 592 777 1513 1521 3042 3334 3401 appear in 3 out of 4 analysis,
-%and features 2181, 244, 1507, 2126, 1631, 724 and 1511, appear just in two of them.
-They represent:
-\begin{itemize}
-\item Feature 592: correlation between Right Middle Temporal Gyrus ( anterior division) and Left Superior Temporal Gyrus ( anterior division)
-\item Feature 1521: correlation between Left Angular Gyrus  and Right Middle Temporal Gyrus ( posterior division)
 
-%\item Feature 244: correlation between Right Inferior Frontal Gyrus ( pars triangularis) and Right Accumbens
-%\item Feature 777: correlation between Left Middle Temporal Gyrus ( temporooccipital part) and Right Middle Temporal Gyrus ( posterior division)
-%\item Feature 1513: correlation between Left Angular Gyrus  and Right Temporal Pole
-%\item Feature 3042: correlation between Right Frontal Orbital Cortex  and Left Middle Temporal Gyrus ( temporooccipital part)
-%\item Feature 3334: correlation between Right Parahippocampal Gyrus ( posterior division) and Right Accumbens
-%\item Feature 3401: correlation between Right Parahippocampal Gyrus ( posterior division) and Right Parahippocampal Gyrus ( anterior division)
-\end{itemize}
 
 
 
@@ -3159,17 +3235,17 @@ To this end, as mentioned above, we computed in figure \ref{fig:important_areas_
 \begin{table}[!htp]\centering
 \scriptsize
 \begin{tabular}{lrrrrr}\toprule
-Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adv 264-8 \\\midrule
+Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adversarial \\\midrule
 AB I$\pm$II &60$\pm$1 &71$\pm$3 &63$\pm$2 &60$\pm$1 \\
 AB I &61$\pm$2 &69$\pm$3 &62$\pm$2 &61$\pm$2 \\
 AB 2 &56$\pm$3 &69$\pm$4 &60$\pm$4 &59$\pm$4 \\
-AB I $\pm$ II - EYE open &63$\pm$2 &68$\pm$3 &64$\pm$2 &63$\pm$3 \\
-AB I open EYE &63$\pm$5 &74$\pm$3 &71$\pm$4 &72$\pm$2 \\
-AB II EYE open &63$\pm$5 &70$\pm$3 &63$\pm$3 &62$\pm$3 \\
-AB I $\pm$ II AGE=all, EYE=all &65$\pm$3 &71$\pm$2 &66$\pm$2 &63$\pm$2 \\
+AB I $\pm$ II - eye open &63$\pm$2 &68$\pm$3 &64$\pm$2 &63$\pm$3 \\
+AB I open eye &63$\pm$5 &74$\pm$3 &71$\pm$4 &72$\pm$2 \\
+AB II eye open &63$\pm$5 &70$\pm$3 &63$\pm$3 &62$\pm$3 \\
+AB I $\pm$ II AGE=all, eye=all &65$\pm$3 &71$\pm$2 &66$\pm$2 &63$\pm$2 \\
 \bottomrule
 \end{tabular}
-\caption{Classification scores using only out-of-phase Wavelet coefficients}
+\caption{Classification scores using only out-of-phase wavelet coefficients}
 \label{tab:classification_wout}
 \end{table}
 
@@ -3177,13 +3253,13 @@ AB I $\pm$ II AGE=all, EYE=all &65$\pm$3 &71$\pm$2 &66$\pm$2 &63$\pm$2 \\
 \begin{table}[!htp]\centering
 \scriptsize
 \begin{tabular}{lrrrrr}\toprule
-Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adv 264-8 \\\midrule
+Dataset &Harmon K-fold &Harmon. upstream &No harmon. &Adversarial \\\midrule
 AB I$\pm$II &67$\pm$ 3 &70$\pm$ 3 &66 $\pm$3 &66 $\pm$3 \\
 AB I &70$\pm$ 3 &72 $\pm$2 &68 $\pm$3 &68$\pm$ 3 \\
 AB 2 &61$\pm$ 4 &65$\pm$ 4 &64 $\pm$5 &65 $\pm$4 \\
-AB I $\pm$ II - EYE open &70$\pm$ 1 &73$\pm$ 2 &71 $\pm$1 &68 $\pm$2 \\
-AB I open EYE &71$\pm$ 4 &74 $\pm$3 &71 $\pm$3 &68 $\pm$2 \\
-AB II EYE open &62 $\pm$4 &66 $\pm$3 &68 $\pm$3 &64$\pm$ 5 \\
+AB I $\pm$ II - eye open &70$\pm$ 1 &73$\pm$ 2 &71 $\pm$1 &68 $\pm$2 \\
+AB I open eye &71$\pm$ 4 &74 $\pm$3 &71 $\pm$3 &68 $\pm$2 \\
+AB II eye open &62 $\pm$4 &66 $\pm$3 &68 $\pm$3 &64$\pm$ 5 \\
 \bottomrule
 \end{tabular}
 \caption{Classifiaction scores using (W\_in - W\_out) wavelet coefficients coefficients}
@@ -3211,7 +3287,7 @@ Structure &k-fold &upstream &no harmonization \\
 1024-32-1 &70$\pm$2 &74$\pm$2 &71$\pm$3 \\
 \bottomrule
 \end{tabular}
-\caption{Different model structures and related performances for the three main analysis we carried out during this entire work. Hilighted the structure we choose to employ through all our analysis}\label{}
+\caption{Different model structures and related performances for the three main analysis we carried out during this entire work. Hilighted the structure we choose to employ through all our analysis}\label{tab:different_model_structures}
 \end{table}
 
 \section{Feature importance results on ABIDE I open eye dataset}
