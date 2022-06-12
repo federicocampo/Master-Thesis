@@ -1,8 +1,8 @@
-\documentclass[10pt]{report}
+\documentclass[11pt]{report}
 %\documentclass[12pt]{article}
 \usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
 \pagestyle{plain}
-\linespread{1}
+\linespread{1.7}
 
 
 %\usepackage[margin=1.5cm]{geometry}
@@ -11,8 +11,8 @@
 %\usepackage{epstopdf}
 \usepackage{float}
 %To create colored tables
-\usepackage[table,x11names]{xcolor}
-\usepackage{xcolor}
+%\usepackage[table,x11names]{xcolor}
+\usepackage[dvipsnames]{xcolor}
 
 \usepackage{wrapfig}
 \usepackage{subcaption}
@@ -77,7 +77,7 @@
 \end{figure}
 
 \begin{center}
-	\textbf{University of Pisa \\ Department of Physics E. FERMI\\ Master's degree in physics\\}
+	\textbf{University of Pisa \\ Department of Physics E. FERMI\\ Master degree in physics\\}
 	\vspace{20mm}
     {\LARGE{\bf Functional connectivity measures using machine learning techniques}}
 \end{center}
@@ -101,38 +101,50 @@
 \chapter*{Abstract}
 \addcontentsline{toc}{chapter}{Abstract}
 
-Autism is a neurodevelopmental disorder manifesting from the early ages and involving behavioral and cognitive impairments. So far, no univocal biomarker have been detected to identify this disorder, and the most accurate diagnostic tool remains a behavioural and attitudinal test.
-In this work we are focusing on brain functional connectivity data to study the difference between patients with Autism Spectrum Disorder (ASDs) and healthy patients (referred as Controls). To tackle this challenge, we are going to employ machine learning and deep learning models.
-Our base data are Magnetic Resonance scans provided by the ABIDE dataset consisting on structrural and functional scans of approximately 2200 patients collected from different medical centers.
-Among these patient's scan, an half belong to normal patients and the other half to people with diagnosed Autism.
-Starting from these data the workflow of this thesis can be summarised in the following steps:
+Autism spectrum disorder (ASD) is a neurodevelopmental disorder manifesting from the early ages and involving behavioral and cognitive impairments. So far, no univocal biomarker have been detected to identify this disorder, and the most accurate diagnostic tool remains a behavioural and attitudinal test.
+In this work we focus on brain functional connectivity data to study the difference between patients with ASD and healthy controls. To tackle this challenge, we  employed machine learning and deep learning models.
+Our database are Magnetic Resonance scans provided by the ABIDE dataset consisting on structrural and functional scans of approximately 2200 subjects collected from different medical centers.
+One half of them belong to normal individuals and the other half to people with diagnosed ASD.
+
+Starting from these data, the workflow of this thesis can be summarised in the following steps:
 
 \begin{itemize}
 \item MRI and fMRI data preprocessing and normalization to a common template, and extraction of temporal series of different brain areas for each patient from the fMRI scans.
-\item Creation of a connectivity map for each patient. This connectivity matrix is created computing a correlation coefficient for every pair of timeseries of a single patient. Correlation coefficients were computed using two different approaches: a linear correlation of the two timeseries known as Pearson correlation, and a correlation based on time-frequency analysis of a timeseries pairs by means of wavelet Transform.
-\item Implementation of an harmonization procedure to correct for potential biases and distinctive traits of data, linked to a certain acquisition scan procedures employed in a medical centre which can differ between different centres.
-\item Study and classification of connectivity matrices with deep learning methods. The two different connectivity matrices described above are compared toassesswhich one is able to yield the best separability between Controls and ASDs.
-Classification of raw data and harmonized data implemented with different procedures are compared, and in addition an harmonization implemented inside a deep learning model through an adversarial learning technique was tested.
-\item Deep learning model is compared to a Random Forest classifier, a standard machine learning model, to determine if a deep model brings a benefit or is excessive for this kind of analysis.
-\item After we determined the correct harmonization procedure, we implemented an interpretation method called SHAP to explain which features contributed the most to the final outcome of machine learning classification, and from them we determined the most relevant brain areas that allow a discerning between controls and ASDs
+\item Creation of a connectivity map for each patient. This connectivity matrix is created computing a correlation coefficient for every pair of timeseries of a single patient. Correlation coefficients were computed using two different approaches: a linear correlation of the two timeseries known as Pearson correlation, and a correlation based on time-frequency analysis of a timeseries pairs by means of wavelet transform.
+\item Implementation of a harmonization procedure to correct for potential biases and distinctive traits of data, linked to acquisition scan procedures employed in a medical centre which can differ between different centres.
+\item Study and classification of connectivity matrices with deep learning methods. The two different connectivity matrices described above are compared to assess which one is able to yield the best separability between Controls and ASD.
+Classification of raw data and harmonized data implemented with different procedures are compared, and in addition a harmonization implemented inside a deep learning model through an adversarial learning technique was tested.
+\item Deep learning model is compared to a Random Forest classifier, a standard machine learning model, to determine if a deep model brings a benefit to this kind of analysis.
+\item After the definition of the appropriate harmonization procedure, we implemented an interpretation method called SHAP to explain which features contributed the most to the final outcome of machine learning classification, and from them we determined the most relevant brain areas that allow a discerning between controls and ASD
 \end{itemize}
 
 \chapter*{Organization of contents}
 \addcontentsline{toc}{chapter}{Organization of contents}
 
-\textbf{Background:} In this background chapter we are going to explain some useful theory that lays the groundwork to all the thesis work.
-In chapter \ref{chap:autism} we outline the main problems associated with this disorder, from the biological development to the social isseues it generates. We briefly review some studies carried on so far to study this challenging issue.
-Chapter \ref{sec:fmri} provides an overview of the physical and biological principles underlying fMRI diagnostic tool. This is the means through which data we are going to employ are collected.
-Chapter \ref{chap:machine_learning} provides a sufficiently detailed explaination of machine learning and deep learning models diving into the mathematical formulation of important comcepts to properly get the idea of the structure of a machine learning models, the learning procedure, and the important metrics for a proper evalutation of model's performances. Ultimately, we describe a common way to reduce data dimensionality keeping as much information as possible and reducing the number of uninformative or reduntant features from data.
-Chapter \ref{chap:shapley_values} describes the theory behind an important strategy to inspect a deep model and understand the processes that brought it to a certain output given some input data.
+\textbf{Background:} In this chapter we explain relevant theory arguments that lay the groundwork to all the thesis work.
+In chapter \ref{chap:introduction} we outline the main problems associated with the Autism Spectrum Disorder, from the biological development to the social isseues it generates. We briefly review some studies carried on so far to study this challenging issue. We also provide a brief overview of the main techniques employed to study this issue in this work: from data acquisition to data analysis.
+
+Chapter \ref{chap:mri_introduction} provides an overview of the basic physical principles of MRI imaging and the main acquisition sequences. It also includes a description of the physical and biological principles underlying fMRI diagnostic tool which is the means through which data we are going to employ are collected.
+
+Chapter \ref{chap:machine_learning} provides a brief explaination of machine learning and deep learning models diving into the mathematical formulation of the main concepts. We aim to give the idea of the structure of a machine learning models, the learning procedure, and the important metrics for a proper evalutation of model performances.
+Ultimately, we describe a common way to reduce data dimensionality keeping as much information as possible and reducing the number of uninformative or reduntant features from data.
+
+Chapter \ref{chap:shapley_values} describes the theory behind an important strategy to inspect a deep model  and understand the processes that brought it to a certain output given some input data.
 
 \textbf{MATERIALS \& METHODS:} This section describes the instruments we used to run the analysis: dataset, preprocessing steps, and data preparation employed to obtain correlation matrix.
-Chapter \ref{chap:dataset} describes and analyse ABIDE dataset: a collection of more than 2000 scans of healthy and ASD patients, collected from different medical centers.
-Chapter \ref{chap:image_preprocessing} provides an overviwe of the most important preprocessing steps to normalize and align all these scan to a common template to run meaningful statistical analysis and to exctract brain timeseries form different brain areas aligned to a common coordinate system. We describe C-PAC: the software employed to this image preprocessing and how we used it to conduct our processing.
-Chapter \ref{chap:connectivity_coefficients} describes the two methods we used to calculate connectivity coefficients and create a functional connectivity matrix for each patient. We describe the computation of correlation using Pearson correlation, and illustrate the formalism of wavelet Transform for time-frequancy analysis and the process to extract a correlation coefficient from time-frequency data of two timeseries.
-Chapter \ref{chap:harmonization_theory} describes the regression model upon which harmonization procedure is based. This is the analytical method to remove inter-site variability from our data and avoid biases towards the acquisition source.
-Chapter \ref{chap:adversarial} describes the structure and the general idea beyond a domain adversarial neural network: a deep neural network that aims
+
+Chapter \ref{chap:dataset} describes and analyse ABIDE dataset: a publicly available collection of more than 2000 scans of healthy and ASD patients, collected from different medical centers.
+
+Chapter \ref{chap:image_preprocessing} provides an overview of the most important preprocessing steps to normalize and align all these scan to a common template to run meaningful statistical analysis and to exctract brain timeseries form different brain areas aligned to a common coordinate system. We describe C-PAC: the software employed to this image preprocessing and how we used it to conduct our processing.
+
+Chapter \ref{chap:connectivity_coefficients} describes the two methods we used to calculate connectivity coefficients and create a functional connectivity matrix for each patient. We describe the computation of correlation using Pearson correlation, and illustrate the formalism of wavelet transform for time-frequency analysis and the process to extract a correlation coefficient from time-frequency data of two timeseries.
+
+Chapter \ref{chap:harmonization_theory} describes the regression model upon which harmonization procedure is based. This is an analytical method to remove inter-site variability from our data and avoid biases towards the acquisition source.
+
+Chapter \ref{chap:domain_adversarial_theory} describes the structure and the general idea beyond a domain adversarial neural network: a deep neural network that aims
 to make Control/ASD classification following a procedure that makes data site-independent to classify following a procedure that makes the classification Control/ASD output sites-independent.
+
+Chapter \ref{chap:shap} describes the main aspects of an important algorithm for machine learning model explaination called SHAP. We discuss the general idea behind its implementation and important quantities to determine the contribution of a feature to the output of a machine learning model.
 
 \textbf{Implementation \& RESULTS:} In this last section, the results obtained applying methods to our materials are presented. We illustrate the results of harmonization applied to our data and classification result of Pearson-based correlation coefficients and wavelet-based coefficients and in the end we study the most relevant feature from our data, that played an important role in discrimination of Control/ASD.
 Chapter \ref{chap:harmonization_results} Presents the results of the analytical harmonization to our data to have a visual understanding of how this process affects a feature distribution.
@@ -140,152 +152,183 @@ Chapter \ref{chap:results} shows all the classification results obtained with a 
 At the end, chapter \ref{chap:shap_results} shows the implementation of a feature importance assessment procedure and the results obtained with machine learning in the previous chater. We show what feature contributed the most to the outcome of a prediction, and then to the discrimination of healthy and ASD patients, and subsequently we study what brain areas are mainly involved in this discernment.
 
 
-\textbf{Appendix:} In appendix we present the basic physical principles of MRI imaging, a useful but not essential theory to understand the work carried out in this thesis.
 
 \addcontentsline{toc}{chapter}{BACKGROUND}
 %\chapter*{BACKGROUND}
 
 
-\chapter{Introduction}
+\chapter{Introduction}\label{chap:introduction}
 \section{Autism spectrum disorder} \label{chap:autism}
-Autism spectrum disorder (ASD) is a neurological disorder that is becoming a growing social issue, drawing more and more attention expecially during the last decades, both for its social impact on families and society and because of the raise in number of diagnosied cases.
-
+Autism spectrum disorder (ASD) is a neurological disorder that is becoming a growing social issue, drawing more and more attention expecially during the last decades, for its social impact on families and society and the raise in number of diagnosed cases.
 ASD is classified as a neurodevelopmental behavioural disorder \cite{guze-1995} \cite{who-1993} and refers to a broad range of conditions manifesting as deficits in social communication and interaction such as reduced sociability or empathy, repetitive behaviours, resistance to changes, and sometimes even speech difficulties.\cite{rapin-2008}
-
 %\cite{hyman-2020}
-
-Early signs start appearing by the age of 2 - 3, but the most accurate assessment procedures so far are comportamental: for a toddler, parents answer a set of questions about every-day behaviour of their children like the checklist for Autism in Toddler \cite{robins-2009} consisfing on a list of question such as \textquotedblleft When you point at something, does your child watch in that direction? \textquotedblright or \textquotedblleft does your children show interest towards other children? \textquotedblright
-
-However, since there isn't a definitive biological test, often ASD is discovered even after the adolescence always through a comportamental assessment test.
+To the present days, ASD is diagnosed through a comportamental assessment test since there is not a definite biological test.
+Early signs start appearing by the age of 2 - 3, ages at which children usually start interacting with parents and with other children.
+Parents are asked to answer a set of questions about every-day behaviour of their children like the checklist for Autism in Toddler \cite{robins-2009} consisting on a list of question such as \textquotedblleft When you point at something, does your child watch in that direction? \textquotedblright or \textquotedblleft does your children show interest towards other children? \textquotedblright.
+However, are not uncommon cases where ASD is discovered only after the adolescence.
 Currently ADI-R (Autism Diagnostic Interview - Revised) and ADOS (Autism Diagnostic Observation Schedule) are considered the ‘gold standard’ tools for diagnosis of ASD \cite{ozonoff-2015} \cite{lecouteur-2008}.
-Nevertheless, besides these behavioural test, to achieve a more accurate diagnosis, medical and biological informations should be taken into account as well .
 
+Nevertheless, besides these behavioural test, to achieve a more accurate diagnosis, medical and biological informations should be taken into account as well.
 For a better treatment of this condition, it would be of great importance to make an early diagnosis, in order to provide in time the help and support people need.
 Hopefully, treating children when this disorder is still it in its early stage, could bring to a regression of this condition.
 
-The main factors that bring to the developing of autism aren't very clear so far, and is acquiring more consensus between neuroscientists and medical doctors that there is not just a single cause, but a concatenation and coexistence of various triggering factors.
+The main biological factors that bring to the developing of autism aren't very clear so far, and is acquiring more consensus between neuroscientists and medical doctors that there is not just a single cause, but a concatenation and coexistence of various triggering factors.
 Among them, the most strongly suspected are identified to be genetic and environmental, where environmental is to be intended as exposure to air pollution.
 %or certain pesticides (even though is difficult to demonstrate a strong relation)
-Regarding these environmental causes, it is suspected that during pregnancy, expecially during the first days of embrional development (day 20-24 of gestation).\cite{ratajczak-2011}, exposition of the mother to air pollution is linked to an increased risk for her child to develop this disorder.
+Regarding these environmental causes, it is suspected that during pregnancy, expecially during the first days of embrional development (day 20-24 of gestation), exposition of the mother to air pollution is linked to an increased risk for her child to develop this disorder.\cite{ratajczak-2011}
 
-Genetic origin of this disorder is assiciated with a rare gene's mutation, such as a deletion, duplication or inversion, and even though most of the mutation that increase the risk of developing autism are not been traced.
-It has been assessed though, that it has an high inheritance trait. From studies on twins it has been assesses that on omozygotes twins there is around 90 \% or probability to them both to develop ASD, while for heterozygote this probability falls to aroint 7\% for men and 1-2\% for women
+Genetic origin of this disorder is assiciated with a rare gene mutation, such as a deletion, duplication or inversion, and even though most of the mutation that increase the risk of developing autism are not been traced.
+It has been assessed though, that it has an high inheritance trait. From studies on twins it has been assesses that between omozygotes twins there is around 90 \% or probability that both of them develop ASD, while for heterozygote this probability falls to around 7\% for men and 1-2\% for women
 \cite{freitag-2007}
 %tesi di elisa???.
 
 %Ambiental factors such as prenatal air pollution or certain pesticides are also suspected to be associeted with a increase of the risk to develop this disorder, even thouh the etiology is way more complex and it can't be assessed so accurately.
 %Currently ASD is diagnosided by syntoms-based tests concerning behaviour assessment.
-From a neurological point of view, ASD can affect a brain both in its structure and in its functionality.
+From a neurological point of view, ASD may affect a brain both in its structure and in its functionality.
 
 Structural studies usually focus on volumentric and morphometric analyses to examine differences in brain anatomy.
-It has been studied how autism could alter the symmetry between the two emispheres \cite{postema2019} of the brain. In children it has been observed an increase in total brain volumne as well asan enlargment of the left superior temporal gyrus, but this trend is not well defined for older ages.\cite{riddler-2017}.
+It has been studied how autism could alter the symmetry between the two emispheres \cite{postema2019} of the brain. In children it has been observed an increase in total brain volumne as well asan enlargment of the left superior temporal gyrus, but this trend is not well defined for older ages.\cite{riddle-2017}.
 
 
-Functional neuroimaging researches mainly focus on impaired functionality. Different studies pointed out a reduced information processing due to synaptic dysfunction that manifests in a reduced or altered brain functional connectivity. \cite{spera-2019}.
-Functional connectivity measures aim to describe statistical dependencies between brain areas in time studying temporal correlation between different brain parts even between those chich are spatially separated.
-Altered brain activity is found by different but controversal studies because both hyper functional connectivity and hypo-FC were detected in asd patients, while some found a the coexistence of an hyper and hypo functionality between different areas of the brain.
+Functional neuroimaging researches mainly focus on impaired functionality. Different studies pointed out a reduced information processing due to synaptic disfunction that manifests in a reduced or altered brain functional connectivity.
+Functional connectivity measures aim to describe statistical dependencies between brain areas in time, by studying temporal correlation between different brain parts even between those which are spatially separated.
+Altered brain activity is found by different but controversal studies because both hyper- functional connectivity and hypo-FC were detected in ASD patients, while some found a the coexistence of an hyper- and hypo-functionality between different areas of the brain.
+In particular it appears functionality abnormalities to have an age-dependent trend since over connectivity is usually observed in young children while under connectivity in adolescences and adults.\cite{supekar-2013} \cite{spera-2019}.
 
-In particular it appears functionality abnormalities to have an age-dependent trend since over connectivity is usually observed in young children while under connectivity in adolescences and adults.\cite{supekar-2013}.
+\section{fMRI as investigation tool}
 
-\section{f-MRI as investigation tool}
-
-In the last decades, different approaches to study this problem have been carried out, to find a relation between different brain areas involved in this lower or higher functional connectivity.
-Different diagnostic tool were proposed to investigate this matter, from different perspectives and at different scales, such as magnetic resonance imaging (MRI), functional-MRI (f-MRI), or electroencephalography (EEG).
+In the last decades, different approaches to study ASD have been proposed, to find a relation between different brain areas involved in lower or higher functional connectivity.
+Different diagnostic tools are being used to investigate this matter, from different perspectives and at different scales, such as magnetic resonance imaging (MRI), functional-MRI (fMRI), or electroencephalography (EEG).
 
 Magnetic resonance imaging is employed to obtain images of brain both for structural studies and for functional through the  technique of functional MRI (fMRI).
-An other tool employed to study temporal signal is the EEG which differs from f-MRI because of the type of signal it aims to detect and because of the different resolution, since with EEG is possible to study signal in scale time comparable with the neuronal activation time timescales $\sim \mu s$, while with f-MRI we look for a signal due to the hemodynamic response following a neuronal activation (timescales $\sim s$).
+An other tool employed to study temporal signal is the EEG which differs from fMRI because of the type of signal it aims to detect and because of the different resolution, since with EEG is possible to study signal in scale time comparable with the neuronal activation time (timescale $\sim \mu s$), while with fMRI we look for a signal due to the hemodynamic response following a neuronal activation (timescale $\sim s$).
 
 
-f-MRI is a diagnostic tool that investigate blood flow variations across the whole brain structure.
-The measure the blood flow is directly linked with the neuronal activity, an increase of neuronal activity leads to a boost in blood flow and an increase of vessel's size within a specific brain area, because of the bigger demand of oxigen and other nutrients to the neurons in that area.
+fMRI is a diagnostic tool that investigates physiological changes linked to blood flow variations across the whole brain structure.
+Measures of blood properties are strictly linked with measures of the neuronal activity: an increase of neuronal activity leads to a boost in blood flow and an increase of vessel's size within a specific brain area, because of the bigger demand of oxigen and other nutrients to the neurons in that area.
 
 The different neural connections are identified by measuring the BOLD fluctuations, (acronym for blood-oxigen-level dependent) from different areas of the brain, using the signal difference between oxy (diamagnetic) and deoxyhemoglobin (paramagnetic).
 %Oxyhemoglobin appears then brighter than deoxyhemoglobin
 These spontaneous fluctuations in the BOLD signal during resting state are considered a strong indicator for the assessment of the properties of the brain system.
 
-f-MRI can be performed during the resting state of a patient or during a task. We refer to these procedures as rs-fMRI and task-based fMRI, and while task-based fMRI is a good instrument to investigate the local activation of a single brain area during a task, is resting state fMRI which is drawing more attention since it was proven to be suitable for examining functional connectivity among all the brain regions, and highlight the difference between a normal drain and one affected by this disorder.
+fMRI can be performed during the resting state of a patient or during a task.
+We refer to these procedures as rs-fMRI and task-based fMRI, and while task-based fMRI is a good instrument to investigate the local activation of a single brain area during a task, resting state fMRI is drawing more attention for the investigation of ASD.
+It was proven to be suitable for examining functional connectivity among all the brain regions, and highlight the difference between a normal brain and one affected by this disorder.
 
-Resting state f-MRI is an acquisition performed while the patient is in a relaxed state, and is not performing any active task, he is simply asked to stay still with eye closed or open while fixating a cross.
+Resting state fMRI is an acquisition carried out while the patient is in a relaxed state, and is not performing any active task, but he is simply asked to stay still with eyes closed or open while fixating a cross.
 %either resting or, more in general in a task-negative state.
-Following this setup the brain is at rest and its activity is not perturbed by active tasks such as moving an arm or passive actions like being exposed to different visual stimuli, which are common activities for task-based functional connectivity, a different acquisition setup to investigate BOLD fluctuations between subjects in a task-stimulated state and control states.
+Following this setup, the brain is at rest and its activity is not perturbed by active tasks, such as moving an arm, or passive actions, like being exposed to different visual stimuli, which are common activities for task-based functional connectivity, a different acquisition setup to investigate BOLD fluctuations between subjects in a task-stimulated state and control states.
 Resting state setup revealed to be a powerful tool to investigate the intrinsec generated brain activity and study the altered functional connectivity networks in subjects with mental disorder
 
 \section{Machine learning to deal with non-linear problems}\label{sec:intro_ml}
-During the study of characteristic traits between control and ASD patients, different attributes are involved and characterise data in a strong and evident way, the most important of which are age, sex and FIQ (full intellective quotient).
-Age for example affects both structural and functional data, with an observed overgrown of the brain volume in toddlers and hyperconnectivity mentioned before, that are both traits that tend to decrease going in on age, and on control subjects, even though it is not well characterised, seem to show a decreasing of brain structure and functional connectivity in older ages \cite{zhangC-2016}
-Sex is the other feature that gives characteristic traits to data, studies show that some brain area show an increased functional connectivity in females, and from a combined analysis of both age and sex it appears that in men some brain structures show more pronounced aging effect than women
-\cite{coffey-1998}
-In addition, if we limit our focus just on functional data, the eye status at scan plays an important role, about this, functional connectivity with open steady eyes results to be different from closed eyes, with strong differences and higher connectivity in different brain areas between the two coohrts of subjects.
-\cite{costumero-2020}. Furthermore, an other aspect to be take into account regarding closed eye patients, is that during the scan acquisition, they may fall asleep, and this would heavily modify the functional brain activity, resulting in a modified functional connectivity pattern.
+During the study of characteristic traits between control and ASD patients, different attributes are involved and affect data in a strong and evident way, the most important of which are age, sex and FIQ (full intellective quotient).
+Age, for example, affects both structural and functional data, with an observed overgrown of the brain volume and hyperconnectivity, in toddlers, that are both traits that tend to decrease going in on age.
+Moreover, on control subjects, even though it is not well characterised, seem to show a decreasing of brain structure and functional connectivity in older ages \cite{zhangC-2016}.
+Sex is the other feature that gives characteristic traits to data.
+Studies show that some brain areas exhibit an increased functional connectivity in female.
+And, from a combined analysis of both age and sex, it appears that in men some brain structures show more pronounced aging effect than women \cite{coffey-1998}.
 
-It appears clear that the distinction of asd patient among normal ones is not a simple and straightforwand task because of all these confounding factors concorring to the characterization of acquired data.
+In addition, if we limit our focus just to functional data, the eye status at scan plays an important role.
+Functional connectivity with open steady eyes results to be different from closed eyes, with strong differences and higher connectivity in different brain areas between the two coohrts of subjects.\cite{costumero-2020}.
 
-To take on this challenge, one of the most promising tools that allow us to deal with complex, non-linear problems is the use of machine learning algorithm to study data extracted from fMRI such as pairwise correlations between different regions of the brain, or image of brain themselves from MRI scans to study with convolutional neural networks (CNN).
+Furthermore, an other aspect to be take into account regarding closed eye patients, is that during the scan acquisition, they may fall asleep, and this would heavily modify the functional brain activity, resulting in a modified functional connectivity pattern.
+
+It appears clear that the distinction of ASD patients among normal ones is not a straightforwand task and a simple univariate analysis would not be sofficient, because of the presence of different confounding factors contributing to the characterization of data.
+
+To take on this challenge, one of the most promising tools that allow us to deal with complex, non-linear problems is the use of machine learning algorithm to study data extracted from fMRI such as pairwise correlations between different regions of the brain, or image of brain themselves from MRI scans to studies with convolutional neural networks (CNN).
 %One of the most promising and powerful tool to tacke non-linear problems is machine learning.
-Machine learning algorithm belong to artificial inteligence tools and make use of alghorithms that learn from data, and modify their parameters with the aim of recognising distinctive properties from data and make predictions or classification, on new unseen data, trying to gradually reduce the error and make amore accurate predictions.
+Machine learning belongs to artificial inteligence tools and make use of alghorithms that learn from data, and modify their parameters with the aim of recognising distinctive properties from data and make predictions or classification, on new unseen data, trying to gradually reduce the error and make amore accurate predictions.
 
-A relevant aspect that makes machine learning and artificial neural networks so popular is as cited before, the ability to deal with non-linear problems, and they accomplish so by introducing several non linear functions during training. This allow to obtain non-linear outputs from each input data, which would hopefully help in the distinction between characteristic traits of healthy people and of ASDs patients.
+A relevant aspect that makes machine learning and artificial neural networks so popular is the ability to deal with non-linear problems, by introducing several non-linear functions during training.
+This allows to obtain non-linear outputs from each input data, which would hopefully help in the distinction between characteristic traits of healthy people and of ASD patients.
 
-As a drawback, a restraint of machine learning, is that to perform well, an algorithm need to be trained on dataset of large dimension, because the bigger the dataset, the more it is able to generalize information and the better are its performances on new data.
+As a drawback, a restraint of machine learning is that, to perform well, an algorithm needs to be trained on datasets of large dimension, because the bigger the dataset, the more the algorithm is able to generalize information and the better are its performances on new data.
 This is true for all the kind of machine learning algorithms and expecially for Deep Neural Networks which are the principal kind of algorithms we are going to employ in this work.
-\section{The need for an harmonization procedure}
 
-To achieve the goal of obtaining a large dataset, particularly in medical field where data are not easily available from a single centre or are not in a sufficient amount to perform a large-scale analysis, several data from different acquisition centers need to be put together.
-In the last years, this issue is becoming increasingly popular and several multicenter medical dataset such as the Human Connectome Project, the Alzheimer’s Disease Neuroimaging Initiative (ADNI) or Autism Brain Imaging Data Exchange (ABIDE) were created to try to create a large collection of data to permorm significant statistical analysis.
+\section{The need for a harmonization procedure}
 
-Unfortunately, this procedure brings with it a downside regarding the unavoidable bias towards the site the data belongs to.
-This bias is a result of hardware and scan's procedure differences, between centres and it would be a really hard request asking to all medical center across the world to uniform to a single common acquisition protocol.
+To achieve the goal of obtaining a large dataset, particularly in medical field where data are not easily available from a single centre or are not in a sufficient amount to perform a large-scale analysis, data from different acquisition centers need to be put together.
+In the last years, this issue is becoming increasingly popular and several multicenter medical datasets such as the Human Connectome Project, the Alzheimer’s Disease Neuroimaging Initiative (ADNI) or Autism Brain Imaging Data Exchange (ABIDE) were created to obtain large collections of data to make significant statistical analysis.
 
-To tacke this problem and try to uniform inter-scan variability, we need an harmonization procedure to remove site-dependent information leaving all the rest of important information unchanged.
+Unfortunately, this procedure brings with it a downside regarding the unavoidable bias towards the site that data belong to.
+This bias is a result of hardware and scan procedure differences between centres and it is not feasible to ask to all the medical centers across the world to uniform to a single common acquisition protocol.
+
+To work out this problem and try to uniform inter-scan variability, we need a harmonization procedure to remove site-dependent information, leaving all the rest of important information unchanged.
 
 In this work, two different approaches are proposed: an analytical harmonization and a deep learning approach.
 
-Analytical harmonization is a procedure that modifies data with shifts and rescaling to remove only inter-site related effects in multi-site data, while trying to preserv all other information as biological-related features.
+Analytical harmonization is a procedure that modifies data with shifts and rescaling to remove only inter-site related effects in multi-site data, while trying to preserve all other information as biological-related effects.
 
-The second approach, the deep learning one, tries to make classification of Control/ASD data extracting from input data both information related to the class (Control/ASD) to site. It then use the latter to remove the bias toward sites before making a prediction.
+The second approach, the deep learning one, tries to make the classification of control/ASD data extracting from input data both information related to the class (Control/ASD) and to site.
+Then it uses the latter to remove the bias linked to sites before making a prediction.
 
 
-\chapter{Principles of MRI imaging}\label{sec:mri_introduction}
- In this chapter we are going to explain some basic principles that underlie the Nuclear Magnetic Resonance Imaging. Since the matter can become very complex, we limit to give some glimpse of what are the main principles behind this technique and the acquisition sequence employed in diagnostics.
+\chapter{Principles of Magnetic Resonance Imaging}\label{chap:mri_introduction}
+ In this chapter we report some basic principles that underlie the Nuclear Magnetic Resonance Imaging.
+ Since the matter can become very complex, we only give some glimpses of what are the main principles behind this technique and the main acquisition sequences employed in diagnostics.
 
-\section{Physical principles}
-Nuclear magnetic resonance imaging, is a non-invasive imaging technique widely employed in radiology to obtain anatomical images or study physiological processes, taking advantage of its flexible sensitivity to different tissues.
+\section{Physical principles}\label{sec:mri_introduction}
+Nuclear magnetic resonance imaging, is a non-invasive imaging technique widely employed in radiology to obtain anatomical images or to study physiological processes, taking advantage of its flexible sensitivity to different tissues.
 
 \begin{wrapfigure}[25]{l}{0.4\textwidth}
 \centering
 \includegraphics[width=1\linewidth]{mri/precessione_}
-\caption{Representation of a angular moment vector $\mu$ under a static magnetic field $B_0$ and the resulting moment $\tau$ which causes the precession}
-\label{fig:precession}
+\caption{Representation of a angular moment vector $\vec{\mu}$ under a static magnetic field $\vec{B_0}$ and the resulting moment $\vec{\tau}$  which causes the precession}
+%\label{fig:precession}
 \end{wrapfigure}
 
 
-The physical principle of this imaging is the interaction of a nuclear spin of any tissue's molecule, with an external magnetic field $\textbf B_0$.
-Molecules that contribute the most to the signal are water's, and specifically, hydrogen nuclei are the dominant source of signal in MRI.
+The physical principle of this technique is the interaction of a nuclear spin of any tissue molecule, with an external magnetic field $\textbf B_0$.
+Molecules that contribute the most to the signal are water, and specifically, hydrogen nuclei are the dominant source of signal in MRI.
 
-When a nucleus undergoes an external magnetic field, the interaction would make the nuclei align with the magnetic field, but, since protons and nuclei have an intrinsec spin, and hence an angular moment $\overrightarrow{\mu}$ they start a rotatory movement called precession.
+When a nucleus is subjected to an external magnetic field, the interaction would make the nuclei align with the magnetic field, but, since protons and nuclei have an intrinsic spin, and hence an angular moment $\overrightarrow{\mu}$, they start precessing.
 
-Precession occurs because of the torque, a force which is created by the interaction of a static magnetic field with the angular moment of a spinning nucleus.
+Precession occurs because of the torque created by the interaction of a static magnetic field with the angular moment of a spinning nucleus.
 The relation is given by
 
 \begin{equation}
 \overrightarrow{\tau} = \overrightarrow{\mu} \times \overrightarrow{B_0}
 \end{equation}
 
-Precession occurs around the symmetry axes given by the direction of the magnetic field $\overrightarrow{B_0}$ as schematically shown in figure \ref{fig:precession}.
+Precession occurs around the symmetry axis given by the direction of the magnetic field $\overrightarrow{B_0}$ as schematically shown in figure \ref{fig:precession}.
 
-When a nucleus starts this rotatory movement, the characteristic frequency $\omega_0$ is uniquely determined by the properties of the nucleus itself and strength of the magnetic field; the relation is given by the Larmor equation and the frequency $\omega_0$ is called \textbf{Larmor frequency}
+When a nucleus starts this rotatory movement, the characteristic frequency $\omega_0$ is uniquely determined by the properties of the nucleus itself and by the strength of the magnetic field; the relation is given by the Larmor equation and the frequency $\omega_0$ is called \textbf{Larmor frequency}
 
 %\begin{equation}\label{eq:larmorfrequency}
 \[
 \omega_0 = \gamma B_0
 \]
 %\end{equation}
-where  $\gamma$ is a constant called \emph{gyromagnetic factor} and is characteristic of each nucleus.
+where  $\gamma$ is a constant called \emph{gyromagnetic factor} and is it characteristic of each nucleus.
 The gyromagnetic factor of a proton in water has a value of $\gamma = 2.7\cdot 10^8 \frac{rad\cdot s}{T}$.
-For a typical scanner with a magnetic field of 2-3 T, Larmor frequency assumes values of $\sim MHz$ just below radio waves.
+For a typical scanner with a magnetic field of 2-3 T, the Larmor frequency assumes values of $\sim MHz$ just below radio waves.
 
-When protons in a body undergo a magnetic field, they can assume two states in relation to the direction of the external field: parallel and anti-parallel (as an example in figure \ref{fig:precession} is represented a parallel configuration).
-If we compute the difference between the number of proton in these two states we can determine the net magnetization of a body, expressed by a vector pointing parallel or anti-parallel to the direction of $\overrightarrow{B_0}$.
+When protons in a body are exposed to a magnetic field, they can assume two states in relation to the direction of the external field: parallel and anti-parallel (as an example in figure \ref{fig:precession} a parallel configuration is represented).
+
+\textcolor{ForestGreen}{
+Proton with different orientation with respect to the magnetic field have different energies.
+The potential energy of a particle with magnetic moment $\vec{\mu}$ immersed in a magnetic field $\vec{B_0}$ is given by
+\begin{equation}
+U = -  \vec{\mu} \cdot \vec{B_0}
+\end{equation}
+If we suppose $\vec{B_0}$ along the z axis, it will have only component along z, so the magnetic moment will just concern $\mu_z$.
+Recalling the relation between the angular moment and the magnetic moment $\vec{\mu} = \gamma \vec{J}$, and the quantization of the angular moment $J_z = m_s \hbar$.
+For a proton $m_s$ can be either $-\frac{1}{2} \text{ or } +\frac{1}{2}$ so its energy when subjected to a magnetic field can be written as
+\begin{equation}
+U = -\vec{\mu} \cdot \vec{B_0} = - \mu_z B_z = - \gamma m_s \hbar B_z = - m_s \hbar \omega_0 = \pm \frac{1}{2} \hbar \omega_0
+\end{equation}
+For a thermodynamic system, with a given temperature T, the probability to find particles with energy $\epsilon$ is given by the Boltzmann distribution
+\begin{equation}
+P(\epsilon) = \frac{1}{Z} e^{-\frac{\epsilon}{kT}}
+\end{equation}
+where k is the Boltzmann's constant.
+Using this relation we can compute the difference between the number of proton in the two states parallel and anti-parallel
+\begin{equation}
+\Delta N = N^+ - N^- = \frac{N}{Z}(e^{-\frac{\hbar \omega_0}{kT}} - e^{\frac{\hbar \omega_0}{kT}}) \approx \frac{N}{2}\frac{\hbar \omega_0}{kT}
+\end{equation}
+}
+
+%If we compute the difference between the number of proton in these two states we can determine the net magnetization of a body, expressed by a vector pointing parallel or anti-parallel to the direction of $\overrightarrow{B_0}$.
 
 This net magnetization can be represented by a single vector pointing parallel or anti-parallel to the direction of the external field and if we want to detect a signal related to this magnetization, we have to perturb this vector from its equilibrium state.
 The perturbation would cause the precession of this magnetization vector around the direction of the magnetic field, with its own larmor frequency.
@@ -528,7 +571,7 @@ According to the Shannon-Nyquist sampling theoreme, the maximum detectable frequ
 
 
 
-\chapter{Machine learning}
+\chapter{Machine learning}\label{chap:machine_learning}
 
 %Machine learning is a branch of Artificial Intelligence (AI) that aims to learn from data and gradually improve its accuracy.
 Machine learning is a branch of Artificial Intelligence (AI) that aims to learn from data and apply this knowledge to operate on other, new, data such as making predictions or classifying them, and by training training process, gradually improve its accuracy in the task it performs.
@@ -559,7 +602,7 @@ This can be accomplished either by compressing data into a lower-dimensional spa
 On the other hand, when we are dealing with supervised learning each input data is associated with a label, specifying the class which data belong to, so the algorithm is to learn the common features for each class trying to predict the label given the corresponding input, or to classify them according to the right label.
 Generally speaking, given an input data x and an associated label y, they try estimating p(y|x). These algorithms are referred as supervised because of the human labour needed to label each input data.
 
-A subset of Machine Learning is Deep Learning, the main difference lies on the algorithms' structure and the learning techniques, as an instance, traditional machine learning methods consist on algorithms like Random Forest, Support Vector Machines (SVM), K-nearest neighbor (KNN) and several more models, while deep learning models include Artificial neural networks (ANN), Convolutional neural networks (CNN) and more.
+A subset of Machine Learning is Deep Learning, the main difference lies on the algorithms structure and the learning techniques, as an instance, traditional machine learning methods consist on algorithms like Random Forest, Support Vector Machines (SVM), K-nearest neighbor (KNN) and several more models, while deep learning models include Artificial neural networks (ANN), Convolutional neural networks (CNN) and more.
 As we will see in furter paragraphs, they have a common structure similar to a neural structrure, made by different neurons connected to each other.
 
 
@@ -601,7 +644,7 @@ H(Q)=\sum_k p_{k}(1-p_{k}) = 1- \sum_k p_k^2
 Where $p_k$ is the fraction of data in Q belonging to class k.
 %\begin{enumerate}
 %\item Starting from the top node called root, it searches among the n features the one which allows the best split between classes
-%\item Split the node by asking a question about the feature that would provide the best classes' split
+%\item Split the node by asking a question about the feature that would provide the best classes split
 %\item Iterare point (1) and (2) until a single data point is left
 %\end{enumerate}
 
@@ -1148,7 +1191,7 @@ And they exactly represent the amount of reward for each player i.
 \addcontentsline{toc}{chapter}{MATERIALS AND METHODS}
 \chapter*{MATERIALS AND METHODS}
 
-\chapter{Dataset: ABIDE I $\&$ II}
+\chapter{Dataset: ABIDE I $\&$ II}\label{chap:dataset}
 
 
 Data we are going to work on belong to the ABIDE dataset (Autism Brain Images Data Exchange): a project founded with the aim of investigating ASD using magnetic resonance structural images and resting state fMRI scans.
@@ -1164,7 +1207,7 @@ Not every site belonging to ABIDE II is different from those of ABIDE I, but, ev
 In addition to scan images, ABIDE provides every information related to each patient, as age, sex, intelligence quotient (FIQ), eye status during the scan (open or closed), and every additional clinical information provided by patients.
 
 The vast majority of patients are males as shown in the histogram \ref{fig:mf_site}, for a total amount of 1804 males and 422 females.
-Control/ASD patient number is more or less balanced for every site, with the exception of KKI-1 (Kennedy Krieger Institute) that provided two times more controls than asd patients, and KUL-3 (Katholieke Universiteit Leuven) and NYU-2 (NYU Langone Medical Centre, Sample 2) that only provided ASD cases. For a visual comparison, the number of controls/ASD for each site is displayed on the histogram in figure \ref{fig:controlcase_site}.
+Control/ASD patient number is more or less balanced for every site, with the exception of KKI-1 (Kennedy Krieger Institute) that provided two times more controls than ASD patients, and KUL-3 (Katholieke Universiteit Leuven) and NYU-2 (NYU Langone Medical Centre, Sample 2) that only provided ASD cases. For a visual comparison, the number of controls/ASD for each site is displayed on the histogram in figure \ref{fig:controlcase_site}.
 
 \begin{figure}[h]
 \centering
@@ -1211,7 +1254,7 @@ We have then carried out our analysis on a dataset consisting on only male patie
 \caption{Boxplot of patient's \textbf{FIQ} per site}
 \label{fig:abide_fiq_site}
 \end{subfigure}
-\caption{Histogram distribution and boxplot of FIQ (jointly for Controls and ASDs) per site, from ABIDE I + II}
+\caption{Histogram distribution and boxplot of FIQ (jointly for Controls and ASD) per site, from ABIDE I + II}
 \label{}
 \end{figure}
 
@@ -1233,7 +1276,7 @@ We have then carried out our analysis on a dataset consisting on only male patie
 \caption{Boxplot of \textbf{age} of patients per site}
 \label{fig:abide_age_site}
 \end{subfigure}
-\caption{Histogram distribution and boxplot of AGE (jointly for Controls and ASDs) per site, from ABIDE I + II}
+\caption{Histogram distribution and boxplot of AGE (jointly for Controls and ASD) per site, from ABIDE I + II}
 \label{}
 \end{figure}
 
@@ -1264,11 +1307,11 @@ We have then carried out our analysis on a dataset consisting on only male patie
 
 
 
-\chapter{Image preprocessing}
+\chapter{Image preprocessing}\label{chap:image_preprocessing}
 \section{Common preprocessing steps}
 \label{sec:preprocessing_steps}
 
-\textcolor{red}{(Da spostare nel capitolo di MRI ?} \textcolor{blue}{ During an MRI and f-MRI scan session, data are usually acquired slice by slice, and the thinner is the slice, the more spatial resolution we can accomplish.
+\textcolor{red}{(Da spostare nel capitolo di MRI ?} \textcolor{blue}{ During an MRI and fMRI scan session, data are usually acquired slice by slice, and the thinner is the slice, the more spatial resolution we can accomplish.
 But there's a trade-off between spatial and temporal resolution: decreasing the slice's thickness would lead to a better space resolution but at the cost of increasing repetition time to mantain the same Signal to Noise ratio (SNR).
 Thie main reason is that signal is proportional to the number of hydrogen nuclei, which is proportional to the slice volume.
 In order to obtain a strong BOLD signal, echo time plays a significant role as well: to obtain the maximum strenght signal echo time has to be set $TE \approx T_2^{\ast}$ that means TE around 30 ms.
@@ -1368,7 +1411,7 @@ The four software for image preoprocessing employed for ABIDE I are:
 \begin{itemize}
 \item Connectome Computation System (CCS)
 \item Configurable Pipeline for the Analysis of Connectomes (C-PAC)
-\item Data Preprocess Assistant for Resting-State f-MRI (DPARSF)
+\item Data Preprocess Assistant for Resting-State fMRI (DPARSF)
 \item Neuroimaging Analysis Kit (NIAK)
 \end{itemize}
 The preprocessing steps implemented by the different softwares are similar, they differ on the programming language on which they are rely (Python, MATLAB..) the algorithm implementation, the order of preprossessing steps and their parameters.
@@ -1807,7 +1850,7 @@ An example of correlation matrix created with in-phase and out-of-phase coeffici
 \newpage
 
 
-\chapter{Harmonization}
+\chapter{Multicenter data harmonization}\label{chap:harmonization_theory}
 Since nw, a big percentage of neuroimaging studies have been carried out with limited data acquired from a single centre, to minimize varibility in data due to the different instrumentations employed.
 In recent years, however, there's the tendency to create shared datasets, by pooling together data acquired from different centers.
 A positive side of creating a large dataset putting together data from multiple centers is the possibility to work on dataset of bigger dimension, resulting in obtaining more statistically accurate analysis, and facilitates the generalization and the robustness of the model.
@@ -1904,7 +1947,7 @@ Where functions $g_f, h_f, p_f$ can be either linear or non-linear functions of 
 
 
 
-\chapter{Domain-adversarial NN}\label{sec:domain_adversarial_theory}
+\chapter{Domain-adversarial NN}\label{chap:domain_adversarial_theory}
 %\textcolor{red}{Da rivedere tutta questa parte}
 In this section we discuss a different and innovative approach to deal with multi-center datasets.
 So far we presented one important harmonization procedure that removes site-related features in an analytical way; an other possible approach is to make use of a deep neural network specially designed to perform a classification unbiased by site-related features.
@@ -1982,7 +2025,7 @@ During training, classificaiton branch and domain regressor compete against each
 
 
 
-\chapter{SHAP}\label{sec:shap}
+\chapter{SHAP}\label{chap:shap}
 
 
 \begin{figure}[h]
@@ -2177,7 +2220,7 @@ Before running any classification procedure we tackled the problem of data harmo
 \end{itemize}
 We report results to have a visual feedback of how harmonization modify data and how effective is this procedure in eliminating site-related information from our data.
 
-In chapter \ref{chap:results_deeplearning} we present results obtained from classification of data using different machine learning algorithms. We seek to find the best strategy to obtain the best separability between Controls and ASDs data.
+In chapter \ref{chap:results_deeplearning} we present results obtained from classification of data using different machine learning algorithms. We seek to find the best strategy to obtain the best separability between Controls and ASD data.
 Classification was carried out following different pipelines: we compared performances between a Random Forest classifier, a deep neural network and a Domain-adversarial neural network. We also discuss the effects of data harmonization on a classification procedure and we discuss the best strategy to implement harmonization.
 
 \paragraph{Analysis pipelines}\hfill
@@ -2191,7 +2234,7 @@ Flowchart of the analysis carried out in this work:
 \begin{enumerate}
 \item Coefficient selection: select whether to use Pearson-based correlation coefficients, or wavelet-based correlation coefficients
 \item Patients attributes selection: select the desired attributes of patients in order to make cuts on dataset, for example use the whole ABIDE I + II dataset or just ABIDE I, limit analysis to a certain age range, sex, or eye status open or close.
-\item After making cuts, and obtained raw data, classification can be performed. Classification of Controls/ASDs can be fullfilled by a deep neural network, a Random Forest classifier, or the Domain-Adversarial neural network.
+\item After making cuts, and obtained raw data, classification can be performed. Classification of Controls/ASD can be fullfilled by a deep neural network, a Random Forest classifier, or the Domain-Adversarial neural network.
 \item Different harmonization procedures are compared: 1) harmonization implemented inside the k-fold CV,  2)harmonization of the entire dataset before k-fold CV, 3) no harmonization 4) harmonization implemented with the Domain adversarial neural network.
 \item For each of procedures, the final classification score is reported as the mean and standard deviation across all the folds of k-fold CV.
 \end{enumerate}
@@ -2208,9 +2251,9 @@ K-fold CV was implemented using the stratifiedKFold class provided by sklearn li
 A flowchart of the analysis mentioned above is shown in figure \ref{fig:workflowanalysis}
 In details the four types of analysis we carried out are:
 \begin{enumerate}
-\item Classification of ASDs/controls using raw (not harmonized) data
+\item Classification of ASD/controls using raw (not harmonized) data
 \item Classification using the whole harmonized dataset, creating the harmonization model on all the control subjects and applying the model on all ASD subjects, and then split this dataset into a train and test subsets for each k-fold. The flowchart to schematise this implementation is shown in figure \ref{fig:harmon_upstream_flowchart}.
-\item Classification with harmonization implemented inside the K-fold cross-validation, creating the model on controls and applying it to ASD: following this procedure data were splitted into a train and a test dataset, therefore using train data we computed the harmonization model only on control patients and then apply the model to asd patient and both Control and ASD Test data.
+\item Classification with harmonization implemented inside the K-fold cross-validation, creating the model on controls and applying it to ASD: following this procedure data were splitted into a train and a test dataset, therefore using train data we computed the harmonization model only on control patients and then apply the model to ASD patient and both Control and ASD Test data.
 The whole flowchart is shown in figure \ref{fig:harmon_kfold_flowchart}
 \item Classification using the domain adversarial neural network.
 \end{enumerate}
@@ -2234,7 +2277,7 @@ Some articles perform a Leave One Site Out Cross validation. In our case we can'
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.45\linewidth]{ml/flowcharts/harmon_upstream}
-\caption{Flowchart of the upstream implementation of harmonization, before the k-fold split: from the entire dataset controls are collected, and the harmonization model is built with only these controls data. The model is applied to the controls and ASDs, and the harmonized dataset is created. With this harmonized dataset, a k-fold CV is performed: the dataset is split into train and test subsets and on these data, and classification is carried through.}
+\caption{Flowchart of the upstream implementation of harmonization, before the k-fold split: from the entire dataset controls are collected, and the harmonization model is built with only these controls data. The model is applied to the controls and ASD, and the harmonized dataset is created. With this harmonized dataset, a k-fold CV is performed: the dataset is split into train and test subsets and on these data, and classification is carried through.}
 \label{fig:harmon_upstream_flowchart}
 \end{figure}
 
@@ -2243,14 +2286,14 @@ Some articles perform a Leave One Site Out Cross validation. In our case we can'
 
 With reference to the \textquotedblleft Patients attributes selection \textquotedblright in figure \ref{fig:workflowanalysis} we discuss now what selection criterias we adopted.
 All the analysis mentioned above were performed using different selection criterias and thresholds on the dataset which brought us to different datasets combination.
-First of all, we excluded from the analysis data from sites NYU\_2 and KUL\_3 because as noticed in chapter \ref{chap:dataset} they did not provide control data but only ASD patients, and without control data, we can't perform harmonization on these sites because to create an harmonization model, we perform a regression on control data and then apply the model to ASDs data of that site.
+First of all, we excluded from the analysis data from sites NYU\_2 and KUL\_3 because as noticed in chapter \ref{chap:dataset} they did not provide control data but only ASD patients, and without control data, we can't perform harmonization on these sites because to create a harmonization model, we perform a regression on control data and then apply the model to ASD data of that site.
 The first and most obvious selection criteria is to use the whole dataset from ABIDE 1 and 2, consisting of only male patients aged between 5 and 40 years old, without any further constraint. So we have our first complete dataset consisting on 1470 patient data, from ABIDE I + ABIDE II datasets.
 This dataset can be divided to analyse classification performances separately on ABIDE I and ABIDE II, mantaining the same constraints on ages and sex.
-This choice was made because several articles dealing with controls/ASDs classification using the ABIDE dataset, are fullfilled only on ABIDE I, or, more precisely, on ABIDE I preprocessed (see section \ref{sec:cpac}). Thus for an immediate comparison we choose to run classification on the two disjoint dataset as well.
+This choice was made because several articles dealing with controls/ASD classification using the ABIDE dataset, are fullfilled only on ABIDE I, or, more precisely, on ABIDE I preprocessed (see section \ref{sec:cpac}). Thus for an immediate comparison we choose to run classification on the two disjoint dataset as well.
 
 To seek for a more homogeneous dataset, an other constraint can be set on the eye status at scan. The objective is to select only patients who kept open eyes throughout the entire scan session. This, as mentioned in chapter \ref{sec:intro_ml} helps obtaining a more homogeneous dataset, removing also data potentially altered by sleep.
 This constraint was applied on the dataset consisting on data from ABIDE I and ABIDE II pooled together  cited earlier, and on ABIDE I and ABIDE II separately as well.
-In short, considering these constraints, we obtain 6 different subdatasets, with different number of patients each, summarised in table \ref{tab:controlasd_per_subset}
+In short, considering these constraints, we obtain 6 different subdatasets, with different number of patients each, summarised in table \ref{tab:controlASD_per_subset}
 
 
 
@@ -2268,7 +2311,7 @@ AB II &eye = open &458 &233 &225 \\
 \bottomrule
 \end{tabular}
 \caption{Total number of data and control/ASD amount for each subset and thresholds. To avoid repetitions in all the subdatasets, are implicit constraints regarding sex (only males) and ages (between 5 and 40).}
-\label{tab:controlasd_per_subset}
+\label{tab:controlASD_per_subset}
 \end{table}
 
 
@@ -2281,7 +2324,7 @@ In our work, dimensionality is a relevant issue since we are dealing with 5995 f
 One important method to tackle this problem is dimensionality reduction performing a Principal Components Analysis (PCA) as explained in section \ref{sec:pca}
 
 % come ho calcolato le pca? solo sul training set
-%non avrebbe senso calcolare la PCA solo sui controlli perchè pca cerca la direzione di massima varianza, dove i davi variano maggiornente, e quidni dove si ha una migliore distinguibilità bewteen controls and asds. NOn avrebbe senso farla solo sui controlli.
+%non avrebbe senso calcolare la PCA solo sui controlli perchè pca cerca la direzione di massima varianza, dove i davi variano maggiornente, e quidni dove si ha una migliore distinguibilità bewteen controls and ASDs. NOn avrebbe senso farla solo sui controlli.
 %Il numero di PC può essere più grande del test dataset, ma non sarà mai più grande del numero di feature in esso (per come è definito il massimo numero di pc), quindi una volta estratte le PC può essere applicato a qualsiasi test dataset
 
 When applying PCA to a dataset we seek to explain as much variance as possible, for this reason we start our pca analysis extracting a number of principal components that explain more then 90$\%$ of variance, then we gradually reduced this number halving if.
@@ -2428,22 +2471,22 @@ Their values are plotted as a box along the y axis and sites are indicated along
 
 
 
- If we split this plot into control and ASD patients to see the effect of harmonization separately on these subsets, \ref{fig:features_control-asd_raw-harmo} shows feature 324 computed using Pearson coefficients and figure \ref{fig:feature324-control-asd_w} with wavelet coefficients.
+ If we split this plot into control and ASD patients to see the effect of harmonization separately on these subsets, \ref{fig:features_control-ASD_raw-harmo} shows feature 324 computed using Pearson coefficients and figure \ref{fig:feature324-control-ASD_w} with wavelet coefficients.
 
  \begin{figure}
  \centering
  \begin{subfigure}[b]{1.\textwidth}
-    \includegraphics[width=1\linewidth]{harmonization/pearson/Feature324control-asd_raw-harmo}
+    \includegraphics[width=1\linewidth]{harmonization/pearson/Feature324control-ASD_raw-harmo}
     \caption{Feature 324 of Pearson correlation coefficients}
-    \label{fig:feature324-control-asd}
+    \label{fig:feature324-control-ASD}
  \end{subfigure}
  \begin{subfigure}[b]{1.\textwidth}
-    \includegraphics[width=1\linewidth]{harmonization/wavelets/Feature324control-asd_raw-harmo}
+    \includegraphics[width=1\linewidth]{harmonization/wavelets/Feature324control-ASD_raw-harmo}
     \caption{Feature 324 of wavelet-based correlation coefficients}
-    \label{fig:feature324-control-asd_w}
+    \label{fig:feature324-control-ASD_w}
  \end{subfigure}
  \caption{Pearson-correlation and wavelet coefficients for features 324 before and after harmonization with a separated plot for controls and ASD}
- \label{fig:features_control-asd_raw-harmo}
+ \label{fig:features_control-ASD_raw-harmo}
  \end{figure}
 
 
@@ -2462,7 +2505,7 @@ Nevertheless, if we plot the mean value of a feature computed with wavelet-based
 
 \hfill
 
-Both for wavelet-based coefficients in figure \ref{fig:wavelet_features_raw} and for Pearson-based coefficients in figure \ref{fig:features_raw-harmo} we can notice a certain messy trend of features of raw data in respect to site (plots on the left side), which is not due to the presence of an unbalanced Controls/ASD number of patients per site, because from figure \ref{fig:features_control-asd_raw-harmo} we observe as well, a messy trend both for Controls and ASDs.
+Both for wavelet-based coefficients in figure \ref{fig:wavelet_features_raw} and for Pearson-based coefficients in figure \ref{fig:features_raw-harmo} we can notice a certain messy trend of features of raw data in respect to site (plots on the left side), which is not due to the presence of an unbalanced Controls/ASD number of patients per site, because from figure \ref{fig:features_control-ASD_raw-harmo} we observe as well, a messy trend both for Controls and ASD.
 We can therefore conclude that in our data there's some kind of bias linked to the acquisition site.
 After harmonization procedure both Pearson-based coefficients and wavelet-based coefficients assume a more regular trend (plots on the right side of figures  \ref{fig:wavelet_features_raw} and \ref{fig:features_raw-harmo})
 This is a visual confirm that harmonization effectively removes site-related, but if for Pearson coefficients this is enough to remove inter-site variability, for wavelet coefficients
@@ -2546,8 +2589,8 @@ This way, the minimum of the total loss is reached with parameters that minimize
 Performances of this kind of model are strictly linked to the value of the parameter $\lambda$, in a sense that if a certain value gave an optimal performance on a certain dataset, on an other dataset, for example one created with some more constraints on patients, the value for which one had the best scores was slightly different.
 And also, since when we first employed this model it gave slightly worse performances than simple deep model, we looked for an other strategy and carried out the analysis with this second type of model.
 Thus we reached to the domain-adversarial neural network.
-Even though this network is based on the same principles of the neural network with combination of two losses (minimize the error on classification of asd/controls, and maximizing the one on site classification), it accomplish its task in a different way.
-Our task is in fact to avoid the model to learn some site-related pattern from data and we accomplished so with a model whose inner weights are updated moving towards a minimization of the gradient for classification, and in the opposite direction for site classification, as explained in section \ref{sec:domain_adversarial_theory}.
+Even though this network is based on the same principles of the neural network with combination of two losses (minimize the error on classification of ASD/controls, and maximizing the one on site classification), it accomplish its task in a different way.
+Our task is in fact to avoid the model to learn some site-related pattern from data and we accomplished so with a model whose inner weights are updated moving towards a minimization of the gradient for classification, and in the opposite direction for site classification, as explained in section \ref{chap:domain_adversarial_theory}.
 
 To costruct our domain-adversarial neural network, we followed the same structure of the deep neural network implemented before, and we added the domain-adversarial branch.
 We can describe the structure of this model as consisting on three parts: a feature extractor branch takes input data and creates an inner representation of them within its structure; at this point the network is forked into two branches: a label classificator for control/ASD cassification and the second branch for site classification. At the top of the site-classification branch, the gradient reversal layer was placed.
@@ -2814,7 +2857,7 @@ Results obtained with different analysis are represented with different colors: 
 \label{fig:classification_pearson_pca}
 \end{figure}
 
-\section{Discussion on classification results}
+\section{Discussion on classification results}\label{sec:classification_discussion}
 
 \paragraph{Comparison between Pearson and wavelets}
 From results reported on section \ref{sec:pearson_results} and \ref{sec:wavelet_results} we can observe that average results obtained with Pearson correlation coefficients are systematically higher than wavelet-based correlation coefficients.
@@ -2824,7 +2867,7 @@ Doing so we create a redundant representation of timeseries data moving from one
 We furthermore compare the cross-power spectrum obtained from the wavelet transform of each timeseries, with a red-noise cross-power spectrum to assess the significativity of our data.
 In the end we shrink again our dimensions to reduce to a single data point representing a correlation.
 
-Since differences of traits between controls and ASDs are not very strong, this process can cause the loss of this weak information, which does not happen with a more direct and linear correlation calculus like with Pearson coefficients.
+Since differences of traits between controls and ASD are not very strong, this process can cause the loss of this weak information, which does not happen with a more direct and linear correlation calculus like with Pearson coefficients.
 
 This lower scores is found both on wavelet coefficients of in-phase and counter-phase time percentage, and not even the combination of this two in a double-sized array, or with a coefficient made by the difference between these two coefficients brings any benefits, as an evidence that this procedure is not the best suitable to our classification goals.
 
@@ -2834,11 +2877,11 @@ Let's focus for a moment just on table \ref{tab:classification_pearson} (even if
 We can state that the eye status of patients during the scan has a non-negligible impact on the outcome of classification since limiting the dataset only on subjects with open eyes systematically improves classification scores of more than 1 \% for every dataset (ABIDE I+II, ABIDE I only, ABIDE II only).
 As introduced in chapter \ref{chap:autism} there can be differences in brain functional areas between patients with open eyes and patients with eyes closed.
 This is related to activation of different cortex and gyri areas or because during the scan, some patients may be fallen asleep, and this heavily modify the functional connectivity matrix.
-For this reason, removing these source of variability could bring to a cleaner distinction of relevant patterns between controls data and ASDs.
+For this reason, removing these source of variability could bring to a cleaner distinction of relevant patterns between controls data and ASD.
 
 We can also notice that results on the dataset made by ABIDE I + II are mostly driven to the data belonging to ABIDE I than those belonging to ABIDE II, and this is true either if we restrict our analysis on open eyes patients only or we do not.
 In fact, putting together the two dataset does not lead to a great improvement of scores than limiting just on ABIDE I.
-It is possible that this trend is due to two main factors: the greater number of ABIDE I patient with respect to those in ABIDE II left after all the cuts, and the presence in ABIDE I of a great site: NYU containing a great percentage of patient which are also balanced between controls and ASDs.
+It is possible that this trend is due to two main factors: the greater number of ABIDE I patient with respect to those in ABIDE II left after all the cuts, and the presence in ABIDE I of a great site: NYU containing a great percentage of patient which are also balanced between controls and ASD.
 This could monopolise the results since a great percentage of train and test data would belong to this center leading to a lower variability due to site-related features as demonstrated in studies like \cite{spera-2019}.
 \textcolor{red}{Ma allora perchè questo trend lo vediamo anche sui dati armonizzati?}
 
@@ -2872,8 +2915,8 @@ For this reason, from now on, when we refer to \textquotedblleft harmonized data
 
 \hfill
 
-Comparing results of harmonized data with results on raw data we don't notice any particular improvements. This is likely due to the weak information contained within our data. Distinction between healthy and ASDs subjects based only on functional connectivity data is not a straigthforward task, and it is possible that these results are driven by all the information available. Removing site-related information from our data does not bring relevant improvements because this is all the information we can retrieve from our data, and with this procedure we are not able to bring out new information from our data.
-However harmonization procedure can become a usefull tool to remove some noise from data and obtain a cleaner assessment of what feature are the most discriminative between controls and ASDs. This theme is entirely addressed in chapter \ref{chap:shap_results} talking about feature importance.
+Comparing results of harmonized data with results on raw data we don't notice any particular improvements. This is likely due to the weak information contained within our data. Distinction between healthy and ASD subjects based only on functional connectivity data is not a straigthforward task, and it is possible that these results are driven by all the information available. Removing site-related information from our data does not bring relevant improvements because this is all the information we can retrieve from our data, and with this procedure we are not able to bring out new information from our data.
+However harmonization procedure can become a usefull tool to remove some noise from data and obtain a cleaner assessment of what feature are the most discriminative between controls and ASD. This theme is entirely addressed in chapter \ref{chap:shap_results} talking about feature importance.
 
 
 \paragraph{Results with adversarial}
@@ -2911,44 +2954,42 @@ For this reason, reducing the source of noise due to this data-points leads to t
 
 \chapter{SHAP - Implementation and results}\label{chap:shap_results}
 
-In this chapter we are going to give a look at how we implemented a feature explainatory model using the DeepSHAP algorithm described in section \ref{sec:shap}, and we compared its results with a more conventional random forest feature importance analysis.
+In this chapter we are going to give a look at how we implemented a feature explainatory model using the DeepSHAP algorithm described in chapter \ref{chap:shap}, and we compared its results with a more conventional random forest feature importance analysis.
 
 Here we present a brief summary of all the analysis we performed using feature importance informations.
 
-We choose to run this analysis only on Pearson correlation coefficients since they gave the best classification results which means achieve the best separability between controls and ASDs.
+We choose to run this analysis only on Pearson correlation coefficients since they gave the best classification results which means achieve the best separability between controls and ASD.
 We used the whole dataset consisting of ABIDE I + ABIDE II patients with the same characteristics as we choose for classification: only males and with an age range of 5-40.
 In addition we put in appendix some results obtained on the dataset ABIDE I only open eye.
 
-\textcolor{red}{Metto questo in una lista numerate? Devo essere più preciso in questa overview?}
+\textcolor{red}{Metto una lista numerate? Devo essere più preciso in questa overview?}
 In this section we are looking for what are the most important features that guide the prediction made by a model.
 These features will be representative of some altered functional connections between brain areas.
 From the study of these altered connection we should be able to identify biological areas relevant for the distinction between an healty and with ASD subjects.
 
 %We are creating a gerarchy of features from the most to the less important in order to analyse if
-What we are looking for in this section is whether there are some features whose contribution was greater than others during the distinction between controls and ASDs data, and if these feature are recurrent, regardless the type of analysis we are carrying out, or the machine learning classifier we use.
+What we are looking for in this section is whether there are some features whose contribution was greater than others during the distinction between controls and ASD data, and if these feature are recurrent, regardless the type of analysis we are carrying out, or the machine learning classifier we use.
 %for the most important features computed on the entire test dataset and even if for each test data they contributed poorly, there is a certain gerarchy of importance between them.
 
-As a first analysis, in section \ref{sec:feature_importance_dnn} we start analyzing the most important feature that lead the classification of the DNNs models, using SHAP.
+As a first, itroductory analysis, in section \ref{sec:feature_importance_dnn} we start analyzing the most important feature that lead the classification of the DNNs models, using SHAP.
 We extract the most important features for each of the pipeline discussed in section \ref{sec:analysis_workflow}, our goal is to check if the presence of harmonization, implemented by different strategies, significatively alter the contribution of features in the output of the model.
 In section \ref{sec:feature_importance_rf} we repeat the same analysis earlier done with DNNs, with a random forest classifier. For this machine learning model, feature extraction is implemented by the use of the feature\_extraction methods provided by sklearn.
 In these analysis our goal is to understand if a different machine learning algorithm gives results relying on different features than a deep network model.
 We also check the impact of harmonization just as we did with the deep models
 %We start asking what are the most important feature for each of the analysis we discussed in section \ref{sec:analysis_workflow} both with the DNNs and with the Random Forest classifier.
-These, however are just a first, preliminary inspections and for this reason we limit our focus to the first 20 important feature for each pipeline. We limit this first analysis to 20 because we can easily visualize them and have a visual comparison to find differences between the diffent analysis.
+These, however are just a first, preliminary inspections and for this reason we limit our focus to the first 20 important feature for each pipeline.
+We limit choose this number because we can easily visualize them and have a visual comparison to find differences between the diffent analysis.
+
+A more meaningful analysis, is executed afterwards.
+We select just 5 pipelines among all the one considered earlier, because we regard at these 5 as the most significative analysis.
+We will explain more in details in section \ref{sec:feature_importance_cross} what these analysis are and why we excluded the others and we will present results on common important features between these 5 analysis.
+From them we examine the biological meaning of these feature and the brain areas they involve, to create an histogram of the most involved areas in discrimination of healthy and ASD subjects.
 %if these most important features are the same across the different pipelines we followed or if each pipeline  more specifically we want to check if before and after the harmonization procedure, the most important features still remain the same or if they change depending on the kind of analysis we are carrying out.
 %We compared important features extracted with SHAP (related to the DNNs) with those important for a Random Forest classifier to evaluate if there are feature that stand out regardless the algorithm used to compute them since we used SHAP to explain feature from the DNN and the feature\_importance class provided by scikit learn to assess feature in a random forest classifier.
 
-\textcolor{red}{Da rifrasare..}
-Afterwards, we select 5 analysis to focus on, because we consider them the most significative. We will explain more in detail what are these 5 analysis in section \ref{sec:feature_importance_cross}. From them we consider the first 60 important feature for each one of these analysis, and count how many features are common between the first 60 most important features for each analysis.
-
-At the end we come back to the biological meaning of the most important feature to assess whether they are linked to some particular brain areas which caused an altered functional connectivity between heathy and ASDs patients.
-
-
-
-
 \hfill
 
-To instantiate the desired class with SHAP, DeepExplainer in our case, we require the trained deep model and a fraction of the training data to use as background.
+To instantiate the desired class with SHAP: DeepExplainer in our case, we require the trained deep model and a fraction of the training data to use as background.
 We can choose as many background data as we want keeping in mind that the bigger is this background subset $N_{bkg}$, the more accurate is the computing of shapley values, but the more computationally expansive this process will be.
 In particular using a big amount of background data, would occupy a vast amount of RAM memory and eventually run out of it;
 However, since the error we make on shap values linked to this choice is $\sim 1/\sqrt{N_{bkg}}$, a background dataset made of 100 samples is already a good compomise to have a relatively small error.
@@ -2962,7 +3003,7 @@ Since we are presenting our results following a k-fold cross validation scheme, 
 To do so and collect a final and general result, we computed the shap values for all the test samples of each k-fold and we stacked them together.
 At the end of the CV, we have a matrix of shap values, and we can proceed to visualize the results.
 
-\paragraph{Different typer of SHAP plots} \hfill
+\paragraph{Different types of SHAP plots} \hfill
 
 We can visualize, for each test data, the contribution of each feature on pushing or pulling the predicted output from the baseline output of our model, but to produce this kind of plot we need to save the test datasets as well.
 An example is shown in figure \ref{fig:shap_waterfall}.
@@ -2997,7 +3038,7 @@ As a practicle example to understand this concept of colors, with our data, if w
 
 % as a single colored spot, the color indicated the strength of the contribution of that feature to the final outcome, and
 However, for our data, this kind of plot, is not the best suitable for readibility because of the large amount of features and the small contribution of each feature to the final outcome, in respect to other feature.
-This results in a smoothed scatter plot for each feature, containing many but unnecessary details which make this kind of plot not the most clear to asses how much a feature is important for that model.
+This results in a smoothed scatter plot for each feature, containing many but unnecessary details which make this kind of plot not the most clear to assess how much a feature is important for that model.
 
 We can choose to visualize the total amount of \textquotedblleft contribution \textquotedblright of each feature, by considering the absolute value of the shap values of figure \ref{fig:shap_dot_kfold} to obtain figure \ref{fig:shap_bar_kfold} representing a bar plot of all the first 20 important feature from the most to the least important.
 Each bar represents a feature importance, computed from equation \ref{eq:shap_magnitude}.
@@ -3028,27 +3069,22 @@ An example to visualize this trend is shown in figures \ref{fig:shap_bar_kfold} 
 
 
 
-
 \newpage
-\section{Feature importance with DNN}\label{sec:feature_importance_dnn} \hfill
+\section{Plots of the most relevant features from DNNs and random forest}
+\subsection*{Feature importance with DNN}\label{sec:feature_importance_dnn} \hfill
 
 If we plot the first twenty important feature for DNNs, obtained from each pipeline described in section \ref{sec:analysis_workflow}, we can notice that some features seem to be persistent through all the four pipelines; we find that: feature 592 and 1521 appear, even if in different order of importance, in all our four analysis;
-(We replicated the plot in figure \ref{fig:shap_bar_kfold} putting it again in figure \ref{fig:shap_bar_kfold_} for a more immediate visual comparison of all these twenty important features).
-If we consider only features common between harmonization in k-fold, harmonization upstream and raw data, two feature add between common features:  1513, 3334. We run this latter analysis excluding the adversarial network to allow comparison with results of the following section \ref{sec:feature_importance_rf} extracted from random forest.
- %features 244 592 777 1513 1521 3042 3334 3401 appear in 3 out of 4 analysis,
-%and features 2181, 244, 1507, 2126, 1631, 724 and 1511, appear just in two of them.
-They represent:
+(We replicated the plot in figure \ref{fig:shap_bar_kfold} putting it again in figure \ref{fig:shap_bar_kfold_} for a more immediate visual comparison of all the twenty important features for each analysis).
+If we consider only features common between harmonization in k-fold, harmonization upstream and raw data, two more features appear common:  1513 and 3334.
+We run this latter analysis excluding the adversarial network to allow comparison with results of the following section \ref{sec:feature_importance_rf} extracted from random forest.
+
+Since each feature is representative of a correlation between two brain areas, we list what are these ares involed:
 \begin{itemize}
 \item Feature 592: correlation between Right Middle Temporal Gyrus ( anterior division) and Left Superior Temporal Gyrus ( anterior division)
 \item Feature 1521: correlation between Left Angular Gyrus  and Right Middle Temporal Gyrus ( posterior division)
-\item Feature 1513: correlation between Left Angular Gyrus (nan) and Right Temporal Pole (nan)
-\item Feature 3334: correlation between Right Parahippocampal Gyrus ( posterior division) and Right Accumbens (nan)
-%\item Feature 244: correlation between Right Inferior Frontal Gyrus ( pars triangularis) and Right Accumbens
-%\item Feature 777: correlation between Left Middle Temporal Gyrus ( temporooccipital part) and Right Middle Temporal Gyrus ( posterior division)
-%\item Feature 1513: correlation between Left Angular Gyrus  and Right Temporal Pole
-%\item Feature 3042: correlation between Right Frontal Orbital Cortex  and Left Middle Temporal Gyrus ( temporooccipital part)
-%\item Feature 3334: correlation between Right Parahippocampal Gyrus ( posterior division) and Right Accumbens
-%\item Feature 3401: correlation between Right Parahippocampal Gyrus ( posterior division) and Right Parahippocampal Gyrus ( anterior division)
+\item Feature 1513: correlation between Left Angular Gyrus  and Right Temporal Pole
+\item Feature 3334: correlation between Right Parahippocampal Gyrus ( posterior division) and Right Accumbens
+
 \end{itemize}
 
 
@@ -3083,10 +3119,13 @@ They represent:
 
 
 
-\section{Feature importance with Random Forest}\label{sec:feature_importance_rf}
-
-Same comparison can take place using a Random Forest classifier for the three analysis above.
-With this Random Forest classifier we extracted features shown in figure \ref{fig:shap_abide_rf_all} and we notice that are common to the three analysis feature 710, 1127, 1703, 748, 2735, 1400, 2811
+\subsection*{Feature importance with Random Forest}\label{sec:feature_importance_rf}
+%they are computed as the mean and standard deviation of accumulation of the impurity decrease within each tree \footnote{https://scikit-learn.org/stable/auto_examples/ensemble/plot_forest_importances.html}
+In this section we repeat the same plot we obtained with a dnn in figure \ref{fig:shap_abide_all}, with a different machine learning algorithm: a random forest classifier.
+We plot the first 20 most important features obtained from the three main analysis of harmonization in k-fold, harmonization upstream, and raw data.
+Features are extracted an plots are created using the function provided by Scikit-Learn library.
+Results are shown in figure \ref{fig:shap_abide_rf_all}. From the three plots we notice that 7 different features are common to the three analysis: feature 710, 1127, 1703, 748, 2735, 1400 and 2811.
+As we did for DNNs we create a list with information about the brain areas involved in these correlations.
 
 
 \begin{figure}
@@ -3113,31 +3152,45 @@ With this Random Forest classifier we extracted features shown in figure \ref{fi
 
 
 \begin{itemize}
-\item Feature 710: correlation between Right Middle Temporal Gyrus ( temporooccipital part) and Right Thalamus (nan)
-\item Feature 1127: correlation between Left Postcentral Gyrus (nan) and Right Postcentral Gyrus (nan)
+\item Feature 710: correlation between Right Middle Temporal Gyrus ( temporooccipital part) and Right Thalamus
+\item Feature 1127: correlation between Left Postcentral Gyrus  and Right Postcentral Gyrus
 \item Feature 1703: correlation between Right Lateral Occipital Cortex ( inferior division) and Right Supramarginal Gyrus ( anterior division)
-\item Feature 748: correlation between Left Middle Temporal Gyrus ( temporooccipital part) and Right Thalamus (nan)
-\item Feature 2735: correlation between Right Precuneous Cortex (nan) and Right Middle Temporal Gyrus ( anterior division)
+\item Feature 748: correlation between Left Middle Temporal Gyrus ( temporooccipital part) and Right Thalamus
+\item Feature 2735: correlation between Right Precuneous Cortex  and Right Middle Temporal Gyrus ( anterior division)
 \item Feature 1400: correlation between Left Supramarginal Gyrus ( posterior division) and Right Inferior Frontal Gyrus ( pars triangularis)
-\item Feature 2811: correlation between Left Precuneous Cortex (nan) and Right Middle Temporal Gyrus ( posterior division)
+\item Feature 2811: correlation between Left Precuneous Cortex  and Right Middle Temporal Gyrus ( posterior division)
 \end{itemize}
 
+
+\subsection*{Comments on feature importance}
+Comparing results obtained using different classifier: a DNN and a random forest classifier, we notice from plots \ref{fig:shap_abide_all} and \ref{fig:shap_abide_rf_all} that there are no common features between the first 20. This is most likely due to the difference in the inner algorithm that guide throughout the decisional procecss. A DNN and a random forest have very different modes of operation. This can lead the two of them to find different patterns within data whose results do not (or just partially) overlap.
+We are prone to consider the DNNs most reliable than the random forest because of the higher classification perfocmance achieved with that models, but as we can notice from plots, random forest feature importance is able to determine some feature that stand out over the others.
+The same trend is not visible with feature extracted from the DNNs except for the pipeline of harmonization inside k-fold where it seems that some feature have a greater contribution than others and the descending in feature importance is less smooth.
+A possible reason for this trend, in accordance of what we said during the discussion of classification results, is that the harmonization procedure, even if does not bring up new information, helps in data cleaning, and remove some noise due to site-distinctive patterns.
+Harmonization thus helps to obtain a better and a more defined assessment of what the most important features are, in discrimination of controls/ASD.
+
+Even if there are not overlapping features between analysis with DNN and anslysis with random forest, if we take a look at the lsits of brain areas involved in correlation, we can notice that certain brain areas such as the temporal gyri are in common between these two models.
+This can suggest that even if the feature itself does not determine in the same way the output ot these two models, maybe some brain area represented by features, are recurrent in this kind of discrimination.
+In this regard, the following analysis aims to study this aspect and determine what are the most important brain areas that allow a discrimination between healthy and ASD patients.
+
 \newpage
-\section{Cross-analysis on feature importance}\label{sec:feature_importance_5}
+\section{Cross analysis of important features}\label{sec:feature_importance_5}
 
-So far, we discussed results linked to these images just as a rapid comparison of the results of this kind of analysis. Now we go deeper to fulfill a more meaningful analysis of what are important feature.
+So far, we discussed results linked to images just as a rapid and visual comparison of feature importance between DNN and random forest.
+Now we go deeper to fulfill a more meaningful analysis of what are important feature and what they represent.
 
-Since as explained in section \ref{sec:classification_discussion} we want to exclude from our analysis the procedure of upstream harmonization because it creates a bias in results, from now on, we focus only on the other pipelines and when we refers to harmonized data, we are referring to data with harmonization procedure implemented inside kfold.
+Since as explained in section \ref{sec:classification_discussion} we decided to exclude from our analysis the procedure of upstream harmonization because it creates a bias in results, from now on, we focus only on the other pipelines and when we refers to harmonized data, we are referring to data with harmonization procedure implemented inside kfold.
 
 To assess what are the most relevant recurrent feature between these different types of analysis, we choose to limit our analysis to the 1\% important features among 5995; to this end we collected the first 60 important features and we limited our analysis to only 5 classification procedures listed below.
+We limit to these pipelines since they are the most correct and significant, and we can extract non-biased results.
 
 
 \begin{enumerate}
-\item Classification of harmonized data (with harmonization implemented inside k-fold) using the DNN \label{proc:dnn_kfold}
+\item Classification of harmonized data using the DNN \label{proc:dnn_kfold}
 \item Classification of harmonized data using the Random Forest classifier \label{proc:rf_kfold}
 \item Classification of raw data using the DNN \label{proc:dnn_no}
 \item Classification of raw data using the Random Forest classifier \label{proc:rf_no}
-\item Classification using raw data with the Adversarial Neural Network \label{proc:adv}
+\item Classification using raw data with the adversarial neural network \label{proc:adv}
 \end{enumerate}
 
 
@@ -3147,30 +3200,41 @@ But turns out that there are no common features between all these 5 pipelines ta
 %If we exclude, though, from our analysis the adversarial learning classification we find that features 1513, 3058, 1067 are common between the remaining classification methods.
 %They represent:
 %\begin{itemize}
-%\item Feature 1513: correlation between Left Angular Gyrus (nan) and Right Temporal Pole (nan)
-%\item Feature 3058: correlation between Right Frontal Orbital Cortex (nan) and Left Angular Gyrus (nan)
-%\item Feature 1067: correlation between Right Postcentral Gyrus (nan) and Right Superior Temporal Gyrus (posterior division)
+%\item Feature 1513: correlation between Left Angular Gyrus  and Right Temporal Pole
+%\item Feature 3058: correlation between Right Frontal Orbital Cortex  and Left Angular Gyrus
+%\item Feature 1067: correlation between Right Postcentral Gyrus  and Right Superior Temporal Gyrus (posterior division)
 %\end{itemize}
 
-Now, we carry out analysis on subgroups of the previous classification methods and we report the number of common important features among the first 60 most relevant as a number and as percentage. This kind of analysis could be useful to assess whether the harmonization procedure significatively changes the number of important feature and if the type of classifier and the related technique of feature importance assessment heavily affect the result of this feature importance.
+Now, we carry out analysis on subgroups of the previous classification methods and we report the number of common important features among the first 60 most relevant as a number and as percentage.
+This kind of analysis is useful to assess whether the harmonization procedure significatively changes important features.
+It is also aimed to quantify the common features between a DNN and a random forest classifier.
 
 \begin{itemize}
-\item Focusing just on \textbf{DNN} we compared pipelines \ref{proc:dnn_kfold}. and \ref{proc:dnn_no}. finding that 22 features (37 \%) out of 60 are common.
-\item Focusing just on \textbf{Random Forest} classifier, we compared important features between \ref{proc:rf_kfold}. and \ref{proc:rf_no}. and found that 33 features out of 60 are common (55\%).
-\item Comparing the same analysis pipeline with DNN and Random Forest we find that with \textbf{harmonized data}: procedure \ref{proc:rf_kfold}. and \ref{proc:dnn_kfold}. there are 13 common features (22 \%)
-\item Comparing results on \textbf{raw data} obtained with DNN (pipeline \ref{proc:dnn_no}.) and \textbf{Random Forest} (\ref{proc:rf_no}.) we obtain 7 common features  (12\%)
+\item Focusing just on \textbf{DNN} we compared pipelines \ref{proc:dnn_kfold}. and \ref{proc:dnn_no}. finding that 22 features (37 \%) out of 60 are common between harmonized and raw data.
+
+\item Focusing just on \textbf{Random Forest} classifier, we compared pipelines \ref{proc:rf_kfold}. and \ref{proc:rf_no}. finding that 33 features out of 60 are common (55\%) between harmonized and raw data.
+
+\item Comparing results on  \textbf{harmonized data} obtained with \textbf{DNN} (pipeline \ref{proc:rf_kfold}.) and \textbf{Random Forest} (\ref{proc:dnn_kfold}.) we obtain 13 common features (22 \%)
+
+\item Comparing results on \textbf{raw data} obtained with \textbf{DNN} (pipeline \ref{proc:dnn_no}.) and \textbf{Random Forest} (\ref{proc:rf_no}.) we obtain 7 common features  (12\%)
+
 \item Comparing results of the \textbf{Adversarial network} (\ref{proc:adv}.) with the \textbf{harmonized data} with DNN (\ref{proc:dnn_kfold}.) we obtain 21 common features (35\%)
+
 \item Comparing results of the \textbf{Adversarial network} (\ref{proc:adv}.) with DNN classification of \textbf{raw data} (\ref{proc:dnn_no}.) we obtain 28 common features (47\%)
 \end{itemize}
 
 
 
-\paragraph{Brain areas related to important features} \hfill
+\section{Brain areas related to important features} \hfill
 
-Since each feature is representative of a correlation between two brain areas, and each brain area is involved in more than 100 features, we wonder not simply if there are some feature that repeat themselves, but if there are some brain areas which are particularly involved between the first 60 features of these classification pipelines.
+As mentioned before, each feature is representative of a correlation between two brain areas, and, since for brain parcellization we used the Harvard-Oxford atlas with 110 ROIs, each brain area is involved in 109 features.
+In this section we answer to the question we asked before, whether or not some brain areas are recurrent in healthy/ASD discrimination, and what are these areas.
+
 For this purpose, we plotted an histogram to represent the number of occurrences for each brain areas among the first 60 features for each classification procedure, and subsequently we created the histogram of the overall important brain areas pooling all of these results into a single histogram .
 
-Let's give a look at the histograms of the most recurrent brain areas between all the 60 important features for each classification procedure: figure \ref{fig:histograms_60}
+Figure \ref{fig:histograms_60} shows for each pipeline, what are the brain areas recurrent among the 60 most important feature.
+In figure \ref{fig:important_areas_features_all} is shown the overall histogram comprising all the results.
+
 
 \begin{figure}
 \centering
@@ -3220,8 +3284,31 @@ To this end, as mentioned above, we computed in figure \ref{fig:important_areas_
 \label{fig:important_areas_features_all}
 \end{figure}
 
-\section{Discussion on feature importance}
+\section{Discussion on common features and important brain areas}
+\textcolor{red}{Manca discussione su zone collegate ad autismo}
+\paragraph{Common important features}
+With this analysis to check the common features between different analysis, we can quantify the amount of common features to have a better comparison on how much different harmonization strategies or classificator have an impact on the assessment of feature importance.
+Looking at the results listed in section \ref{sec:feature_importance_5} we can assert that a DNN and a random forest definitely have different way to use features to make prediction and to assess their importance.
+We find that just a low percentage of features are common between a DNN and a random forest both with raw and harmonized data.
+This has a non-negligible impact when choosing the best classificator for any classification task.
+We should keep in mind that there is not the best classifier in an absolute sense, but each classifier is able to find different patternt among data and we should pick the best only in relation to a specific dataset.
 
+We can also state that harmonization procedure changes, expecially in a DNN the first important features, as we pointed out when discussing the plots of feature importance, harmonization is able to remove noise from data and reveals in a cleaner way what feature are really important for the network, without the contribution of site-related noise.
+It is possible that the number of feature in a random forest between harmonized and non harmonized data is bigger because random forest is a simpler algorithm.
+In fact a DNN is able to learn more complicated pattern, and in doing so, it is more sensible to noise and to the discovery of more subtile pattern that can drive to this difference in feature ranking.
+This finer searching for patterns, though, is what lead a DNN to achieve better classification performances with respect to a random forest.
+Thus, harmonization changes the most important features, but we believe that this chance happen in a positive way, since feature are less affected by noise and results are more reliable.
+
+This change resulting from a better definition of feature due to harmonization, also appears when comparing results with the adversarial network.
+In fact we observe that
+The number of common feature between adversarial network and raw data is similar to the number between harmonized and raw data determined using the DNN.
+The resaon for this lies in the mechanism of the adversarial network: it results in a reduction of some site-related noise thanks to the adversarial branch, but at the same time, the introduction of some confusion due to the flawed definition of the correct site.
+
+%We obtain indeed a better similarity between raw data and adversarial network tha harmonized data and adversarial network.
+Even if between raw data and adversarial network we should have obtained a result similar to ras data and harmonized data ($\approx 37\%$), we obtain a greater similarity of feature importance ($\approx 47\%$).
+This means that data are modified and hamronized according to some inner processes, but in a really different way than the analytical harmonization.
+
+\paragraph{Important areas} \hfill
 
 \newpage
 
@@ -3281,13 +3368,14 @@ Structure &k-fold &upstream &no harmonization \\
 64-32-8-1 &68$\pm$1 &72$\pm$2 &69$\pm$1 \\
 128-8-1 &70$\pm$2 &71$\pm$3 &69$\pm$2 \\
 128-64-1 &70$\pm$1 &72$\pm$3 &69$\pm$2 \\
-\cellcolor[HTML]{ffff00}264-8-1 &\cellcolor[HTML]{ffff00}70$\pm$2 &\cellcolor[HTML]{ffff00}73$\pm$3 &\cellcolor[HTML]{ffff00}70$\pm$2 \\
+%\cellcolor[HTML]{ffff00}264-8-1 &\cellcolor[HTML]{ffff00}70$\pm$2 &\cellcolor[HTML]{ffff00}73$\pm$3 &\cellcolor[HTML]{ffff00}70$\pm$2 \\
+\textcolor{ForestGreen}{264-8-1}&\textcolor{ForestGreen}{70$\pm$2} & \textcolor{ForestGreen}{73$\pm$3} & \textcolor{ForestGreen}{70$\pm$2} \\
 512-8-1 &71$\pm$2 &73$\pm$2 &70$\pm$2 \\
 1024-8-1 &70$\pm$1 &74$\pm$2 &71$\pm$2 \\
 1024-32-1 &70$\pm$2 &74$\pm$2 &71$\pm$3 \\
 \bottomrule
 \end{tabular}
-\caption{Different model structures and related performances for the three main analysis we carried out during this entire work. Hilighted the structure we choose to employ through all our analysis}\label{tab:different_model_structures}
+\caption{Different model structures and related performances for the three main analysis we carried out during this entire work. Colored the structure we choose to employ through all our analysis}\label{tab:different_model_structures}
 \end{table}
 
 \section{Feature importance results on ABIDE I open eye dataset}
@@ -3296,67 +3384,67 @@ The same tests we did to assess feature importance on ABIDE I + II dataset, we c
 Here in figure \ref{fig:shap_ab1} we report the results obtained from shap, related to the first twenty most relevant features.
 We can notice at a first glance that there are less feature common to all the four analysis:
 There are no common features among them that we can find across all these four analysis, if we limit our study on the first twenty.
-We have to search among the first thirty features to find something in common, which is still a good procedure since we are dealing with 5995 features and the first 40 are just the 0.7\% of them.
+We have to search among the first thirty features to find something in common, which is still a good procedure since we are dealing with 5995 features and the first 30 are just the 0.5\% of them.
 
-We find that, among the first 30 features, feature 1400, 762, 748, 3042 are common to the four analysis.
-If we limit again our study to the first 20 features, we can see that are common to three different analysis these additional features: 592 3477 3868
+We find that, among the first 30 features, only feature  762 is common to the four analysis, while if we exclude the adversarial network we add feature 1417 and 748
 
 
 
 
 \begin{itemize}
-\item Feature 1400: correlation between Left Supramarginal Gyrus ( posterior division) and Right Inferior Frontal Gyrus ( pars triangularis)
 \item Feature 762: correlation between Left Middle Temporal Gyrus ( temporooccipital part) and Left Middle Frontal Gyrus
-\item Feature 748: correlation between Left Middle Temporal Gyrus ( temporooccipital part) and Right Thalamus
-\item Feature 3042: correlation between Right Frontal Orbital Cortex  and Left Middle Temporal Gyrus ( temporooccipital part)
-
-\item Feature 592: correlation between Right Middle Temporal Gyrus ( anterior division) and Left Superior Temporal Gyrus ( anterior division)
-\item Feature 3477: correlation between Left Parahippocampal Gyrus ( posterior division) and Right Precuneous Cortex
-\item Feature 3868: correlation between Right Temporal Fusiform Cortex ( posterior division) and Right Inferior Temporal Gyrus ( anterior division)
-
+\item Feature 1417: correlation between Left Supramarginal Gyrus ( posterior division) and Left Middle Temporal Gyrus ( temporooccipital part)
+\item Feature 748: correlation between Left Middle Temporal Gyrus ( temporooccipital part) and Right Thalamus (nan)
 \end{itemize}
 
 
 
-\begin{figure}
+\begin{figure}[h!]
 \centering
-\begin{subfigure}[b]{.45\textwidth}
-   \includegraphics[width=1\linewidth]{shap/ab1_openeye/shap_bar_no}
-   \caption{Non-harmonized}
-   \label{}
+\begin{subfigure}[c]{.45\linewidth}
+  \includegraphics[width=1\linewidth]{shap/ab1_openeye/shap_bar_kfold}
+   \caption{Bar plot of shap values and related important features extracted with harmonized data, with harmonization procedure implemented inside \textbf{k-fold} CV}
+   \label{fig:shap_bar_kfold_}
 \end{subfigure}
-\begin{subfigure}[b]{.45\textwidth}
+\begin{subfigure}[c]{.45\textwidth}
    \includegraphics[width=1\linewidth]{shap/ab1_openeye/shap_bar_upstream}
-   \caption{upstream}
+   \caption{Bar plot of shap values and related important features extracted with harmonized data, with harmonization procedure implemented \textbf{upstream}, before the k-fold}
    \label{}
 \end{subfigure}
-\begin{subfigure}[b]{.45\textwidth}
-   \includegraphics[width=1\linewidth]{shap/ab1_openeye/shap_bar_kfold}
-   \caption{kfold}
+\hspace{3mm}
+\begin{subfigure}[c]{.45\textwidth}
+   \includegraphics[width=1\linewidth]{shap/ab1_openeye/shap_bar_no}
+   \caption{Bar plot of shap values and related important features extracted from \textbf{raw}, not-harmonized data}
    \label{}
 \end{subfigure}
-\begin{subfigure}[b]{.45\textwidth}
+\begin{subfigure}[c]{.45\textwidth}
    \includegraphics[width=1\linewidth]{shap/ab1_openeye/shap_bar_adv}
-   \caption{adversarial}
+   \caption{Bar plot of shap values and related important features extracted from raw data using the \textbf{Adversarial} neural network,}
    \label{}
 \end{subfigure}
-\caption{Shap results on the dataset that gave the best classification performances: ABIDE I only open eyes.}
-\label{fig:shap_ab1}
+\caption{Results obtained on ABIDE I only open eye dataset. First twenty most important features plotted with a bar plot of mean absolute shap values. Extracted from each of the four analysis we run with DNNs and Adversarial network. }
+\label{fig:shap_abide_all}
 \end{figure}
 
 
 
 
-With a random forest we obtain the following feature importances, searching among the first 40 features, since as we can notice from figures \ref{rf_feature_importance_ab1} there are not common features between the first twenty.
-We find that features common to the 3 pipelines are: 3042, 1417, 748, 1400, 762
+
+With a random forest we obtain more coherence between important features: searching among the first 20 features, we find that
+are common to the 3 pipelines: 2690, 1127, 2313, 2314, 748, 2712, 2735, 2582, 1400
+
 
 
 \begin{itemize}
-\item Feature 3042: correlation between Right Frontal Orbital Cortex  and Left Middle Temporal Gyrus ( temporooccipital part)
-\item Feature 1417: correlation between Left Supramarginal Gyrus ( posterior division) and Left Middle Temporal Gyrus ( temporooccipital part)
-\item Feature 748: correlation between Left Middle Temporal Gyrus ( temporooccipital part) and Right Thalamus
+\item Feature 2690: correlation between Left Cingulate Gyrus ( posterior division) and Right Frontal Medial Cortex (nan)
+\item Feature 1127: correlation between Left Postcentral Gyrus (nan) and Right Postcentral Gyrus (nan)
+\item Feature 2313: correlation between Right Paracingulate Gyrus (nan) and Left Middle Temporal Gyrus ( anterior division)
+\item Feature 2314: correlation between Right Paracingulate Gyrus (nan) and Right Middle Temporal Gyrus ( posterior division)
+\item Feature 748: correlation between Left Middle Temporal Gyrus ( temporooccipital part) and Right Thalamus (nan)
+\item Feature 2712: correlation between Right Precuneous Cortex (nan) and Right Hippocampus (nan)
+\item Feature 2735: correlation between Right Precuneous Cortex (nan) and Right Middle Temporal Gyrus ( anterior division)
+\item Feature 2582: correlation between Right Cingulate Gyrus ( posterior division) and Right Precentral Gyrus (nan)
 \item Feature 1400: correlation between Left Supramarginal Gyrus ( posterior division) and Right Inferior Frontal Gyrus ( pars triangularis)
-\item Feature 762: correlation between Left Middle Temporal Gyrus ( temporooccipital part) and Left Middle Frontal Gyrus
 \end{itemize}
 
 
@@ -3383,16 +3471,7 @@ We find that features common to the 3 pipelines are: 3042, 1417, 748, 1400, 762
 
 
 
-
-Running on the same subgroups as in the analysis of the whole dataset:
-We have 4 features common to the 5 analysis: 1400, 762, 748, 2735
-\begin{itemize}
-\item Feature 1400: correlation between Left Supramarginal Gyrus ( posterior division) and Right Inferior Frontal Gyrus ( pars triangularis)
-\item Feature 762: correlation between Left Middle Temporal Gyrus ( temporooccipital part) and Left Middle Frontal Gyrus (nan)
-\item Feature 748: correlation between Left Middle Temporal Gyrus ( temporooccipital part) and Right Thalamus (nan)
-\item Feature 2735: correlation between Right Precuneous Cortex (nan) and Right Middle Temporal Gyrus ( anterior division)
-\end{itemize}
-
+The same cross analysis we did on the entire dataset:
 
 \begin{itemize}
 \item Focusing on random forest classifier, we compared important features between \ref{proc:rf_kfold} and \ref{proc:rf_no} and found that 34 features out of 60 are common (57\%).
@@ -3404,9 +3483,52 @@ We have 4 features common to the 5 analysis: 1400, 762, 748, 2735
 \end{itemize}
 
 
+\begin{figure}
+\centering
+\begin{subfigure}[b]{1\columnwidth}
+   \includegraphics[width = 1\columnwidth, height = 6cm]{shap/ab1_openeye/important_areas_features_no}
+   \caption{Important areas from Raw data classified with DNN}
+   \label{}
+\end{subfigure}
+
+\begin{subfigure}[b]{1\columnwidth}
+   \includegraphics[width = 1\columnwidth, height = 6cm]{shap/ab1_openeye/important_areas_features_adv}
+   \caption{Important areas from Raw data classified with Adversarial network}
+   \label{}
+\end{subfigure}
+
+\begin{subfigure}[b]{1\columnwidth}
+   \includegraphics[width = 1\columnwidth, height = 6cm]{shap/ab1_openeye/important_areas_features_kfold}
+   \caption{Important areas from harmonized data classified with DNN}
+   \label{}
+\end{subfigure}
+\end{figure}
+\begin{figure}\ContinuedFloat
+%\medskip
+\begin{subfigure}[b]{1\columnwidth}
+   \includegraphics[width = 1\columnwidth, height = 6cm]{shap/ab1_openeye/important_areas_features_rf_kfold}
+   \caption{Important areas from harmonized data classified with Random Forest}
+   \label{}
+\end{subfigure}
+
+\begin{subfigure}[b]{1\columnwidth}
+   \includegraphics[width = 1\columnwidth, height = 6cm]{shap/ab1_openeye/important_areas_features_rf_no}
+   \caption{Important areas from Raw data classified with Random Forest}
+   \label{}
+\end{subfigure}
+\caption{Histograms of important brain areas extracted from the first 60 important features of different classification procedures}
+\label{fig:histograms_60_ab1_openeye}
+\end{figure}
 
 
+\begin{figure}[h]
+\centering
+  \includegraphics[angle = 270, origin = c, width=0.75\linewidth]{shap/ab1_openeye/important_areas_features_all}
+\caption{Histogram of the most important brain areas putting together results obtained from all the five analysis listed above.}
+\label{fig:important_areas_features_all_ab1_openeye}
+\end{figure}
 
+\newpage
 
 \bibliographystyle{plain}
 \bibliography{library.bib}
