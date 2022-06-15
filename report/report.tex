@@ -111,7 +111,7 @@ Starting from these data, the workflow of this thesis can be summarised in the f
 \begin{itemize}
 \item MRI and fMRI data preprocessing and normalization to a common template, and extraction of temporal series of different brain areas for each patient from the fMRI scans.
 \item Creation of a connectivity map for each patient. This connectivity matrix is created computing a correlation coefficient for every pair of timeseries of a single patient. Correlation coefficients were computed using two different approaches: a linear correlation of the two timeseries known as Pearson correlation, and a correlation based on time-frequency analysis of a timeseries pairs by means of wavelet transform.
-\item Implementation of a harmonization procedure to correct for potential biases and distinctive traits of data, linked to acquisition scan procedures employed in a medical centre which can differ between different centres.
+\item Implementation of a harmonization procedure to correct for potential biases and distinctive traits of data, linked to acquisition scan procedures employed in a medical center which can differ between different centers.
 \item Study and classification of connectivity matrices with deep learning methods. The two different connectivity matrices described above are compared to assess which one is able to yield the best separability between Controls and ASD.
 Classification of raw data and harmonized data implemented with different procedures are compared, and in addition a harmonization implemented inside a deep learning model through an adversarial learning technique was tested.
 \item Deep learning model is compared to a Random Forest classifier, a standard machine learning model, to determine if a deep model brings a benefit to this kind of analysis.
@@ -247,11 +247,11 @@ This is true for all the kind of machine learning algorithms and especially for 
 
 \section{The need for a harmonization procedure}
 
-To achieve the goal of obtaining a large dataset, particularly in medical field where data are not easily available from a single centre or are not in a sufficient amount to perform a large-scale analysis, data from different acquisition centers need to be put together.
+To achieve the goal of obtaining a large dataset, particularly in medical field where data are not easily available from a single center or are not in a sufficient amount to perform a large-scale analysis, data from different acquisition centers need to be put together.
 In the last years, this issue is becoming increasingly popular and several multicenter medical datasets such as the Human Connectome Project, the Alzheimer’s Disease Neuroimaging Initiative (ADNI) or Autism Brain Imaging Data Exchange (ABIDE) were created to obtain large collections of data to make significant statistical analysis.
 
 Unfortunately, this procedure brings with it a downside regarding the unavoidable bias towards the site that data belong to.
-This bias is a result of hardware and scan procedure differences between centres and it is not feasible to ask to all the medical centers across the world to uniform to a single common acquisition protocol.
+This bias is a result of hardware and scan procedure differences between centers and it is not feasible to ask to all the medical centers across the world to uniform to a single common acquisition protocol.
 
 To work out this problem and try to uniform inter-scan variability, we need a harmonization procedure to remove site-dependent information, leaving all the rest of important information unchanged.
 
@@ -609,21 +609,20 @@ Images acquired using a shorter echo time have a weaker BOLD signal because of t
 \chapter{Machine learning}\label{chap:machine_learning}
 
 %Machine learning is a branch of Artificial Intelligence (AI) that aims to learn from data and gradually improve its accuracy.
-Machine learning is a branch of Artificial Intelligence (AI) that aims to learn from data and apply this knowledge on new, different data.
-It is possible to make predictions or perform classification of data and through the training process, gradually improve its accuracy on the task it performs.
-
+Machine learning is a branch of Artificial Intelligence (AI) that aims to learn from data and apply this knowledge on new, unseen data.
+It is possible to make predictions or perform classification of data and, through the training process, gradually improve accuracy on the task a model performs.
 Regarding the training process of an algorithm, as a rule of thumb, the bigger and homogeneous is the dataset to train it, the better accuracy and generalization can be achieved. % (namely performing well on different datasets)
 
 According to the analysis we aim to perform, and the type of dataset we are working on, machine leraning algorithms can be divided into two macro areas: supervised and unsupervised learning.
-
-From a dataset, consisting on a collection of data, each one containing a certain number of features, an \textbf{unsupervised} algorithm goal is to learn the principal properties from the dataset structure and to extract information from data without human labour to annotate and label each data.
+\begin{itemize}
+\item From a dataset, consisting on a collection of data, each one containing a certain number of features, an \textbf{unsupervised} algorithm goal is to learn the principal properties from the dataset structure and to extract information from data without human labour to annotate and label each data.
 Analysis with unsupervised algorithms include clustering or dimensionality reduction.
 
 Clustering is maybe the most simple and intuitive example of an unsupervised learning: it is basically a classification process through which unlabeled data are reorganized and classified into subgroups according to some common properties or distance measures that arise from the analysis.
 After this process, data of each group, called cluster, share a certain degree of similarity in feature probability distribution.
 %A common algorithm for clustering is k-clu?
 %modificatoo
-Dimensionality reduction is another common example of unsupervised learning process: it is performed with the task of finding a different representation of the data, with a lower dimensionality, and preserve as much information as possible from data.
+Dimensionality reduction is another important example of unsupervised learning process: it is performed with the task of finding a different representation of the data, with a lower dimensionality, and preserve as much information as possible from them.
 This can be accomplished either by compressing data into a lower-dimensional space, or by searching the main source of variance across the data and create a representation in such a way that the dimensions of the new representation are statistically independent.
 
 
@@ -636,11 +635,12 @@ This can be accomplished either by compressing data into a lower-dimensional spa
 %\item Independent representaiton focus on the main sources of variance across data, trying to create statistically independent representation ofa initial data.
 %\end{itemize}
 
-On the other hand, when we are dealing with \textbf{supervised learning}, we work with a dataset where each data is associated with a label, specifying the class data belong to.
-Thus, the algorithm is trained to learn the common features for each class and to predict the correct label associated to an input data.
+\item On the other hand, when we are dealing with \textbf{supervised learning}, we work with a dataset where each data is associated with a label, specifying the class data belong to.
+Thus, the algorithm is trained to learn the common features for each class and to predict the correct label associated to each input data.
 
 Generally speaking, given an input data x and an associated label y, a model tries to estimate the probability of obtaining y given x: $p(y|x)$.
 These algorithms are referred as supervised because of the human labour necessary to label each input data.
+\end{itemize}
 
 A subset of Machine Learning is Deep Learning, the main difference lies on the structure of its algorithms and on the learning techniques.
 Traditional machine learning methods consist on algorithms like Random Forest, Support Vector Machines (SVM), K-nearest neighbor (KNN) and several more models, while deep learning includes models as Artificial neural networks (ANN), Convolutional Neural Networks (CNN) and more.
@@ -649,7 +649,7 @@ Traditional machine learning methods consist on algorithms like Random Forest, S
 
 \section{Random forest}
 Random Forest classifier is a common machine learning algorithm that belongs to the category of \emph{ensemble} classifiers.
-It combines multiple decision tree models to reduce overfitting of data and to create a more powerful model that achieve good generazability.
+It combines multiple decision tree models to reduce overfitting of data (see section \ref{sec:deep_learning_theory}) and to create a more powerful model that achieve good generalizability.
 Therefore, to properly understand a random forest algorithm, we need to start understanding how a Decision Tree classifier works.
 
 \paragraph{Tree classifiers} \hfill
@@ -659,9 +659,10 @@ Focusing on one single input feature, the classifier splits the dataset based on
 Thus, each branch of a decision tree consists of a question that causes the split of the dataset into two smaller sub datasets.
 In a dataset containing multiple features, the process is recursively repeated until it reaches an end point called \emph{leave}, corresponding to the ultimate partition, containing data points belonging to a single class.
 
-The goal of this tree is to construct branches so that the partition are informative about the class labels.
+The goal of a tree is to construct branches so that the partition are informative about the class labels.
 In a practical way, given a dataset X made of different data samples, each one containing n features, the algorithm construct a tree following these simple steps:
-Starting from the top node called \emph{root}, it searches among the n features the one which allows the best split between classes and split the dataset into two subsets, each one constituting a node.
+starting from the top node called \emph{root}, it searches among the n features the one which allows the best split between classes and split the dataset into two subsets, each one constituting a node. Then, for each node, the process is repeated until a single leaf is left.
+
 The best split is performed according to a pre-defined objective function we want to maximize throughout the construction of a tree.
 Usually these functions regard measures of the homogeneity of class labels in a node, usually referred as impurity measures.
 %such as the difference between the impurity of a parent node and the sum of the impurity of the child.
@@ -678,16 +679,15 @@ H(Q)=\sum_k p_{k}(1-p_{k}) = 1- \sum_k p_k^2
 where $p_k$ is the fraction of data in Q belonging to class k.
 
 
-Following this principle, the splitting process is iterated and the tree is grown, until a single node is left.
+Following this principle, the splitting process is iterated and the tree is grown.
 
-The structure of a tree can be visualized in a plot that contains all the informations necessaries to understand the processes such as the feature according to which each split is performed, to the impurity measure of each node.
-This property is one of those which make decision trees so popular: they are easy to interpret and understand since their structure and the information of each node can be visualized in a clear plot.
+The structure of a tree can be visualized in a plot that contains all the informations necessaries to understand the tree, such as the feature according to which each split is made, and the impurity measure of each node.
+This property is one of those that make decision trees so popular: they are easy to interpret since their structure and the information of each node can be visualized in a clear plot.
 Other positive sides of decision trees are, their easy to use implementation which requires little data preparation and their rapidity since their complexity goes like $O(n_{features}n_{samples}^2log(n_{samples}))$ \cite{scikit-2011}
 
-
 An example of a decision tree dealing with flower classification is shown in figure \ref{fig:decisiontree}.
-We choose this figure because is easier to understand how a decision trees works with this example where each feature is labeled with an intuitive name and contains a physical quantity easily comparable with everyday life such as petal lenght expressed in centimeters.
-This example is taken from scikit-learn website \footnote{https://scikit-learn.org/stable/modules/tree.html\#}
+We choose this example because is easier to understand how a decision trees works with this data where each feature is labeled with an intuitive name and contains a physical quantity easily comparable with everyday life such as petal lenght expressed in centimeters.
+This example is taken from the scikit-learn website \footnote{https://scikit-learn.org/stable/modules/tree.html\#}
 
 \begin{figure}
 \centering
@@ -698,28 +698,27 @@ This example is taken from scikit-learn website \footnote{https://scikit-learn.o
 
 Instead of looking at the whole tree, we may be interested in what feature contributed the most to the final output.
 To this end, a decision tree usually weights feature with a number from 0 to 1 according to how much a feature contributed to the impurity decrease along the tree.
-It is calculated as the decrease in node impurity weighted by the probability of reaching that node, where the probability is simply the number of samples that reach that node divided by the total number of samples.
+The importance of a feature is calculated as the decrease in node impurity weighted by the probability of reaching that node, where this probability is just the number of samples that reach that node divided by the total number of samples.
 %\footnote{https://towardsdatascience.com/the-mathematics-of-decision-trees-random-forest-and-feature-importance-in-scikit-learn-and-spark-f2861df67e3s}
 \cite{raschka-2019} \cite{muller-2017}
 
-Usually though, one of the main drowbacks of decision trees is that the iterating process towards the reaching of a leaf, can bring to the creation of a over-complex model that overfits the training data.
-That is, the model accurately learned the training dataset but is not able to generalize well to a test dataset.
+Unfortunately though, one of the main drowbacks of decision trees is that the iterating process towards the reaching of a leaf, can bring to the creation of a over-complex model that overfits the training data.
+That is, the model accurately learns the training dataset but is not able to generalize well to a test dataset.
 To prevent overfitting, one possible strategy is to early stop the iteration towards the leaf, and leave a node with more than a single sample left.
-An other strategy, which leads to the construction of a Random Forest, is the creation of a stronger model, more prone to generalize information and reducing overfitting.
+An other strategy, which leads to the construction of a Random Forest, is the creation of different trees and put information together, in order to obtain stronger model, more prone to generalize information and reducing overfitting.
 
 \paragraph{Random Forest} \hfill
 
-A Random Forest is a collection of decision trees where each tree is slightly different from the others, each tree tends to overfit, but following different patterns.
+A Random Forest is a collection of decision trees where each tree is different from the others, each tree tends to overfit, but following different patterns.
 Taking advantage of this process, we could reduce overfitting by averaging different results.
 Random forest gets its name because of the insertion of randomness during the construction of different trees.
 Given an input dataset X with N different samples, there are two main steps where randomicity plays an important role: when selecting the number of samples to grow each tree on, and when selecting the number of features to consider when looking for the best split of a node.
 
-In summary, a random forest, once selected the number of tree to be created:
 In a random forest, one of the main parameters is the number of tree to grow.
 Once selected this number, the process can start where each tree is constructed according to the following steps:
 \begin{enumerate}
 \item Randomly select n$\leq$N samples from the input dataset X, this operation is called bootstrap.
-\item Grow a decision tree from this bootstrap sample. For each node, the algorithm randomly limit the number of feature available and compute the best split on this remaining subset of features. This avoids correlations between trees resulting in better performances.
+\item Grow a decision tree from this bootstrap sample. For each node, the algorithm randomly limit the number of feature available and compute the best split on this remaining subset of features. This avoids correlations between trees and results in better performances.
 \item Repeat steps 1) and 2) as many times as the number of trees to build.
 \item Once all the trees are created, the forest is ready to make predictions. Each tree is used to make a prediction and all the results are collected.
 The final prediction of the forest is assessed by majoring vote: the predicted class will then be the one predicted by the majority of classifiers.
@@ -742,36 +741,36 @@ Important features for a random forest are assessed by extracting important feat
 %Informations regarding features importance can be extracted from a random forest classifier from the ones of each tree, and by averaging the results of feature importance extracted from each tree.
 
 
-\section{Deep Learning: ANN}
+\section{Deep Learning: ANN}\label{sec:deep_learning_theory}
 
-In the previous paragraph we discussed one of the most important machine learning algorithm, but, as mentioned before, there's a subset of machine learning algorithm with a common typical structure, thanks to which they get their name of deep neural networks.
+In the previous paragraph we discussed one of the most important machine learning algorithm, but, as mentioned before, there is a subset of machine learning algorithm with a common typical structure, thanks to which they get their name of deep neural networks.
 The structure of algorithms belonging to this family are inspired by a brain neuronal structure, and even if in a simplified way, they try to emulate the learning process of a brain.
 These algorithms own the adjective \textquotedblleft deep \textquotedblright to their structure: they are organised in layer, each one containing several fundamental unit called neuron.
 Neurons between layers are connected to each other like synapsis transmit a signal between neurons in a biological brain.
-For this structure which reminds a neuronal brain structure,they are called artificial neuronal networks
+Thanks to this structure which reminds a neuronal brain structure,they are called artificial neuronal networks
 %Some kind of algorithms are called Artificial Neural Networks (ANN) and, such as a neuronal structure, they are made of several neurons organized into layers; each layer contains certain amount of neurons each one linked to each others.
 
-\begin{wrapfigure}{r}{0.4\textwidth}
+\begin{figure}
 \centering
-\includegraphics[width=1\linewidth]{ml/perceptron_example}
+\includegraphics[width=0.5\linewidth]{ml/perceptron_example}
 \caption{A schematic representation of a perceptron: this perceptron receives an input vector t, with n features $x_1, ... x_n$, each one weighted with a different weight $w_1, ... w_n$ and a offset $w_0$, and compute a linear combination of them and returns an output, activated by a step function: it returns 0 if the linear combination's value doesn't reach a certain threshold, or returns the value itself if it does.}
 \label{fig:perceptron}
-\end{wrapfigure}
+\end{figure}
 
 The foundamental unit which constiture a neuronal network is an artificial neuron, one of the most relevant example of artificial neurons is the \emph{perceptron} shown in figure \ref{fig:perceptron}.
 
 A perceptron is the foundamental unit of a supervised deep learning algorithm: it takes as input a data, for example an n-dimensional array $\textbf{x} = \left\{ x_1, x_2, ..., x_n\right\}$ and returns an output: a real number computed by applying a function to a linear combination of all the inputs $ y = f(z) = f \left ( \sum_i w_{i} x_i + b \right )$.
-The function that determines the output is called \emph{activation function}, and can be either a simple step function, or a more complex function we will briefly discuss in section \ref{sec:activation_functions}.
+The function that determines the output is called \emph{activation function}, and can be either a simple step function, or a more complex function.
+We will briefly discuss some of the most important activation functions in section \ref{sec:activation_functions}.
 
 
-
-\begin{wrapfigure}{r}{0.4\textwidth}
+\begin{figure}
 \centering
-\includegraphics[width=1\linewidth]{ml/ann_example}
+\includegraphics[width=0.5\linewidth]{ml/ann_example}
 \caption{Schematic representation of an artificial neural network containing an input layer, three hidden layers and an output layer: a single vector contained n features (input 1, ... input n) is given as input to the first Input layer i. All the inputs are linked to every neurons of the first hidden layer, which would compute a linear combination of its inputs. All the hidden layers are linked to the other hidden layers, and at the end, n different outputs are returned.
 }
 \label{fig:ann}
-\end{wrapfigure}
+\end{figure}
 
 
 A deep neural network is a hierarchical organization of neurons into layers, connected to each other.
@@ -786,18 +785,19 @@ At the beginning, weights are randomly set, but during training they are updated
 %When reach the end of this process, we obtain the output: a numerical value related to every single input data $\textbf{x}$.
 
 Using matrix formalism the entire input-output process can be written as
-
-$\textbf{y} = \sum_j^n w_{ij} x_j + b_i $ where $\textbf{x} \in \Re^n \ \textbf{y} \in \Re^m $ being m the output dimension determined by the number of neurons in the output layer.
-
+\begin{equation}
+\mathbf{y} = \sum_j^n w_{ij} x_j + b_i
+\end{equation}
+ where $\textbf{x} \in \Re^n \ \textbf{y} \in \Re^m $ being m the output dimension determined by the number of neurons in the output layer. \textbf{y} represents the output, or prediction of the model.
 The process through which given an input data \textbf{x} we obtain an output \textbf{y} is called \emph{forward propagation}.
-\textbf{y} represents the prediction of the model,
-This prediction is then compared with the actual value this output should be, and during the \emph{backpropagation} the algorithm modifies its weights in order to minimize the difference between the actual and the predicted value.
 
-The goal of a machine/deep learning algorithm is to learn from data using a train dataset, and generalize it in order to perform well on an unseen dataset called test dataset.
+In order to train a model, the prediction is compared with the actual value of the label associated to the input data point, and during a process called \emph{backpropagation} the algorithm modifies its weights in order to minimize the difference between the actual and the predicted value.
+
+The goal of a machine/deep learning algorithm is to learn from data using a train dataset, and generalize information in order to perform well on an unseen dataset called test dataset.
 Performing well means to produce a low error on the test dataset after minimizing the error on train dataset.
+\hfill
 
-
-To fully define a neural network we just need some parameters called hyperparameters, the principals of which are:
+\noindent To fully define a neural network we just need some parameters called hyperparameters, the principals of which are:
 
 \begin{itemize}
 \item Number of layers
@@ -808,19 +808,18 @@ To fully define a neural network we just need some parameters called hyperparame
 \end{itemize}
 
 
-
-
-One of the most important concept in machine learning when characterising a network is its capacity.
-It refers to the level of complexity that a model is able to learn.
-This is strictly linked to one of the critical issue in machine learning: the concept of underfitting and overfitting.
-
-Underfitting occurs when the model is not able to learn the required amount of information during training.
+Number of layers and numbers of neurons are connected to one of the most important concept in machine learning that characterize a network: the concept of \emph{capacity}.
+Capacity qualitatively refers to the level of complexity that a model is able to learn.
+This is strictly linked to two critical issues in machine learning: the concept of underfitting and overfitting.
+\begin{itemize}
+\item Underfitting occurs when the model is not able to learn the required amount of information during training.
 This usually happens for shallow network, when the model has a small number of parameters in regard to the number needed to explain the input features.
 To have low parameters results in poor performances because the model is not able to learn the underlying structure of a complex data set.
 
-On the contrary, overfitting occurs when the model has too many parameters compared to those required to learn the input features.
+\item On the contrary, overfitting occurs when the model has too many parameters compared to those required to learn the input features.
 What happens then is that the model memorizes all the data it sees during train but it is not able to generalize informations.
-As a result, the model performs well on the train dataset and has low performances in an unseen dataset, called test dataset.
+As a result, the model performs well on the train dataset and has low performances in the unseen test dataset.
+\end{itemize}
 
 To understand this concept is can be helpful to provide an example in a two-dimensional space.
 If we have to fit a dataset consisting of some points sampled from a quadratic curve, we can choose different functions, for example a linear function, a quadratic function and a polynomial function with grade equal to the number of data points.
@@ -831,7 +830,7 @@ We should therefore pay attention when choosing the number of parameters on a mo
 
 To monitor the evolution of the training process of a model it is a common practice to split the train dataset into two subsets: one that will actual constitute the train dataset, and a smaller one, called validation dataset used to make constant checkups on how the model is learning with training data.
 The validation dataset is used for the fine tuning of hyperparameters and it typically consists of 10-30\% of the train dataset.
-Just in this section to distinguish between the two train dataset we will denote as \textquotedblleft Train \textquotedblright, the whole train dataset and as \textquotedblleft train \textquotedblright the subset of the Train dataset left after its split into a train and a validation set.
+Just in this paragraph to distinguish between the two train dataset we will denote as \textquotedblleft Train \textquotedblright, the whole train dataset and as \textquotedblleft train \textquotedblright the subset of the Train dataset left after its split into a train and a validation set.
 The whole dataset will then be divided into approximately 70\% Train and 30\% test, and the Train dataset itself will be divided into 70\% actual train and 30\% validation.
 When the best combination of hyperparameters is found, it is possible to actually train the model using the entire Train dataset.
 
@@ -842,7 +841,7 @@ When the best combination of hyperparameters is found, it is possible to actuall
 \includegraphics[width=0.6\textwidth]{ml/underoverfitting_mod}
 \caption{Underfitting, overfitting and appropriate fit in a 2D dataset: three models with different capacities are trained on blue data, if the model is too simple, in this case if the fit function has a few free parameters, it is not able to properly fit data, on the other hand, if it has too much parameters in respect to how much we would need to fit our data, it perfectly match train data distribution, passing through each data point, but performs very poorly on the test dataset (orange points). With an appropriate number of parameters, (middle figure) the model is able to fit train data, and generalizes well to test data.
 }
-\label{}
+\label{fig:underoverfitting}
 %\end{subfigure}
 %\begin{subfigure}{0.4\textwidth}
 %\includegraphics[width=\textwidth]{ml/underoverfitting_grafico}
@@ -856,14 +855,14 @@ When the best combination of hyperparameters is found, it is possible to actuall
 
 \paragraph{Regularization strategies} \hfill
 
-\noindent Some regularization procedures are often implemented to avoid overfitting, the strategy is to build a model with a capacity slightly higher than the necessary in order to perform well on the training dataset, and then, to avoid overfitting, implement some regularization techniques to achieve good generalization performances.
+\noindent Some regularization procedures are often implemented to avoid overfitting. The strategy is to build a model with a capacity slightly higher than the necessary in order to perform well on the training dataset, and then, to avoid overfitting, implement some regularization techniques to achieve good generalization performances.
 
 Some of the most popular are Dropout and Batch-Normalization
 
 \begin{itemize}
 \item Dropout is a regularization strategy that inserts randomness during the training of a model.
 It is usually applied to the neurons of hidden layers and it randomly drop a certain fraction of hidden neurons and their connections, during each training cycle.
-The percentage of neuron to drop, corresponding to the probability for a single neuron to be dropped, is set by the user.
+The percentage of neurons to drop, corresponding to the probability for a single neuron to be dropped, is set by the user.
 A visual representation of what occurs is illustrated in figure \ref{fig:dropout}.
 When discarding some neurons in a layer, the remaining neurons needs to rescale their weights to account the missing connection; doing so, every neuron cannot rely on the the input of all the preceding neurons and the network is forced to learn more robust patterns from the data.
 With this strategy we achieve the same results as we would obtain by training different models with different structures and average all the outputs.
@@ -883,7 +882,7 @@ What is essentially done is then a simple scaling of each neuron input: for a la
 \end{figure}
 
 \paragraph{Cross validation procedures} \hfill
-
+\textcolor{red}{Da passare nella parte di Implementation and results??}
 \noindent When dealing with small datasets, dividing them into train and test can be a non trivial issue because of the shortage of data for a proper train procedure.
 
 To work this out, a procedure called k-fold cross validation can be implemented, at the cost of increasing computational costs.
@@ -924,11 +923,13 @@ Some of the most popular are:
 \centering
 \begin{subfigure}{0.4\textwidth}
 \includegraphics[width=\textwidth]{ml/relu}
-\caption{Rectified linear unit (ReLU) function: it returns zero if its argument is negative and returns the argument itself if it is positive.}
+\caption{Rectified linear unit (ReLU) function: it returns zero if its argument is negative and returns the argument itself if it is positive, according to equation \ref{eq:relu}.}
+\label{fig:relu_example}
 \end{subfigure}
 \begin{subfigure}{0.4\textwidth}
 \includegraphics[width=\textwidth]{ml/sigmoid}
 \caption{Sigmoid function: returns a value between 0 and 1, according to equation \ref{eq:sigmoid}}
+\label{fig:sigmoid_example}
 \end{subfigure}
 \caption{}
 \end{figure}
@@ -938,21 +939,21 @@ Some of the most popular are:
 
 \begin{itemize}
 
-\item The ReLU functions defined as
-\begin{equation}
+\item The ReLU function shown in figure \ref{fig:relu_example} is defined as
+\begin{equation}\label{eq:relu}
 \phi(z) = max(0, z) = \begin{cases} 0 \ for \ z<0 \\ z \ for \ z>0 \end{cases}
 \end{equation}
-returns the maximum value between the input and zero, it essentially puts to zero all negative inputs and leaves the positives untouched.
+and returns the maximum value between the input and zero, it essentially puts to zero all negative inputs and leaves the positives untouched.
 \begin{itemize}
 \item A modified version of the ReLU function called Leaky ReLU was introduced defined as
 $\phi_{leaky}(z) = \begin{cases} \alpha z \ for \ z<0 \\ z \ for \ z>0 \end{cases}$ where $\alpha$ is a coefficient usually $< 1$, typically of the order of $10^{-2}$
 \end{itemize}
 
-\item The sigmoid function, or logistic function defined as
+\item The sigmoid function, or logistic function show in figure \ref{fig:sigmoid_example} is defined as
 \begin{equation}\label{eq:sigmoid}
 \sigma (z) = \frac{1}{1+e^{-z}}
 \end{equation}
-outputs a real number between 0 and 1.
+and outputs a real number between 0 and 1.
 For this reason is a common choice when we have to model a probability.
 For example in a binary classification task, when it is employed as activation function of the last layer, it can be interpreted as the probability of the input data to belong to the class 0 or 1.
 
@@ -962,7 +963,7 @@ For example in a binary classification task, when it is employed as activation f
 \phi(z) = p(y = i|z) = \frac{e^z_i}{\sum_{j = 1}^M e^{z_j}}
 \end{equation}
 It is applied to the vector \textbf{z} and describes the probability of \textbf{x} to belong to the class $i$ over a total of M classes.
-With this function, classes are regarded as mutually exclusives, so if the probability to belong to class i is p, the probability to belong to one of the other classes is 1-p.
+With this function, classes are regarded as mutually exclusives, so if the probability to belong to class $i$ is $p$, the probability to belong to one of the other classes is $1-p$.
 To hold this property, softmax can't be applied independently to each input $z_i$, since it depends on all elements of $\textbf{z} = \{z_1, ..., z_M\}$
 \end{itemize}
 %ricorda: x softmax, ogni connessione è pesata! così se ho n nodi in input e m nodi in output ho una matrice n x m. Per sigmoid ho n nodi in input e 1 in uscita, quindi la matrice è nx1 è un vettore.
@@ -974,11 +975,13 @@ To hold this property, softmax can't be applied independently to each input $z_i
 %Articoli da cui ho preso info: ml for physicists e dispende di baldini (x la likelihood)
 
 In order to train a network and improve its performances we compare the predicted output value with the value of the label associated to a data, and compute an error, or distance between these two values.
-This function is called \emph{loss function} and the goal of a network is to gradually reduce the error, looking for a minimum of these functions.
-%The function to minimize is denoted as the \emph{loss function}
 
-Computing the loss, returns a value that represents the distance between the prediction and the actual label.
-According to this value, the weights of the network are gradually modified in order to reduce it and searching for a minimum of the loss function, according to a process called backpropagation, that we discuss in section \ref{sec:backpropagation_theory}
+This error is computed by using a \emph{loss function}.
+In common classification tasks, the goal of a network is to gradually reduce the error, looking for a minimum of these functions,
+%The function to minimize is denoted as the \emph{loss function}
+%Computing the loss, returns a value that represents the distance between the prediction and the actual label.
+%According to this value, the weights of the network are gradually modified in order to reduce it and searching for a minimum of the loss function,
+according to a process called backpropagation, that we discuss in section \ref{sec:backpropagation_theory}
 
 
 The most common loss function for classification problems is the cross-entropy loss.
@@ -1001,17 +1004,18 @@ L = \frac{1}{N} \sum_i ^N \ell_i = -\frac{1}{N} \sum_{i= 1}^N y_i log(\hat y_i) 
 
 Binary crossentropy loss can be generalized to the case of multi-class classification.
 In this case, if data belong to M classes, labels $y$ can assume values $y \in \{0, 1, ..., M-1\}$.
-To define a loss, each label $y_i$ must be one-hot encoded (see section \ref{chap:deep_models}) in order to create a binary vector of dimension M, with all but one entry equal to zero, and the position of the only entry equals to 1 specify the class.
+To define a loss, each label $y_i$ must be one-hot encoded (see section \ref{chap:deep_models}) in order to create a binary vector of dimension M, with all but one entry equal to zero, and the position of the only entry equals to 1 specifies the class.
 For example if a datapoint belongs to class m, its corresponding one-hot vector will be defined as $y_{im} = \begin{cases} 1  \text{ if } y_i = m \\ 0 \text{ otherwise }\end{cases}$
-In this case the loss is called \emph{categorical cross-entropy} becomes
+In this case the loss function is called \emph{categorical cross-entropy}
 \begin{equation}\label{eq:categorical_crossentropy}
 L = -\frac{1}{N} \sum_{i=1}^N \sum_{m=0}^{M-1}y_{im} log(\hat y_{im}) + (1-y_{im})log(1- \hat y_{im}))
 \end{equation}
 
-In equations \ref{eq:binary_crossentropy} and \ref{eq:categorical_crossentropy} are probability of the input data $i-th$ to belong to a class.
+In equations \ref{eq:binary_crossentropy} and \ref{eq:categorical_crossentropy} $\hat y$ are probability of the input data $i-th$ to belong to a class.
 For binary classification, this probability is usually modeled with a sigmoid function, while for multi-class classification, a softmax function is usually employed.
 
-\paragraph{Relation of the loss function with a Maximum Likelihood Extimation}\hfill
+\paragraph{Relation of the loss function with a Maximum Likelihood Extimation}
+\hfill
 
 \noindent The estimation of the minimum of the loss function can be seen as a process of Maximum Likelihood Extimation.
 Given a probabilistic model depending on m different parameters $\theta_1 ... \theta_m$, the likelihood is a function that describes the probability of observing a value $\hat y_i$ as a function of set of parameters $\{\theta_i \}_1 ^m$.
@@ -1020,9 +1024,7 @@ If we set values of these parameters we obtain the probability of observing the 
 \begin{equation}
  \mathcal{L} = (\theta_1, ..., \theta_m | \hat y_i) = P(\hat y_i|\theta_1, ...\theta_m).
 \end{equation}
-
 For a subset of observed value we can write the likelihood as $\mathcal{L} = P(\hat y_1, ..., \hat y_N | \theta_1, ...\theta_m)$ .
-
 If all the observed values are independent, we can write the total probability as the product of single probabilities of observing each sample $\hat y_i$ given a model with parameters $\{\theta_i \}_1 ^m$:
 
 \begin{equation}\label{eq:likelihood_product}
@@ -1037,7 +1039,7 @@ Overall, the whole dataset can be denoted as D = $\left\{ (\mathbf{x_i}, y_i)\ri
 
 Given an input data $\mathbf{x_i}$  and an activation function (sigmoid, for example, since we are performing binary classification)
 %(see section \ref{sec:activation_functions}, since we use the same notation of $\mathbf{z_i} = \mathbf{x_i}\mathbf{w}$)
-we model the probability of $x_i$ to belong to the class $y_i = 1$ as:
+we model the probability of $\mathbf{x_i}$ to belong to the class $y_i = 1$ as:
 %or in other words, the probability to observ $y_i$ given an input $x_i$ is given by
 
 \begin{equation}
@@ -1107,7 +1109,7 @@ SGD works by approximating the gradient of the cost function calculated with all
 
 With a dataset comprising N input data, we can create subsets containing m elements and obtain N/m minibatches.
 The gradient is computed on a mini-batch and weights are updated.
-This process is repeated for each mini-batch and when the gradient is computed over all the mini-batches it is said that it completed an \emph{epoch}.
+This process is repeated and when the gradient is computed over all the mini-batches it is said that the training proces completed an \emph{epoch}.
 %mettere equatione ml_physicists p.17  (19)???
 The number of epochs is one of the hyperparameters to set when choosing a training strategy of a model.
 
@@ -1119,7 +1121,7 @@ This process helps the algorithm speeding up the descending process if in a cert
 The descending process can be further improved by taking into account even the steepness all over the dimensions.
 To accomplish so the algorithm has to be improved by adding the calculation of second order momenta also called \emph{uncentered variance}.
 This procedure, would ideally bring to the calculus of the hessian matrix but at the cost of increasing computational costs.
-Recently introduced algorithm can accomplish this task by approximate the calculus of the second momenta.
+Recently introduced algorithm can accomplish this task by approximating the calculus of the second momenta.
 
 With this improvement, the algorithm keeps track of the curvature of the loss function in the space of parameters, and takes big leaps in steepest direction and small steps in flatter ones, allowing us to adaptively change the descending step size.
 
@@ -1128,7 +1130,7 @@ It is a powerful algorithms since it adapts the learning rate taking into accoun
 This leads it to perform better and quicker in finding the minima than simpler SGD with momentum algorithm.
 \hfill
 
-\noindent The process of computing gradients is an important step of the backpropagation algorithm.
+\noindent The process of computing gradients is an important step of the backpropagation algorithm, which is the process through which the weights of a netwrork are updated.
 A neural network with L layers, given an input data, produces an output through the feedforward propagation, and with this value, the loss is calculated.
 Denoting with $z_j^l$ the weighted input to the $j-th$ neuron of the $l-th$ layer, the first step of backpropagation is to compute the error
 \[
@@ -1136,35 +1138,60 @@ Denoting with $z_j^l$ the weighted input to the $j-th$ neuron of the $l-th$ laye
 \]
 On the last layer. Then, using this quantity it is possible to calculate $\Delta_j^l$ for all the layers by exploiting the chain rule of derivatives
 \[
-\Delta_j^l = \sum_k \frac{\partial E}{\partial z_k^{l+1}}\frac{\partial z_k^{l+1}}{\partial z_j^l}
+\Delta_j^l = \sum_k \frac{\partial L}{\partial z_k^{l+1}}\frac{\partial z_k^{l+1}}{\partial z_j^l}
 \]
 Once computed all the errors, it is possible, for each layer, to compute the loss with respect to the weights of the networks and modify them according to equation \ref{eq:weights_update}.
 
 
 \section{Dimensionality reduction: PCA}
-PCA is a method to perform dimensionality reduction, it is an unsupervised learning algorithm which aims to reduce the dimensionality of input data, preserving as much information as possible,
-It does so attempting to learn a new representation of data with lower dimensionality than the initial one and whose element have no linear correlation with each other. It performs then an orthogonal transformation of data, in order to find the direction along which data variance is biggest.
 
-Concretely, if we consider a set of n input data vectors lying in a space $\Re^p$, we can represent them as a matrix $X \in \Re^{n \times p}$ where n is the total number of input data and p is the dimensionality of each data (the number of features in each data vector).
 
-We can suppose without losing generability that feature distribution across our data have zero mean, so that for each feature $x_i$ with i = 1, ..., p, $\mu_i = \mathbb{E}[x_i]=0$.
 
-PCA computes the covariance matrix $\Sigma \in \Re^{p \times p}$ given by $\Sigma(X) = \frac{1}{n-1} X^T \cdot X$, where each entry can be written as $\sigma_{jk} = \frac{1}{n-1}\sum_{i = 1}^n (x^{(i)}_j - \mu_j)(x^{(i)}_k - \mu_k)$, and if we are in the hypotesis of zero mean $\mu_j = \mu_k = 0$, we obtain $\sigma_{jk} = \frac{1}{n-1}\sum_{i = 1}^n (x^{(i)}_j x^{(i)}_k)$.
+Principal Components Analysis is a method to perform dimensionality reduction.
+It is an unsupervised learning algorithm which aims to reduce the dimensionality of input data, preserving as much information as possible from it.
+It does so by learning a new representation of data with lower dimensionality than the initial one and whose element have no linear correlation with each other.
+It performs then a projection of data on to this new space, created such that its axes lie on the directions along which data variance is the biggest.
 
-Since the covariance of a variable with itself is its variance (Cov(a,a)=Var(a)), in the main diagonal we actually have the variances of each initial variable. And since the covariance is commutative (Cov(a,b)=Cov(b,a)), the entries of the covariance matrix are symmetric with respect to the main diagonal, which means that the upper and the lower triangular portions are equal.
+\begin{figure}[h]
+\centering
+\includegraphics[width=.5\linewidth]{ml/pca_example.png}
+\caption{Example of the first two principal components in a 2D dataset: the first principal component is placed along the direction where variance is greater,  and the second component is in the orthogonal direction.}
+\label{fig:pca_example}
+\end{figure}
 
-We are interested in finding a new representation performing a linear transformation that reduces the covariance between different features.
+PCA seeks to find an orthonormal basis so that the first base vector corresponds to the direction along which the variance of data is the greatest.
+This vector is called first principal component (PC).
+The second principal component is defined as the vector orthogonal to the first, that explains the most variance left once the first component is removed.
+And so on, the $i-th$ PC is the direction orthogonal to the first $(i-1)-th$ vectors that maximize the left variance.
+In figure \ref{fig:pca_example} is reported a graphic example of two PC extracted from a set of two-dimensional data.
 
-The eigenvectors of the principal components represent the direction of the maximum variance
-and the corresponding eigenvalues, defines their magniture.
- %The principal components of the matrix X are given by the eigenvectors of the matrix $X^T X$ so that we can write $X^T X = W \Lambda W^T$ where $\Lambda$
+Principal components are calculated as the eigenvectors of the covariance matrix, and the most popular way to implement this calculation is through Singular Value Decomposition (SVD) of the matrix of input data.
+SVD is preferred over the simpler calculation of the covariance matrix and its eigendecomposition because there are algorithms that can deal more quickly with SVD and avoid the explicit calculation of the covariance matrix.
 
+Concretely, if we consider a set of n input data vectors lying in a space $\Re^m$, we can represent them as a matrix $X \in \Re^{n \times m}$ where $n$ is the total number of input data and $m$ is the dimensionality of each data (the number of features in each data vector).
+
+We can suppose without loss of generality that feature distributions across data have zero mean, so that for each feature $f_i$ with i = 1, ..., m, $\mu_i = \mathbb{E}[f_i]=0$.
+
+%PCA aims to compute the eigenvectors of t
+The covariance matrix $\Sigma \in \Re^{m \times m}$ of input data X is given by
+\begin{equation}
+\Sigma = \frac{1}{n-1} X^T \cdot X
+\end{equation}
+because each entry can be written as $\sigma_{jk} = \frac{1}{n-1}\sum_{i = 1}^n (x^{(i)}_j - \mu_j)(x^{(i)}_k - \mu_k)$, and, in the hypotesis of zero mean $\mu_j = \mu_k = 0$, we obtain $\sigma_{jk} = \frac{1}{n-1}\sum_{i = 1}^n (x^{(i)}_j x^{(i)}_k)$.
+
+\noindent Since the covariance of a variable with itself is its variance (Cov(a,a)=Var(a)), in the main diagonal of $\Sigma$ we actually have the variances of each feature. And since the covariance is commutative (Cov(a,b)=Cov(b,a)), the entries of the covariance matrix are symmetric with respect to the main diagonal, which means that the upper and the lower triangular portions are equal.
+
+We are interested in finding a new basis such that covariance matrix is diagonal in this basis and then perform a rotation of data using this basis.
+%The eigenvectors of the principal components represent the direction of the maximum variance
+%and the corresponding eigenvalues, defines their magniture.
+%The principal components of the matrix X are given by the eigenvectors of the matrix $X^T X$ so that we can write $X^T X = W \Lambda W^T$ where $\Lambda$
 %PCA finds a representation through a linear transformation z = $X^T W$.
+To find it, PCA makes use of Singular Values Decomposition of X.
 
-To find them, PCA makes use of Singular Value Decomposition (SVD): a linear algebra analysis which is basically a factorization of a n x p matrix X that (in a case X is a real matrix), to rewrite it as X = $U S W^T$ where U and V are respectively m x m  and n x n orthogonal matrices whose columns are called left- and right-singular vectors of X, and S is a  m x n diagonal matrix.
-Diagonal values of S: $S_{ii} = s_i$ are unically determined by X and are called singular values of X.
+SVD is basically a factorization of a n x m matrix X that (in the case X is a real matrix), allows to rewrite it as X = $U S W^T$ where U and V are respectively m x m  and n x n orthogonal matrices whose columns are called \emph{left} and \emph{right singular vectors} of X, and S is a  m x n rectangular diagonal matrix.
+Diagonal values of S: $s_i$ are uniquely determined by X and are called \emph{singular values} of X.
 
-According this analysis, we can rewrite
+Using this decomposition it is possible to write
 \begin{equation}
 \begin{aligned}
 X^T X & = (U S W^T)^T(U S W^T) \\
@@ -1174,46 +1201,44 @@ X^T X & = (U S W^T)^T(U S W^T) \\
 \end{equation}
 where we used the definition of orthogonal matrix for U $U^T U$ = I.
 
-We therefore rewrite the covariance matrix $Var[X] = \Sigma$ as $\Sigma = \frac{1}{n-1}W S^2 W^T$.
+We therefore rewrite the covariance matrix
+%$Var[X] = \Sigma$ as
+\begin{equation}
+\Sigma = \frac{1}{n-1}W S^2 W^T.
+\end{equation}
+%ricorda: la scomposizione agli autovalori di una SQUARE matrix A è a = Q D Q^T where Q is an orthogonal matrix whose columns are eigenvectors of A, and D is a diagonal matrix whose entries are the eigenvalues of A.
+which means that the singular values of X: $s_i$ are related to eigenvalues of the covariance matrix by the relation $\lambda_i = s_i^2/(n-1)$, while the right singular vectors of X represents the eigenvectors of the covariance matrix.
 
-%Ne sei sicuro di questo?????
-Here the singular values of X: $\lambda_i$ are related to eigenvalues of the covariance matrix by the relation $\lambda_i = s_i^2/(n-1)$
+Using this result, we consider the transformation of data given by Z = $X W$, to show that with these rotated data, the covariance matrix is diagonal.
 
-Using this results if we compute the new data matrix Z = $X^T$ W, its covariance matrix
 \begin{equation}
 \begin{aligned}
-Var[Z] & = \frac{1}{m-1}Z^T Z \\
- & =\frac{1}{m-1} W^T X^T X W   \\
- & = \frac{1}{m-1} W^T W S^2 W^T W \\
- & = \frac{1}{m-1}S^2 .
+Var[Z] & = \frac{1}{n-1}Z^T Z \\
+ & =\frac{1}{n-1} W^T X^T X W   \\
+ & = \frac{1}{n-1} W^T W S^2 W^T W \\
+ & = \frac{1}{n-1}S^2
 \end{aligned}
 \end{equation}
-This shows that when we project the data x to z using the linear transformation W, the resulting transformation has a diagonal covariance matrix which implies that the individual elements of z are mutually uncorrelated.
 
-To reduce the dimensionality of our data, we need to extract the first  $\tilde p$ eigenvalues from the covariance matrix, ordered in a descending order, and collect the corresponding projection matrix $W_{\tilde p}$ made of the corresponding vectors of the righ-singular vectors W.
+This shows that if we use right-singular vector of X to perform the transformation, the covariance matrix of the transformed data is in a diagonal form.
+%when we project the data x to z using the linear transformation W, the resulting transformation has a diagonal covariance matrix which implies that the individual elements of z are mutually uncorrelated.
 
-And the projection of our data from p-dimensional space into $\tilde p$-dimensional space is $\tilde Z = X\tilde W_p$
+To actual reduce the dimensionality of our data, we need to extract the first $\tilde m \leq m$ eigenvalues from the covariance matrix, order them in a descending order of magnitude, and collect the corresponding eigenvectors from the matrix W.
 
-An important parameters to quantify \say{how well} PCA is able to explain is the \emph{variance explained ratio}, given by the ratio of an eigenvalues and the sum of all the eigenvalues.
+With them we can construct the projection matrix $\tilde W_{\tilde m} \in \Re^{m \times \tilde m}$ of the first $\tilde m$ eigenvectors, and use it to project data in order to obtain a new dataset $Y = X \tilde W_{\tilde m}$ made of $n$ new data of dimensionality $\tilde m$.
+\hfill
+
+\noindent An important parameters to quantify the amount of variance that PCA is able to explain, is the \emph{variance explained ratio}, given by the ratio of an eigenvalue of the covariance matrix, and the sum of all the eigenvalues.
 
 \begin{equation}
-\frac{\lambda_i}{\sum_{k = 0}^p \lambda_k}
+\frac{\lambda_i}{\sum_{k = 0}^m \lambda_k}
 \end{equation}
-
-The singular vector with the largest corresponding singular value is the first principal component, and with decreasing order, the other mutually orthogonal vectors are the next principal components.
-In figure \ref{fig:pca_example} is reported a graphic example of two PC extracted from a set of two-dimensional data, along the direction where variance is greater, there's the first principal component and the second component is in the orthogonal direction.
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=.5\linewidth]{ml/pca_example.png}
-\caption{Example of the first two principal components in a 2D dataset}
-\end{figure}
 
 
 
 %ration lambda_i/sum lambda_i ??
 
-\section{How to assess network's performances}
+\section{How to assess network performances}
 After the model has been trained, it is evaluated on the test set to assess its performances on a new dataset.
 A comomon metric for evaluating model performances is the \emph{accuracy}: it is simply defined as the ratio between the total number of correct prediction and the total number of predictions (total number of data in the test dataset).
 For a binary classification, indicating as T and F, true and false, and P and N, positive and negative, it is possible to give some important definitions:
@@ -1241,7 +1266,7 @@ Recall measures the percentage of actual positives that were correctly classifie
 Precision = \frac{TP}{TP+FP} \qquad \qquad Recall = \frac{TP}{TP+FN}
 \end{equation}
 
-Unfortunatelly precision and recall are linked in a sense that often enhancing one leads to the decrease of the other and vice-versa.
+Unfortunately precision and recall are linked in a sense that often enhancing one leads to the decrease of the other and vice-versa.
 %esempio page 283
 It can be set a trade-off between recall and precision according to what quantity is more crucial for the classification task we are performing.
 For example we could be willing to take the risk to have more false positive, in order to achieve a greater number of true positive.
@@ -1351,7 +1376,7 @@ In addition to scan images, ABIDE provides every information related to each pat
 
 The vast majority of patients are males as shown in figure \ref{fig:mf_site}, for a total amount of 1804 males and 422 females.
 \textcolor{ForestGreen}{The number of males is greater than the number of females as a consequence of the greater probability for male to be affected by ASD, the ratio between males and females has been estimated to be approximately 4:1 \cite{fombonne2009}}.
-Control/ASD patient number is more or less balanced for every site, with the exception of KKI\_1 (Kennedy Krieger Institute) that provided two times more controls than ASD patients, and KUL\_3 (Katholieke Universiteit Leuven) and NYU\_2 (NYU Langone Medical Centre, Sample 2) that only provided ASD cases. For a visual comparison, the number of controls/ASD for each site is displayed on the histogram in figure \ref{fig:controlcase_site}.
+Control/ASD patient number is more or less balanced for every site, with the exception of KKI\_1 (Kennedy Krieger Institute) that provided two times more controls than ASD patients, and KUL\_3 (Katholieke Universiteit Leuven) and NYU\_2 (NYU Langone Medical center, Sample 2) that only provided ASD cases. For a visual comparison, the number of controls/ASD for each site is displayed on the histogram in figure \ref{fig:controlcase_site}.
 
 \begin{figure}[h]
 \centering
@@ -1819,7 +1844,7 @@ W_{a,b}(f) = \int_{-\infty}^{+\infty}  f(t) \cdot \psi_{a, b}^\ast \left(t\right
 \end{equation}
 Where the $\ast$ indicates the complex conjugate.
 This integral is performed for different values of a and b.
-It can be useful to visualize this integral in a dynamic way: set a value for $a$, a wavelet centred in $b$, is slided across the signal by changing the value of $b$ and for each of these values, a coefficient is extracted by integrating the product between the wavelet and the signal; in this way, coefficients are function of frequency (or scale) and time. This operation is repeated for different values of a and b, and allows us to assemble a matrix called \emph{scalogram}, which is basically a plot of these coefficients in time-frequency domain.
+It can be useful to visualize this integral in a dynamic way: set a value for $a$, a wavelet centerd in $b$, is slided across the signal by changing the value of $b$ and for each of these values, a coefficient is extracted by integrating the product between the wavelet and the signal; in this way, coefficients are function of frequency (or scale) and time. This operation is repeated for different values of a and b, and allows us to assemble a matrix called \emph{scalogram}, which is basically a plot of these coefficients in time-frequency domain.
 
 Formally, a wavelet transform, can be described as a mapping from $L^2(\Re) \rightarrow L^2(\Re^2)$.
 
@@ -1993,7 +2018,7 @@ An example of correlation matrix created with in-phase and out-of-phase coeffici
 
 
 \chapter{Multicenter data harmonization}\label{chap:harmonization_theory}
-Since nw, a big percentage of neuroimaging studies have been carried out with limited data acquired from a single centre, to minimize varibility in data due to the different instrumentations employed.
+Since nw, a big percentage of neuroimaging studies have been carried out with limited data acquired from a single center, to minimize varibility in data due to the different instrumentations employed.
 In recent years, however, there's the tendency to create shared datasets, by pooling together data acquired from different centers.
 A positive side of creating a large dataset putting together data from multiple centers is the possibility to work on dataset of bigger dimension, resulting in obtaining more statistically accurate analysis, and facilitates the generalization and the robustness of the model.
 As a drowback, however, it introduces variability in our analysis such as differences due to scanner models, acquisition parameters, generally known as scanner effects.
