@@ -168,7 +168,7 @@ Parents are asked to answer a set of questions about every-day behaviour of thei
 However, are not uncommon cases where ASD is discovered only after the adolescence.
 Currently ADI-R (Autism Diagnostic Interview - Revised) and ADOS (Autism Diagnostic Observation Schedule) are considered the ‘gold standard’ tools for diagnosis of ASD \cite{ozonoff-2015} \cite{lecouteur-2008}.
 
-Nevertheless, besides these behavioural test, to achieve a more accurate diagnosis, medical and biological informations should be taken into account as well.
+Nevertheless, besides these behavioural test, to achieve a more accurate diagnosis, medical and biological information should be taken into account as well.
 For a better treatment of this condition, it would be of great importance to make an early diagnosis, in order to provide in time the help and support people need.
 Hopefully, treating children when this disorder is still it in its early stage, could bring to a regression of this condition.
 
@@ -421,7 +421,7 @@ Choosing the z axis as the direction of the slice selection, we acquire images o
 
 
 When acquiring an image, data are collected under the form of a matrix called k-space.
-K-space is a coordinate system used to store spatial frequencies information. From these informations we can retrieve the usual MRI image (containing spatial, anatomical informations) by applying the inverse Fourier 2D transform.
+K-space is a coordinate system used to store spatial frequencies information. From these information we can retrieve the usual MRI image (containing spatial, anatomical information) by applying the inverse Fourier 2D transform.
 
 In a k-space matrix, low spatial frequencies, corresponding to large object across the whole real image, are encoded at the center of the matrix and high spatial frequencies corresponding to small objects and finer details, are encoded in the peripheries.
 
@@ -681,7 +681,7 @@ where $p_k$ is the fraction of data in Q belonging to class k.
 
 Following this principle, the splitting process is iterated and the tree is grown.
 
-The structure of a tree can be visualized in a plot that contains all the informations necessaries to understand the tree, such as the feature according to which each split is made, and the impurity measure of each node.
+The structure of a tree can be visualized in a plot that contains all the information necessaries to understand the tree, such as the feature according to which each split is made, and the impurity measure of each node.
 This property is one of those that make decision trees so popular: they are easy to interpret since their structure and the information of each node can be visualized in a clear plot.
 Other positive sides of decision trees are, their easy to use implementation which requires little data preparation and their rapidity since their complexity goes like $O(n_{features}n_{samples}^2log(n_{samples}))$ \cite{scikit-2011}
 
@@ -738,7 +738,7 @@ The final prediction of the forest is assessed by majoring vote: the predicted c
 Just as we discussed for tree classifiers, it is possible to extract information about features for a random forest as well.
 Important features for a random forest are assessed by extracting important features from each tree and by averaging these results.
 
-%Informations regarding features importance can be extracted from a random forest classifier from the ones of each tree, and by averaging the results of feature importance extracted from each tree.
+%information regarding features importance can be extracted from a random forest classifier from the ones of each tree, and by averaging the results of feature importance extracted from each tree.
 
 
 \section{Deep Learning: ANN}\label{sec:deep_learning_theory}
@@ -817,7 +817,7 @@ This usually happens for shallow network, when the model has a small number of p
 To have low parameters results in poor performances because the model is not able to learn the underlying structure of a complex data set.
 
 \item On the contrary, overfitting occurs when the model has too many parameters compared to those required to learn the input features.
-What happens then is that the model memorizes all the data it sees during train but it is not able to generalize informations.
+What happens then is that the model memorizes all the data it sees during train but it is not able to generalize information.
 As a result, the model performs well on the train dataset and has low performances in the unseen test dataset.
 \end{itemize}
 
@@ -1183,7 +1183,7 @@ because each entry can be written as $\sigma_{jk} = \frac{1}{n-1}\sum_{i = 1}^n 
 
 We are interested in finding a new basis such that covariance matrix is diagonal in this basis and then perform a rotation of data using this basis.
 %The eigenvectors of the principal components represent the direction of the maximum variance
-%and the corresponding eigenvalues, defines their magniture.
+%and the corresponding eigenvalues, defines their magnitude.
 %The principal components of the matrix X are given by the eigenvectors of the matrix $X^T X$ so that we can write $X^T X = W \Lambda W^T$ where $\Lambda$
 %PCA finds a representation through a linear transformation z = $X^T W$.
 To find it, PCA makes use of Singular Values Decomposition of X.
@@ -1482,39 +1482,50 @@ We have then carried out our analysis on a dataset consisting on only male patie
 \section{Common preprocessing steps}
 \label{sec:preprocessing_steps}
 
-Data acquired after a MRI and fMRI session are not ready to be analyzed to perform functional connectivity measures.
-In fact they are usually affected by different sources of noise and artifacts.
-There are two primary noise sources: the first is due to normal biological functions of patients such as heartbeat and breathing, commonly referred as physiological noise.
-For example, breath rate, can affect BOLD signal because of the induced local motion of the brain's vessels, or the change in blood oxygenation and pressure. The second noise source is due to movements of the patients during the scan, such as head movements or small body adjustments.
-Other common artifacts usually derive from the hardware scan as well.
-One of the main artifact intrinsic to the signal nature is distortion and field inhomogeneities, deriving from making the scan sensitive to the BOLD signal which intrinsically is the detection of a signal loss due to field distortion.
-This could be corrected by employing small coils inside the scan to smooth magnetic field differences, this process called shimming still left some artifacts, therefore common data preprocessing pipelines use extra acquisitions to create a field map of the remaining field inhomogeneities and a shift and stretching voxel to correct for them.\cite{bijsterbosch2017}
+Data acquired after a MRI and fMRI session are not ready to be analyzed to perform functional connectivity \textcolor{ForestGreen}{or other kind of} measures.
+In fact data are usually affected by different sources of noise and artifacts.
+It is possible to distinguish between two main sources of noise: physiological noise due to normal biological functions of patients such as heartbeat and breathing, and movement of subject inside the scanner.
+Additionally it is possible to identify artifacts due to inner flaws of the scanning systems such as inhomogeneities of the static magnetic field or drift of the baseline of the BOLD signal \cite{bijsterbosch2017}.
 
 
-In the following lines, we list the most important causes of noise and how they are corrected during common preprocessing steps implemented in the main software of analysis.
+%For example, breath rate, can affect BOLD signal because of the induced local motion of the brain's vessels, or the change in blood oxygenation and pressure. The second noise source is due to movements of the patients during the scan, such as head movements or small body adjustments.
+
+%One of the main artifact intrinsic to the signal nature is distortion and field inhomogeneities, deriving from making the scan sensitive to the BOLD signal which intrinsically is the detection of a signal loss due to field distortion.
+%This could be corrected by employing small coils inside the scan to smooth magnetic field differences, this process called shimming still left some artifacts, therefore common data preprocessing pipelines use extra acquisitions to create a field map of the remaining field inhomogeneities and a shift and stretching voxel to correct for them.
+
+%In the following lines, we list the most important causes of noise and how they are corrected during common preprocessing steps implemented in the main software of analysis.
+
+In this section we briefly review some of the most important artifacts and the common procedures to reduce their effect on the scquired images, and other common preprocessing steps applied to images to prepare them for subsequent analysis such as functional connectivity measures.
 %Subsequently we discuss the implementation of a software
 \begin{itemize}
 \item Head motion effect is due to the physical movement of the patient inside the scanner. It results in a misalignment from one acquired volume to the next.
 To correct this effect, \textbf{motion correction} steps are performed at the beginning of image preprocessing. Motion correction works by spatially applying transformations as rotation or translation volume by volume, aiming to overlap every acquired slice to a chosen reference volume, like the first or the middle one.
 
-\item For EPI data, \textbf{slice timing} correction is usually performed as well. It aims to correct artifacts deriving from the sequentiality of acquisition for each slice of the brain, due to which each slice is acquired at different time.
+\item For EPI data, \textbf{slice timing correction} is usually performed as well. It aims to correct artifacts deriving from the sequentiality of acquisition for each slice of the brain, due to which each slice is acquired at different time.
 In EPI images, the entire time elapsed to acquire all the slices is called repetition-time, and it usually ranges from 1 to 3 seconds, and during this interval signal may lose its initial strength.
 Slice timing correction uses interpolation in time to shift the BOLD timeseries of each voxel, in order to align them to a reference starting time.
 A downside of the use of interpolation, though, is the signal smoothing it performs that can lead to a slight loss of high frequencies information.
 
+\item  \textcolor{ForestGreen}{\textbf{Distortion correction} is usually applied to reduce distortion in EPI images caused by inhomogeneities in the magnetic field arising from flaws of the external magnetic field, or caused by different tissue within the brain which cause localized distortion.
+They are usually corrected during the image acquisition procedure by means of electromagnets called \emph{shims} coils used to generate a magnetic field that opposes and cancels these inhomogeneities.
+Yet, this procedure, often referred as \emph{shimming}, is not always able to cancel all the inhomogeneities, and the remaining ones are corrected during preprocessing.
+The correction is possible by using a \emph{fieldmap}: a map containing magnitude information of the magnetic field across the space.
+Fieldmaps sould be acquired after each scan, but in absence of them, they can be generated using tools such as SPM
+\footnote{https://www.fil.ion.ucl.ac.uk/spm/toolbox/fieldmap/}
+}
 \item A further common step is \textbf{spatial smoothing} of both structural and functional data. It operates calculating a weighted average of each pixel over neighbored voxels. To this end, a gaussian kernel with a chosen FWHM is applied to create the weights.
 Spatial smoothing is useful to avoid abrupt changes of signal between two neighbouring voxels.
 
 \item \textbf{Band-pass temporal filtering} is commonly applied to BOLD data, aiming to reduce artifacts from hardware such as an effect called \textquotedblleft drift \textquotedblright namely the slow change of the BOLD baseline signal over time. This is accomplished by applying a high-pass filter to remove very low frequency components. This filtering operation is usually referred as a removal of linear trends, since we are removing from a signal only components with a frequency lower than the low-frequency fluctuations of BOLD signal.
 At the same time, a low-pass filter is applied to remove all frequencies above a cut off frequency, it is commonly applied in processing resting state fMRI data because the physiological signal is driven by low frequencies oscillations while high frequencies are associated to noise.
-
 \end{itemize}
-All the preprocessing steps cited above are performed for each patient, and the main objective of them is to enhance signal to noise ratio of each image. However,
-if our task is to perform a group analysis, and compare different patient's images, one of the most relevant step is \textbf{registration}.
-Structural (T1-weighted) data are aligned over a standard coordinates system space to universally describe location of the different brain parts, to make sure that the same voxel coordinate corresponds to the same brain area for all the subjects.
+
+All the preprocessing steps cited above are performed for each patient, and their main common objective is to enhance the signal to noise ratio of each image. However, if our task is to perform a group analysis, and compare different patient images, a further, essential step called \textbf{registration} has to be carried out.
+
+During registration structural (T1-weighted) data are aligned over a standard coordinates system space to universally describe location of the different brain parts, to make sure that the same voxel coordinate corresponds to the same brain area for all the subjects.
 Registration occurs for functional images as well: they are firstly aligned and adapted to the structural image and then registered to the same standard template.
-The most common template, provided by packages like FSL is Talairach and Monreal Neurological Institute's MNI-152, adopted by the International Consortium of Brain Mapping (ICBM) as the international standard, replaced the previous Talairach and Tournoux template.
-Because the adoption as international standard it is also called ICBM152 but the most common name remains MNI-152.
+The most common template, provided by packages like FSL is Talairach and Monreal Neurological Institute's MNI152, adopted by the International Consortium of Brain Mapping (ICBM) as the international standard, replaced the previous Talairach and Tournoux template.
+Because the adoption as international standard it is also called ICBM152 but the most common name remains MNI152.
 
 To understand how MNI152 differs from the Talairach and Tournoux we have to spend a few words about the latter.\cite{brett2002}
 
@@ -1524,35 +1535,22 @@ To understand how MNI152 differs from the Talairach and Tournoux we have to spen
 
     The Teilarch and Tournoux space was published in 1988 and introduced some innovative aspects to tackle the problem of the great variability in brain anatomy between people which so far had limited the accuracy of statistical analysis.
     They introduced a common coordinate system to identify different brain locations, based on some anatomical landmarks, and introduced a spatial transformations to match different brains.
-    They choose two anatomical areas as reference areas: the anterior and the posterior commissure, which are relative invariant between different brains and conjuncted them with an axis.
-    An horizontal plane passing through this axis was chosen such that it was perpendicular with the interemishpere axis.
+    They choose two anatomical areas as reference areas: the anterior and the posterior commissure, which are relatively invariant between different brains and conjuncted them with an axis. This axis constitutes the horizontal y axis, and the origin is placed in correspondence of the anterior commissure. From it, a perpendicular axis passing thgough the interemispheric fessure is chosen as the z axis and consequently the x axis is chosen perpendicular to y and z.
+    %An horizontal plane passing through this axis was chosen such that it was perpendicular with the interemishpere axis.
     This way they created a 3D coordinate system called the Talairach coordinate system.
-    Afterwards, to match different brains they described a set of spatial transformation, one for each different brain quadrant, to transform a brain in order to match the principal anatomical structures of each other.\cite{brett2002_w}
+    Afterwards, to match different brains they described a set of spatial transformation, one for each different brain quadrant, to transform a brain in order to match the principal anatomical structures of each other.
 
     From this template, a first MNI template was created, called MNI305, created by manual scaling 241 brains to the Talairach template and averaging them to obtain  new template, and then transform 305 additional scans to this new template and averaging them to create a second average and final template (MNI305).
 
-    From this template, MNI152 was finally created and published in 2001, by registering 152 T1 scans to the MNI305 template and averaging them.
+    From this template, MNI152 was finally created and published in 2001, by registering 152 T1 scans to the MNI305 template and averaging them \cite{brett2002_w} \cite{brett2002}.
 
     }%
 }
 
-This template is used both for the structural and the functional registration of a MRI and fMRI scan.
+\hfill
+
+\noindent This template is used both for the structural and the functional registration of a MRI and fMRI scan.
 %When we work with functional images though, a second registration step occurs within each patient to align EPI (functional) data to the structural registered image of that subject.
-
-Looking at picture \ref{fig:registrationchart} we can see an example of functional and structural image registration to a MNI152 template: first the functional image is registered to the structural and next, they are both registered to MNI template.
-
-Once the structural and functional images were registered to a standard space, is possible to extract brain region information using an \textbf{atlas}.
-
-Atlases are in the same space as the template image (MNI or Talairach space for example) and consist of a 3D standard brain template where different brain areas are marked with different color intensities to associate each area to a label.
-This division into areas and the subsequent labeling, is called parcellization.
-
-There are different atlases, each one including a different parcelization of the brain, which is obtained by divding it into N labeled ROIs
-(Regions Of Interest) to focus on anatomical and/or functional regions, according to the study we are carrying out.
-We will describe some og the most important atlases in the following section (\ref{sec:cpac})
-
-
-%One of the most popular atlas is Harvard Oxford atlas obtained by manually labelling 37 MRI scans, aligning them to the standard MNI template and finally averaging each transformed label \cite{jenkinson2018}.
-
 
 \begin{figure}
 \centering
@@ -1560,80 +1558,35 @@ We will describe some og the most important atlases in the following section (\r
 \caption{Registration steps:
  starting from the first row there are the acquired functional and structural images and the MNI template respectively
  The second row shows the functional image registered on the structural space
- The third row shows the final images both registered to the MNI 152 template
+ The third row shows the final images both registered to the MNI152 template
 }
 \label{fig:registrationchart}
 \end{figure}
 
+Looking at figure \ref{fig:registrationchart} we can see an example of functional and structural image registration to a MNI152 template: firstly the functional image is registered to the structural and next, they are both registered to MNI template.
 
+Once the structural and functional images have been registered to a standard space, is possible to extract brain region information using an \textbf{atlas}.
 
-\section{Preprocessing of ABIDE I \& ABIDE II dataset}\label{sec:cpac}
+Atlases are in the same space as the template image (MNI or Talairach space for example) and consist of a 3D standard brain template where different brain areas are associated to a label.
+This division into areas and the subsequent labeling, is called parcellation.
 
-\paragraph{ABIDE-preprocessed initiative}\hfill
+There are different atlases, each one including a different parcellation of the brain, which is obtained by dividing it into N labeled ROIs
+(Regions Of Interest) to focus on anatomical and/or functional regions, according to the study we are carrying out.
+%We will describe some of the most important atlases in the following section (\ref{sec:cpac})
+Some of the most popular atlases are:
 
-In 2013 Neuro Bureau Preprocessing Initiative took care of data preprocessing of ABIDE I dataset and shared its results making them publicly available \cite{cameron2013}.
-Thanks to this work, ABIDE I data are available as raw data, as well as preprocessed data.
-Four preprocessing software and approaches were employed each from a different group and every one publicly available \footnote{http://preprocessed-connectomes-project.org/abide/C-PAC.html} for download.
-The four software for image preoprocessing employed for ABIDE I are:
 \begin{itemize}
-\item Connectome Computation System (CCS)
-\item Configurable Pipeline for the Analysis of Connectomes (C-PAC)
-\item Data Preprocess Assistant for Resting-State fMRI (DPARSF)
-\item Neuroimaging Analysis Kit (NIAK)
-\end{itemize}
-The preprocessing steps implemented by the different softwares are similar, they differ on the programming language on which they are rely (Python, MATLAB..) the algorithm implementation, the order of preprossessing steps and their parameters.
 
-But since this work only concerns ABIDE I dataset, and our task is to work with the entire ABIDE I + ABIDE II dataset, we to repeat the preprocessing procedures in order to obtain a dataset including both ABIDE I and II preprocessed with the same pipeline.
+\item The H-O atlas was first employed in 2006 \cite{makris2006} and consists of a subcortical and a cortical atlas, with a total of 117 ROIs of which 21 subcortical and 96 cortical (48 for each emishpere). A colored representation of the two (cortical and subcortical) parcellation is shown in figure \ref{fig:hoatlas}.
 
-\paragraph{C-PAC the Configurable Pipeline for the Analysis of Connectomes}\hfill
+\item The Automated Anatomical Labeled, an atlas created in 2002 \cite{mazoyer-2002} consisted of 90 total ROIs, 45 each emisphere. Since then, different modified and improved version were released, the last of which AAL3 consisting of 166 ROIs.
 
-In our work, we choose to preprocess data from ABIDE I and ABIDE II using C-PAC: a configurable, open source pipeline, based on Nipype platform.
-C-PAC was run on a Docker container installed on a computer and our hardware and software setup consisted on:
-\begin{itemize}
-\item 16-core Intel i7-5960X processor and 64 Gb RAM
-\item Ubuntu 20.04 operating System
-\item C-PAC 1.8.1 installed on Docker v. 20.10.11
+\item CC200 and CC400 are more recent atlases created by C. Craddock in 2012 \cite{craddock2012} for functional parcellation, consisting of 200 and 392 ROIs respectively \footnote{http://ccraddock.github.io/cluster\_roi/atlases.html}.
+
+\item The Desikan atlas \cite{desikan2006} originally created in 2006 and consisting on 68 regions also underwent different transformation towards a finer parcellation of the brain.
+
 \end{itemize}
 
-We were allowed to run 3 patients in parallel, reserving 4 cores for each partecipant and up to 12 Gb memory to each patient, necessary to save intermediate-steps outputs.
-
-We choose to employ C-PAC because, basing on machine learning classification results, \cite{yang2020} C-PAC prove to be the most efficient preprocessing pipeline to preprocess ABIDE dataset.
-C-PAC employs tools like AFNI, FSL and ANTS to perform image correction of structural MRI and rs fMRI.
-Data were preprocessed following the same steps as the pipeline employed with C-PAC to create the ABIDE-preprocessed dataset.
-This pipeline includes both antomical and functional preprocessing.
-Anatomical pipeline steps consist on:
-\begin{itemize}
-\item Skull removal using AFNI's 3dSkullStrip
-\item Tissue segmentation using FSL-FAST, to separate gray matter, white matter and CSF, uging a thresholding probability map whose threshold's values were set the same as ABIDE-preprocessed pipeline values
-\item Registration to a standard template using ANTS, with a spatial resolution of 2mm
-\end{itemize}
-Functional pipeline consists on the following steps
-\begin{itemize}
-\item Slice timing correction using AFNI-3dTshift
-\item Motion estimate and correction using AFNI-3dvolreg
-\item Distortion correction using PhaseDiff and AFNI 3dQWarp
-\item Create a brain-only mask of the functional data using AFNI 3DAUTOMASK
-\end{itemize}
-
-\hfill
-
-At the end of functional preprocessing steps, timeseries are extracted from each patient, making use of different atlases such as Automated Anatomical Labeled (AAL), Harvard-Oxford (HO), CC200, CC400, DesikanKilliany etc.
-As mentioned in section \ref{sec:preprocessing_steps}, different atlases differ in numbers and types of ROIs. Here we list some examples
-
-The Automated Anatomical Labeled, an atlas created in 2002 \cite{mazoyer-2002} consisted of 90 total ROIs, 45 each emisphere, since then, different modified and improved version were released, the last of which AAL3 consisting of 166 ROIs. The AAL atlas employed in C-PAC is an intermediate version and consists on 116 ROIs\footnote{http://preprocessed-connectomes-project.org/abide/Pipelines.html}.
-
-The Desikan atlas \cite{desikan2006} originally created in 2006 and consisting on 68 regions also underwent different transformation towards a finer parcellization of the brain. C-PAC employs three different Desikan atlases, the one we found more information about is a modified intermediate version named DesikanKilliany consisting on 94 ROIs of which 32 cortical regions each side, 3 ROIs belonging to cerebellar vermis and 29 subcortical regions.
-
-CC200 and CC400 are more recent atlases created by C. Craddock in 2012 \cite{craddock2012} for functional parcellization, consisting of 200 and 392 ROIs respectively \footnote{http://ccraddock.github.io/cluster\_roi/atlases.html}.
-
-However, according to previous studies \cite{spera-2019} the atlas that gave best classification performances was Harvard-Oxford, so this was the atlas we choose to employ for our work.
-The H-O atlas consists of a subcortical and a cortical atlas, with a total of 117 ROIs of which 21 subcortical and 96 corticals (48 for each emishpere).
-The H-O atlas employed by C-PAC is provided by FSL library \footnote{https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/}, and as includes both subcortical and cortical atlases, even though there's only 111 ROIs, namely 14 subcortical and 97 corticals.
-The lacking ROI in the subcortical areas are L/R cerebral white matter, L/R cerebral cortex, L/R lateral ventricle and the brain stem \footnote{Subcortical ROIs https://neurovault.org/images/1700/ \quad Cortical ROIs https://neurovault.org/images/1705/ }.
-%In this unified HO atlas (subcortical and cortical) the entire cerebral cortex area was removed because is replaced by the finer parcellization of the cortical areas from the cortical atlas.
-Removing these regions from the 117 ROIs we should obtain 110 ROIs, while the atlas employed in C-PAC has 111 regions.
-The extra cortical ROI in this H-O atlas is present in the 83th position and is named 3455; however there are no information abut this ROI neither on Harvard-Oxford documentation nor on C-PAC's/FSL's documentation, and because is only made of 2 voxels it was excluded for our further analysis.
-In summary we are able to obtain 110 ROIs with Harvard-Oxford atlas, and for each ROI we are able to extract a timeseries using C-PAC.
 
 \begin{figure}[h]
 \centering
@@ -1643,63 +1596,160 @@ In summary we are able to obtain 110 ROIs with Harvard-Oxford atlas, and for eac
 \end{figure}
 
 
-As is possible to notice from figure \ref{fig:confrontoabidepreproc} timeseries extracted after our preprocessing pipeline do not exactly match those from ABIDE preprocessed, even if it appears clear that the trend is the same, but there are some local differencies between the two plots.
-This is most likely due to two main reasons: the differences in software version, and the lacking of a detailed step-by-step pipeline legend showing the value of all the sub parameters employed during the C-PAC analysis pipeline.
+
+
+\section{Preprocessing of ABIDE I \& ABIDE II dataset}\label{sec:cpac}
+
+\paragraph{ABIDE-preprocessed initiative}\hfill
+
+In 2013 Neuro Bureau Preprocessing Initiative took care of data preprocessing of ABIDE I dataset and shared its results making them publicly available \cite{cameron2013}.
+Thanks to their work, ABIDE I data are now available both as raw data and as preprocessed data.
+Four preprocessing approaches were employed each from a different team and each one publicly available \footnote{http://preprocessed-connectomes-project.org/abide/C-PAC.html} for download.
+The four pipelines for image preoprocessing employed for ABIDE I are:
+\begin{itemize}
+\item Connectome Computation System (CCS)
+\item Configurable Pipeline for the Analysis of Connectomes (C-PAC)
+\item Data Preprocess Assistant for Resting-State fMRI (DPARSF)
+\item Neuroimaging Analysis Kit (NIAK)
+\end{itemize}
+The preprocessing steps implemented by different pipelines are similar. They differ on the programming language on which they rely (Python, MATLAB..) the algorithm implementation, the order of preprossessing steps and their parameters.
+
+
+\paragraph{C-PAC the Configurable Pipeline for the Analysis of Connectomes}\hfill
+
+\textcolor{ForestGreen}{Preprocessed data are only available for the ABIDE I dataset.
+In order to perform analysis on a bigger dataset comprising ABIDE II as well, we need to run a preprocessing pipeline to create a unified dataset with data belonging to ABIDE I and ABIDE II, obtained following the same preprocessing steps.}
+% work only concerns ABIDE I dataset, and our task is to work with the entire ABIDE I + ABIDE II dataset, we to repeat the preprocessing procedures in order to obtain a dataset including both ABIDE I and II preprocessed with the same pipeline.
+
+In our work, we choose to process data from ABIDE I and ABIDE II using C-PAC: a configurable, open source pipeline, based on Nipype platform.
+\textcolor{ForestGreen}{We selected this software after a brief review of the most used pipeline among the four employed for ABIDE I. C-PAC and DPARFS resulted to be the most popular choices, however, we choose C-PAC since previous studies compared the different pipelines and found out that images preprocessed with C-PAC lead to a better classification control/ASD on ABIDE I dataset \cite{yang2020}.}
+
+C-PAC was run on a Docker container installed on a personal computer with an hardware and software setup consisting on:
+\begin{itemize}
+\item 16-core Intel i7-5960X processor and 64 Gb RAM
+\item Ubuntu 20.04 operating System
+\item C-PAC 1.8.1 installed on Docker v. 20.10.11
+\end{itemize}
+
+We were allowed to run 3 patients in parallel, reserving 4 cores for each partecipant and up to 12 Gb memory to each patient, necessary to save intermediate-steps outputs.
+
+%We choose to employ C-PAC because, basing on machine learning classification results, \cite{yang2020} C-PAC prove to be the most efficient preprocessing pipeline to preprocess ABIDE dataset.
+C-PAC employs tools like AFNI\footnote{https://afni.nimh.nih.gov/}, FSL\footnote{https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslOverview} and ANTS\footnote{http://stnava.github.io/ANTs/} to perform image correction of structural MRI and rs fMRI.
+
+\textcolor{ForestGreen}{Preprocessing of ABIDE I and ABIDE II data was carried out along the lines of what was fulfilled on ABIDE I by the C-PAC team.}
+%Data were preprocessed following the same steps as the pipeline employed with C-PAC to create the ABIDE-preprocessed dataset.
+This pipeline includes both anatomical and functional preprocessing.
+Anatomical pipeline steps consist on:
+\begin{itemize}
+\item Skull removal using AFNI's 3dSkullStrip
+\item Tissue segmentation using FSL-FAST, to separate gray matter, white matter and CSF, using a thresholding probability map
+%whose threshold values are set the same as ABIDE-preprocessed pipeline values
+\item Registration to a standard template using ANTS, with a spatial resolution of 2mm
+\end{itemize}
+Functional pipeline consists on the following steps
+\begin{itemize}
+\item Slice timing correction using AFNI-3dTshift.
+\item Motion estimate and correction using AFNI-3dvolreg.
+\item Distortion correction using PhaseDiff and AFNI 3dQWarp.
+\item Create a brain-only mask of the functional data using AFNI 3DAUTOMASK.
+\textbf{ForestGreen}{
+\item Band-pass filtering of (0.01 - 0.1) Hz.
+\item Time Series extraction using different atlases.
+}
+\end{itemize}
+
+\hfill
+
+At the end of functional preprocessing steps, timeseries are extracted from each patient, making use of different atlases implemented in C-PAC, \textcolor{ForestGreen}{provided by different softwares as FSL for Harvard-Oxford (HO), AAL Toolbox for Automated Anatomical Labeled (AAL), pyClusterROI for CC200, CC400 etc.}
+
+The AAL atlas employed in C-PAC is an intermediate version among the different releases of this atlas and consists on 116 ROIs\footnote{http://preprocessed-connectomes-project.org/abide/Pipelines.html}.
+
+\textbf{red}{Va bene parlare di desikan DesikanKilliany senza dire qual è il software che lo fornisce? Non si trovano informazioni..}
+C-PAC employs three different Desikan atlases, the one we found more information about is a modified intermediate version named DesikanKilliany consisting on 94 ROIs of which 32 cortical regions each side, 3 ROIs belonging to cerebellar vermis and 29 subcortical regions.
+
+According to previous studies \cite{spera-2019} the atlas that gives best classification performances is Harvard-Oxford, so this is the atlas we choose to employ for our work.
+
+The H-O atlas employed by C-PAC is provided by FSL library \footnote{https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/}, and as includes both subcortical and cortical atlases, even though there's only 111 ROIs, namely 14 subcortical and 97 cortical.
+The lacking ROI in the subcortical areas are L/R cerebral white matter, L/R cerebral cortex, L/R lateral ventricle and the brain stem \footnote{Subcortical ROIs https://neurovault.org/images/1700/ \quad Cortical ROIs https://neurovault.org/images/1705/ }.
+%In this unified HO atlas (subcortical and cortical) the entire cerebral cortex area was removed because is replaced by the finer parcellation of the cortical areas from the cortical atlas.
+Removing these regions from the 117 ROIs we should obtain 110 ROIs, while the atlas employed in C-PAC has 111 regions.
+The extra cortical ROI in this H-O atlas is present in the 83th position and is named 3455; however there are no information abut this ROI neither on Harvard-Oxford documentation nor on C-PAC's/FSL's documentation, and because it is only made of 2 voxels it was excluded from our further analysis.
+In summary we are able to obtain 110 ROIs with Harvard-Oxford atlas, and for each ROI we are able to extract a timeseries using C-PAC.
+
+
+As is possible to notice from figure \ref{fig:confrontoabidepreproc} timeseries extracted after our preprocessing pipeline do not exactly match those from ABIDE preprocessed.
+Even if it \textcolor{ForestGreen}{they follow a similar trend, there are some local differences between the two plots.}
+This slight difference is most likely due to two main reasons: the differences in software version, and the lacking of a detailed step-by-step pipeline legend showing the value of all the sub parameters employed during the C-PAC analysis pipeline.
 Abide preproccessed data were obtained using one of the first version of C-PAC; nowadays, after more than 7 years, C-PAC and the libraries it relies on were upgraded several times and this may have slightly affected the final outcome of the process.
-We found though the old pipeline configuration file employed on abide preprocessed \footnote{https://github.com/preprocessed-connectomes-project/abide}, but since it belongs to a previous version of C-PAC, it lacked lots of sub-parameters and sub-settings added during these years.
-For this reason, in our pipeline configuration file, parameters in common between our file and abide preprocessed' were set the same as abide's, and for all the others we choose to left the C-PAC's default values.
+We found though the old pipeline configuration file employed on ABIDE preprocessed \footnote{https://github.com/preprocessed-connectomes-project/abide}, but since it belongs to a previous version of C-PAC, it lacked information about lots of sub-parameters and sub-settings added in these years.
+For this reason, in our pipeline configuration file, parameters in common between our file and ABIDE preprocessed' were set the same as ABIDE, and for all the others we choose to left the C-PAC's default values.
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=.8\textwidth]{abide/timeseries51456.png}
-\caption{Comparison of 4 timeseries between ABIDE-preprocessed and our timeseries. Data show 4 randomly chosen ROIs: ROI 0, 6, 50, 108, belonging to patient 51456 from ABIDE I. Corresponding to ROI 10, 26, 1901, 4702}
+\caption{Comparison of 4 timeseries between ABIDE-preprocessed and our timeseries. Data show 4 randomly chosen ROIs: ROI 0, 6, 50, 108, belonging to patient 51456 from ABIDE I. Corresponding to ROI: 10, 26, 1901, 4702 : left thalamus, left accumbens, right supramarginal gyrus, left supracalcarine cortex.}
 \label{fig:confrontoabidepreproc}
 \end{figure}
 
 
 
-
 \chapter{Connectivity measures}\label{chap:connectivity_coefficients}
-As described in chapter \ref{sec:preprocessing_steps} if we choose an atlas on fMRI data, for brain parcellization, we can extract timeseries of different brain areas. If we use Harvard-Oxford atlas, we are able to extract 110 timeseries for each patient.
+As described in chapter \ref{sec:preprocessing_steps} if we choose an atlas on fMRI data, for brain parcellation, we can extract timeseries of different brain areas. If we use Harvard-Oxford atlas, we are able to extract 110 timeseries for each patient.
 With these data, we want to construct a correlation matrix for each patient, by pairwise comparing timeseries and extracting a coefficient representative of functional correlation between two areas.
 
 The total number of combination achievable with n timeseries is given by
 \begin{equation}
 N_{comb} = \frac{n\cdot(n-1)}{2}
 \end{equation}
-Therefore, employing HO atlas with 110 ROIs we obtain 5995 combination each one expressed by a correlation coefficient.
+Therefore, employing H-O atlas with 110 ROIs we obtain 5995 combination each one expressed by a correlation coefficient.
 
-In the following section we discuss two different approaches for computing correlation coefficients: the first makes use of Pearson correlation analysis, a useful tool to quantify the linear correlation between two timeseries, and the second approach, based on wavelet analysis, performs a comparison between two signals in time-frequency domain.
-We start discussing Pearson correlation coefficients in the following section and in the next section we describe the main traits of wavelet analysis and how we extracted a correlation coefficients from a time-frequency analysis of two timeseries.
+In the following section we discuss two different approaches \textcolor{ForestGreen}{to extract a correlation coefficients by comparing two timeseries:} the first makes use of Pearson correlation analysis, a useful tool to quantify the linear correlation between two timeseries, and the second approach, based on wavelet analysis, performs a comparison between two signals in time-frequency domain.
+We start discussing Pearson correlation coefficients in the following section and in the next section we describe the main traits of wavelet analysis and how we extracted a correlation coefficient from a time-frequency analysis of two timeseries.
 
 \section{Pearson correlation and Z-Fisher transform}
-Pearson correlation often simply called correlation coefficient is the measure of a linear relation lying between two sets of data $x_1$ and $x_2$, is defined as the covariance of (x1, x2) over the product of the standard deviation of the two sets.
+Pearson correlation often simply called correlation coefficient is the measure of a linear relation lying between two sets of data $x$ and $y$, is defined as the covariance of $(x, y)$ over the product of the standard deviation of the two sets.
 Pearson correlation coefficients have the important property to be scale and magnitude invariant, since each timepoint is shifted by the average value of the timeseries and divided by its standard deviation.
 
 \begin{equation}
 Corr(x, y) = r_{xy}=  \frac{Cov\left( x, y\right)}{\sigma_x \sigma_y} = \frac{E\left[ \left( x - \mu_x \right) \left( y - \mu_y \right)\right]}{\sigma_{x} \sigma_{y}}
 \end{equation}
-This correlation coefficient assumes values between -1 and +1 where the extremes correspond to exact anti-correlation or correlation respectively, so that, if a linear relation lies between the two sets, a high absolute value indicates that the two series tend to be simultaneously greater or lower than their respective means. \cite{baldini2021}
+This correlation coefficient assumes values between -1 and +1 where the extremes correspond to exact anti-correlation or correlation respectively, so that, if a linear relation lies between the two sets, a high absolute value of Pearson coefficient indicates that the two series \textcolor{ForestGreen}{are highly  (positively or negatively) correlated}.
+%tend to be simultaneously greater or lower than their respective means.
+\cite{baldini2021}
 
 Given two series x and y, of length n correlation can be easily computed by
 \begin{equation}
 r_{xy} = \frac{\sum_{i = 1}^n \left( x_i - \mu_{x_i}\right)\left( y_i - \mu_{y_i}\right)}{\sqrt{\sum_{i = 1}^n \left( x_i -\mu_{x_i}\right)^2}\sqrt{\sum_{i = 1}^n \left( y_i -\mu_{y_i}\right)^2}}
 \end{equation}
 
-For each patient Pearson correlation coefficient was computed for all timeseries pairs. Before further analysis, a common way to proceed is to transform each coefficient with Fisher z-transformation.\cite{spera-2019}
-The reason behind this common operation appears clear when we are dealing with high correlate variables, when Pearson correlation distribution results in an highly skewed distribution, Fisher's transform sought to transform it into a normal distribution of which the standard error is approximately constant equal to $\sigma = \/\sqrt{N-3}$ where N is the total number of points, and it does not depends on the values of correlation.\cite{wicklin2017}
+For each patient, Pearson correlation coefficient was computed for all timeseries pairs.
+Before further analysis, a common way to proceed is to transform each coefficient with Fisher z-transformation.\cite{spera-2019}
+The reason behind this common operation appears clear when we are dealing with highly correlated variables.
+When Pearson correlation distribution results in an highly skewed distribution, Fisher's transform sought to transform it into a normal distribution whose standard error is approximately constant equal to $\sigma = \/\sqrt{N-3}$ where N is the total number of points, and it does not depends on the values of correlation.\cite{wicklin2017}
 
-With this property, Fisher transform is also important to test some hypotesis about correlations, we can run the test with the transformed variables which are normal distribuited with a known variance.
-
-Thus, this transformation allows us to obtain a variable which is normally distribuited even when Pearson correlation coefficients follow a bivariate normal distribution or they are leaning toward the extremes.
-In our data, this difference in distributions is not pronounced, one example where this difference is evident is shown in figure \ref{fig:pearson_zscore_distribution_3}, but since we are not working with highly correlated or uncorrelated variables, there are many other examples where pearson correlations already follow a gaussian distribution and there is not much difference with z-score values distribution.
-In any case, we are dealing with a bivariate distribution, and then performing Fisher transformation is a common practice to get a dataset more normally distributed.
-
+%With this property, Fisher transform is also important to test some hypotesis about correlations, we can run the test with the transformed variables which are normal distribuited with a known variance.
+\textcolor{ForestGreen}{
+Thus, this transformation allows us to obtain a variable which is normally distribuited even when Pearson correlation coefficients follow a bivariate normal distribution
+%or they are leaning toward the extremes.
+In our data, this difference between the two distributions is not pronounced, one example where this difference is evident is shown in figure \ref{fig:pearson_zscore_distribution_3}, but since we are not working with highly correlated or uncorrelated variables, there are many other examples where pearson correlations already follow a gaussian distribution and there is not much difference with z-score values distribution.
+%In any case, we are dealing with a bivariate distribution, and then performing Fisher transformation is a common practice to get a dataset more normally distributed.
+The Fisher transformation is defined as:
+}
 \begin{equation}
 z = \frac{1}{2}ln\left(\frac{1+r}{1-r}\right) = arctanh(r)
 \end{equation}
 
-At the end of this analysis, we obtain correlation matrices like the one shown as an example in fig \ref{fig:corrmatrices}, referred to patient 20243 from ABIDE I dataset.
+At the end of this analysis, we obtain correlation matrices like the one shown in fig \ref{fig:corrmatrices}, referred to patient 20243 from ABIDE I dataset.
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=.7\textwidth]{pearson/pearson_zscore_feature_3}
+\caption{Distribution of feature 3: Pearson correlation values in blue and Fisher transformed values in light orange}
+\label{fig:pearson_zscore_distribution_3}
+\end{figure}
+
+
 \begin{figure}
 \begin{subfigure}{0.5\textwidth}
 \includegraphics[width=\textwidth]{corrmatrix.png}
@@ -1713,70 +1763,65 @@ At the end of this analysis, we obtain correlation matrices like the one shown a
 \label{fig:corrmatrices}
 \end{figure}
 
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=.7\textwidth]{pearson/pearson_zscore_feature_3}
-\caption{Distribution of feature 3: Pearson correlation values in blue and Fisher transformed values in light orange}
-\label{fig:pearson_zscore_distribution_3}
-\end{figure}
-
-
-
-
 \section{Wavelet analysis}
-A different approach to compute a correlation coefficient is by making use of wavelet analysis.\cite{ferrante-2015} \cite{vandenberg-1999}
+A different approach to extract a correlation coefficient is by making use of wavelet analysis.\cite{ferrante-2015} \cite{vandenberg-1999}
 wavelet is a mathematical tool for analyzing time series or images, and provides a comprehensive way for investigating the bivariate relationship between timeseries both in time (or space) and frequency domain.
 
 To understand wavelet transformation it could be helpful to compare it with Fourier analysis.
-Fourier analysis allows us to expand a periodic function f(t) into a series, ideally infinite sums of weighted sines and cosines with different frequencies
+Fourier analysis allows us to expand a periodic function f(t) into a series, an ideally infinite sum of weighted sines and cosines with different frequencies:
 \begin{equation}\label{eq:fourier_series}
 f(t) = a_0 + \sum_{k = 1}^\infty (a_k cos(2\pi k t/T) + b_k sin (2\pi k t /T))
 \end{equation}
-In equation \ref{eq:fourier_series} terms corresponding to the k-th frequency are called harmonics and are multiples of the fundamental frequency corresponding to k = 1.
+In equation \ref{eq:fourier_series} terms corresponding to the k-th frequency are called harmonics and they are multiples of the fundamental frequency corresponding to k = 1.
 
 The Fourier Transform (FT) is a natural extension of the Fourier series to aperiodic functions defined over the real axis.
 Aperiodic functions don't allow a discrete superposition of sines and cosines terms, and for this reason they need to be represented by a continue superposition.
 Fourier transform takes a function from time or space domain and turns it into spatial or temporal frequency domain.
-It is a complex function since sines and cosines terms can be represented by a complex exponential as shown below in equation \ref{eq:ctf}.
+It is a complex function since sines and cosines terms can be represented by a complex exponential as shown below in equation \ref{eq:cft}.
 \begin{equation}\label{eq:cft}
 \tilde{F}(\omega) = \int\limits_{-\infty}^{+\infty} f(t)e^{-i \omega t} dx
 \end{equation}
 To deal with discrete signal, for example a sequence $x_n$ obtained from a discrete sampling of a continuous signal x(t), is possible to make use of the Discrete Time Fourier Transform, wich allows us to write the $\tilde F(\omega)$ as in equation \ref{eq:dft} which represent the discrete version of \ref{eq:cft}.
 
-The Discrete Fourier Transform, is useful to analyze discrete periodic signal, it acts on a function defined over a finite domain and returns a sequence of samples of the discrete fourier transform we can denote as $\tilde{x_k}$
+The Discrete Fourier Transform, is useful to analyze discrete periodic signals.
+It acts on a function defined over a finite domain and returns a sequence of samples of the discrete Fourier transform we can denote as $\tilde{x_k}$
 
 \begin{equation}\label{eq:dft}
  \tilde{F}(k) = \tilde{x}_k = \sum_{n = 0}^{N-1}x_n e^{\frac{-2\pi i k n}{N}}
 \end{equation}
 where N is the total number of points of the timeseries x(t).
 The frequencies at which samplings are computed are $\omega_k = 2\pi k/N$.
-The series we obtain from relation \ref{eq:dft}: $\tilde{x}_k$ is periodic and its period is equal to N.
+The series we obtain from equation \ref{eq:dft}: $\tilde{x}_k$ is periodic, with a period is equal to N.
 
-One of the main drawback of FT though, is the lacking of spatial information, for example for a non stationary signal, is possible that the signal contains a variable component of frequency in different space or time locations.
+One of the main drawbacks of FT though, is the lacking of spatial information, for example for a non stationary signal, is possible that the signal contains a variable component of frequency in different space or time locations.
 
-A time-frequency analysis provides for this lacking computing both frequency and spatial information from a signal, allowing us to analyze non stationary signals and obtain informations both on time (or space) and frequency domain.
+A time-frequency analysis provides for this lacking by computing both frequency and spatial information from a signal, allowing us to analyze non stationary signals and obtain information both on time (or space) and frequency domain.
 Since we are working on signal defined over a time domain, from now on we would refer only to  \textquotedblleft time \textquotedblright  and  \textquotedblleft frequency \textquotedblright domain, but we keep in mind that all the relation are true for spatial and spatial frequency domain as well.
-
-The process through which we exctract informations about frequencies (F) and time location (T) is a convolution of the signal x(t) with a function w(t) called windowing function usually centered at zero which rapidly decays to zero, often symmetrically.
-\begin{equation}
-\tilde{x}(F, T) = \int_{-\infty}^{\infty} x(t)w(t-T) e^{-2\pi i F t} dt
+\textcolor{ForestGreen}{
+The process through which we extract information about frequencies and time location is a convolution of the signal $x(t)$ with a function $w(t)$ as shown in equation \ref{eq:convolution_time_frequency}.
+These functions are called \emph{windowing function} and are usually centered at zero with a symmetric trend that rapidly decays towards zero.
+In a convolution, parameters describing frequency and time location are often simply called $a$ and $b$,
+%where a is the parameters that describes frequency information and b is a time translation parameter, and acts by simply shifting the windowing function throughout the entire timeseries x(t).
+\begin{equation}\ref{eq:convolution_time_frequency}
+\tilde{x}(a, b) = \int_{-\infty}^{\infty} x(t)w(t-b) e^{-2\pi i a t} dt
 \end{equation}
-The convolution term $w(t-T) e^{-2\pi i F t}$ changes according to the type of analysis we are performing. Parameters F and T are often simply called a and b, where b is a time translation parameter,and acts by simply shifting our convolution function throughout the entire timeseries x(t). It acts the the same way through all the type of analysis.
-What differenciate the most the different analysis isthe parameter \textquotedblleft a \textquotedblright.
+The convolution term $w(t-b) e^{-2\pi i a t}$ changes according to the type of analysis we are performing.
+While the time parameter $b$ acts the the same way through all the type of analysis, by simply shifting the windowing function throughout the entire timeseries x(t), it is $a$ that differentiates the most the different analysis.
+}
 It is the frequency parameter and the way it is introduced in a convolution determines the developing of the transform.
-The two main types of time-frequency analysis are
-
+\textcolor{ForestGreen}{
+We distinguish between two main families of time-frequency analysis, according to the convolution term employed and the effect of parameter $a$:
+}
 \begin{enumerate}
 \item Windowed Fourier Transform (WFT): $\psi_{ab}(t) = e^{it/a}\phi(t-b)$ where $\phi(t)$ is a window function of constant width and the parameter a acts as frequency modulation (freq $\sim$ 1/a): the lower is a, the greater the number of oscillation inside the window $\phi(t)$.
-\item Wavelet Transform (WT): $\psi_{a, b}(t) = \frac{1}{\sqrt{a}}\psi(\frac{t-b}{a})$ where $\psi$ is a function called \emph{mother wavelet}; a is a positive real number and defines the dimension of $\psi$: with a$>$1 we obtain a dilation and a$<$1 corresponds to a contraction. b is any real number (positives and negavies) and defines the location of the wavelet in time.
+\item Wavelet Transform (WT): $\psi_{a, b}(t) = \frac{1}{\sqrt{a}}\psi(\frac{t-b}{a})$ where $\psi$ is a function called \emph{mother wavelet}; a is a positive real number and defines the dimension of $\psi$: with a$>$1 we obtain a dilation and a$<$1 corresponds to a contraction. b is any real number (positives and negatives) and defines the location of the wavelet in time.
 \end{enumerate}
 
 In Wavelet Transform, the equivalent to the window function in WFT is a wavelet function $\psi$.
 
 \paragraph{Wavelet} \hfill
 
-A wavelet, literally \textquotedblleft small wave \textquotedblright is a wave function limited both in space and period: begins at zero, grows and decrease in a limited time period and returns to zero. With these properties, is a function local in the temporal domain as well as in the frequency domain.
+A wavelet, literally \textquotedblleft small wave \textquotedblright is a wave function limited both in space and period: begins at zero, grows and decrease in a limited time period and returns to zero. With these properties, it is a function local in the temporal domain as well as in the frequency domain.
 
 To be defined as so, a wavelet is required to satisfy two properties: have zero mean (it must be oscillating) and unitary squared norm \cite{percival-2013}.
 
@@ -1785,9 +1830,7 @@ To be defined as so, a wavelet is required to satisfy two properties: have zero 
 \end{equation}
 
 It is defined over the space $L^2$ of Lebesgue measurable functions that are both absolutely integrable and square integrable. In this space the two properties can be satisfied.
-%This kind of transformation of going in a higher dimensional space is a redundant operation
 
-%modificatoo
 There are different wavelets that satisfy properties \ref{eq:waveletproperties}, such as Haar (fig \ref{fig:wavelet_haar}), Meyer (fig \ref{fig:wavelet_meyer}) \cite{dabauchies-1992}, Mexican hat (fig \ref{fig:wavelet_mexicanhat}) or Morlet (fig \ref{fig:wavelet_morlet}) \footnote{https://it.mathworks.com/help/wavelet/gs/introduction-to-the-wavelet-families.html}.
 
 
@@ -1799,14 +1842,14 @@ There are different wavelets that satisfy properties \ref{eq:waveletproperties},
 \label{fig:wavelet_haar}
 \end{subfigure}
 \begin{subfigure}{0.3\textwidth}
-\includegraphics[width=\textwidth]{wavelet/mexicanhat.png}
-\caption{}
-\label{fig:wavelet_mexicanhat}
-\end{subfigure}
-\begin{subfigure}{0.3\textwidth}
 \includegraphics[width=\textwidth]{wavelet/meyer.png}
 \caption{}
 \label{fig:wavelet_meyer}
+\end{subfigure}
+\begin{subfigure}{0.3\textwidth}
+\includegraphics[width=\textwidth]{wavelet/mexicanhat.png}
+\caption{}
+\label{fig:wavelet_mexicanhat}
 \end{subfigure}
 \caption{Visual comparison between three different types of mother wavelets, Haar wavelet (fig \ref{fig:wavelet_haar}) is a simple square wave function, mexican hat (fig \ref{fig:wavelet_mexicanhat}) is a wavelet belonging to gaussian function family and represents the negative normalized second derivative of a gaussian function; and Meyer wavelet (fig \ref{fig:wavelet_meyer}) a wavelet with applications in fields like adaptive filters}
 \label{fig:different_wavelets}
@@ -1814,12 +1857,11 @@ There are different wavelets that satisfy properties \ref{eq:waveletproperties},
 
 
 
-
 What we are going to use in our analysis is Morlet wavelet, defined by equation \ref{eq:morletwavelet} and shown in figure \ref{fig:wavelet_morlet}.
-For each wavelet, there's a trade-off between time ans frequency resolution: compressing the wavelet in a shorten time domain improves time resolution vut at the cost of frequency resolution and vice vice-versa.
-With this wavelet this trade-off between time and frequency resolution can be controlled by the choice of $\omega_0$.\cite{muller-2004}.
-We choose to run our analysis with a value of $\omega_0 = 6$ since it provides a good balance between the two resolution \cite{grinsted-2004} and besides, this value gives the best ratio between Fourier Period and the scale parameter a during a Transform, equal to $\lambda = 1.03$.
-This way results in frequency domain are more interpretable since the scale parameters a used for the Transform is almost equal to the Fourier period.
+For each wavelet, there's a trade-off between time and frequency resolution: compressing the wavelet in a shorten time domain improves time resolution but at the cost of frequency resolution and vice-versa.
+With this wavelet the trade-off between time and frequency resolution can be controlled by the choice of $\omega_0$.\cite{muller-2004}.
+We choose to run our analysis with a value of $\omega_0 = 6$, since it provides a good balance between the two resolutions \cite{grinsted-2004} and besides, this value gives the best ratio between Fourier Period and the scale parameter a during a Transform, equal to $\lambda = 1.03$.
+In this way the results in frequency domain are more interpretable since the scale parameters a used for the Transform is almost equal to the Fourier period.
 
 %omega 0 = 6: \footnote{https://it.mathworks.com/matlabcentral/answers/824015-understanding-cwt-morlet-time-and-frequency-resolution?s_tid=srchtitle}
 
@@ -1844,11 +1886,12 @@ W_{a,b}(f) = \int_{-\infty}^{+\infty}  f(t) \cdot \psi_{a, b}^\ast \left(t\right
 \end{equation}
 Where the $\ast$ indicates the complex conjugate.
 This integral is performed for different values of a and b.
-It can be useful to visualize this integral in a dynamic way: set a value for $a$, a wavelet centerd in $b$, is slided across the signal by changing the value of $b$ and for each of these values, a coefficient is extracted by integrating the product between the wavelet and the signal; in this way, coefficients are function of frequency (or scale) and time. This operation is repeated for different values of a and b, and allows us to assemble a matrix called \emph{scalogram}, which is basically a plot of these coefficients in time-frequency domain.
+It can be useful to visualize this integral in a dynamic way: set a value for $a$, a wavelet centered in $b$, is slided across the signal by changing the value of $b$ and for each of these values, a coefficient is extracted by integrating the product between the wavelet and the signal; in this way, coefficients are function of frequency (or scale) and time. This operation is repeated for different values of a and b, and allows us to assemble a matrix called \emph{scalogram}, which is basically a plot of these coefficients in time-frequency domain.
 
 Formally, a wavelet transform, can be described as a mapping from $L^2(\Re) \rightarrow L^2(\Re^2)$.
 
-To computationally implement CWT, a discretized version was implemented on MATLAB tools Wavelet toolbox, but it does not be confused with the Discrete wavelet transform \footnote{https://it.mathworks.com/help/wavelet/gs/continuous-and-discrete-wavelet-transforms.html}, a similar type of analysis but with some important differences.
+To computationally implement CWT, a discretized version was implemented on MATLAB tools Wavelet toolbox, but it should not be confused with the Discrete Wavelet Transform \footnote{https://it.mathworks.com/help/wavelet/gs/continuous-and-discrete-wavelet-transforms.html}, a similar type of analysis but with some important differences.
+\textcolor{red}{Metto questa parte che parla delle differenze in un box? per separarlo dal resto del testo. }
 The difference between the continuous wavelet transform implemented on MATLAB and discrete wavelet transform lies in how finely stretching and shifting parameters are sampled: the CWT discretizes scale more finely than the discrete wavelet transform.
 
 In the CWT, parameters are discretized based on a fractional power of two, by setting a = $2^{j/\nu}$  (\footnote{This way, the discretized wavelet can be written as $\frac{1}{2^{j/\nu}} \psi\left ( \frac{t-b}{2^{j/\nu}}\right )$ }) \cite{liu-1994} \cite{dabauchies-1992} where $\nu $, j are integers.
@@ -1857,21 +1900,22 @@ The larger the value of $\nu$, the finer the discretization of the scale paramet
 In the DWT, the scale parameter is always discretized to integer powers of 2, $2^j$, j=1,2,3,..., so that the number of voices per octave is always 1.
 Since it employs a more rough discretization, DTW is usually used for denoising and compression of signals and images.
 
-In our analysis we are going to use DTW implemented in matlab with the default parameters of 12 voices per octave.
+In our analysis we are going to use DTW implemented in MATLAB with the default parameters of 12 voices per octave.
 
-%Using CWT is possible to obtain singal's information on a matrix: a time-frequency plot also called scalogram by convolving the signal, using different wavelets parameters a and b from a grid
+%Using CWT is possible to obtain signal information on a matrix: a time-frequency plot also called scalogram by convolving the signal, using different wavelets parameters a and b from a grid
 
-One problem that arises from working on a timeseries, which is basically a signal with a finite support, is that when a wavelet is located at the beginning of at the end of the signal, the wavelet extends itself outside the boundary of the signal, and the convolution would require nonexistent values beyond the boundary.
+One problem that arises from working on a timeseries, which is basically a signal with a finite support, is that when a wavelet is located at the beginning or at the end of the signal, the wavelet extends itself outside the boundary of the signal, and the convolution would require nonexistent values beyond the boundary.
 
 To overcome this problem it would be possible to accept this data information loss and truncate the values beyond boundaries; whereas an other approach could be to artificially extend data using methods such as zero padding which assumes that the signal is zero outside its original support, or symmetrization which extend the signal symmetrically outside the boundaries or smooth padding which recovers a signal by extrapolating values from the first derivative values or from the signal itself.
 Symmetrization method is the one employed for the subsequent analysis.
 The confidence value obtained on the boundaries, though, is lower than other obtained for central values of time location.
 Areas of the scalogram affected by these edge effects are indicated as \textquotedblleft outside the Cone of influence (COI) \textquotedblright.
-
-Figure \ref{fig:cwt_timeseries} shows the timeserie belonging to ROI 2201: Right Angular Gyrus of patient 51056 from ABIDE I, and its corresponding Continuous Wavelet Transform.
-x axis corresponds to time points and on the y axis frequencies or periods (derived from the parameter a) are represented. Just as an example, we choose to display the y axis as periods.
-The COI is shown as a dotted white line and values outside the COI, where edge effect becomes effective are shown with a lighter faded.
-The color is a visual representation of the magnitude of each wavelet coefficient.
+\textcolor{ForestGreen}{
+Figure \ref{fig:cwt_timeseries} shows the timeseries extracted from the right angular gyrus of patient 51056 from ABIDE I, and its corresponding Continuous Wavelet Transform. In CWT scalogram, the COI is marked with a dotted line.
+}
+%x axis corresponds to time points and on the y axis frequencies or periods (derived from the parameter a) are represented. Just as an example, we choose to display the y axis as periods.
+%The COI is shown as a dotted white line and values outside the COI, where edge effect becomes effective are shown with a lighter faded.
+%The color is a visual representation of the magnitude of each wavelet coefficient.
 
 \begin{figure}
 \begin{subfigure}{0.5\textwidth}
@@ -1884,7 +1928,7 @@ The color is a visual representation of the magnitude of each wavelet coefficien
 \caption{}
 \label{fig:cwt}
 \end{subfigure}
-\caption{Timeseries (fig \ref{fig:timeseries_cwt}) of ROI 2201: Right Angular Gyrus of patient 51056 from ABIDE I, and its corresponding Continuous Wavelet Transform  (fig \ref{fig:cwt}).
+\caption{Timeseries (fig \ref{fig:timeseries_cwt}) of ROI 2201: right angular gyrus of patient 51056 from ABIDE I, and its corresponding Continuous Wavelet Transform  (fig \ref{fig:cwt}).
 x axis corresponds to time points and y axis the periods derived from the scale parameter $a$ of the wavelet convolving function.
 The COI is shown as a dotted white line and values outside the COI, are shown with a lighter faded.
 The color represents the magnitude of each wavelet coefficient.}
@@ -1894,44 +1938,46 @@ The color represents the magnitude of each wavelet coefficient.}
 
 
 \paragraph{Wavelet coherence} \hfill \newline
-
-Continuous wavelet transform can only be used to analyze one signal at a time; if our goal is to analize and compare two signals using wavelet transform, the analysis to perform is called wavelet coherence.
-
-From two Continuous Wavelet Transforms is possible to compute the Cross Wavelet Transform (XWT) which allow us to examine their cross-wavelet power and relative phases.
-
+\textcolor{ForestGreen}{
+Even though what we discussed so far only concerns the analysis of a single timeseries, with wavelet analysis is possible to compare time-frequency information of two signals by performing an analysis called wavelet coherence.
+From this analysis we are able to extract a correlation coefficient, indicative of how much two signals are correlated or anti-correlated.
+%Continuous wavelet transform can only be used to analyze one signal at a time; if our goal is to analyze and compare two signals using wavelet transform, the analysis to perform is called wavelet coherence.
+With two timeseries, it is possible to compute the Cross Wavelet Transform (XWT) which allows to examine the cross-wavelet power and relative phases.
+}
 Using XWT is then possible to compute the Wavelet Coherence.
 
-Denoting as $W^{X}(a, b)$ the continuous wavelet transform of a signal X, is defined the \emph{wavelet power spectrum} of a signal X(n) as
+Denoting as $W^{X}(a, b)$ the continuous wavelet transform of a signal X, the \emph{wavelet power spectrum} of a signal X(n) is defined a:s
 \begin{equation}
 W^{XX}(a, b) = W^X(a, b) \left[W^X(a, b)\right]^{\ast}
 \end{equation}
-where the $^{\ast}$ represent the conjugate transpose.
+where the $^{\ast}$ represents the conjugate transpose.
 Similarly, the \emph{wavelet cross spectrum} of two time series X and Y is defined as
 \begin{equation}\label{eq:cross_wavelet_spectrum}
 W^{XY}(a, b) = W^X(a, b)[W^Y(a, b)]^\ast
 \end{equation}
-whose module $|W^{XY}(a, b)|$ represents the amount of joint power between the two time series, and is called \emph{cross wavelet power}.
+whose module $|W^{XY}(a, b)|$ represents the amount of joint power between the two time series, and it is called \emph{cross wavelet power}.
 From the cross wavelet spectrum (eq \ref{eq:cross_wavelet_spectrum}), is possible to compute the the complex argument
 \begin{equation}\label{eq:wavelet_phase}
 \Delta \phi (a, b) = arctan\left(\frac{Im\left[ W^{XY}(a, b)\right]}{Re\left[ W^{XY}(a, b)\right]} \right)
 \end{equation}
 which represents the relative phase between X and Y, for each given value of the parameters $a$ and $b$, and is defined over the interval $[-\pi, \pi]$.
 
-The wavelet coherence $R^2(a, b)$ is finally defined as reported in equation \ref{eq:WC}. This coefficient ranges in the interval (0, 1) and represents the localized correlation coefficient between X and Y in the time-frequency domain.
-\begin{equation}\ref{eq:wcoherence}
+The wavelet coherence $R^2(a, b)$ is finally defined as reported in equation \ref{eq:wcoherence}. This coefficient ranges in the interval (0, 1) and represents the localized correlation coefficient between X and Y in the time-frequency domain.
+\begin{equation}\label{eq:wcoherence}
 R^2(a, b) = \frac{|S(W^{XY}(a,b))|^2}{S(|W^X(a,b)|^2) S(|W^Y(a,b)|^2)}
-\label{eq:WC}
 \end{equation}
 
-In equation \ref{eq:wcoherence} S is a smoothing operator both in frequency and time defined as \cite{torrence-1999} \cite{grinsted-2004}
+In equation \ref{eq:wcoherence} S is a smoothing operator, both in frequency and time, defined as \cite{torrence-1999} \cite{grinsted-2004}
 \[
 S = S_{scale}S_{time}(W) \quad S_{time} = W\cdot c_1 ^{\frac{-t^2}{2a^2}} \quad S_{scale}(W) = W\cdot c_2 \Pi(0.6)
 \]
 where $c_1, c_2$ are normalization constants, $\Pi$ is a boxcar (rectangle) function and 0.6 is an empirically determined factor for Morlet Wavelet \cite{torrence-1998}.
 
-An example of wavelet coherence scalogram is shown in figure \ref{fig:wcoherence_scalogram}. It represents the wavelet coherence computed from two timeseries (fig \ref{fig:wcoherence_timeseries})of patient 51056: ROI 57 corresponds to Right Angular Gyrus and ROI 65 to Right lateral occipital cortex.
-The color represents the magniture of the cross-power, and phase information is represented as oriented arrows, pointing towards an imaginary 360 degrees circle, where the zero phase shift is represented by an arrow pointing right and a 180 degrees, by a left arrow.
-
+\textcolor{ForestGreen}{
+An example of wavelet coherence scalogram is shown in figure \ref{fig:wcoherence}.
+It shows two timeseries (fig \ref{fig:wcoherence_timeseries}) extracted from patient 51056, and the respective wavelet coherence scalogram (fig \ref{fig:wcoherence_scalogram}).
+The color represents the magnitude of the cross-power, and phase information is represented as oriented arrows, pointing towards an imaginary 360 degrees circle, where the zero phase shift is represented by an arrow pointing right and a 180 degrees phase, by an arrow pointing left.
+}
 
 
 \begin{figure}
@@ -1945,19 +1991,18 @@ The color represents the magniture of the cross-power, and phase information is 
 \caption{}
 \label{fig:wcoherence_scalogram}
 \end{subfigure}
-\caption{Plot of two timeseries from patient 51056 in figure \ref{fig:wcoherence_timeseries} and their relative wavelet Coherence scalogram.
-On the x axis the timepoints and on the y axis the frequencies of this time-frequency decomposition.
+\caption{Plot of two timeseries from patient 51056 in figure \ref{fig:wcoherence_timeseries} and their relative wavelet coherence scalogram.
+timeseries are extracted from ROI 57 corresponding to right angular gyrus and ROI 65 right lateral occipital cortex.
+On the x axis the timepoints and on the y axis the frequencies of this time-frequency decomposition are reported respectively.
 The color represents the magnitude of the cross-power coefficients and the relative phase shift is represented as arrows pointing to the right is phase shift is zero ad to the left is is 180 degrees. Starting from 0 degrees arrows rotate counterclockwise.
 }
 \label{fig:wcoherence}
 \end{figure}
 
+Our goal is to extract from this wavelet coherence matrix, a single value, interpretable as a correlation coefficient, just like we had with Pearson coefficients.
+We can accomplish this, by extracting two types of information from this scalogram: the magnitude of the correlation and relative phase between the two signals.
 
-
-Our goal is to extract from this wavelet coherence matrix, a single value, interpretable as a correlation coefficient, just like we did with Pearson coefficients.
-We can accomplish so, by extracting two types of information from this scalogram: the magnitude of the correlation and relative phase between the two signal.
-
-We can extract the magnitude information of each entry of the scalogram, but before doing so, we need to assess the level of significance of this coherence matrix over the noise, this way we can estimate the statistical significance level of our values, and only collect the significative ones.
+We can extract the magnitude information of each entry of the scalogram, but before doing so, we need to assess the level of significance of this coherence matrix over the noise, this way we can estimate the statistical significance level of our values, and only collect the significant ones.
 
 The theoretical procedure \cite{grinsted-2004} \cite{bernas-2018} is to generate, using Monte Carlo methods, a large (1000) samples of wavelet coherence matrices using red noise timeseries. \cite{hartmann-2014}
 These red noise samples should be generated, for each time series, with the same 1-lag autoregressive coefficients (AR1 coefficient) of the two timeseries under examination.
@@ -1969,30 +2014,39 @@ This null distribution of wavelet coherence coefficient is used to estimate the 
 We refer to the value corresponding to this 95-th percentile as $a_{95}$.
 
 
-As a second step we extract the relative phase information of each entry of the matrix, and combining these two informations together, we can estimate the time of in-phase (or out of phase) coherence which can be seen as the percentage of time synchronicity (or antisynchronicity) between the two timeseries. \cite{bernas-2018}
+As a second step we extract the relative phase information of each entry of the matrix, and combining these two information together, we can estimate the time of in-phase (or out of phase) coherence which can be seen as the percentage of time synchronicity (or anti-synchronicity) between the two timeseries. \cite{bernas-2018}
 This time of in-phase coefficient is defined as:
 
 \begin{equation} \label{eq:wavelet_inphase}
 c_{ij} = \frac{100}{N}\sum_{a, b}^N I\left\{ R_{ij}^2(a,b) > a_{95}\right\}\cdot I\left\{-\frac{\pi}{4}<arg(W^{XY}(a, b))_{ij} < \frac{\pi}{4}  \right\}
 \end{equation}
+where the indices i and j refer to the two timeseries i and j; N is the total number of points inside the cone of influence (COI).
+$I\left\{ ...\right\}$ is either 0 or 1 depending on whether the condition inside is satisfied;
+$a_{95}$ is the threshold value above which the computed wavelet coherence coefficient is regarded as significative.
 
-Where the indices i and j refers to the two timeseries i and j; N is the total number of points inside the cone of influence (COI) $I\left\{ ...\right\}$ is either 0 or 1 depending on if the condition inside is satisfied; $a_{95}$ is the threshold value above which the computed wavelet coherence coefficient is regarded as significative.
+The time of counter-phase coefficients have a similar definition. They can be obtained as:
 
-Similarily to this coefficient is the time of counter-phase coefficient, which can be obtained by modifying from the formula \ref{eq:wavelet_inphase} the phase condition into
+\begin{equation} \label{eq:wavelet_counterphase}
+c_{ij} = \frac{100}{N}\sum_{a, b}^N I\left\{ R_{ij}^2(a,b) > a_{95}\right\} \cdot I\{arg(W^{XY}(a, b))_{ij} < -\frac{3\pi}{4} \ \lor \ arg (W^{XY}(a, b))_{ij} >\frac{3\pi}{4} \}
+\end{equation}
+
+which is basically the same relation as \ref{eq:wavelet_inphase} with a modification of the phase condition
 
 \[
-I\left\{arg(W^{XY}(a, b))_{ij} < -\frac{3\pi}{4} \ \lor \ arg (W^{XY}(a, b))_{ij} >\frac{3\pi}{4} \right\}
+I\left\{-\frac{\pi}{4}<arg(W^{XY}(a, b))_{ij} < \frac{\pi}{4}  \right\} \ \longrightarrow \ I\{arg(W^{XY}(a, b))_{ij} < -\frac{3\pi}{4} \ \lor \ arg (W^{XY}(a, b))_{ij} >\frac{3\pi}{4} \}
 \]
 
-In short with this analysis, we are just considering coefficients with an high significance level (above 95\%) and with a small $\in [-\pi/4, \pi/4]$, or big phase shift ( $< -\frac{3\pi}{4}  \lor  >\frac{3 \pi}{4}$).
+\hfill
 
-Wavelet coherence maps were calculated using MATLAB's wavelet Toolbox, which employs the Morlet wavelet, for the wavelet decomposition, as  mentioned before, and decomposes the frequency range using 12 subscales per octave and 9 octave.
+\noindent In short with this analysis, we are extracting coefficients just considering values from the wavelet coherence scalogram with an high significance level (above 95\%) and with a small $\in [-\pi/4, \pi/4]$, or big phase shift ($< -\frac{3\pi}{4}  \lor  >\frac{3 \pi}{4}$).
+
+Wavelet coherence maps were calculated using MATLAB's wavelet Toolbox, which employs the Morlet wavelet, and decomposes the frequency range using 12 subscales per octave and 9 octave.
 
 %Figure \ref{fig:wcoherence} represents the wavelet coherence scalogram obtained from two ROIs of patient 51056.
 
 From equation \ref{eq:wavelet_inphase} both coefficients in-phase and anti-phase matrix coefficients were computed.
-The correlation coefficients matrix for each subject, were then flattened and used as input to the neural networks.
-An example of correlation matrix created with in-phase and out-of-phase coefficients from data of patient 51056 is shown in figure \ref{fig:win_wout}
+The correlation coefficients matrix for each subject, was then used as input to the neural networks.
+An example of correlation matrix is created with in-phase and out-of-phase coefficients from data of patient 51056 is shown in figure \ref{fig:win_wout}
 
 
 
@@ -2018,27 +2072,39 @@ An example of correlation matrix created with in-phase and out-of-phase coeffici
 
 
 \chapter{Multicenter data harmonization}\label{chap:harmonization_theory}
-Since nw, a big percentage of neuroimaging studies have been carried out with limited data acquired from a single center, to minimize varibility in data due to the different instrumentations employed.
-In recent years, however, there's the tendency to create shared datasets, by pooling together data acquired from different centers.
-A positive side of creating a large dataset putting together data from multiple centers is the possibility to work on dataset of bigger dimension, resulting in obtaining more statistically accurate analysis, and facilitates the generalization and the robustness of the model.
-As a drowback, however, it introduces variability in our analysis such as differences due to scanner models, acquisition parameters, generally known as scanner effects.
-A level out procedure becomes necessary to avoid the model to learn these differences deriving from inomogenity of data because of differences in data acquisition procedures.
-This procedure is generally referred as harmonization.
-Harmonization was tested on different datasets and has proven to be an effective way to reduce scanner effects  in different kind of datasets such as genes' microarray data, diffusion tensor imaging or structural MRI. \cite{johnson-2006} \cite{fortin-2017} \cite{lombardi2020}.
-
+Since now, a big percentage of neuroimaging studies have been carried out with limited data acquired from a single center, to minimize varibility in data due to the different instrumentations employed.
+In recent years, however, there is the tendency to create shared datasets, by pooling together data acquired from different centers.
+A positive side of creating a large dataset by putting together data from multiple centers is the possibility to work on dataset of bigger dimension, resulting in statistically more accurate analysis.
+% and facilitates the generalization and the robustness of the model.
+\textcolor{ForestGreen}{
+Yet, this process has some downsides since it introduces variability between data.
+Data acquired from different sources are affected by the so called \emph{scanner effects}, related to differences in the acquisition system such as the scanner model or the acquisition parameters.
+%As a drowback, however, it introduces variability in our analysis such as differences due to scanner models, acquisition parameters, generally known as scanner effects.
+When analyzing data either with statistical analysis or with machine learning methods, a level out procedure becomes necessary.
+This procedure is generally referred as \emph{harmonization}.
+When working with machine learning models, for example, harmonization can be helpful to avoid the model to learn patterns related to inhomogeneity of data because of scanner effects, and improve its ability to learn pattern related to the classification task it is conducting.
+}
+%A to avoid the model to learn these differences deriving from
+Harmonization was tested on different datasets and has proven to be an effective way to reduce scanner effects in different kind of datasets such as genes microarray data, diffusion tensor imaging or structural MRI \cite{johnson-2006} \cite{fortin-2017} \cite{lombardi2020}.
 
 \section{Harmonization - theory}\label{sec:harmonizationtheory}
 
 
 The state-of-art procedure used in genomic is called ComBat (named after Combating Batch effects), used for structural MRI but aplicable to any kind of imaging data, is used to mitigate scanner effects.
 It is based on a previous method initially proposed in 2007, for gene expression studies to compute batch effect corrections, later implemented by Fortin et al \cite{fortin-2018} for the harmonization of cortical MRI volumes, and finally in its current improved version, developed by Pomponio et al. \cite{pomponio-2019} in 2019.
-In this paragraph we are going to explain how ComBat technique works and after that, we'll see how it was modified and improved in the implementation made by Pomponio et al.
+In this paragraph we describe how ComBat technique works and after that, we discuss how it was modified and improved in the implementation made by Pomponio et al.
 
-ComBat technique belongs to the family of Location and Scale adjustment methods, but it represents an improved version of them: since it models site-specific scaling factors and uses empirical Bayes estimate to improve the estimation of the site parameters for small-sized datasets.\cite{fortin-2018}
-It aims to reduce inter-site variability while preserving biological variability such as differences due to sex, age, FIQ (Full intellective quotient), ICV (Intra Cranical Volume) and so on.
-The model assumes that a feature can be modeled as a linear combination of the biological variables plus the site effect, and the errors introduced with site effect can be modeled as both a multiplicative and an additive term and that it can be standardized by adjusting the mean and the variance across the batches.
+ComBat technique belongs to the family of Location and Scale adjustment methods, but it represents an improved version of them since it models site-specific scaling factors and uses empirical Bayes estimate to improve the estimation of the site-related parameters for small-sized datasets \cite{fortin-2018}.
+ComBat aims to reduce inter-site variance while preserving biological variability such as differences due to sex, age, FIQ (Full intellective quotient), ICV (Intra Cranical Volume) and so on.
+The model assumes that a feature can be modeled as a linear combination of the biological variables plus the site effect, and the errors introduced with site effect can be modeled as both a multiplicative and an additive term. This error can be standardized by adjusting the mean and the variance across the batches.
 
-Let $y_{ijf}$ be the numeric value of the feature f for the patient i acquired with the scan (or equivalently, from the site) j, so that i = 1, 2, ..., K indexes the scanner, j = 1, 2, ..., $N_i$ indexes the total number of subjects acquired for each scanner i, and f ranges from 1 to F being F the total number of features. Besides, let's assume that this value y, can be written as
+\textcolor{ForestGreen}{
+To clarify how ComBat harmonization works, we can suppose to work with a dataset comprising different data, where each data consists on F features.
+This dataset is made of data acquired with K different scanners, where each scanner is used to obtain data from more than one subjects.
+We denote with $y_{ijf}$ be the numeric value of the feature $f$ for the patient $i$ acquired with the scan (or equivalently, from the site) $j$
+so that $i = 1, 2, ..., K$ indexes the scanner, $j = 1, 2, ..., N_i$ indexes the subject acquired with scanner $i$, for a total of $N_i$ subjects acquired for that scanner. $f$ ranges from 1 to $F$ being F the total number of features.
+As a premise, ComBat assumes that the value of each feature: $y$, can be written as depending on different parameters
+}
 \begin{equation}
 y_{ijf} = \alpha_f + x_{ij}^T \beta _f + \gamma_{if} + \delta_{if} \epsilon_{ijf}
 \end{equation}
@@ -2046,31 +2112,27 @@ where:
 \begin{itemize}
 \item $\alpha_f$ is the mean value for the feature f,
 \item $x_{ij}$ is the entry of the matrix X created with the covariates of interest such as age, sex,
-\item $\beta_f$ is the vector of regression coefficients corresponding to X for the feature f,
-\item $\gamma_{if}$ and $\delta_{if}$ represent the additive and multiplicative terms for site-i effects related to feature f respectively,
+\item $\beta_f$ is the vector of regression coefficients corresponding to $X$ for the feature $f$,
+\item $\gamma_{if}$ and $\delta_{if}$ represent the additive and multiplicative terms for site-$i$ effects related to feature $f$ respectively,
 \item $\epsilon_{ijf}$ is a error term which is assumed to follow a normal distribution with zero mean and variance $\sigma_f^2$.
 \end{itemize}
 
 The final location-and-scale-adjusted data $y^{\ast}_{ijf}$ are given by
 \begin{equation}\label{eq:harmonized_data}
-y^{\ast}_{ijf} = \frac{y_{ijf} - \hat \alpha_f - X\cdot \hat \beta_f - \hat \gamma_{jf}}{\hat \delta_{jf}} + \hat \alpha_f + X \cdot \hat \beta_{jf}
+y^{\ast}_{ijf} = \frac{y_{ijf} - \hat \alpha_f - X\cdot \hat \beta_f - \hat \gamma_{if}}{\hat \delta_{if}} + \hat \alpha_f + X \cdot \hat \beta_{f}
 \end{equation}
-where $\hat \alpha_f , \hat \beta_f , \hat \gamma_f ,  \hat \delta_{jf}$ are estimators of the corresponding parameters, based on the model.
-
-One of the most disadvantages of using a simple location and scale batch adjustment is that it requires a large batch size for the implementation because is not robust to outliers in small sample sizes.
-
-ComBat uses empirical Bayes to provide a more robust adjustment for the parameters $\hat \gamma_{if} \ \hat \delta^2_{if}$, making the model able to deal with small-sized dataset as well.
+where $\hat \alpha_f , \hat \beta_f , \hat \gamma_{if} ,  \hat \delta_{if}$ are estimators of the corresponding parameters, based on the model.
 
 %Specifically it is assumed that that the site-effect parameters follow the normal distribution and the inverse gamma distribution respectively
 %\begin{equation}
 %\gamma_{if} \sim N(Y_i, \tau^2_i) \qquad \delta^2_{if} \sim \frac{\beta^{\alpha}}{\Gamma (\alpha)}(1/x)^{\alpha +1}\cdot e^{-b/x}
 %\end{equation}
 
-The process ComBat employs to estimate feature-dependent parameters, and to adjust data for batch effect can be summarized in 3 steps, at the end oh which we reach obtain the results shown in equation \ref{eq:harmonized_data}
+The process that ComBat employs to estimate feature-dependent parameters, and to adjust data for batch effect can be summarized in 3 steps, at the end of which we obtain the results shown in equation \ref{eq:harmonized_data}
 
 \begin{enumerate}
 \item \textbf{Standardization}: Data are standardized feature-wise, so that every feature has similar overall mean and variance.
-least square regression, is then performed to determine parameters $\hat \alpha_f, \hat \beta_f, \hat \gamma_{jf}$ and subsequently, $\hat \sigma^2_f = \frac{1}{n} \sum_{ji} \left ( y_{ijf} - \hat \alpha_f - X \hat \beta_f - \hat \gamma_jf \right )^2$ being n the total number of patients.
+least square regression, is then performed to determine parameters $\hat \alpha_f, \hat \beta_f, \hat \gamma_{jf}$ and subsequently, $\hat \sigma^2_f = \frac{1}{n} \sum_{it} \left ( y_{ijf} - \hat \alpha_f - X \hat \beta_f - \hat \gamma_if \right )^2$ being n the total number of patients.
 
 
 The standardized data are then calculated by equation \ref{eq:harmonization_std_data}
@@ -2082,17 +2144,21 @@ Z_{ijf} = \frac{y_{ijf}-\hat \alpha_f - X \hat \beta_f}{\hat \sigma_f}
 
 \item \textbf{Empirical Batch parameters estimate}:
 %Site effect parameters estimate using parametric empirical priors:
-We assume that standardized data follow a normal distribution $Z_{ijf} \sim N(\gamma_{jf}, \delta^2_{jf})$ and we seek for a proper estimation of parameters $\gamma_{jf}, \delta^2_{jf}$.
-it is also assumed that these site-effect parameters follow the normal distribution and the inverse gamma distribution respectively
+We assume that standardized data follow a normal distribution $Z_{ijf} \sim N(\gamma_{if}, \delta^2_{if})$ and we seek for a proper estimation of parameters $\gamma_{if}, \delta^2_{if}$.
+\textcolor{ForestGreen}{
+One of the disadvantages of using a simple location and scale batch adjustment is that it requires a large batch size for the implementation because is not robust to outliers in small sample sizes.
+ComBat uses empirical Bayes estimates to provide a more robust adjustment for the parameters $\hat \gamma_{if} \ \hat \delta^2_{if}$, making the model able to deal with small-sized dataset as well.
+}
+It is also assumed that these site-effect parameters follow the normal distribution and the inverse gamma distribution respectively
 \[
-\gamma_{jf} \sim N(\eta_j, \tau^2_j)  \qquad \delta^2_{jf} \sim \text{Inverse Gamma}(\lambda_j, \theta_j) =  \frac{\theta^{\lambda}}{\Gamma (\lambda)}(1/x)^{\lambda +1}\cdot e^{-\theta/x}
+\gamma_{if} \sim N(\eta_i, \tau^2_i)  \qquad \delta^2_{if} \sim \text{Inverse Gamma}(\lambda_i, \theta_i) =  \frac{\theta_i^{\lambda_i}}{\Gamma (\lambda_i)}(1/x)^{\lambda_i +1}\cdot e^{-\theta_i/x}
 \]
 
-And these hyperparameters $\eta_j, \tau^2_j, \lambda_j, \theta_j$ are empirically estimated from standardized data  $Z_{ijf}$ by using the method of moments.
-%Breve box to exmplain method of moments??
-we then obtain improved estimation of parameters $\gamma^\ast_{jf} \ \text{and} \ \delta^\ast_{jf}$ and we use them for the third and last step, where we adjust our data using them.
+And these hyperparameters $\eta_i, \tau^2_i, \lambda_i, \theta_i$ are empirically estimated from standardized data  $Z_{ijf}$ by using the method of moments.
+%Breve box to exmplain method of moments?? No.
+We then obtain improved estimation of parameters $\gamma^\ast_{if} \ \text{and} \ \delta^\ast_{if}$ and we use them for the third and last step, where we adjust our data using them.
 
-\item \textbf{Adjust the data}: After calculated the site-effect parameters we are finaly able to adjust our initial data using the relation
+\item \textbf{Adjust the data}: After the site-effect parameters have been calculated, we are finally able to adjust our initial data using the relation
 
 \begin{equation}
 y^{ComBat}_{ijf} = \frac{\hat \sigma_f}{\delta^\ast_{jf}}(Z_{ijf} - \gamma^\ast_{jf}) + \hat \alpha_f + X \hat \beta_f
@@ -2100,61 +2166,76 @@ y^{ComBat}_{ijf} = \frac{\hat \sigma_f}{\delta^\ast_{jf}}(Z_{ijf} - \gamma^\ast_
 which is just an equivalent way to write equation \ref{eq:harmonized_data}, using parameters estimated in the previous passage.
 \end{enumerate}
 
-
-So far, this was the main idea behind ComBat technique, but we said before that the last implementation of this technique by Pomponio et al. \cite{pomponio-2019} is an improved version of it.
-They differn in the modelling of the biologically covariates, which in the formulas above are expressed by the terms $\hat \alpha_f + X \hat \beta_f$ which is a simple linear model.
-Pomponio substituted this linear model with a Generalized Additive Model (GAM). In this model covariates such as sex, age, FIQ, are represented by terms $x_{ij}, \ z_{ij}, \ w_{ij}$ which allow a better parametric modelling to deal with non-linear trends such as the trend of cortical thickness in relation to age.
+\textcolor{ForestGreen}{
+This is the main idea behind ComBat technique, but, as we said before, the state-of-art implementation of this technique by Pomponio et al. \cite{pomponio-2019} is an improved version of it.
+}
+It differ in the modeling of the biologically covariates, which in the formulas above are expressed by the terms $\hat \alpha_f + X \hat \beta_f$ which is a simple linear model.
+Pomponio substituted this linear model with a Generalized Additive Model (GAM). In this model covariates such as sex, age, FIQ, are represented by terms $x_{ij}, \ z_{ij}, \ w_{ij}$ which allow a better parametric modeling to deal with non-linear trends such as the trend of cortical thickness in relation to age.
 This way, the terms $\hat \alpha_f + X \hat \beta_f$ in equation \ref{eq:harmonized_data} are substituted by a linear combination of function F of these covariates
 \begin{equation}
 \hat \alpha_f + X \hat \beta_f \ \longrightarrow \ F_f(x_{ij}, z_{ij}, w_{if}...) = a_f + g_f(x_{ij}) + h_f(z_{ij}) + p_f(w_{ij}) + ...
 \end{equation}
-Where functions $g_f, h_f, p_f$ can be either linear or non-linear functions of our covariates, according to how we want to model these covariates, or in other words, according to wether we want to specify some kind of non-linear relationship between covariates and our data.
+Where functions $g_f, h_f, p_f$ can be either linear or non-linear functions of our covariates, according to how we want to model these covariates, or in other words, according to whether we want to specify some kind of non-linear relationship between covariates and our data.
 
 
 
 
 
-\chapter{Domain-adversarial NN}\label{chap:domain_adversarial_theory}
-%\textcolor{red}{Da rivedere tutta questa parte}
+\chapter{Domain-adversarial Neural Networks}\label{chap:domain_adversarial_theory}
+
 In this section we discuss a different and innovative approach to deal with multi-center datasets.
-So far we presented one important harmonization procedure that removes site-related features in an analytical way; an other possible approach is to make use of a deep neural network specially designed to perform a classification unbiased by site-related features.
-The construction of this network gets its main idea on the netwrok proposed by Ganin, Ustinova et al, in their article \cite{ganin2016}.
-This work adresses the issue of working with two different datasets. They call them source and target dataset, and each one contains data following different distributions. Moreover, source is labeled while target is unlabeled. Data are in a total amount of N, divided into n samples in source and N-n samples in target. Their goal is to create a network able to learn relevant features  for a classification task from the source dataset (since is the only one labeled), and learn as well some distinctive feature related to the two domains. This result is achivable by constructing a model able to generalize well from one domain to another.
+So far we presented one important harmonization procedure that aims to remove site-related features in an analytical way; an other possible approach is to make use of a deep neural network specially designed to perform a classification unbiased by site-related features.
+The construction of this network gets its main idea on the network proposed by Ganin, Ustinova et al \cite{ganin2016}.
+\textcolor{ForestGreen}{
+Their work addresses the issue of working with two different datasets.
+They call them \emph{source} and \emph{target} dataset, where each dataset contains data following a distribution which is different between the two datasets.
+Data are in a total amount of $N$, of which $n$ samples belong to the source dataset and $N-n$ samples to the target.
+Both source and target data belong to different classes and the task of their work is perform a classification over these classes.
+However, all the data belonging to the source dataset are associated to a label specifying the respective class, while data on the target dataset are unlabeled.
+%Moreover, source data are associated to a label while target data are unlabeled.
+Their goal is to train a network using both the source and the target dataset.
+The network must be able to learn to learn distinctive patterns between classes, from data belonging to the source dataset.
+To this end they can use only data from the source dataset because it is the only one labeled.
+At the same time, the network is trained to learn distinctive characteristics between data from the source and the target domain.
+Combining these two information (of classes learned from the source domain and of source/domain differences), they manage to create a network able to learn important features for classification as well as to generalize this information form one domain to another.
+%Their goal is to create a network able to learn relevant features for the classification task, from the source dataset (since is the only one labeled). and learn as well some distinctive feature related to the two domains. This result is achivable by constructing a model able to generalize well from one domain to another.
+}
 %the inner representation of the network contains no discriminative information about the origin of the input.
 
 We illustrate the main aspects of this problem using a shallow neural network with a single hidden layer consisting of D nodes.
-We suppose the network takes as input an m-dimensional features vector.
-The hidden layer can be represented as a function $G_f : \Re^m \rightarrow \Re^D$ with a weight parameters matrix W and bias vector b which for brevity's sake we can denote as $\theta_f$.
-Given an input vector $x \in \Re^m$ it acts like
+We suppose that the network takes as input an m-dimensional features vector.
+The hidden layer can be represented as a function $G_f : \Re^m \rightarrow \Re^D$ with a weight parameters matrix $\mathbf{W}$ and bias vector $b$. For brevity's sake we can denote the parameters $\mathbf{W}$ and $b$ as $\theta_f$.
+Given an input vector $x \in \Re^m$ the hidden layer acts like
 \begin{equation}
-G_f(x; \mathbf{W}, \mathbf{b}) = f(W\cdot x + b)
+G_f(x; \mathbf{W}, \mathbf{b}) =G_f(x; \theta_f)  = f(\mathbf{W}\cdot x + b)
 \end{equation}
 %where $\textbf{W}$ and $\textbf{b}$ are the matrix and vector parameters to be optimized.
-Where f is some activation function that we can represent as a sigmoid function.
+Where $f$ is some activation function that we can represent as a sigmoid function.
 
 Similarly the output will be a function $G_y:R^D \rightarrow \Re^Y$ where Y is the total number of classes of our data. This layer can be written as
 \begin{equation}
-G_y(G_f(x; W, b); V, c) = f'(V\cdot G_f(x) + c)
+G_y(G_f(x; \theta_f); V, c) = f'(V\cdot G_f(x) + c)
 \end{equation}
-Here, too we can denote parameters V and c with a single notation $\theta_y$.
-%Where V and c are parameters to be optimized: a vector and a scalar respectively.
-A usual train carried on only on the (labeled) Source domain, will therefore bring to the minimization of the loss function associated with the output, dependent on parameters $\theta_f, \theta_y$
+Here, too we can denote parameters $V$ and $c$ with a single notation $\theta_y$.
+
+A usual train carried on only on the (labeled) source domain, will therefore bring to the minimization of the loss function associated with the output, dependent on parameters $\theta_f, \theta_y$
 \begin{equation}
-\underset{\theta_f, \theta_y}{min} [ \frac{1}{n}\sum_{i = 1}^n L_y^i(Gy(G_f(x_i)), y_i )]
-\end{equation}.
+\underset{\theta_f, \theta_y}{min} [ \frac{1}{n}\sum_{i = 1}^n L_y^i(Gy(G_f(x_i; \theta_f); \theta_y), y_i )]
+\end{equation}
 
-Training procedure and minimization of the loss function can be performed only on the source dataset consisting on n samples, since target data are unlabeled.
-At this point, to tackle the problem of domain independence their idea is to consider the hidden layer as an internal representation of data, and use its information to create a domain regressor.
+Training procedure and minimization of this loss function can be performed only on the source dataset consisting on n samples, since target data are unlabeled.
+At this point, to tackle the problem of domain independence the idea introduced by Ganin et al. is to consider the hidden layer as an internal representation of data, and use its information to create a domain regressor.
 
-A domain regressor can be implemented as a layer $G_d$ completely similar to the output layer $G_y$, depending on parameters $V, c$ which we will denote as $\theta_d$. It takes as input the hidden layer $G_f$, and after being activated by a sigmoid function, returns an output.
+A domain regressor can be implemented as a layer $G_d$, completely similar to the output layer $G_y$, depending on parameters $U, d$ which we will denote as $\theta_d$. It takes as input the hidden layer $G_f$, and after being activated by a sigmoid function, returns an output.
 We indicate the loss function associated to this output as $L_d$, and the loss previously introducted for label classification as $L_y$.
 
 The complete optimization function can be now written as
 \begin{equation}
 E(\theta_f, \theta_y, \theta_d) = \frac{1}{n} \sum_{i = 1}^n L_y^i - \lambda (\frac{1}{n} \sum_{i = 1}^n L_d^i + \frac{1}{N-n} \sum_{i = n+1}^N L_d^i)
 \end{equation}
-
-Following this strategy, they perform a minimization with respect some parameters and a maximization with respect to others. More precisely they seek for a saddle point given by
+\textcolor{ForestGreen}{
+Following this strategy, the optimization of the function $E(\theta_f, \theta_y, \theta_d)$ involves a minimization with respect to parameters $\theta_f$ and $\theta_y$, and a maximization with respect to $\theta_d$. More precisely they seek for a saddle point given by
+}
 \begin{equation}
 \begin{split}
 \hat \theta_f, \hat \theta_y = \underset{\theta_f, \theta_y}{argmin} E(\theta_f, \theta_y, \theta_d) \\
@@ -2162,10 +2243,12 @@ Following this strategy, they perform a minimization with respect some parameter
 \end{split}
 \end{equation}
 
-This task was accomplished by embedding the domain regressor $G_d$ into the neural network made by $G_f$ and $G_y$. The resulting neural network will consist on two branches: one for label classification and the other with the domain regressor.
+This task was accomplished by embedding the domain regressor $G_d$ into the neural network consisting on $G_f$ and $G_y$.
+The resulting neural network will include two branches: one for label classification and the other with the domain regressor.
 They linked these parts using a \emph{gradient reversal layer} and exploited a classic stochastic gradient descent procedure to update weights.
-A gradient reversal layer allow the training of the network in an adversarial way. It is placed at the top of the domain regressor branch, as we can see from the presentation image (fig \ref{fig:dann_original}) directly taken from their article.
-Let us point out that so far, we discussed the structure of this network by using a shallow neural network consisting just on a single hidden layer, but this architecture can be generalised by adding additional layers for each branch of the network, as shown in figure \ref{fig:dann_original}
+A gradient reversal layer allow to train the network in an adversarial way.
+It is placed at the top of the domain regressor branch, as we can see from figure \ref{fig:dann_original} directly taken from their paper.
+Let us point out that so far, we discussed the structure of this network by using a shallow neural network consisting just on a single hidden layer, but this architecture can be generalised by adding additional layers for each branch of the network, as shown in figure \ref{fig:dann_original}.
 
 
 \begin{figure}[h]
@@ -2176,31 +2259,32 @@ Let us point out that so far, we discussed the structure of this network by usin
 \end{figure}
 
 
-
-
-During the backpropagation apt to parameters update, minimizing parameters are updated in the opposite direction of the gradient as a normal parameter fine tuning explained in section \ref{sec:backpropagation_theory} while maximizing parameters are modified going in the direction of gradient.
-
-\begin{equation}
+\textcolor{ForestGreen}{
+During the training, of this network, the forward propagation is not influenced by this gradient reversal layer, however, during backpropagation, this layer acts by multiplying the gradient by -1 before passing it to the preceding layer.
+In this way, the partial derivatives of the domain loss $L_d$ with respect to the parameters $\theta_f$ get a minus sign.
+The whole updating procedure for parameters $\theta_f, \theta_y, \theta_d$ can then be described by equations \ref{eq:adversarial_updating_parameters}.
+}
+\begin{equation}\label{eq:adversarial_updating_parameters}
 \begin{split}
- \theta_f = \theta_f - \lambda \frac{\partial L_y}{\partial \theta_f} \\
- \theta_y = \theta_y - \lambda \frac{\partial L_y}{\partial \theta_y} \\
-\theta_d = \theta_d + \lambda \frac{\partial L_d}{\partial \theta_d}
+\theta_f \rightarrow \theta_f - \frac{\partial L_y}{\partial \theta_f} +  \lambda \frac{\partial L_d}{\partial \theta_f}\\
+\theta_y \rightarrow \theta_y -  \frac{\partial L_y}{\partial \theta_y} \\
+\theta_d \rightarrow \theta_d - \lambda \frac{\partial L_d}{\partial \theta_d}
 \end{split}
 \end{equation}
 
-During training, classificaiton branch and domain regressor compete against each other in an adversarial way for the optimization of the parameters. For this reason this network is called Domain-Adversarial Nerual Network (DANN).
+During training, classification branch and domain regressor compete against each other in an adversarial way for the optimization of the parameters. For this reason this network is called Domain-Adversarial Neural Network (DANN).
 
 
 
-\chapter{SHAP}\label{chap:shap}
+\chapter{Machine learning model explanation with SHAP}\label{chap:shap}
 
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=1\linewidth]{shap/shap_presentation}
-\caption{}\label{fig:shap_waterfall_example}
+\caption{}
+\label{fig:shap_waterfall_example}
 \end{figure}
-
 
 SHAP (SHapley Additive exPlanation) is a technique based on game theory that provides a method for machine learning model explanability.
 It is a powerful tool to get rid of the \textquotedblleft black box \textquotedblright idea of a machine learning model and try to understand its deep mechanism and the reasons why a model gives a certain output, or a certain prediction related to an input sample such as a vector of feature or an image for example.
@@ -2530,7 +2614,7 @@ A regression model is thus created with parameters estimated with the procedure 
 
 We tested harmonization procedure on 1470 male patients coming from ABIDE I and ABIDE II of which 737 controls and 733 cases, choosing as covariate to preserve the age, and the FIQ (Full intellective quotient) to mantain important possible biolgical trends in the data and avoid overcorrection.
 
-The central idea is to create the model on control subjects only, to operate without the influence of informations related to ASD patients whose feature might follow a different distribution compared to control.
+The central idea is to create the model on control subjects only, to operate without the influence of information related to ASD patients whose feature might follow a different distribution compared to control.
 Once created the model on control subject, it is applied to both control and ASD subjects, following this procedure site-related information are eliminated from our data.
 To test the effectiveness of this harmonization procedure, we used a Random Forest Regression to test the site classification performances before and after the harmonization procedure.
 In this analysis, we split the model into a train and test subsets: using only control subjects from the train dataset, we created the harmonization model as explained before.
@@ -3074,8 +3158,8 @@ We can state that these high results are an evidence that the upstream harmoniza
 It is also possible that some good results on other similar studies, obtained with harmonization implemented in this same way (\cite{ingalhalikar-2021}) may be due to a similar data leakage as we have in this analysis.
 As a general definition, we have data leakage when information outside the training set is used to create and train models. This additional information allows the model to know something additional about the data that otherwise it would have not known.
 This leads to an improvement of model's prediction and an overestimation of performances.
-In this case we have data leakage when we harmonize the entire dataset before splitting it into train and test, because, according to this way to proceed, when we use train data, they already contain informations about test data.
-In fact, harmonized train and test data they have been created using covariates, features and other informations belonging to the whole dataset.
+In this case we have data leakage when we harmonize the entire dataset before splitting it into train and test, because, according to this way to proceed, when we use train data, they already contain information about test data.
+In fact, harmonized train and test data they have been created using covariates, features and other information belonging to the whole dataset.
 We can then assert that the right way to implement harmonization is inside the k-fold cross validation, otherwise, if we don't run a cross validation, it is important to implement it after the splitting of dataset into a train and a test goups. This way, we can create the harmonization model only on control subjects belonging to train dataset, and we train the model with this dataset so there are not external information in it during training.
 We can then harmonize data belonging to test applying the harmonization model, with parameters created only on the train dataset, on test data.
 For this reason, from now on, when we refer to \textquotedblleft harmonized data \textquotedblright, we are referring to the procedure according to which data are harmonized inside the k-fold CV.
@@ -3123,7 +3207,7 @@ For this reason, reducing the source of noise due to this data-points leads to t
 
 In this chapter we are going to give a look at how we implemented a feature explainatory model using the DeepSHAP algorithm described in chapter \ref{chap:shap}, and we compared its results with a more conventional random forest feature importance analysis.
 
-Here we present a brief summary of all the analysis we performed using feature importance informations.
+Here we present a brief summary of all the analysis we performed using feature importance information.
 
 We choose to run this analysis only on Pearson correlation coefficients since they gave the best classification results which means achieve the best separability between controls and ASD.
 We used the whole dataset consisting of ABIDE I + ABIDE II patients with the same characteristics as we choose for classification: only males and with an age range of 5-40.
@@ -3394,7 +3478,7 @@ It is also aimed to quantify the common features between a DNN and a random fore
 
 \section{Brain areas related to important features} \hfill
 
-As mentioned before, each feature is representative of a correlation between two brain areas, and, since for brain parcellization we used the Harvard-Oxford atlas with 110 ROIs, each brain area is involved in 109 features.
+As mentioned before, each feature is representative of a correlation between two brain areas, and, since for brain parcellation we used the Harvard-Oxford atlas with 110 ROIs, each brain area is involved in 109 features.
 In this section we answer to the question we asked before, whether or not some brain areas are recurrent in healthy/ASD discrimination, and what are these areas.
 
 For this purpose, we plotted an histogram to represent the number of occurrences for each brain areas among the first 60 features for each classification procedure, and subsequently we created the histogram of the overall important brain areas pooling all of these results into a single histogram .
