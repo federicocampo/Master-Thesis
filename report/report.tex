@@ -274,7 +274,7 @@ Nuclear magnetic resonance imaging, is a non-invasive imaging technique widely e
 \centering
 \includegraphics[width=1\linewidth]{mri/precessione_}
 \caption{Representation of a angular moment vector $\vec{\mu}$ under a static magnetic field $\vec{B_0}$ and the resulting moment $\vec{\tau}$  which causes the precession}
-%\label{fig:precession}
+\label{fig:precession}
 \end{wrapfigure}
 
 
@@ -1143,7 +1143,7 @@ On the last layer. Then, using this quantity it is possible to calculate $\Delta
 Once computed all the errors, it is possible, for each layer, to compute the loss with respect to the weights of the networks and modify them according to equation \ref{eq:weights_update}.
 
 
-\section{Dimensionality reduction: PCA}
+\section{Dimensionality reduction: PCA}\label{sec:pca_theory}
 
 
 
@@ -1687,7 +1687,7 @@ For this reason, in our pipeline configuration file, parameters in common betwee
 \begin{figure}[h]
 \centering
 \includegraphics[width=.8\textwidth]{abide/timeseries51456.png}
-\caption{Comparison of 4 timeseries between ABIDE-preprocessed and our timeseries. Data show 4 randomly chosen ROIs: ROI 0, 6, 50, 108, belonging to patient 51456 from ABIDE I. Corresponding to ROI: 10, 26, 1901, 4702 : left thalamus, left accumbens, right supramarginal gyrus, left supracalcarine cortex.}
+\caption{\textcolor{ForestGreen}{Comparison of 4 timeseries between ABIDE-preprocessed and the ones obtained by our implementation of C-PAC. The four plots show four randomly chosen ROIs belonging to patient 51456 from ABIDE I. They corresponding to ROI: 10, 601, 1901, 4702 which are the corrisponding lables on the Harvard-Oxford atlas legend of regions: left thalamus, right inferior frontal gyrus, right supramarginal gyrus, left supracalcarine cortex.}}
 \label{fig:confrontoabidepreproc}
 \end{figure}
 
@@ -1696,8 +1696,9 @@ For this reason, in our pipeline configuration file, parameters in common betwee
 \chapter{Connectivity measures}\label{chap:connectivity_coefficients}
 As described in chapter \ref{sec:preprocessing_steps} if we choose an atlas on fMRI data, for brain parcellation, we can extract timeseries of different brain areas. If we use Harvard-Oxford atlas, we are able to extract 110 timeseries for each patient.
 With these data, we want to construct a correlation matrix for each patient, by pairwise comparing timeseries and extracting a coefficient representative of functional correlation between two areas.
-
-The total number of combination achievable with n timeseries is given by
+\textcolor{ForestGreen}{We are only interested in correlation between timeseries belonging to different brain areas since correlation between a timeseries with itself would would not carry any information.
+Accoridng to this, the total number of combination achievable with n timeseries is given by
+}
 \begin{equation}
 N_{comb} = \frac{n\cdot(n-1)}{2}
 \end{equation}
@@ -1708,12 +1709,12 @@ We start discussing Pearson correlation coefficients in the following section an
 
 \section{Pearson correlation and Z-Fisher transform}
 Pearson correlation often simply called correlation coefficient is the measure of a linear relation lying between two sets of data $x$ and $y$, is defined as the covariance of $(x, y)$ over the product of the standard deviation of the two sets.
-Pearson correlation coefficients have the important property to be scale and magnitude invariant, since each timepoint is shifted by the average value of the timeseries and divided by its standard deviation.
 
 \begin{equation}
 Corr(x, y) = r_{xy}=  \frac{Cov\left( x, y\right)}{\sigma_x \sigma_y} = \frac{E\left[ \left( x - \mu_x \right) \left( y - \mu_y \right)\right]}{\sigma_{x} \sigma_{y}}
 \end{equation}
-This correlation coefficient assumes values between -1 and +1 where the extremes correspond to exact anti-correlation or correlation respectively, so that, if a linear relation lies between the two sets, a high absolute value of Pearson coefficient indicates that the two series \textcolor{ForestGreen}{are highly  (positively or negatively) correlated}.
+Pearson correlation coefficients have the important property to be scale and magnitude invariant, since each timepoint is shifted by the average value of the timeseries and divided by its standard deviation.
+They can assume values between -1 and +1 where the extremes correspond to exact anti-correlation or correlation respectively, so that, if a linear relation lies between the two sets, a high absolute value of Pearson coefficient indicates that the two series \textcolor{ForestGreen}{are highly  (positively or negatively) correlated}.
 %tend to be simultaneously greater or lower than their respective means.
 \cite{baldini2021}
 
@@ -1764,8 +1765,8 @@ At the end of this analysis, we obtain correlation matrices like the one shown i
 \end{figure}
 
 \section{Wavelet analysis}
-A different approach to extract a correlation coefficient is by making use of wavelet analysis.\cite{ferrante-2015} \cite{vandenberg-1999}
-wavelet is a mathematical tool for analyzing time series or images, and provides a comprehensive way for investigating the bivariate relationship between timeseries both in time (or space) and frequency domain.
+A different approach \textcolor{ForestGreen}{measure a correlation between two timeseries is} by making use of wavelet analysis \cite{ferrante-2015} \cite{vandenberg-1999}.
+Wavelet transformation is a mathematical tool for analyzing time series or images, and provides a comprehensive way for investigating the bivariate relationship between timeseries both in time (or space) and frequency domain.
 
 To understand wavelet transformation it could be helpful to compare it with Fourier analysis.
 Fourier analysis allows us to expand a periodic function f(t) into a series, an ideally infinite sum of weighted sines and cosines with different frequencies:
@@ -1940,18 +1941,18 @@ The color represents the magnitude of each wavelet coefficient.}
 \paragraph{Wavelet coherence} \hfill \newline
 \textcolor{ForestGreen}{
 Even though what we discussed so far only concerns the analysis of a single timeseries, with wavelet analysis is possible to compare time-frequency information of two signals by performing an analysis called wavelet coherence.
-From this analysis we are able to extract a correlation coefficient, indicative of how much two signals are correlated or anti-correlated.
-%Continuous wavelet transform can only be used to analyze one signal at a time; if our goal is to analyze and compare two signals using wavelet transform, the analysis to perform is called wavelet coherence.
-With two timeseries, it is possible to compute the Cross Wavelet Transform (XWT) which allows to examine the cross-wavelet power and relative phases.
-}
+From two timeseries it is possible to compute the Cross Wavelet Transform (XWT) which allows to examine the cross-wavelet power and relative phases.
 Using XWT is then possible to compute the Wavelet Coherence.
+From this analysis we are finally able to extract a correlation coefficient, indicative of how much two signals are correlated or anti-correlated.
+%Continuous wavelet transform can only be used to analyze one signal at a time; if our goal is to analyze and compare two signals using wavelet transform, the analysis to perform is called wavelet coherence.
+}
 
-Denoting as $W^{X}(a, b)$ the continuous wavelet transform of a signal X, the \emph{wavelet power spectrum} of a signal X(n) is defined a:s
+Denoting as $W^{X}(a, b)$ the continuous wavelet transform of a signal $X$, the \emph{wavelet power spectrum} of a single signal X(n) is defined as:
 \begin{equation}
 W^{XX}(a, b) = W^X(a, b) \left[W^X(a, b)\right]^{\ast}
 \end{equation}
 where the $^{\ast}$ represents the conjugate transpose.
-Similarly, the \emph{wavelet cross spectrum} of two time series X and Y is defined as
+\textcolor{ForestGreen}{Similarly, the \textbf{Cross Wavelet Transform (XWT)}, sometimes also called \emph{cross wavelet spectrum}, of two time series X and Y is defined as}
 \begin{equation}\label{eq:cross_wavelet_spectrum}
 W^{XY}(a, b) = W^X(a, b)[W^Y(a, b)]^\ast
 \end{equation}
@@ -2004,17 +2005,32 @@ We can accomplish this, by extracting two types of information from this scalogr
 
 We can extract the magnitude information of each entry of the scalogram, but before doing so, we need to assess the level of significance of this coherence matrix over the noise, this way we can estimate the statistical significance level of our values, and only collect the significant ones.
 
-The theoretical procedure \cite{grinsted-2004} \cite{bernas-2018} is to generate, using Monte Carlo methods, a large (1000) samples of wavelet coherence matrices using red noise timeseries. \cite{hartmann-2014}
+The theoretical procedure \cite{grinsted-2004} \cite{bernas-2018} \cite{hartmann-2014} is to generate, using Monte Carlo methods, a large (1000) samples of wavelet coherence matrices using red noise timeseries.
 These red noise samples should be generated, for each time series, with the same 1-lag autoregressive coefficients (AR1 coefficient) of the two timeseries under examination.
-Then, for each pair of red-noise timeseries, we should compute wavelet coherence matrix.
+Then, for each pair of red-noise timeseries, we should compute the wavelet coherence matrix.
+
 However, since AR1 coefficients have little impact on the significance level \cite{grinsted-2004}, we choose to generate a single sample of 1000 pairs of red noise and for each pair we computed the wavelet coherence matrix.
-
 For each pair of noise, the corresponding wavelet coherence matrix from equation \ref{eq:wavelet_phase} is stacked to obtain a $A\times B \times x \times 1000$ 3D noise matrix to extract the distribution of the entries.
+\textcolor{ForestGreen}{
+For each entry of a row matrix $A \times B$ we obtain a distribution of 1000 coefficients given by the stack of all the noise matrices.
 This null distribution of wavelet coherence coefficient is used to estimate the threshold to 5\% significance level for the subsequent analysis.
-We refer to the value corresponding to this 95-th percentile as $a_{95}$.
+We refer to the value corresponding to this $95-th$ percentile as $a_{95}$.
+Collecting the value of the $95-th$ percentile for the distribution of each entry, we obtain the matrix visualized in figure \ref{fig:a95_matrix}
+}
 
 
-As a second step we extract the relative phase information of each entry of the matrix, and combining these two information together, we can estimate the time of in-phase (or out of phase) coherence which can be seen as the percentage of time synchronicity (or anti-synchronicity) between the two timeseries. \cite{bernas-2018}
+\begin{figure}
+\centering
+\includegraphics[width=0.5\textwidth]{wavelet/a95_matrix}
+\caption{\textcolor{ForestGreen}{Noise matrix obtained by collecting the $95-th$ percentile of the distribution of each entry of the 1000 noise matrices stack. It determines the threshold to assess significance of the coefficients of the wavelet coherence matrix computed for two timeseries}}
+\label{fig:a95_matrix}
+\end{figure}
+
+
+
+
+Once assessed the threshold for the significance level, the second step is to extract the relative phase information of each entry of the wavelet coherence matrix.
+At last, combining together information on significance level and on relative phase, we can estimate the time of in-phase (or out of phase) coherence which can be seen as the percentage of time synchronicity (or anti-synchronicity) between the two timeseries. \cite{bernas-2018}
 This time of in-phase coefficient is defined as:
 
 \begin{equation} \label{eq:wavelet_inphase}
@@ -2090,8 +2106,8 @@ Harmonization was tested on different datasets and has proven to be an effective
 \section{Harmonization - theory}\label{sec:harmonizationtheory}
 
 
-The state-of-art procedure used in genomic is called ComBat (named after Combating Batch effects), used for structural MRI but aplicable to any kind of imaging data, is used to mitigate scanner effects.
-It is based on a previous method initially proposed in 2007, for gene expression studies to compute batch effect corrections, later implemented by Fortin et al \cite{fortin-2018} for the harmonization of cortical MRI volumes, and finally in its current improved version, developed by Pomponio et al. \cite{pomponio-2019} in 2019.
+The state-of-art procedure used in genomic is called ComBat (named after Combating Batch effects), used for structural MRI but applicable to any kind of imaging data, is used to mitigate scanner effects.
+It is based on a previous method initially proposed in 2007 \cite{johnson-2006}, for gene expression studies to compute batch effect corrections, later implemented by Fortin et al \cite{fortin-2018} for the harmonization of cortical MRI volumes, and finally in its current improved version, developed by Pomponio et al. \cite{pomponio-2019} in 2019 and available as a free Python package called Neuroharmonize \footnote{https://github.com/rpomponio/neuroHarmonize}.
 In this paragraph we describe how ComBat technique works and after that, we discuss how it was modified and improved in the implementation made by Pomponio et al.
 
 ComBat technique belongs to the family of Location and Scale adjustment methods, but it represents an improved version of them since it models site-specific scaling factors and uses empirical Bayes estimate to improve the estimation of the site-related parameters for small-sized datasets \cite{fortin-2018}.
@@ -2114,7 +2130,7 @@ where:
 \item $x_{ij}$ is the entry of the matrix X created with the covariates of interest such as age, sex,
 \item $\beta_f$ is the vector of regression coefficients corresponding to $X$ for the feature $f$,
 \item $\gamma_{if}$ and $\delta_{if}$ represent the additive and multiplicative terms for site-$i$ effects related to feature $f$ respectively,
-\item $\epsilon_{ijf}$ is a error term which is assumed to follow a normal distribution with zero mean and variance $\sigma_f^2$.
+\item $\epsilon_{ijf}$ is a residual term which is assumed to follow a normal distribution with zero mean and variance $\sigma_f^2$.
 \end{itemize}
 
 The final location-and-scale-adjusted data $y^{\ast}_{ijf}$ are given by
@@ -2175,8 +2191,11 @@ This way, the terms $\hat \alpha_f + X \hat \beta_f$ in equation \ref{eq:harmoni
 \begin{equation}
 \hat \alpha_f + X \hat \beta_f \ \longrightarrow \ F_f(x_{ij}, z_{ij}, w_{if}...) = a_f + g_f(x_{ij}) + h_f(z_{ij}) + p_f(w_{ij}) + ...
 \end{equation}
-Where functions $g_f, h_f, p_f$ can be either linear or non-linear functions of our covariates, according to how we want to model these covariates, or in other words, according to whether we want to specify some kind of non-linear relationship between covariates and our data.
-
+\textcolor{ForestGreen}{
+Where functions $g_f, h_f, p_f$ can be either linear or non-linear functions of our covariates, according to how we want to model these covariates.
+In the implementation of Neuroharmonize, if we specify a covariate as non-linear, it will be treated using thin plate regression splines to find the right smoothing function (find the right basis expansion).
+This procedure of including non-linear terms though, brings with it the downside of a huge increasing in computational costs.
+}
 
 
 
@@ -2282,37 +2301,46 @@ During training, classification branch and domain regressor compete against each
 \begin{figure}[h]
 \centering
 \includegraphics[width=1\linewidth]{shap/shap_presentation}
-\caption{}
+\caption{\textcolor{ForestGreen}{Graphic representation of how a deep model works, it typically acts as a black box, taking some data as input, such as age, sex, blood pressure, and uses them to produce an output which differs form a reference value. With SHAP it is possible to explain the contribution of each input and determine which one influenced the output the most. Credits: https://shap.readthedocs.io}}
 \label{fig:shap_waterfall_example}
 \end{figure}
 
 SHAP (SHapley Additive exPlanation) is a technique based on game theory that provides a method for machine learning model explanability.
-It is a powerful tool to get rid of the \textquotedblleft black box \textquotedblright idea of a machine learning model and try to understand its deep mechanism and the reasons why a model gives a certain output, or a certain prediction related to an input sample such as a vector of feature or an image for example.
-As is shown in figure \ref{fig:shap_waterfall_example} just as a visual example took from the SHAP documentation \footnote{https://shap.readthedocs.io/en/latest/}, a common machine learning model acts like a black box that returns an output value after some non-linear unknown calculations over some input values; with an explanatory model, we are able to quantify the contribution of each feature of our input data and assess what and why are the most important features and how much they contributed to the final outcome.
+It is a powerful tool to get rid of the \say{black box} idea of a machine learning model and try to understand its deep mechanism and the reasons why a model returns a certain output, related to an input sample like a vector of features or an image.
+As it is shown in figure \ref{fig:shap_waterfall_example}, just as a visual example took from the SHAP documentation \footnote{https://shap.readthedocs.io/en/latest/}, a common machine learning model acts like a black box that returns an output value after some non-linear unknown calculations over some input values. With an explanatory model, we are able to quantify the contribution of each feature of our input data and assess what and why are the most important features and how much they contributed to the final outcome.
 
-The idea behind SHAP is to use Shapley values (see chapter \ref{chap:shapley_values}) to exaplain every single feature's contribution in our machine learning model, treating the learning process as a cooperative game.
-To apply the concept of Shapley values to a machine learning model we just adapt some terms we used for game theory: the payout of a coalition becomes now the model's prediction and the players are the feature in our input data.
+The idea behind SHAP is to use Shapley values (see chapter \ref{chap:shapley_values}) to explain every single feature contribution in our machine learning model, treating the learning process as a cooperative game.
+To apply the concept of Shapley values to a machine learning model we just adapt some terms we used for game theory: the payout of a coalition becomes the model prediction and the players are the features in our input data.
 For a single feature, its Shapley value is defined as the average marginal contribution of that feature across all possible coalitions.
 
 There are two main classes of explainatory algorithms called local and global methods
-
-Shap can be regarded as both a local and global explainatory method, and before it, several algorithms belonging to these categories were implemented as an attempt to create an explainatory technique for machine learning models.
+%Shap can be regarded as both a local and global explainatory method, and before it, several algorithms belonging to these categories were implemented as an attempt to create an explainatory technique for machine learning models.
 In general, the objective of a local explainatory model can be defined as the attempt to explain an output f(x) after a single instance x that in our case can be identified as a vector of features.
 Local methods differ from global methods, because the latter provide a global explanation of the model, across all the instances, they are able to attribute an importance to each feature to determine which one contributes the most to the output of the model.
 
 One of the key point of SHAP is its flexibility, being both a local and global explainatory model, this way we are able to explain a single instance as well as an entire dataset and extract the most important features.
 
-Being a local model, SHAP share with other algorithms some common implementation traits: given a single input vector x, to simplify the workflow, they introduce a coalition vector x' = $\left\{ 0, 1 \right\}^F$ : where F is the total number of features: x' is a binary vector of the same length of x, where binary means made just by zeros and ones as its entries: zero means that in our analysis we are going to withheld the corrisponding variable from x, and the one that we are including it.
-
-To map the x' vector to the corresponding vector containing the actual value of the features, a mapping function $h_x(x')$ = x is introduced to returns the actual features vector x, unique for each vector x.
-The goal of a local explainatory technique is to find a simplified explainatory model g(x') to work with, because is simpler to work with a binary vector x' and a simlified model than with the actual vector x and the model itself.
-We want that this simplified model, when applied on the vector x', is able to approximate our output f(x): $ g(z') \approx f(h_x(z'))$ if z' $\approx$ x'.
-The first important condition on this function g is that it has to be a linear function
+\textcolor{brown}{
+As a local model, SHAP shares with other algorithms some common implementation traits: given a single input vector $x$, to simplify the workflow, they introduce a coalition vector $x'$ = $\left\{ 0, 1 \right\}^F$ : where $F$ is the total number of features: $x'$ is a binary vector of the same length of $x$, where binary means made just by zeros and ones as its entries: zero means that in our analysis we are going to withheld the corrisponding variable from x, and the one that we are including it.
+To map the $x'$ vector to the corresponding vector containing the actual value of the features, a mapping function $h_x(x') = x$ is introduced to return the actual features vector $x$. This function $h_x$ is unique for each vector $x$.
+The goal of a local explainatory technique is to find a simplified explainatory model $g(x')$ to work with, because is simpler to work with a binary vector $x'$ and a simplified model than with the actual vector $x$ and the model itself.
+We want that this simplified model, when applied to the vector $x'$, is able to approximate our output $f(x):  g(z') \approx f(h_x(z'))$ if $z' \approx x'$.
+The first important condition on this function $g$ is that it has to be a linear function:
+}
+\textcolor{ForestGreen}{
+As a local model, SHAP shares with other algorithms some common traits.
+These algorithms typically employ a simplified function $g$ to explain a model $f$.
+Given a single input vector $x \in \Re^F$ they introduce a simplified vector $x'\in \Re^{F'}$ = $\left\{ 0, 1 \right\}^{F'}$. The simplified space $F'$ is not necessarily equal to the input space $F$. A map function $h_x$, unique for each vector $x$, maps the simplified vector $x'$ to the original vector $x$
+$x'$ is a binary vector consisting only on 0 and 1, if an entry is zero, it means that the corresponding features of $x$ will be withheld from the subsequent analysis, while 1 means that they are included.
+They seek to find the best approximation of $g$ in the locality of $x'$. In order to do this, they create a perturbed dataset consisting on different vectors $z'$ obtained by random sampling from the nonzero elements of $x'$ \cite{ribeiro-2016}.
+Local methods try to obtain a model $g$ that faithfully approximate $f$, and that, if  $g(x') \approx f(x) \text{if} x = h_x(x')$
+This simplified model $g'$ should also be a linear combination of binary variables of $x'$ \cite{lundberg-2017}:
+}
 \begin{equation}
 \label{eq:shap_g}
-g(z') = \phi_0 + \sum_{i = 0}^F \phi_i z_i'
+g(x') = \phi_0 + \sum_{i = 0}^{F'} \phi_i x_i'
 \end{equation}
-And several methods before SHAP were created that satisfy this condition such as LIME \cite{ribeiro-2016} or DeepLIFT \cite{shrikumar-2017} but they lacked additional properties that SHAP has:
+Several methods before SHAP were created that satisfy this condition such as LIME \cite{ribeiro-2016} or DeepLIFT \cite{shrikumar-2017} but they lacked additional properties that SHAP has:
 
 \begin{enumerate}
 \item \textbf{Local accuracy}:
@@ -2324,7 +2352,7 @@ g(x') =\phi_0 + \sum_i^F \phi_i x_i' \mathbf{=} f(x) \quad \text{when} \quad x =
 \text{if} \ x_i' = 0 \Longrightarrow \ \text{then} \ \phi_i = 0
 \end{equation}
 Practically if a feature is equal to zero, it has no attributed impact on the model outcome
-\item \textbf{Consistency}: if we have two different models g' and g. Denoting with $z' / i$ the setting where $z_i' = 0$
+\item \textbf{Consistency}: if we have two different models $g'$ and g. Denoting with $z' / i$ the setting where $z_i' = 0$
 \begin{equation}
 \text{if} \ g'(z') - g'(z' / i) \ge g(z') - g(z' / i) \forall z' \in \{0, 1\}^F \Longrightarrow \ \text{then} \ \phi_i(f', x) \ge \phi_i(f, x)
 \end{equation}
@@ -2333,31 +2361,36 @@ This property states that if the contribution of a feature $z'_i$ increases, reg
 %The most important properties of this models is called local accuracy and states that g and f must give the same result when passing all the features: g has to match f when x = $h_x(x')$.
 %We attribute a contribution $\phi_i$ to each simplified vector $z_i'$
 
-In 1975 it was demostrated \cite{young1985} that the only coefficients satisfying all of the above properties are Shapley values, and as a consequence methods which employ different coefficients violate one of these properties, usually local accuracy and/or consistency.
-For this reason SHAP employs Shapley values and takes advantage of pre-existing algorithms (some of which were cited before: LIME and DeepLIFT) that used different coefficients. It readapts and enhances them providing an unified approach to assess feature importance for different models without any violation of the axioms above.
+In 1975 it was demonstrated \cite{young1985} that the only coefficients satisfying all of the above properties are Shapley values, and, as a consequence, methods which employ different coefficients violate one of these properties, usually local accuracy and/or consistency.
+For this reason SHAP employs Shapley values and takes advantage of pre-existing algorithms (some of which were cited before: LIME and DeepLIFT) that used different coefficients.
+It readapts and enhances them providing an unified approach to assess feature importance for different models without any violation of the axioms above.
 
-To compute the Shapley value for a feature we have to evaluate the model on all the possible subsets S we can create with our data S$\subseteq F \setminus \left\{i\right\}$. This approach, in a problem with an high number of features would result in a huge computational work. To bypass this problem, we can choose not to calculate the exact shapley value but just an approximation of it, depending on the model we are working on. Some of them such as Tree SHAP, are able to compute the exact shap coefficients and is developed to obtain fast performances on trees or ensambles of trees.
-Others just compute an aproximate shap value. Algorithms we are going to focus on are KernelSHAP which is a model agnostic explanation method, and DeepSHAP which is optimized to work faster on deep models by making use of the knowlegde of the structure of a neural network.
-Each one of these algorithms is built upon previous algorithms like LIME or DeepLIFT. In the following section we are going to explain some important feature from LIME that were employed in KernelSHAP, and from DeepLIFT employed for DeepSHAP.
+To compute the Shapley value for a feature we have to evaluate the model over all the possible subsets S that we can create with our data S$\subseteq F \setminus \left\{i\right\}$.
+This approach, in a problem with an high number of features would result in a huge computational work.
+To bypass this problem, we can choose not to calculate the exact Shapley value but just an approximation of it, depending on the model we are working on.
+Some algorithms such as TreeSHAP, are able to compute the exact Shapley coefficients.
+Others just compute an aproximate Shapley value.
+Algorithms we are going to focus on are KernelSHAP which is a model agnostic explanation method, and DeepSHAP which is optimized to work faster on deep models by making use of the knowledge of the structure of a neural network.
+Each one of these algorithms is built upon previous algorithms like LIME or DeepLIFT.
+In the following section we are going to explain some important features from LIME that were employed in KernelSHAP, and from DeepLIFT employed for DeepSHAP.
 
 \section{LIME and KernelSHAP}\label{sec:lime}\hfill
 
-LIME (Local Interpretable Model-agnostic Explanations) is a local, model-agnostic, interpretability model, made to explain the prediction of any classifier in a faithful, but only local way. This means that it can accurately explain a single prediction but it is not the most suitable to generalize to many of them \cite{ribeiro-2016}.
+LIME (Local Interpretable Model-agnostic Explanations) is a local, model-agnostic, interpretability model, made to explain the prediction of any classifier in a faithful, but only local way.
+This means that it can accurately explain a single prediction but it is not the most suitable to generalize to many of them \cite{ribeiro-2016}.
 
-Since Kernel SHAP is built upon LIME algorithm, we briefly discuss how LIME works to obtain ...
-it pick up an important strategy from it, to avoid the computation of all the permutations.
+Since KernelSHAP is built upon LIME algorithm, we briefly discuss an important strategy implemented by LIME to avoid the computation of all the permutations.
 
-Starting from a single instance  $x \in \Re^n$  LIME creates a perturbed dataset X and evaluate the model over this dataset.
-Perturbed dataset is created by making use of several binary vectors containing just zeros and ones. In fact, it randomly creates different binary vectors of the same lenght of x, but randomly set 0 and 1 as its entries.
+Starting from a single instance  $x \in \Re^n$, LIME creates a perturbed dataset $X$ and evaluates the model over this dataset.
+Perturbed dataset is created by making use of several binary vectors containing just zeros and ones.
+In fact, it randomly creates different binary vectors of the same lenght of $x$, but randomly set 0 and 1 as its entries.
 From this binary dataset it is possible to come back to the space of features value, recalling that \textquotedblleft 1 \textquotedblright means that we are including the corresponding feature from x, while \textquotedblleft 0 \textquotedblright is associated to the missingness of the corresponding feature.
-LIME replaces missing features in different ways according to the type of data it is dealing (Images, text data, tabular data..).
+LIME replaces missing features in different ways according to the type of data it is dealing with (images, text data, tabular data).
 In the case of tabular data, LIME repleaces missing values by randomly sampling a value from the distribution of that feature from the training data  \cite{ferrando2018}.
-KernelSHAP
 
 KernelSHAP works in a similar way, but introduces a background dataset from which missing values are randomly picked and replaced in the perturbed vector.
 
-
-From this point LIME works by using the synthetic dataset just created, and the model is evaluated on each vector.
+LIME uses the synthetic dataset just created, and the model is evaluated on each vector.
 These outputs are subsequently used to accomplish a minimization task to finally find the importance coefficients.
 Minimization is performed in a regression, but before it, each output value is weighted according to the distance of the synthetic vector with the original vector x by using coefficients $\pi_x$ defined as
 \begin{equation}
@@ -2366,9 +2399,9 @@ Minimization is performed in a regression, but before it, each output value is w
 Where we indicated as p the total number of features in the original feature vector x anc with $|z'|$ the number of element in that subset, and cosequently ($p-|z'|$) is the number of features not included in the subset.
 
 To perform a fit, the loss function to minimize is in the form $L(f, g, \pi_x) = \sum_{z\in Z} [f(h(z))-g(z')]^2\ \pi_x$
-where g(z') is the simplified function expressed in equation \ref{eq:shap_g}, given by a combination of coefficients $\phi_i$ that are the parameters of the fit.
+where $g(z')$ is the simplified function expressed in equation \ref{eq:shap_g}, given by a combination of coefficients $\phi_i$ that are the parameters of the fit.
 
-LIME is regarded as local method because it explains the prediction of a black box model by making use of a local model: in this case a regression, which is an interpretable model computed in the neighborhood of the instance we want to explain.
+LIME is regarded as local method, because it explains the prediction of a black box model by making use of a local model: in this case a regression, which is an interpretable model computed in the neighborhood of the instance we want to explain.
 KernelSHAP implementation was strongly influenced by the LIME algorithm but,thanks to the introduction of Shapley values, it also comes with theoretical guarantees about consistency and local accuracy, from game theory.
 %In a nutshell, the main steps of KernelSHAP algorithm are
 %\begin{enumerate}
@@ -2382,44 +2415,47 @@ KernelSHAP implementation was strongly influenced by the LIME algorithm but,than
 % shap
 %deepLIFT \cite{shrikumar-2017}
 
-As mentioned above, KernelSHAP is a model-agnostic algorithm, in the sense that can easily used with every kind of model, but SHAP includes some model-specifics algorithms that make use of a previous general knowledge of a model's structure to optimize the explainer's performances and speed up the process. DeepSHAP, is one of these model-specific algorithms and it is what we are going to use in our analysis.
+As mentioned above, KernelSHAP is a model-agnostic algorithm, in the sense that be easily used with every kind of model, but SHAP includes some model-specifics algorithms that make use of a previous general knowledge of a model structure to optimize the explainer performances and speed up the process. DeepSHAP is one of these model-specific algorithms and it is what we are going to use in our analysis.
 
 \section{DeepLIFT and DeepSHAP}
 %deeplift github: \footnote{https://github.com/kundajelab/deeplift}
 DeepSHAP alghorithm works with some similar implementation of KernelSHAP, making use of a background dataset to simulate missing values, but it is also optimized to perform better on deep models by taking advantage of the idea behind the DeepLIFT algorithm.
-It can be considered as an enhanced version of DeepLIFT, thanks to the introduction of the shapley values, rather than the \textquotedblleft DeepLIFT multipliers \textquotedblright employed in DeepLIFT
-
-The strategy implemented by DeepLIFT to explain features, is to compute the difference between the output of a deep learning model with our \textquotedblleft true  \textquotedblright data and a reference value computed as the output of our model with some reference data.
-The choice of the reference data depends on what kind of data we are working on: images, or genomic data for example.
+It can be considered as an enhanced version of DeepLIFT, thanks to the introduction of the Shapley values, rather than \textcolor{ForestGreen}{the coefficients employed in DeepLIFT called \emph{DeepLIFT multipliers} \cite{shrikumar-2017}.
+}
+The strategy implemented by DeepLIFT to explain features is to compute the difference between the output of a deep learning model obtained with the \say{true}  data and a reference value computed as the output of our model with some reference data.
+The choice of the reference depends on what kind of data we are working on: images or genomic data, for example.
 For genomic the most common way to produce reference output in DeepLIFT is to shuffle some training data, evaluate the model on them and average across all the scores.
 With the implementation of DeepSHAP, this reference value is chosen from the backgound dataset and represents an uninformative value for a feature.
 
-As we mentioned before is also shaped to perform on deep learning algorithm computing its feature importance values called DeepLIFT multiplier during the process of backpropagation.
-DeepLIFT attributes to each feature $x_i$ a value $C_{\Delta x_i, \Delta y}$ that represent the effect of that input being set to a reference value rather than its actual value.
+As mentioned before, deepLIFT is also shaped to perform on deep learning algorithm computing its feature importance values called DeepLIFT multiplier during the process of backpropagation.
+DeepLIFT attributes to each feature $x_i$ a value $C_{\Delta x_i, \Delta y}$, that represents the effect of that input being set to a reference value rather than its actual value.
 
-In a few words the idea behind DeepLIFT (and DeepSHAP) can be summarised as: let t represent the output of some inner neurons and let x1, x2, ... , $x_n$ be some preceding neurons necessary to compute t, if we label $t_0$ the reference output, we can compute the value $\Delta t = t-t_0$ and use them to define the DeepLIFT values $C_{\Delta x_i \Delta t}$ associated with $\Delta x_i$ which is the difference between the true feature and the reference value for that feature.
-DeepLIFT coefficients are choose to follow the property called \emph{summation to delta} property
+In a few words the idea behind DeepLIFT (and DeepSHAP) can be summarised as: let t represent the output of some inner neurons and let $x_1, x_2, ... , x_n$ be some preceding neurons necessary to compute t, if we label $t_0$ the reference output, we can compute the value $\Delta t = t-t_0$ and use them to define the DeepLIFT coefficients $C_{\Delta x_i \Delta t}$ associated with $\Delta x_i$ which is the difference between the true feature and the reference value for that feature.
+DeepLIFT coefficients are chosen to follow the property called \emph{summation to delta} property
 \[
 \sum_{i = 1} ^n C_{\Delta x_i \Delta t} = \Delta t
 \]
 
-For a given input neuron x with difference from reference $\Delta x$ and a target neuron t, is defined the \emph{multiplier}
+For a given input neuron x with difference from reference $\Delta x$ and a target neuron t, is defined the \emph{DeepLIFT multiplier}
 \[
 m_{\Delta x \Delta t} = \frac{C_{\Delta x \Delta t}}{\Delta x}
 \]
 which represents the contribution of $\Delta x$ to $\Delta t$. Once computed the multipliers of each neuron in a layer it is possible to compute the multiplier of any target neuron during the backpropagation.
-For a more detailed explanation of how DeepLIFT works we refer to its presentation article \cite{shrikumar-2017}
+For a more detailed explanation of how DeepLIFT works we refer to its presentation article \cite{shrikumar-2017}.
 
-DeepSHAP exploits the same principles as DeepLIFT, and combines shap values for smaller components of a network to compute values for the whole network. It accomplish this by recursively passing Deep LIFT multipliers now defined in terms of SHAP values during backpropagation.
-Since notation can become quite annoying, we explain the main idea of how this procedure works.
-Suppose we have a single input vector x consisting only on two features: $x = (x_1, x_2)$ and a single background vector $b = (b_{x_1}, b_{x_2})$ we follow the notation on article \cite{chen2019} but we simplify for a better understanding.
-We denote as $f_{x_i}$ the actual value of the feature $x_i$ and as $b_{x_i}$ the value of the entry from the backgound vector corresponding to $x_i$, and we also denote as $h_i$ the output of a neuron with the input is x, and with $b_{h_i}$ the output of the neuron when the input is b.
+DeepSHAP exploits the same principles as DeepLIFT, and combines Shapley values for smaller components of a network to compute values for the whole network. It accomplish this by recursively passing Deep LIFT multipliers now defined in terms of Shapley values during backpropagation.
+\textcolor{ForestGreen}{To not weight down this discussion, we explain the main idea of how this procedure works by making use of a simplified neural network.
+%we follow the notation on article \cite{chen2019}, simplifying it for a better understanding
+We suppose to have a single input vector $x$ consisting only on two features: $x = (x_1, x_2)$ and a single background vector $b = (b_{x_1}, b_{x_2})$ .
+}
+We denote as $f_{x_i}$ the actual value of the feature $x_i$ and as $b_{x_i}$ the value of the entry from the backgound vector corresponding to $x_i$.
+We also indicate as $h_i$ the output of a neuron after the input $x$, and with $b_{h_i}$ the output of the neuron when the input is $b$.
 Giving a look at figure \ref{fig:deepshap_linear} we can write formulas for forward propagation.
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.6\linewidth]{shap/deepshap_linear}
-\caption{Representation of a linear network and important quantities involved during forward propagation}
+\caption{Representation of a linear network and important quantities involved during forward propagation.}
 \label{fig:deepshap_linear}
 \end{figure}
 
@@ -2427,8 +2463,8 @@ Giving a look at figure \ref{fig:deepshap_linear} we can write formulas for forw
 \[
 h_1 = w_{1, 1}x_1 + w_{2, 1}x_2 \qquad y = w_1 h_1 + w_2 h_2
 \]
-Giving a look at the model, we can retrieve Shap values for each node by summation of all the contribution from each path, where the path contribution to a shapley value for $x_i$ is defined as the product of the weights along the path and the difference between $x_i$ and the background value $b_{x_i}$.
-In practice, if we focus on the colored blue line we have that the contribution from this path to $\phi(h_1)$ is given by
+Giving a look at the model, we can retrieve the Shapley values for each node by summing all the contribution from each path, where the path contribution to a Shapley value for $x_i$ is defined as the product of the weights along the path and the difference between $x_i$ and the background value $b_{x_i}$.
+In practice, if we focus on the colored blue line, we have that the contribution from this path to $\phi(h_1)$ is given by
 \[
 \phi(h_1) = w_1 (f_{h_1} - b_{h_1})
 \]
@@ -2436,21 +2472,23 @@ with this information, we can finally compute the contribution to the Shapley va
 \begin{equation}
 \phi(x_1) = (f_{x_1} - b_{x_1}) w_{1, 1} w_1 = (f_{x_1} - b_{x_1}) w_{1, 1} \frac{\phi(h_1)}{f_{h_1} - b_{h_1}}
 \end{equation}
-adding all contribution from all the possible paths (just two in the figure above, but much more in a real neural network), it is possible to compute the final Shapley value for a feature $x_i$ in terms of the attributions of all the intermediary nodes of the network.
-
-
+adding all contribution from all the possible paths.
+\textcolor{ForestGreen}{
+In figure \ref{deepshap_linear} are represented for a greater clarity only two paths, deriving from the two input features $x_1 text{and} x_2$, however, a real neural network consists of much more input features and consequently many more patterns will contribute.
+Considering all the possible patterns, it is possible to compute the final Shapley value for a feature $x_i$ in terms of the attributions of all the intermediary nodes of the network.
+}
 
 
 \section{Shap values as feature importance}
 
-To express the significance of a feature, we can rely on the relation between feature importance in a qualitative way and shap value: feature with high absolute shapley value are important.
-The absolute importance value for a feature f is calculated as the mean of the magnitude of all the shapley value for that feature, so the mean is performed across all the n samples we used to calculate these values
+To express the significance of a feature, we can rely on the relation between feature importance in a qualitative way and Shapley value: features with high absolute Shapley value are important.
+The absolute importance value for a feature f is calculated as the mean of the magnitude of all the Shapley value for that feature, so the mean is performed across all the n samples we used to calculate these values
 \begin{equation}\label{eq:shap_magnitude}
 I_f = \frac{1}{n} \sum_{i = 1}^n \|\phi_i^{(f)}\|
 \end{equation}
 
-Shap is implemented as a free Python package with MIT license, developed and mantained by Scott Lundberg \footnote{https://github.com/slundberg/shap}.
-This package includes different classes such as KernelExplainer, which is the class name of KernelSHAP mentioned in section \ref{sec:lime}, TreeExplainer tuned to perform rapidly on tree and forest-like models, linearExplainer which deals with linear model and is able to compute the exact shapley values and not just an aproximation, and the class we are using: DeepExplainer, suitable to explain deep learning models and to compute an approximate value of shapley values.
+SHAP is implemented as a free Python package with MIT license, developed and maintained by Scott Lundberg \footnote{https://github.com/slundberg/shap}.
+This package includes different classes such as KernelExplainer, which is the class name of KernelSHAP mentioned in section \ref{sec:lime}, TreeExplainer tuned to perform rapidly on tree and forest-like models, linearExplainer which deals with linear model and is able to compute the exact shapley values and not just an approximation, and the class we are using: DeepExplainer, suitable to explain deep learning models and to compute an approximate value of Shapley values.
 
 
 \newpage
@@ -2462,19 +2500,20 @@ This package includes different classes such as KernelExplainer, which is the cl
 \addcontentsline{toc}{chapter}{IMPLEMENTATION \& RESULTS}
 %\chapter*{IMPLEMENTATION \& RESULTS}
 \chapter{Analysis workflow}\label{sec:analysis_workflow}
-So far we have been discussing what type of data we used in our work without specifying what kind of analysis we carried out with those data.
-We mainly performed classification using two different machine learning classifier: a deep neural network and a common Random Forest classifier.
-Before running any classification procedure we tackled the problem of data harmonization. To this end in chapter \ref{chap:harmonization_results} we explain how we implemented the procedure of data harmonization and some results obtained by applying it on our data obtained from the analysis discussed in chapter \ref{chap:connectivity_coefficients} which we report for convenience:
+So far we have been discussing what type of data we used in our work without specifying what kind of analysis we carried out with these data.
+We mainly performed classification of control subjects vs ASD patients using a deep neural network and compared its performances with those obtained with a conventional random forest classifier.
+Before running any classification procedure we tackled the problem of data harmonization.
+To this end in chapter \ref{chap:harmonization_results} we explain how we implemented the procedure of data harmonization and we show some results obtained by applying it on our data obtained from the analysis discussed in chapter \ref{chap:connectivity_coefficients} which we summarize here for convenience:
 \begin{itemize}
 \item Data obtained by Fisher-transforming Pearson correlation coefficients extracted for each pair of timeseries of each patient
 \item Data obtained from wavelet analysis by computing time of in-phase or out-of-phase percentage coefficients for each pair of timeseries of each patient
 \end{itemize}
 We report results to have a visual feedback of how harmonization modify data and how effective is this procedure in eliminating site-related information from our data.
 
-In chapter \ref{chap:results_deeplearning} we present results obtained from classification of data using different machine learning algorithms. We seek to find the best strategy to obtain the best separability between Controls and ASD data.
-Classification was carried out following different pipelines: we compared performances between a Random Forest classifier, a deep neural network and a Domain-adversarial neural network. We also discuss the effects of data harmonization on a classification procedure and we discuss the best strategy to implement harmonization.
+In chapter \ref{chap:results_deeplearning} we present results obtained from classification of data using a deep neural network. We seek to find the best strategy to obtain the best separability between controls and ASD data.
+To this end, classification was carried out following different pipelines: we compared performances between a random forest classifier, a deep neural network and a domain-adversarial neural network. We also discuss the effects of data harmonization during the classification procedure and we discuss the best strategy to implement harmonization.
 
-\paragraph{Analysis pipelines}\hfill
+\paragraph{Classification and harmonization pipelines}\hfill
 
 \begin{figure}[h!]
 \centering
@@ -2493,27 +2532,31 @@ Flowchart of the analysis carried out in this work:
 \label{fig:workflowanalysis}
 \end{figure}
 
-For each classification analysis, we implemented a K-fold cross validation scheme to report our results. We determined and reported model performances as the mean AUC value and the standard deviation of the scores for each k-fold
-Since we are not working with a huge amount of data ($< 1600$ samples), we choose to perform a 5-fold CV. We made this choice because with a 10 k-fold CV, the error on the mean AUC score increases, since we have less data in the test dataset, and hence more variability.
-For this reason we choose to hold a greater number of data in the test (at the cost of reducing the number of data available for train) to reduce variability among them and reduce the standard deviation of the model's score.
+To assess the performances of a classification algorithm, we implemented a k-fold cross validation scheme to report our results.
+To assess the performances of a machine learning model we implemented a k-fold cross validation scheme in order to train and test the model using each time a different train and test dataset.
+We determined and reported model performances as the mean AUC and the standard deviation of the scores for each k-fold.
+Since we are not working with a huge amount of data ($< 1600$ samples), we set to 5 the number of k, so we perform a 5-fold CV.
+We made this choice because with a 10 k-fold CV, the error on the mean AUC score is higher,  this is due to the reduced number of data in each test set, which leads to more variability.
+For this reason we preferred to hold a greater number of data in test, at the cost of reducing the number of data available for train, to reduce variability among them and consequently reduce the error on the model score.
 K-fold CV was implemented using the stratifiedKFold class provided by sklearn library for Python.
 
 
-A flowchart of the analysis mentioned above is shown in figure \ref{fig:workflowanalysis}
-In details the four types of analysis we carried out are:
+A flowchart of the different harmonization pipeline used to perform classification with a machine learning or deep learning model is shown in figure \ref{fig:workflowanalysis}
+In details the four pipelines we followed out are:
 \begin{enumerate}
-\item Classification of ASD/controls using raw (not harmonized) data
-\item Classification using the whole harmonized dataset, creating the harmonization model on all the control subjects and applying the model on all ASD subjects, and then split this dataset into a train and test subsets for each k-fold. The flowchart to schematise this implementation is shown in figure \ref{fig:harmon_upstream_flowchart}.
-\item Classification with harmonization implemented inside the K-fold cross-validation, creating the model on controls and applying it to ASD: following this procedure data were splitted into a train and a test dataset, therefore using train data we computed the harmonization model only on control patients and then apply the model to ASD patient and both Control and ASD test data.
-The whole flowchart is shown in figure \ref{fig:harmon_kfold_flowchart}
-\item Classification using the domain adversarial neural network.
+\item Classification of control subjects vs ASD patients using raw (not harmonized) data
+\item Classification controls/ASD using the whole harmonized dataset, creating the harmonization model on all the control subjects and applying it on all the ASD subjects. This is done before the implementation of the k-fold CV, namely before the splitting of the dataset into a train and test subset. The flowchart to schematize this implementation is shown in figure \ref{fig:harmon_upstream_flowchart}.
+\item Classification controls/ASD with harmonization implemented inside the k-fold CV: after the split of the dataset into a train and a test subset, we create the harmonization model on controls belonging to train and apply it to ASD and to all the test data (controls and ASD). The flowchart related to this pipeline is shown in figure \ref{fig:harmon_kfold_flowchart}
+\item Classification controls/ASD using the domain adversarial neural network, giving as input raw data.
 \end{enumerate}
 
-\textcolor{blue}{
-Harmonizing data inside a k-fold is the best way to keep train and test data apart and avoid data leakage between train and test.
-It is a common source of error to introduce some kind of data leakage between the train and the test dataset, when we harmonize on the entire dataset, the harmonization model permorms a fit using all the data, so each data is modified according to information obtained from all the other data, so in data belonging to the train dataset there's already information about the test dataset, and this leads to a misleading increase of model's performances.
-Some articles perform a Leave One Site Out Cross validation. In our case we can't do that if we want to mantain train and test independent because if we compute the harmonization model only on the train dataset, we wouldn't have information to apply it to the test dataset since its data belong to a site not included in the model.
-}
+
+We believe that implementing the harmonization procedure inside a k-fold CV scheme, is the best way to keep train and test data apart and avoid data leakage between train and test.
+Data leakage is in fact a common source of error and may bring to an overestimation of the model performances.
+When we harmonize the entire dataset upstream, namely before the splitting into a train and test, the harmonization model executes a fit using all the data, so each data is modified according to information obtained from every other data.
+In this way, data belonging to the train dataset there is already information about the test dataset, and this leads to a misleading increase of model performances.
+Some articles perform a Leave One Site Out Cross validation.
+In our case this procedure is not feasible, since if we compute the harmonization model on the train dataset we would not have information about the site belonging to the test dataset and we could not harmonize those values.
 
 
 \begin{figure}[h!]
@@ -2535,16 +2578,24 @@ Some articles perform a Leave One Site Out Cross validation. In our case we can'
 
 \paragraph{Dataset selection} \hfill
 
-With reference to the \textquotedblleft Patients attributes selection \textquotedblright in figure \ref{fig:workflowanalysis} we discuss now what selection criterias we adopted.
-All the analysis mentioned above were performed using different selection criterias and thresholds on the dataset which brought us to different datasets combination.
-First of all, we excluded from the analysis data from sites NYU\_2 and KUL\_3 because as noticed in chapter \ref{chap:dataset} they did not provide control data but only ASD patients, and without control data, we can't perform harmonization on these sites because to create a harmonization model, we perform a regression on control data and then apply the model to ASD data of that site.
-The first and most obvious selection criteria is to use the whole dataset from ABIDE 1 and 2, consisting of only male patients aged between 5 and 40 years old, without any further constraint. So we have our first complete dataset consisting on 1470 patient data, from ABIDE I + ABIDE II datasets.
-This dataset can be divided to analyze classification performances separately on ABIDE I and ABIDE II, mantaining the same constraints on ages and sex.
-This choice was made because several articles dealing with controls/ASD classification using the ABIDE dataset, are fullfilled only on ABIDE I, or, more precisely, on ABIDE I preprocessed (see section \ref{sec:cpac}). Thus for an immediate comparison we choose to run classification on the two disjoint dataset as well.
+With reference to the \textquotedblleft patients attributes selection \textquotedblright in figure \ref{fig:workflowanalysis} we discuss now what selection criteria were adopted for the cohorts of subjects.
+All the analysis mentioned above were performed using some determined selection criteria and thresholds on the covariates of subjects such as age and sex.
+We choose to run analysis considering only male subjects, aged between 5 and 40 years old.
+This allows to reduce variability due to sex
+%Other and others which brought to different datasets combination.
+First of all, we excluded from the analysis data from sites NYU\_2 and KUL\_3 because as noticed in chapter \ref{chap:dataset} they did not provide control subjects data but only ASD patients, and without control data, we are not able to perform a proper harmonization on these sites.
 
-To seek for a more homogeneous dataset, an other constraint can be set on the eye status at scan. The objective is to select only patients who kept open eyes throughout the entire scan session. This, as mentioned in chapter \ref{sec:intro_ml} helps obtaining a more homogeneous dataset, removing also data potentially altered by sleep.
-This constraint was applied on the dataset consisting on data from ABIDE I and ABIDE II pooled together  cited earlier, and on ABIDE I and ABIDE II separately as well.
-In short, considering these constraints, we obtain 6 different subdatasets, with different number of patients each, summarised in table \ref{tab:controlASD_per_subset}
+The first collection of data we use to run classification on, is the whole dataset consisting of ABIDE I and II.
+With the cuts on covariates cited above, we obtain in this way a dataset consisting on 1470.
+This dataset can be divided to analyze classification performances separately on ABIDE I and ABIDE II, mantaining the same constraints on ages and sex.
+
+This choice was made because several articles dealing with controls/ASD classification on the ABIDE dataset, are carried out only on ABIDE I, or, more precisely, on ABIDE I preprocessed (see section \ref{sec:cpac}) dataset. Thus for an immediate comparison we choose to run classification on the two disjoint dataset as well.
+
+To seek for a more homogeneous dataset, an other constraint can be set on the eye status at scan.
+The objective is to select only patients who kept open eyes throughout the entire scan session.
+This, as mentioned in chapter \ref{sec:intro_ml} helps obtaining a more homogeneous dataset, removing also data potentially altered by sleep.
+This constraint was applied on the dataset consisting on ABIDE I + II and separately on ABIDE I and ABIDE II.
+In short, considering these constraints, we obtain 6 different subdatasets, with different number of patients each, summarized in table \ref{tab:controlASD_per_subset}
 
 
 
@@ -2569,29 +2620,31 @@ AB II &eye = open &458 &233 &225 \\
 \paragraph{Dimensionality reduction of data} \hfill
 
 An important issue related to data we are working on concerns their dimensionality.
-We are dealing with data lying in an high dimensional space but we lack an apropriate number of data to make acccurate predictions on them: this problem is usually referred as the \textquotedblleft curse of dimensionality \textquotedblright
+We are dealing with data lying in an high dimensional space but we lack an apropriate number of data to make acccurate predictions on them: this problem is usually referred as the \say{curse of dimensionality}
 %\footnote{https://en.wikipedia.org/wiki/Curse\_of\_dimensionality\#Machine_Learning} .
 In our work, dimensionality is a relevant issue since we are dealing with 5995 features and less then 1500 patients, and for this reason we run our analysis in a situation of permantent overfitting.
-One important method to tackle this problem is dimensionality reduction performing a Principal Components Analysis (PCA) as explained in section \ref{sec:pca}
+One important method to tackle this problem is dimensionality reduction performing a Principal Components Analysis (PCA) as explained in section \ref{sec:pca_theory}
 
-% come ho calcolato le pca? solo sul training set
 %non avrebbe senso calcolare la PCA solo sui controlli perchè pca cerca la direzione di massima varianza, dove i davi variano maggiornente, e quidni dove si ha una migliore distinguibilità bewteen controls and ASDs. NOn avrebbe senso farla solo sui controlli.
 %Il numero di PC può essere più grande del test dataset, ma non sarà mai più grande del numero di feature in esso (per come è definito il massimo numero di pc), quindi una volta estratte le PC può essere applicato a qualsiasi test dataset
 
-When applying PCA to a dataset we seek to explain as much variance as possible, for this reason we start our pca analysis extracting a number of principal components that explain more then 90$\%$ of variance, then we gradually reduced this number halving if.
-The maximum number of principal components is limited by the number of data we can use. If we have a dataset of $n\_samples$ samples, each with $n\_features$ features, the maximum number of PC is given by $N\_pc = min\{n\_samples, n\_features\}$.
-This is because in a $n-feature$-dimensional space, our points lie in a $n\_samples$-dimensional hyperplane and all the variance can be explained inside this subspace.
+When applying PCA to a dataset we seek to explain as much variance as possible, without losing relevant information.
+For this reason we start our PCA analysis extracting a number of principal components that explain more then 90$\%$ of variance, then we gradually reduce this number by halving it.
+The maximum number of principal components is limited by the number of data we can use.
+If we have a dataset of $n\_samples$ samples, each with $n\_features$ features, the maximum number of PC is given by $N\_pc = min\{n\_samples, n\_features\}$.
+This is because in a $n\_feature$-dimensional space, our points lie in a $n\_samples$-dimensional hyperplane and all the variance can be explained inside this subspace.
 For a better understanding of this concept, we can imagine a dataset made of only two data, each containing 3 features. If we represent these data, we construct a 3D space where each orthogonal axes corresponds to a feature, and we insert these two points, each corresponding to a data point.
 If we want to explain the maximum variance we need to find a new axis, the first principal component, but through two points passes just one straight line so we can at most limit our analysis to the plane passing through that line.
 
 In our case $n\_samples$ is always $< \ n\_features$, so the number of principal components will be limited by the number of data in the train dataset.
 We use just the train dataset to calculate principal components because this is the correct way to proceed to avoid data leakage between train and test dataset.
+The search for principal components is then accomplished only on the train dataset and subsequently the same transformation is applied to the test dataset.
+In accordance of what we stated about harmonization, calculating principal components just on the training set, allows to keep train and test set apart, so we had to implement it inside the k-fold CV procedure.
 
-To avoid repeating all the analysis mentioned earlier with the additional implementation of PCA, we choose to implement it only on some sub-dataset and using those coefficients that give the best classification performances.
 
+To avoid repeating all the analysis mentioned earlier with the additional implementation of PCA, we choose to implement PCA only with coefficients that give the best classification results and using just two dataset: ABIDE I + II and ABIDE I with patients with open eyes.
 %For each one of the analysis above, PCA was implemented to restrain the effect of overfitting.
-From the initial input data consisting of 5995 features, we performed classification using different values of principal components. The search for principal components is accomplished only on the train dataset and then the same transformation is applied on the test dataset. In accordance of what we stated about harmonization when we asked whether is more correct to perform it inside or outside the k-fold splitting of train/test, calculating principal components just on the training set, allows to keep train and test set apart, and avoid data leakage of test into train.
-
+From the initial input data consisting of 5995 features, we performed classification using different values of principal components.
 Results are shown in chapter \ref{sec:results_pca}
 
 
@@ -2606,50 +2659,53 @@ Harmonization procedure was tested on the datased created by using patients from
 From these patients we tested harmonization using Pearson-based correlation coefficients and wavelet coefficients of in phase time percentage.
 We run this analysis to have a quantitative and a visual representation of how features are modified after being processed with harmonization pipeline.
 
-To test harmonization procedure and evaluate its performances in making feature uniform in relation to sites, we used NeuroHarmonize \footnote{https://github.com/rpomponio/neuroHarmonize} package for Pyhton, developed by Pomponio et al. \cite{pomponio-2019} which implemented and added some features to the previous NeuroComBat Python package \footnote{https://github.com/Jfortin1/ComBatHarmonization}.
+To test harmonization procedure and evaluate its performances in making feature uniform in relation to sites, we used NeuroHarmonize package\footnote{https://github.com/rpomponio/neuroHarmonize} for Pyhton, developed by Pomponio et al. \cite{pomponio-2019} which implemented and added some features to the previous NeuroComBat Python package\footnote{https://github.com/Jfortin1/ComBatHarmonization}.
 
-To use Neuroharmonize package we need to input the feature data to harmonize and the corresponding covariate information with site, age, sex, and other biological quantities we desire to take into account.
-For our data these information were provided by a csv file on the ABIDE website. In this file, for each patient, are collected several medical and biologiclal information useful to run a great number of different analysis.
-A regression model is thus created with parameters estimated with the procedure explained in section \ref{sec:harmonizationtheory}. This model can be applied to the same input data we used to generate it, or to new, unseen data acquired from the same sites we used to create the model.
+To use NeuroHarmonize package we need to input the feature data to harmonize and the information about sites as well as information about all the covariates we want to preserve the effect of.
+We could also specify whether or not to include non-linear terms for some covariates.
 
-We tested harmonization procedure on 1470 male patients coming from ABIDE I and ABIDE II of which 737 controls and 733 cases, choosing as covariate to preserve the age, and the FIQ (Full intellective quotient) to mantain important possible biolgical trends in the data and avoid overcorrection.
+For our data biological informations were provided by a csv file on the ABIDE website. In this file, for each patient, several medical and biologiclal information are collected in order to provide as much information as possible for each patient.
+%A regression model is thus created with parameters estimated with the procedure explained in section \ref{sec:harmonizationtheory}. This model can be applied to the same input data we used to generate it, or to new, unseen data acquired from the same sites we used to create the model.
 
-The central idea is to create the model on control subjects only, to operate without the influence of information related to ASD patients whose feature might follow a different distribution compared to control.
-Once created the model on control subject, it is applied to both control and ASD subjects, following this procedure site-related information are eliminated from our data.
-To test the effectiveness of this harmonization procedure, we used a Random Forest Regression to test the site classification performances before and after the harmonization procedure.
-In this analysis, we split the model into a train and test subsets: using only control subjects from the train dataset, we created the harmonization model as explained before.
+We tested harmonization procedure on 1470 male patients coming from ABIDE I and ABIDE II of which 737 controls and 733 cases, choosing as covariates to preserve the age, and the FIQ (Full Intelligence Quotient) to maintain important possible biolgical trends in the data and avoid overcorrections.
 
-To actually harmonize data, the model is applied to all the data: Controls and cases of train dataset and Control and Cases of the Test.
-We remind that this approach, allows train and test dataset to remain independent, because harmonization model is only created on train subjects and once learnt the parameters, is applied to the test dataset. Thus, data we use to train the random forest, are kept separated from the test set, and there's no information leakage of the test data into the training data.
+The central idea is to create the model as explained on chapter \ref{chap:harmonization_theory} on control subjects only, to operate without the influence of information related to ASD patients whose feature might follow a different distribution compared to control.
+Once created the model on control subjects, it is applied to both control and ASD subjects, following this procedure site-related information are eliminated from our data.
+To test the effectiveness of this harmonization procedure, we used a random forest classifier to test the site classification performances before and after the harmonization procedure.
+In this analysis, we split the model into a train and test subsets: using only control subjects from the train dataset, we create the harmonization model as explained before.
 
-Two random forest classifiers were trained. One using raw (non-harmonized) data, and the second using harmonized data.
-Their task was to make a binary classification of data: site vs site, for each pair of sites.
+To actually harmonize data, the model is applied to all the data: controls and ASD of train dataset and control and ASD of the test.
+%We remind that this approach, allows train and test dataset to remain independent, because harmonization model is only created on train subjects and once learnt the parameters, is applied to the test dataset. Thus, data we use to train the random forest, are kept separated from the test set, and there's no information leakage of the test data into the training data.
 
+Two random forest classifiers are trained.
+One using raw (non-harmonized) data, and the second using harmonized data.
+Their task is to perform a binary classification of data: site vs site, for each pair of sites.
 
 \begin{notes}
 \item As mentioned in the previous paragraph, two sites namely \texttt{NYU\_2} and \texttt{KUL\_3} provided only ASD patients, and, since we are estimating the mean and the variance for each feature across all sites, when we train a model only on control cases, and we apply it on patients belonging to new sites, we don't have information to scale and modify those data so the model would output NaN values.
-This is the reason why in our analysis we excluded these sites since we can't perform a proper harmonization of them.
+This is the reason why in our analysis we excluded these sites since we can not perform a proper harmonization with them.
 \end{notes}
 
-Figures \ref{fig:heatmap_harmonization} and \ref{fig:heatmap_harmonization_w} show the results of classification site vs site using the two coefficients described above:  Pearson and wavelet correlations. Sites along the x and y axes are ordered by incresging average age of patients and scores are reported in terms of AUC,
+Figures \ref{fig:heatmap_harmonization} and \ref{fig:heatmap_harmonization_w} show the results of classification site vs site using the two correlation coefficients described above: Pearson-based and wavelet-based correlations.
+Sites along the x and y axes are ordered by increasing average age of patients and scores are reported in terms of AUC.
 
-Specifically, fig \ref{fig:heatmap_harmonization_noharmon} and \ref{fig:heatmap_harmonization_noharmon_w} show the AUC score of the model trained with the raw, not harmonized dataset, while in figures \ref{fig:heatmap_harmonization_harmon} and \ref{fig:heatmap_harmonization_harmon_w} show the results obtained with harmonized data.
+Specifically, fig \ref{fig:heatmap_harmonization_noharmon} and \ref{fig:heatmap_harmonization_noharmon_w} show the AUC score of the model trained with the raw, not harmonized dataset, while in figures \ref{fig:heatmap_harmonization_harmon} and \ref{fig:heatmap_harmonization_harmon_w} are shown the results obtained with harmonized data.
 
 
 
 % HEATMAPS
 \begin{figure}
 \centering
-\begin{subfigure}[b]{0.8\textwidth}
+\begin{subfigure}[b]{0.7\textwidth}
    \includegraphics[width=1\linewidth]{/home/federico/magistrale/Imagess/harmonization/pearson/matrix}
    \caption{Heatmap with AUC score of a binary classification site vs site with raw data}
-   \label{fig:heatmap_harmonization_harmon}
+   \label{fig:heatmap_harmonization_noharmon}
 \end{subfigure}
 
-\begin{subfigure}[b]{0.8\textwidth}
+\begin{subfigure}[b]{0.7\textwidth}
    \includegraphics[width=1\linewidth]{/home/federico/magistrale/Imagess/harmonization/pearson/harmon_matrix}
    \caption{Heatmap with AUC score of a binary classification site vs site with harmonized data}
-   \label{fig:heatmap_harmonization_noharmon}
+   \label{fig:heatmap_harmonization_harmon}
 \end{subfigure}
 
 \caption{Comparison of two heatmaps with AUC score of binary classification site vs site with \textbf{Pearson}-based correlation coefficients of raw (fig \ref{fig:heatmap_harmonization_harmon}) and harmonized data (fig \ref{fig:heatmap_harmonization_noharmon}) classified using a Random Forest Classifier
@@ -2662,15 +2718,15 @@ Specifically, fig \ref{fig:heatmap_harmonization_noharmon} and \ref{fig:heatmap_
 \begin{figure}
 \centering
 \begin{subfigure}[b]{0.70\textwidth}
-   \includegraphics[width=1\linewidth]{/home/federico/magistrale/Imagess/harmonization/wavelets/matrix}
+   \includegraphics[width=1\linewidth]{harmonization/wavelets_2/matrix}
    \caption{Heatmap with AUC score of a binary classification site vs site with raw data}
-   \label{fig:heatmap_harmonization_harmon_w}
+   \label{fig:heatmap_harmonization_noharmon_w}
 \end{subfigure}
 
 \begin{subfigure}[b]{0.70\textwidth}
-   \includegraphics[width=1\linewidth]{/home/federico/magistrale/Imagess/harmonization/wavelets/harmon_matrix}
+   \includegraphics[width=1\linewidth]{harmonization/wavelets_2/harmon_matrix}
    \caption{Heatmap with AUC score of a binary classification site vs site with harmonized data}
-   \label{fig:heatmap_harmonization_noharmon_w}
+   \label{fig:heatmap_harmonization_harmon_w}
 \end{subfigure}
 
 \caption{Comparison of two heatmaps with AUC score of binary classification site vs site of \textbf{wavelet}-based correlation coefficients of raw (fig \ref{fig:heatmap_harmonization_harmon_w}) and harmonized data (fig \ref{fig:heatmap_harmonization_noharmon_w}) classified using a Random Forest Classifier
@@ -2682,19 +2738,19 @@ Specifically, fig \ref{fig:heatmap_harmonization_noharmon} and \ref{fig:heatmap_
 
 
 
-To have a visual representation of how much each feature is modified in respect of its sourced site, in fig \ref{fig:features_raw-harmo} are shown two features among the 5995: \emph{feature 324} and \emph{feature 2800} as a function of sites. This figures show features computed with Pearson coefficients while in figure \ref{fig:wavelet_features_raw-harmo} are shown the same two features with wavelet coefficients.
+To have a visual representation of how much each feature is modified in respect of its sourced site, in fig \ref{fig:features_raw-harmo} are shown two features among the 5995: \emph{feature 324} and \emph{feature 2800} as a function of sites. This figures show features from Pearson coefficients while in figure \ref{fig:wavelet_features_raw-harmo} are shown the same two features with wavelet coefficients.
 Just for a clearer idea of what is shown, feature 324 represents the correlation between right and left inferior frontal gyrus, and feature 2800 that between left precuneous cortex and the left inferior frontal gyrus. There is not a particular reason for choosing these two feature, they are just randomly drawn from the 5995 possible combinations.
 Their values are plotted as a box along the y axis and sites are indicated along the x-axis, it appears clear how the mean value of each feature for each site is shifted and features are stretched or shrinked to make them follow a more uniform distribution.
 
 \begin{figure}
 \centering
 \begin{subfigure}[b]{1.\textwidth}
-   \includegraphics[width=1\linewidth]{/home/federico/magistrale/Imagess/harmonization/pearson/Feature324raw-harmo}
+   \includegraphics[width=1\linewidth]{harmonization/pearson/Feature324raw-harmo}
    \caption{}
    \label{fig:feature324}
 \end{subfigure}
 \begin{subfigure}[b]{1.\textwidth}
-   \includegraphics[width=1\linewidth]{/home/federico/magistrale/Imagess/harmonization/pearson/Feature2800raw-harmo}
+   \includegraphics[width=1\linewidth]{harmonization/pearson/Feature2800raw-harmo}
    \caption{}
    \label{fig:feature2800}
 \end{subfigure}
@@ -2707,12 +2763,12 @@ Their values are plotted as a box along the y axis and sites are indicated along
  \begin{figure}
  \centering
  \begin{subfigure}[b]{1.\textwidth}
-    \includegraphics[width=1\linewidth]{/home/federico/magistrale/Imagess/harmonization/wavelets/Feature324raw-harmo}
+    \includegraphics[width=1\linewidth]{harmonization/wavelets_2/Feature324raw-harmo}
     \caption{}
     \label{fig:wavelet_feature324}
  \end{subfigure}
  \begin{subfigure}[b]{1.\textwidth}
-    \includegraphics[width=1\linewidth]{/home/federico/magistrale/Imagess/harmonization/wavelets/Feature2800raw-harmo}
+    \includegraphics[width=1\linewidth]{harmonization/wavelets_2/Feature2800raw-harmo}
     \caption{}
     \label{fig:wavelet_feature2800}
  \end{subfigure}
@@ -2722,7 +2778,7 @@ Their values are plotted as a box along the y axis and sites are indicated along
 
 
 
- If we split this plot into control and ASD patients to see the effect of harmonization separately on these subsets, \ref{fig:features_control-ASD_raw-harmo} shows feature 324 computed using Pearson coefficients and figure \ref{fig:feature324-control-ASD_w} with wavelet coefficients.
+ If we split these plots into control and ASD subjects to see the effect of harmonization separately on these subsets, we obtain figure \ref{fig:features_control-ASD_raw-harmo} which shows feature 324 computed using Pearson coefficients and figure \ref{fig:feature324-control-ASD_w} with wavelet coefficients.
 
  \begin{figure}
  \centering
@@ -2732,7 +2788,7 @@ Their values are plotted as a box along the y axis and sites are indicated along
     \label{fig:feature324-control-ASD}
  \end{subfigure}
  \begin{subfigure}[b]{1.\textwidth}
-    \includegraphics[width=1\linewidth]{harmonization/wavelets/Feature324control-ASD_raw-harmo}
+    \includegraphics[width=1\linewidth]{harmonization/wavelets_2/Feature324control-ASD_raw-harmo}
     \caption{Feature 324 of wavelet-based correlation coefficients}
     \label{fig:feature324-control-ASD_w}
  \end{subfigure}
@@ -2747,19 +2803,38 @@ Their values are plotted as a box along the y axis and sites are indicated along
 
 %C'è da dire che anche dopo l'armonizzazione, il sito SU_2 rimane distinguibile, anche se dalle feature sembra essere stato allineato con gli altri. Quindi stessa storia potrebbe essere avvenuta per i wavelet.
 
-Figure \ref{fig:heatmap_harmonization_w} shows a binary classification procedure with a random forest, for site discrimination of wavelet-based coefficients. It appears clear that with wavelet coefficients there is not the same outcome as with Pearson coefficients (figure \ref{fig:heatmap_harmonization}), in fact with wavelets sites still remain distinguishable after harmonization.
+Figure \ref{fig:heatmap_harmonizatiion} \ref{fig:heatmap_harmonization_w} show a binary classification performed with a random forest, for site classification of Pearson-based and wavelet-based correlation coefficients respectively.
+Before harmonization we notice (fig \ref{fig:heatmap_harmonization_noharmon} and \ref{fig:heatmap_harmonization_noharmon_w}) that the AUC value is mainly near to 1, which stands for exact ability to classificate site\_a vs site\_b.
+With Pearson-based coefficients this value decreases when the classification is performed using harmonized data (figure \ref{fig:heatmap_harmonization_harmon}).
+This stands as a confirm that the harmonization procedure effectively removes site-related features making them less recognizable among data.
+This same effectiveness, though, is not visible with wavelet-based coefficients.
+It appears clear in figure \ref{fig:heatmap_harmonization_harmon_w}) that sites still remain distinguishable even after harmonization.
+Actually, they even becomes more distinguishable to understand why this happens we can take a look at figure \ref{fig:wavelet_features_raw-harmo} and confront it with figure \ref{fig:features_raw-harmo} we can notice the presence of a greater number of outliers between data.
+It is likely that those values are decisive and for the discrimination between two sites.
+The discriminability of sites becomes higher because after harmonization,  for each site, a feature is scaled to follow a more regular distribution centered at its mean value, but the outliers still are outliers even after the harmonization as it is possible to see from the plots.
+This leads to a greater effect of these outliers to the outcome of the classification.
+\textcolor{red}{Forse da aggiustare, ma è l'idea più plausibile}
 
 %This may be due to the loss of some information linked to the site througout all the process of extracting a correlation coefficient starting from a time-frequency analysis of two timeseries.
 %Accordind to this hypotesis, if we lost site information, the particular trend of a feature we see for example in figure \ref{fig:wavelet_features_raw} is just a casual trend and taking into account all of the features, there is not a specific bias connected to a site.
 %This way, during procedure of harmonization, we are creating a bias towards each site and for this reason after harmonization, sites remain distinguishable, or actually, they become even more recognisable
-Nevertheless, if we plot the mean value of a feature computed with wavelet-based correlation across sites (figure \ref{wavelet_features_raw}) we note that there is a certain trend related to sites, but it is possible either that we obtain this trend just for this choice of feature or that even if the mean values of these features underwent a level out procedure, they still remain recognisable because of the values they assume which is not in the same range for all the sites and this can help the classificator recognising sites differences.
+%If we look at the boxplot of the mean value of a feature computed with wavelet-based correlation across sites (figure \ref{fig:wavelet_features_raw-harmo}) we note that there is a certain trend related to sites, that disappears after harmonization.
+%It is possible either that we obtain this trend just for this choice of feature or that even if each feature underwent a level out procedure, they still remain recognizable across sites because of different outliers.
 
 \hfill
 
-Both for wavelet-based coefficients in figure \ref{fig:wavelet_features_raw} and for Pearson-based coefficients in figure \ref{fig:features_raw-harmo} we can notice a certain messy trend of features of raw data in respect to site (plots on the left side), which is not due to the presence of an unbalanced Controls/ASD number of patients per site, because from figure \ref{fig:features_control-ASD_raw-harmo} we observe as well, a messy trend both for Controls and ASD.
-We can therefore conclude that in our data there's some kind of bias linked to the acquisition site.
-After harmonization procedure both Pearson-based coefficients and wavelet-based coefficients assume a more regular trend (plots on the right side of figures  \ref{fig:wavelet_features_raw} and \ref{fig:features_raw-harmo})
-This is a visual confirm that harmonization effectively removes site-related, but if for Pearson coefficients this is enough to remove inter-site variability, for wavelet coefficients
+Both for wavelet-based coefficients in figure \ref{fig:wavelet_features_raw-harmo} and for Pearson-based coefficients in figure \ref{fig:features_raw-harmo} we can notice a disordered trend of features of raw data (plots on the left side).
+This trend is mitigated by the effect of harmonization, on the right side of figures  \ref{fig:features_raw-harmo} and \ref{fig:wavelet_features_raw-harmo}.
+
+Excluding just for a moment the idea that this trend is related to a site effect, it would be possible to think that it is due to the presence of an unbalanced number of control/ASD data across sites.
+This unbalanced distribution would reflect on the mean value of a feature per site, perhaps site with a greater number of controls exhibit a greater or lower mean value of the shown feature.
+However, this hypotesis is disproved by the plots in figures \ref{fig:feature324-control-ASD} and \ref{fig:feature324-control-ASD_w}.
+It appears clear that the disordered trend manifests both for controls and ASD data separately.
+
+%Thich is not due to the presence of an unbalanced Controls/ASD number of patients per site, because from figure \ref{fig:features_control-ASD_raw-harmo} we observe as well, a messy trend both for Controls and ASD.
+We can therefore conclude that in our data there is a bias linked to the acquisition site.
+After harmonization procedure both Pearson-based coefficients and wavelet-based coefficients assume a more regular trend.
+This is a visual confirm that harmonization effectively removes site-related, but if for Pearson coefficients this is enough to remove inter-site variability, for wavelet-based coefficients this method is not enough to remove site-related effect.
 
 %This bias is more evident with Pearson-based correlation coefficients (fig \ref{fig:wavelet_features_raw}) than with wavelet-based coefficients (fig \ref{fig:features_raw-harmo}) that appear to assume a more uniform trend.
 
@@ -2768,22 +2843,26 @@ This is a visual confirm that harmonization effectively removes site-related, bu
 \newpage
 \chapter{Deep neural models} \label{chap:deep_models}
 %\section{Model's structure}
-\paragraph{Deep neural network}\hfill
+\paragraph{Deep neural networks}\hfill
 
 In this work we performed a classification task, using a shallow neural network built using Keras library for Python.
-Since we are working in an unavoidable overfitting condition, we tried to build a network with as less feature as possible, but still preserving good classification performances.
-We then started the research of our newtork with a network comprising only 3 layers and we searched the minimum number of neurons to employ in each layer.
-We started with a trivial network made by just 3 neuron in the first layer, 2 nodes in the second and at last a single-output layer. Even if this was just an attempt to put a lower limit to the number of neurons, we noted that even with this configuration, the network tends to overfit our data.
-This is clear if we take a look at the learning curves in figure \ref{fig:learningcurve} which shows the training and validation AUC curves for two models: the first one of them (\ref{fig:auc_no3-2-1}) even if with the simplified structure just mentioned, shows the classical trend of an overfitting state, however, it performes a bit worse than the other two more complex models.
-We continued adding neurons to each layer and tried different configurations. With a configuration of 8-8-1 performances were slightly higher, so we set the second layer to 8 neurons and tried changing the number of the neurons in the first layer, performances seemed to increase as the number of neurons increased until they reached a stable value. Different attempts and the related classification scores are reported in table \ref{tab:different_model_structures} in appendix.
+Since we are working under an unavoidable overfitting condition, we tried to build a network with as less capacity as possible, but still preserving good classification performances.
+We used Pearson-based coefficients using the dataset of ABIDE I + II to perform a control/ASD classification.
+Using these results we started the research of our network with a shallow network comprising only 3 layers.
+By gradually adding neurons, we searched for the minimum number of neurons to employ in each layer.
+We started with a trivial network made by just 3 neuron in the first layer, 2 nodes in the second and at last a single-output layer.
+Even if this was just an attempt to put a lower limit to the number of neurons, we noted that even with this configuration, the network tends to overfit our data.
+This is clear if we take a look at the learning curves in figure \ref{fig:learningcurve} which show the training and validation AUC curves for three models: the first one (fig \ref{fig:auc_no3-2-1}) even if with the simplified structure just mentioned, shows the classical trend of an overfitting state, however, it performs a bit worse than the other two more complex models.
+We continued adding neurons to each layer and tried different configurations. With a configuration of 8-8-1 (fig \ref{fig:auc_no8-8-1}) the performances were slightly higher, so we set the second layer to 8 neurons and tried changing the number of the neurons in the first layer, performances seemed to increase as the number of neurons increased (fig \ref{fig:auc_no64-8-1}) until they reached a stable value.
+Different attempts and the related classification scores are reported in table \ref{tab:different_model_structures} in appendix.
 We decided to pick the configuration comprising the minimum number of neurons, beyond which performances were stable, and the addition of more neurons to create a more complex network was unjustified.
 
 \begin{figure}
 \centering
 \begin{subfigure}[b]{0.3\textwidth}
-   \includegraphics[width=1\linewidth]{ml/auc_no64-8-1}
-   \caption{AUC learning curve corresponding to a model with a structure 64-8-1 nodes trained on the entire not-harmonized dataset}
-   \label{fig:auc_no64-8-1}
+   \includegraphics[width=1\linewidth]{ml/auc_no3-2-1}
+   \caption{AUC learning curve corresponding to a model with a structure 3-2-1 nodes trained on the entire not-harmonized dataset}
+   \label{fig:auc_no3-2-1}
 \end{subfigure}
 \begin{subfigure}[b]{0.3\textwidth}
    \includegraphics[width=1\linewidth]{ml/auc_no8-8-1}
@@ -2791,9 +2870,9 @@ We decided to pick the configuration comprising the minimum number of neurons, b
    \label{fig:auc_no8-8-1}
 \end{subfigure}
 \begin{subfigure}[b]{0.3\textwidth}
-   \includegraphics[width=1\linewidth]{ml/auc_no3-2-1}
-   \caption{AUC learning curve corresponding to a model with a structure 3-2-1 nodes trained on the entire not-harmonized dataset}
-   \label{fig:auc_no3-2-1}
+   \includegraphics[width=1\linewidth]{ml/auc_no64-8-1}
+   \caption{AUC learning curve corresponding to a model with a structure 64-8-1 nodes trained on the entire not-harmonized dataset}
+   \label{fig:auc_no64-8-1}
 \end{subfigure}
 \caption{}
 \label{fig:learningcurve}
@@ -2812,12 +2891,12 @@ This last layer is activated by a sigmoid function, which outputs a real number 
 \centering
 \includegraphics[width=0.4\textwidth]{ml/models/model_structure}
 \caption{Schematic structure of the deep neural network employed in this work for Control/ASD classification, with a scheme 264-8-1.
-Each box contains the layer's name, layer's task (Input, Dense, BatchNormalization etc..), activation function, input shape (number of neurons) and output shape.}
+Each box contains the layer name, layer's task (Input, Dense, BatchNormalization etc..), activation function, input shape (number of neurons) and output shape.}
 \label{fig:model_structure}
 \end{figure}
 
 
-To create the network we set the subsequent hyperparameters after a grid search on learning rate and number of epochs, setting a validation set of 25\% of train data, and studying the evolution of the learning curves, to find the minimal parameters configuration which allows high classification scores.
+To create the network we set the subsequent hyperparameters after a grid search on learning rate and number of epochs, setting a validation set of 25\% of train data, and studying the evolution of the learning curves, to find the minimal parameters configuration which allow the best classification scores.
 We trained the model using binary crossentropy loss function and optimizing parameters using Adam optimizer with a learning rate of $10^{-4}$.
 Adam optimizer was chosen over Stochastic Gradient Descent optimizer since with Adam we empirically achieved similar classification performances with a lower error than with SGD.
 %Model's classification performances were assessed with a 5 k-fold Cross validation, collecting the AUC score for each fold and then computing mean and std deviation of these results.
@@ -2825,58 +2904,81 @@ Adam optimizer was chosen over Stochastic Gradient Descent optimizer since with 
 %Adversarial model:
 \paragraph{Domain-adversarial neural network}\hfill
 
-As mentioned in chapter \ref{sec:analysis_workflow} an other kind of analysis was performed using a Domain adversarial neural network.
-This domain-adversarial or site-adversarial network is a model able to earn from data both class and site information, and avoid some sort of bias due to site, when performing classification.
-The main idea behind this network comes from a revisited and customized version of the model described in chapter{chap:adversarial}, but before building this network we tried a different aproach.
+As mentioned in chapter \ref{sec:analysis_workflow} an other kind of analysis was performed using a domain-adversarial neural network.
+This domain-adversarial or site-adversarial network is a model able to learn from data both class and site information, and avoid to make class predictions affected by a bias due to sites.
 
-The first attempt to implement a model able to predict category label without any influence of site's information is a model consisting on two different branches, one for the output of control/ASD prediction, and one for the output of the predicted site.
-With these two informations, a loss is created by combining two different loss functions, one for the class and the other for site: the idea is similrar to that proposed in the article \ref{guan2021}.
-This new loss is in the form
+The main idea behind this network comes from a revisited and customized version of the model described in chapter \ref{chap:domain_adversarial_theory}, but before building this network we tried a slight different approach.
+
+The first attempt to implement a model able to predict category label without any influence of site information is a model consisting on two different branches, one for the output of control/ASD prediction, and one for the output of the predicted site.
+With these two outputs, a loss is created by combining two different loss functions, one for the class and the other for site: the idea is similrar to that proposed in the article \cite{guan2021}.
+This combined loss is in the form:
 \begin{equation}
 L = L_1 - \lambda L_2
 \end{equation}
-Where $L_1$  is in our case the loss for the binary classification Control/ASD that we want to minimize (binary crossentropy), while $L_2$ is the loss for site classification: categorical crossentropy we aim to maximize in order to avoid learning any information related to sites. $\lambda $ is a parameter empirically set, to control the contribution of the sites loss $L_2$ to the overall loss.
+Where $L_1$  is in our case the loss for the binary control/ASD classification, that we want to minimize (binary crossentropy), while $L_2$ is the loss for site classification: categorical crossentropy we aim to maximize in order to avoid to learn any information related to sites.
+$\lambda $ is a parameter empirically set, to control the contribution of the sites loss $L_2$ to the overall loss.
 This way, the minimum of the total loss is reached with parameters that minimize the category classification loss and maximize the site classification loss.
-Performances of this kind of model are strictly linked to the value of the parameter $\lambda$, in a sense that if a certain value gave an optimal performance on a certain dataset, on an other dataset, for example one created with some more constraints on patients, the value for which one had the best scores was slightly different.
+We empirically noticed that performances of this type of model are strictly linked to the value of the parameter $\lambda$.
+If a certain value gives an optimal performance on a certain dataset, on an other dataset, for example one created with some more constraints on patients, the value for which one had the best scores is slightly different.
 And also, since when we first employed this model it gave slightly worse performances than simple deep model, we looked for an other strategy and carried out the analysis with this second type of model.
 Thus we reached to the domain-adversarial neural network.
 Even though this network is based on the same principles of the neural network with combination of two losses (minimize the error on classification of ASD/controls, and maximizing the one on site classification), it accomplish its task in a different way.
-Our task is in fact to avoid the model to learn some site-related pattern from data and we accomplished so with a model whose inner weights are updated moving towards a minimization of the gradient for classification, and in the opposite direction for site classification, as explained in section \ref{chap:domain_adversarial_theory}.
+Our task is in fact to allow the model to learn some site-related pattern from data, and use these information in an adversarial way during the extraction of relevant feature for the classification controls/ASD.
+We accomplished so with a model created along the lines of that explained in chapter \ref{chap:domain_adversarial_theory}, but with a substantial difference in the structure of the site-classifier branch.
+The difference is due to the number of sites our data belong to: we deal with 36 sites when using the dataset of ABIDE I + II, while the domain-adversarial network of chapter \ref{chap:domain_adversarial_theory} only concerns 2 domains.
 
-To costruct our domain-adversarial neural network, we followed the same structure of the deep neural network implemented before, and we added the domain-adversarial branch.
-We can describe the structure of this model as consisting on three parts: a feature extractor branch takes input data and creates an inner representation of them within its structure; at this point the network is forked into two branches: a label classificator for control/ASD cassification and the second branch for site classification. At the top of the site-classification branch, the gradient reversal layer was placed.
+%whose inner weights are updated moving towards a minimization of the gradient for classification, and in the opposite direction for site classification, as explained in section
+
+To construct our domain-adversarial neural network, we followed the same structure of the deep neural network implemented in the previous paragraph, and we added the domain-adversarial branch.
+We can describe the structure of this model as consisting on three parts: a feature extractor branch takes input data and creates an inner representation of them within its structure; at this point the network is forked into two branches: a label classificator for control/ASD cassification and the second branch for site classification.
+At the top of the site-classification branch, the gradient reversal layer was placed.
 
 %with a composition of the two losses, the structure of this model can be divided into three main components, two of which are exactly the same of the deep neural model explained at the beginning of this section.
-In details the three components that make up this model are: the first feature extraction branch comprising the input layer, the 264-nodes and the 8-node layer. Between the last two, we put a Batch-normalization and a 0.3 dropout layer, as we did in the first DNN.
-From this point on the network is splitted into two branches: the categorical classifier, similarily to the DNN consists of a last layer with a single neuron activated by a sigmoid function, for the output of control/ASD classification.
-The other branch, the site classifier consists of a gradient reversal layer as the first layer followed by a layer with 16 neurons, a Batch-Normalization layer and the last layer: a multi-output layer with N nodes, being N the total number of sites input data belong to. The effect of the gradient reversal layer can be regularized with a factor to weight the contribution of the site loss on the feature extractor parameters. We empirically set this value on 0.3.
+In details the first branch: the feature extractor comprises the input layer, and the two hidden layer consisting on 264 and 8 nodes respectively.
+Between the two hidden layers we put a batch-normalization and a 0.3 dropout layer, as we did in the DNN.
+From this point on the network is splitted into two branches: the categorical classifier, similarily to the DNN consists of an output layer with a single neuron activated by a sigmoid function, for the output of control/ASD classification.
+The other branch, the site classifier consists of a gradient reversal layer at the top of it, followed by a layer with 16 neurons, a batch-normalization layer and the last layer: a multi-output layer with N neurons, being N the total number of sites that input data belong to.
+The effect of the gradient reversal layer can be regularized with a factor to weight the contribution of the site loss on the feature extractor parameters update during backpropagation.
+We empirically set this value to 0.3.
 The structure of this network is illustrated in figure \ref{fig:adv_model_structure}
+
+The final layer of the site-classification branch is activated by a softmax function, and the loss function employed is the categorical crossentropy, commonly used for multi-class classification tasks as explained in \ref{sec:loss_functions}.
+
+%implemented using a custom function to deal with a possible low crossentropy score when by chance the site classifier, categorize one or more input data site label correctly, which would have low impact on the whole branch classifier making the adversarial strategy less effective.
+
+\begin{notes}
+\item To work with this loss function it is necessary to encode each site numerically because functions like these can not deal with string variables such as site names.
+For this reason we have to associate each name to a number: site\_a = 0, site\_b = 1 and so on.
+However, if we stop to this point and use integer numbers $\{0, ..., s\}$ as labels (where s corresponds to the integer associated to the last sites : N\_total\_sites - 1), our classification model would end up considering sites with higher number as  \say{larger} than others.
+This should be avoided in our case since all the sites are equally important and work with increasing label values is not the best way to encode site information. % not-optimal results.
+To work this out a common strategy is to transform these variables according to a technique called one-hot-encoding.
+This common approach converts each value to a vector of length s, containing all zeros but in the entry corresponding to the number of the site it is encoding, where it puts 1.
+With this transformation, each site label becomes a binary vector, with just a single 1 places in correspondence to that specific site.
+\end{notes}
+
+
+We tested and compared the two different adversarial models (the model with loss combination and the one with gradient reversal) and we noticed that they had more or less similar performances. However, we choose to carry out all the subsequent analysis with this second model, for a main reason:
+%Firstly, its performances are more stable with respect to the value of the regularizer parameter $\lambda$: just like in the model with loss compositions, the gradient reversal layer contains a parameter $\lambda$ that controls the weights updating during the backpropagation.
+%However, results obtained with this model are more stable in respect to the the value of this parameter.
+The implementation of a network with a gradient reversal layer allows to create a site-classifier branch able to recognize sites, since the inversion of gradient only takes place at the top of this branch. This allows an update of weights related to this branch aimed to reduce the error on this branch for site classification and encourages it to learn site-related patterns. These information are then used in an adversarial way during backpropagation by updating only parameters related to the feature extractor branch in an opposite direction, in order to maximize the loss, as shown in equations \ref{eq:adversarial_updating_parameters}.
+On the other hand, the creation of a network with combination of two losses would not allow this difference in parameters update, since the minus sign is related to the loss.
+This leads to an updating of both site-classifier branch and feature-extractor made in order to maximize the site loss.
+In this way, the site-classifier branch is discouraged to learn site related pattern, which is not what we aimed to create with this model.
+
+In addition, there are studies \cite{kamath2019}, that compared the performances obtained with different implementation of adversarial network, and, even if they work with different data (text data) from ours, they find the DANN the best performing implementation.
+Since this network appears to be more promising than the simple loss combination networks, we choose to employ this network in the following analysis.
+
+
 
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.6\linewidth]{ml/models/adv_model_structure}
 \caption{Structure of the domain-adversarial neural network with two outputs: a single-neuron output for binary classification controls/ASD and a multi-class classification for site classification.
-Each box contains the layer's name, layer's task (Input, Dense, BatchNormalization etc..), activation function, input shape (number of neurons) and output shape.
+Each box contains the layer name, and the related task (Input, Dense, BatchNormalization etc..), activation function, input shape (number of neurons) and output shape.
 }
 \label{fig:adv_model_structure}
 \end{figure}
-
-
-The final layer of the site-classification branch is activated by a softmax function, and the loss function employed is the categorical crossentropy, commonly employed for multi-class classification tasks as explained in \ref{sec:loss_functions}.
-
-%implemented using a custom function to deal with a possible low crossentropy score when by chance the site classifier, categorize one or more input data site label correctly, which would have low impact on the whole branch classifier making the adversarial strategy less effective.
-
-\begin{notes}
-\item To work with this loss we need to encode each site numerically before before use its label into our model because functions like these can't deal with string variables such as site names. For this reason we have to associate each name to a number: site\_a = 0, site\_b = 1 and so on. If we stop to this point and use integer numbers $\{0, ..., s\}$ as labels (where s corresponds to the integer associated to the last sites : N\_total\_sites - 1), our classification model would end up considering sites with higher number as \textquotedblleft larger \textquotedblright than others. This should be avoided in our case since all the sites are \textquotedblleft equally important \textquotedblright. % not-optimal results.
-To avoid this a common strategy is to transform these variables according to a technique called One-hot-encoding.
-This common approach converts each value to a vector of len s, containing all zeros but in the entry corresponding to that site, where it puts 1. With this transformation, each site label becomes a binary vector, with just a single 1 places in correspondence to that specific site.
-\end{notes}
-
-
-We tested both these different adversarial models (the model with loss combination and this with gradient reversal) and we noticed that they had more or less similar performances, but we choose to carry out the following analysis with this second model, because, even if, like the model with loss compositions, in the gradient reversal layer, a parameter $\lambda$ controls the weights updating during the backpropagation, results obtained with this model are more stable in respect to the the value of this parameter.
-Moreover, there are other studies \cite{kamath2019} that compare the performances obtained with different implementation of adversarial network, and, even if they work with different data (text data) from ours, they find the DANN the best performing implementation; since this network appears to be more promising than the simple loss combination networks, we choose to employ this network in the following analysis.
-
 
 
 \newpage
@@ -3553,13 +3655,41 @@ Thus, harmonization changes the most important features, but we believe that thi
 This change resulting from a better definition of feature due to harmonization, also appears when comparing results with the adversarial network.
 In fact we observe that
 The number of common feature between adversarial network and raw data is similar to the number between harmonized and raw data determined using the DNN.
-The resaon for this lies in the mechanism of the adversarial network: it results in a reduction of some site-related noise thanks to the adversarial branch, but at the same time, the introduction of some confusion due to the flawed definition of the correct site.
+The reason for this lies in the mechanism of the adversarial network: it results in a reduction of some site-related noise thanks to the adversarial branch, but at the same time, the introduction of some confusion due to the flawed definition of the correct site.
 
 %We obtain indeed a better similarity between raw data and adversarial network tha harmonized data and adversarial network.
-Even if between raw data and adversarial network we should have obtained a result similar to ras data and harmonized data ($\approx 37\%$), we obtain a greater similarity of feature importance ($\approx 47\%$).
+Even if between raw data and adversarial network we should have obtained a result similar to raw data and harmonized data ($\approx 37\%$), we obtain a greater similarity of feature importance ($\approx 47\%$).
 This means that data are modified and hamronized according to some inner processes, but in a really different way than the analytical harmonization.
 
 \paragraph{Important areas} \hfill
+
+From the analysis of important brain areas, especially looking at figure \ref{fig:important_areas_features_all} we can look at $\approx 30$ among 110 that contributed the most in dissimilarity between controls and ASD.
+We compared the brain areas extracted from these analysis with the brain areas obtained by Saponaro et al. \cite{saponaro2022}.
+They studied with a random forest classifier the most discriminative features extracted from structural images of patients from the ABIDE dataset.
+For parcellation they used the atlas Desikan-Killiany-Tourville implemented in Freesurfer \footnote{https://surfer.nmr.mgh.harvard.edu/} consisting on 62 total ROIs.
+This number differs from the number of ROIs implemented in Harvard-Oxford, equal to 110.
+For this reason for some feature, we can compare the two studies only identifying the main lobes involved in them both.
+In the following lines, the brief discussion about the role of different brain regions is made by looking at the Wikipedia page of the areas we are focusing on.
+The scope of this short investigation is not to achieve a medical accurate analysis but just to give some glimpses of the function of anatomical regions found in common from the structural and the functional analysis.
+Areas concerning the r. superior temporal, r. middle temporal and r. inferior temporal gyri, are among the most interesting regions.
+They belong to the temporal lobe, which is involved in processes like language comprehension and emotion recognition.
+In particular the r. superior temporal gyrus has been identified as a crucial area for social cognition.
+
+Left angular and left supermarginal gyri belong to the inferior parietal lobule.
+This lobule is generally involved in perception of emotions and interpretation of sensory information, however, these two structures are particularly involved in language processes and mathematical operations.
+Regions like the right orbitofrontal and the right accumbens are both involved in rewards related to decision making.
+The right nucleus accumbens also concerns themes like motivation, avversion and the feeling of pleasure subsequent to a reward.
+The left lingual gyrus is related to the processing of visual letters, and plays and important role on the analysis of logical conditions as well.
+For other regions like the precuneous cortex is still quite unclear what processes they are mainly involved in.
+All these regions, and many others, such as the thalamus, which is associated to processes like the regulation of consciusness and the processing of sensory signals, are involved in so many processes that reducing them to a singular function linked to ASD is too simplistic.
+
+It is however recognizable a link between dissimilarity in structural, anatomical region and altered functional connectivity involving those regions.
+Hopefully, in a not-too-distant future, the combination of a structural analysis together with functional connectivity measures, could bring to the development of a non-invasive diagnostic tool for the investigation of challenging issues and mental disorders like ASD, schyzophrenia that are still unclear but increasingly common.
+
+
+
+
+
 
 \newpage
 
@@ -3781,7 +3911,7 @@ The same cross analysis we did on the entire dataset:
 
 \newpage
 
-\bibliographystyle{plain}
+\bibliographystyle{unsrt}
 \bibliography{library.bib}
 
 
